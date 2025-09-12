@@ -1,0 +1,74 @@
+client/
+├── src/
+│   ├── components/
+│   │   ├── ui/                          # 👈 CREATE THIS FOLDER
+│   │   │   ├── PremiumHero.tsx         # Premium hero section
+│   │   │   ├── GlassmorphicCard.tsx    # Reusable glassmorphic cards
+│   │   │   ├── InteractiveCocktailCard.tsx
+│   │   │   ├── MagneticButton.tsx      # Magnetic hover effects
+│   │   │   ├── FloatingReservation.tsx # Floating reserve button
+│   │   │   ├── ParticleField.tsx       # Particle animations
+│   │   │   └── ScrollProgressBar.tsx   # Progress indicator
+│   │   ├── sections/                    # 👈 CREATE THIS FOLDER  
+│   │   │   ├── SplitScreenHero.tsx     # Split screen layouts
+│   │   │   ├── AsymmetricalMenu.tsx    # Advanced menu grid
+│   │   │   ├── FloatingTestimonials.tsx
+│   │   │   ├── InteractiveTimeline.tsx
+│   │   │   └── ReservationFlow.tsx
+│   │   └── layout/                     # 👈 EXISTING FOLDER
+│   │       ├── Header.tsx              # Your existing header
+│   │       └── Footer.tsx              # Your existing footer
+│   ├── pages/                          # 👈 EXISTING FOLDER - UPDATE THESE
+│   │   ├── Home.tsx                    # Update with new components
+│   │   ├── Menu.tsx                    # Add flip cards & asymmetric grid
+│   │   ├── Events.tsx                  # Add interactive timeline
+│   │   ├── Gallery.tsx                 # Add masonry layout
+│   │   └── ContactUs.tsx               # Add reservation flow
+│   └── styles/                         # 👈 CREATE THIS FOLDER
+│       ├── animations.css              # Custom animations
+│       └── effects.css                 # Visual effects
+
+
+
+
+🎯 Premium UI Features & Animations
+1. Immersive Hero Experiences
+
+Parallax video backgrounds with overlay content that moves at different speeds
+Morphing text animations that transition between key phrases
+Interactive particle systems that respond to mouse movement
+3D floating elements (cocktail glasses, ingredients) using CSS 3D transforms
+
+2. Advanced Interactive Components
+
+Flip cards for menu items that reveal ingredients/preparation on hover
+Interactive cocktail builder where users can mix virtual drinks
+360° venue tour with hotspots for different areas
+Live availability calendar with smooth date picker animations
+Interactive ingredient showcase with floating botanical elements
+
+3. Sophisticated Visual Effects
+
+Glassmorphism panels for overlay content
+Gradient mesh backgrounds that shift subtly
+Custom cursor effects that change based on hover targets
+Scroll-triggered reveals with stagger animations
+Magnetic hover effects for buttons and cards
+
+4. Layout & Navigation Enhancements
+
+Asymmetrical grid layouts with overlapping sections
+Sticky side navigation that morphs as you scroll
+Split-screen storytelling sections
+Diagonal section transitions with clipping paths
+Full-bleed imagery with floating text elements
+
+Let me create some example components to show you what these could look like:
+
+🚀 Next Level Features (Phase 2)
+Once you have the basics working, add these advanced features:
+
+Scroll Animations - Use Intersection Observer for reveal effects
+Custom Cursor - Create a custom cursor that follows mouse movement
+Page Transitions - Add smooth transitions between routes
+Loading Animations - Create branded loading screens
