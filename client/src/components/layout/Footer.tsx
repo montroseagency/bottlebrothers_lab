@@ -1,138 +1,305 @@
-// components/layout/Footer.tsx
-import React from 'react';
+// client/src/components/layout/Footer.tsx - ENHANCED VERSION
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { MagneticButton } from '../ui/MagneticButton';
+import { ParticleField } from '../ui/ParticleField';
 
 export const Footer: React.FC = () => {
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [isNewsletterExpanded, setIsNewsletterExpanded] = useState(false);
+  const [email, setEmail] = useState('');
+  const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const handleNewsletterSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Simulate newsletter signup
+    setNewsletterStatus('success');
+    setTimeout(() => {
+      setNewsletterStatus('idle');
+      setEmail('');
+      setIsNewsletterExpanded(false);
+    }, 3000);
+  };
+
+  const SocialIcon = ({ icon, href, label }: { icon: string; href: string; label: string }) => (
+    <MagneticButton className="group">
+      <a
+        href={href}
+        aria-label={label}
+        className="relative w-12 h-12 bg-gradient-to-br from-green-600/20 to-green-700/10 backdrop-blur-sm border border-green-500/20 rounded-2xl flex items-center justify-center text-green-400 hover:text-white transition-all duration-300 hover:shadow-lg hover:shadow-green-500/25 overflow-hidden"
+      >
+        <span className="relative z-10 text-lg">{icon}</span>
+        <div className="absolute inset-0 bg-gradient-to-br from-green-500 to-green-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent transform -skew-x-12 translate-x-full group-hover:translate-x-0 transition-transform duration-700" />
+      </a>
+    </MagneticButton>
+  );
+
+  const QuickLink = ({ to, children }: { to: string; children: React.ReactNode }) => (
+    <Link
+      to={to}
+      className="group relative text-stone-300 hover:text-white transition-all duration-300 text-sm py-2 block"
+    >
+      <span className="relative z-10 flex items-center">
+        <span className="w-0 group-hover:w-3 h-0.5 bg-green-400 mr-0 group-hover:mr-2 transition-all duration-300" />
+        {children}
+      </span>
+    </Link>
+  );
+
+  const ContactCard = ({ icon, title, content, action }: { 
+    icon: React.ReactNode; 
+    title: string; 
+    content: string | React.ReactNode; 
+    action?: { text: string; href: string } 
+  }) => (
+    <div className="group relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:bg-white/10 hover:border-green-500/30 transition-all duration-500 overflow-hidden">
+      <div className="relative z-10">
+        <div className="w-14 h-14 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+          {icon}
+        </div>
+        <h4 className="font-bold text-white mb-2 text-lg">{title}</h4>
+        <div className="text-stone-300 mb-4 leading-relaxed">
+          {content}
+        </div>
+        {action && (
+          <MagneticButton className="text-green-400 hover:text-green-300 font-medium text-sm flex items-center space-x-1 group-hover:space-x-2 transition-all duration-300">
+            <a href={action.href} className="flex items-center space-x-1">
+              <span>{action.text}</span>
+              <svg className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </a>
+          </MagneticButton>
+        )}
+      </div>
+      
+      {/* Animated background */}
+      <div className="absolute inset-0 bg-gradient-to-br from-green-600/5 to-green-400/5 transform scale-0 group-hover:scale-100 transition-transform duration-500 origin-center rounded-2xl" />
+    </div>
+  );
+
   return (
-    <footer className="bg-gradient-to-r from-green-800 to-green-700 border-t border-green-600 mt-auto">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+    <footer className="relative bg-gradient-to-br from-black via-stone-900 to-green-900/20 border-t border-green-600/20 mt-auto overflow-hidden">
+      <ParticleField particleCount={20} color="bg-green-400" />
+      
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+        {/* Main Footer Content */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
           
-          {/* Brand & Description */}
-          <div className="space-y-6">
-            <div className="flex items-center space-x-3">
-              <div className="w-10 h-10 bg-stone-100 rounded-full flex items-center justify-center">
-                <svg className="w-6 h-6 text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          {/* Brand & Newsletter */}
+          <div className="lg:col-span-2 space-y-8">
+            <div className="flex items-center space-x-4">
+              <div className="relative w-16 h-16 bg-gradient-to-br from-green-400 to-green-600 rounded-3xl flex items-center justify-center shadow-xl">
+                <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                 </svg>
+                <div className="absolute inset-0 bg-gradient-to-br from-green-300 to-green-500 rounded-3xl blur opacity-30 animate-pulse" />
               </div>
-              <h3 className="text-xl font-bold text-stone-100">Verdant Lounge</h3>
+              <div>
+                <h3 className="text-2xl font-bold text-white"> Lounge</h3>
+                <p className="text-green-300 font-medium">Premium Dining Experience</p>
+              </div>
             </div>
-            <p className="text-stone-200 text-sm leading-relaxed">
+            
+            <p className="text-stone-300 text-lg leading-relaxed max-w-lg">
               Experience the perfect blend of sophistication and comfort at our premium lounge. 
               Where every moment becomes a cherished memory in an atmosphere of natural elegance.
             </p>
-            <div className="flex space-x-4">
-              {/* Social Media Icons */}
-              <a href="#" className="text-stone-300 hover:text-white transition-colors p-2 hover:bg-green-700/50 rounded-full">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
-                </svg>
-              </a>
-              <a href="#" className="text-stone-300 hover:text-white transition-colors p-2 hover:bg-green-700/50 rounded-full">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
-                </svg>
-              </a>
-              <a href="#" className="text-stone-300 hover:text-white transition-colors p-2 hover:bg-green-700/50 rounded-full">
-                <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M22.46 6c-.77.35-1.6.58-2.46.69.88-.53 1.56-1.37 1.88-2.38-.83.5-1.75.85-2.72 1.05C18.37 4.5 17.26 4 16 4c-2.35 0-4.27 1.92-4.27 4.29 0 .34.04.67.11.98C8.28 9.09 5.11 7.38 3 4.79c-.37.63-.58 1.37-.58 2.15 0 1.49.75 2.81 1.91 3.56-.71 0-1.37-.2-1.95-.5v.03c0 2.08 1.48 3.82 3.44 4.21a4.22 4.22 0 0 1-1.93.07 4.28 4.28 0 0 0 4 2.98 8.521 8.521 0 0 1-5.33 1.84c-.34 0-.68-.02-1.02-.06C3.44 20.29 5.7 21 8.12 21 16 21 20.33 14.46 20.33 8.79c0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/>
-                </svg>
-              </a>
+            
+            {/* Newsletter Signup */}
+            <div className="space-y-4">
+              <div className="flex items-center space-x-3">
+                <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse" />
+                <h4 className="text-white font-semibold">Stay Connected</h4>
+              </div>
+              
+              <div className={`transition-all duration-500 ${isNewsletterExpanded ? 'max-h-40' : 'max-h-12'} overflow-hidden`}>
+                {!isNewsletterExpanded ? (
+                  <MagneticButton 
+                    onClick={() => setIsNewsletterExpanded(true)}
+                    className="w-full bg-white/10 backdrop-blur-sm border border-white/20 text-white px-6 py-3 rounded-2xl hover:bg-white/20 transition-all duration-300 text-left"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-stone-300">Join our newsletter</span>
+                      <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                      </svg>
+                    </div>
+                  </MagneticButton>
+                ) : (
+                  <form onSubmit={handleNewsletterSubmit} className="space-y-3">
+                    <div className="flex space-x-3">
+                      <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        placeholder="your.email@example.com"
+                        className="flex-1 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl px-4 py-3 text-white placeholder-white/50 focus:border-green-400 focus:ring-2 focus:ring-green-400/20 transition-all"
+                        required
+                      />
+                      <MagneticButton className="bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded-2xl transition-colors font-medium">
+                        <button type="submit" className="bg-transparent border-none outline-none p-0 m-0 w-full h-full">
+                          Join
+                        </button>
+                      </MagneticButton>
+                    </div>
+                    {newsletterStatus === 'success' && (
+                      <div className="flex items-center space-x-2 text-green-400 text-sm">
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        <span>Welcome to our community!</span>
+                      </div>
+                    )}
+                  </form>
+                )}
+              </div>
             </div>
           </div>
 
           {/* Quick Links */}
           <div className="space-y-6">
-            <h4 className="text-lg font-semibold text-stone-100">Quick Links</h4>
-            <nav className="flex flex-col space-y-3">
-              <Link to="/" className="text-stone-300 hover:text-white transition-colors text-sm hover:translate-x-1 transform duration-200">
-                Home
-              </Link>
-              <Link to="/menu" className="text-stone-300 hover:text-white transition-colors text-sm hover:translate-x-1 transform duration-200">
-                Menu
-              </Link>
-              <Link to="/events" className="text-stone-300 hover:text-white transition-colors text-sm hover:translate-x-1 transform duration-200">
-                Events
-              </Link>
-              <Link to="/gallery" className="text-stone-300 hover:text-white transition-colors text-sm hover:translate-x-1 transform duration-200">
-                Gallery
-              </Link>
-              <Link to="/contact" className="text-stone-300 hover:text-white transition-colors text-sm hover:translate-x-1 transform duration-200">
-                Contact Us
-              </Link>
+            <h4 className="text-xl font-bold text-white flex items-center">
+              <span className="w-1 h-6 bg-green-400 rounded-full mr-3" />
+              Quick Links
+            </h4>
+            <nav className="space-y-1">
+              <QuickLink to="/">Home</QuickLink>
+              <QuickLink to="/menu">Menu</QuickLink>
+              <QuickLink to="/events">Events</QuickLink>
+              <QuickLink to="/gallery">Gallery</QuickLink>
+              <QuickLink to="/contact">Contact Us</QuickLink>
             </nav>
-          </div>
-
-          {/* Contact Info */}
-          <div className="space-y-6">
-            <h4 className="text-lg font-semibold text-stone-100">Contact Info</h4>
-            <div className="space-y-4 text-sm text-stone-300">
-              <div className="flex items-start space-x-3">
-                <svg className="w-5 h-5 mt-0.5 flex-shrink-0 text-stone-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/>
-                </svg>
-                <span>123 Olive Grove Avenue<br/>Downtown District<br/>City, State 12345</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <svg className="w-5 h-5 flex-shrink-0 text-stone-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
-                </svg>
-                <span>(555) 123-4567</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <svg className="w-5 h-5 flex-shrink-0 text-stone-400" fill="currentColor" viewBox="0 0 20 20">
-                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z"/>
-                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z"/>
-                </svg>
-                <span>hello@verdantlounge.com</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Hours */}
-          <div className="space-y-6">
-            <h4 className="text-lg font-semibold text-stone-100">Hours</h4>
-            <div className="space-y-2 text-sm text-stone-300">
-              <div className="flex justify-between">
-                <span>Mon - Thu:</span>
-                <span className="text-stone-200">5:00 PM - 12:00 AM</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Fri - Sat:</span>
-                <span className="text-stone-200">5:00 PM - 2:00 AM</span>
-              </div>
-              <div className="flex justify-between">
-                <span>Sunday:</span>
-                <span className="text-stone-200">6:00 PM - 11:00 PM</span>
-              </div>
-            </div>
+            
             <div className="pt-4">
-              <Link to="/contact">
-                <button className="bg-stone-100 text-green-800 px-6 py-3 rounded-full text-sm font-semibold hover:bg-white transition-all duration-300 w-full hover:shadow-lg transform hover:scale-105">
-                  Make Reservation
-                </button>
-              </Link>
+              <h5 className="text-white font-semibold mb-3">Services</h5>
+              <div className="space-y-1">
+                <QuickLink to="/events">Private Events</QuickLink>
+                <QuickLink to="/menu">Catering</QuickLink>
+                <QuickLink to="/contact">Corporate Bookings</QuickLink>
+              </div>
+            </div>
+          </div>
+
+          {/* Contact & Hours */}
+          <div className="space-y-6">
+            <h4 className="text-xl font-bold text-white flex items-center">
+              <span className="w-1 h-6 bg-green-400 rounded-full mr-3" />
+              Visit Us
+            </h4>
+            
+            <div className="space-y-4 text-sm">
+              <div className="flex items-start space-x-3">
+                <div className="w-6 h-6 bg-green-600/20 rounded-lg flex items-center justify-center mt-0.5">
+                  <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd"/>
+                  </svg>
+                </div>
+                <div className="text-stone-300">
+                  <div className="font-medium text-white mb-1">Address</div>
+                  <div>123 Olive Grove Avenue<br/>Downtown District<br/>City, State 12345</div>
+                </div>
+              </div>
+              
+              <div className="flex items-start space-x-3">
+                <div className="w-6 h-6 bg-green-600/20 rounded-lg flex items-center justify-center mt-0.5">
+                  <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z"/>
+                  </svg>
+                </div>
+                <div className="text-stone-300">
+                  <div className="font-medium text-white mb-1">Phone</div>
+                  <a href="tel:+15551234567" className="hover:text-green-400 transition-colors">(555) 123-4567</a>
+                </div>
+              </div>
+              
+              <div className="flex items-start space-x-3">
+                <div className="w-6 h-6 bg-green-600/20 rounded-lg flex items-center justify-center mt-0.5">
+                  <svg className="w-4 h-4 text-green-400" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                  </svg>
+                </div>
+                <div className="text-stone-300">
+                  <div className="font-medium text-white mb-1">Hours</div>
+                  <div>Mon-Thu: 5PM-12AM<br/>Fri-Sat: 5PM-2AM<br/>Sun: 6PM-11PM</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
+        {/* Contact Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+          <ContactCard
+            icon={<svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>}
+            title="Reservations"
+            content="Call us directly for same-day bookings and special requests"
+            action={{ text: "Call Now", href: "tel:+15551234567" }}
+          />
+          
+          <ContactCard
+            icon={<svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>}
+            title="Private Events"
+            content="Transform your special occasion into an extraordinary experience"
+            action={{ text: "Learn More", href: "/events" }}
+          />
+          
+          <ContactCard
+            icon={<svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>}
+            title="Stay Updated"
+            content={
+              <div>
+                <div className="text-stone-300">Get exclusive offers and event invitations</div>
+                <div className="text-green-400 font-medium mt-1">
+                  Current time: {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                </div>
+              </div>
+            }
+            action={{ text: "Contact Us", href: "/contact" }}
+          />
+        </div>
+
+        {/* Social Media */}
+        <div className="flex justify-center space-x-6 mb-12">
+          <SocialIcon icon="𝕏" href="#" label="Twitter" />
+          <SocialIcon icon="📷" href="#" label="Instagram" />
+          <SocialIcon icon="👤" href="#" label="Facebook" />
+          <SocialIcon icon="🎵" href="#" label="TikTok" />
+        </div>
+
         {/* Bottom Bar */}
-        <div className="border-t border-green-600 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-          <div className="text-sm text-stone-300">
-            © 2024 Verdant Lounge. All rights reserved. Crafted with care for exceptional experiences.
+        <div className="border-t border-green-600/20 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+          <div className="text-stone-400 text-sm text-center md:text-left">
+            <p>© 2024  Lounge. All rights reserved.</p>
+            <p className="text-xs mt-1">Crafted with care for exceptional experiences.</p>
           </div>
-          <div className="flex space-x-6 text-sm">
-            <a href="#" className="text-stone-300 hover:text-white transition-colors">
-              Privacy Policy
-            </a>
-            <a href="#" className="text-stone-300 hover:text-white transition-colors">
-              Terms of Service
-            </a>
-            <a href="#" className="text-stone-300 hover:text-white transition-colors">
-              Accessibility
-            </a>
+          
+          <div className="flex items-center space-x-6 text-sm">
+            <a href="#" className="text-stone-400 hover:text-green-400 transition-colors">Privacy Policy</a>
+            <a href="#" className="text-stone-400 hover:text-green-400 transition-colors">Terms of Service</a>
+            <a href="#" className="text-stone-400 hover:text-green-400 transition-colors">Accessibility</a>
           </div>
+        </div>
+
+        {/* Reservation CTA */}
+        <div className="text-center mt-8">
+          <MagneticButton className="bg-gradient-to-r from-green-600 to-green-700 text-white px-10 py-4 rounded-2xl text-lg font-semibold hover:shadow-2xl hover:shadow-green-600/25 transition-all duration-300 group overflow-hidden">
+            <Link to="/contact" className="relative z-10 flex items-center space-x-3">
+              <span>Experience Lounge Tonight</span>
+              <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+              </svg>
+            </Link>
+            <div className="absolute inset-0 bg-gradient-to-r from-green-500 to-green-600 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+          </MagneticButton>
         </div>
       </div>
     </footer>

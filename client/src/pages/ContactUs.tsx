@@ -43,7 +43,7 @@ const ContactUs: React.FC = () => {
               <span className="block text-green-800">With Us</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-700 mb-8 max-w-4xl mx-auto leading-relaxed">
-              Ready to experience the perfect blend of natural elegance and exceptional hospitality? Reach out to us for reservations, private events, or any questions about Verdant Lounge.
+              Ready to experience the perfect blend of natural elegance and exceptional hospitality? Reach out to us for reservations, private events, or any questions about  Lounge.
             </p>
           </div>
         </div>

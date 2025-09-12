@@ -18,7 +18,7 @@ const Events: React.FC = () => {
               <span className="block text-green-800">Events</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-700 mb-8 max-w-4xl mx-auto leading-relaxed">
-              From intimate gatherings to grand celebrations, Verdant Lounge provides the perfect setting for life's most meaningful moments. Experience world-class hospitality in an atmosphere of natural elegance.
+              From intimate gatherings to grand celebrations, Lounge provides the perfect setting for life's most meaningful moments. Experience world-class hospitality in an atmosphere of natural elegance.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/contact">
