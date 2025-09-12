@@ -1,7 +1,9 @@
-// src/pages/ContactUs.tsx
+// src/pages/ContactUs.tsx - TRANSLATED VERSION
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 const ContactUs: React.FC = () => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -25,7 +27,7 @@ const ContactUs: React.FC = () => {
     e.preventDefault();
     // Handle form submission here
     console.log('Form submitted:', formData);
-    alert('Thank you for your message! We will get back to you within 24 hours.');
+    alert(t('contact.form.success'));
   };
 
   return (
@@ -36,14 +38,14 @@ const ContactUs: React.FC = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide mb-6">
-              Get In Touch
+              {t('contact.hero.badge')}
             </span>
             <h1 className="text-5xl md:text-7xl font-bold text-gray-800 mb-6 leading-tight">
-              Connect
-              <span className="block text-green-800">With Us</span>
+              {t('contact.hero.title.connect')}
+              <span className="block text-green-800">{t('contact.hero.title.withUs')}</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-700 mb-8 max-w-4xl mx-auto leading-relaxed">
-              Ready to experience the perfect blend of natural elegance and exceptional hospitality? Reach out to us for reservations, private events, or any questions about  Lounge.
+              {t('contact.hero.description')}
             </p>
           </div>
         </div>
@@ -57,7 +59,7 @@ const ContactUs: React.FC = () => {
             {/* Contact Details */}
             <div className="lg:col-span-1">
               <div className="bg-stone-50 rounded-2xl p-8 shadow-lg border border-stone-200 h-fit">
-                <h2 className="text-3xl font-bold text-gray-800 mb-8">Contact Information</h2>
+                <h2 className="text-3xl font-bold text-gray-800 mb-8">{t('contact.info.title')}</h2>
                 
                 <div className="space-y-8">
                   {/* Address */}
@@ -69,11 +71,11 @@ const ContactUs: React.FC = () => {
                       </svg>
                     </div>
                     <div>
-                      <h3 className="font-bold text-gray-800 mb-2 text-lg">Visit Us</h3>
+                      <h3 className="font-bold text-gray-800 mb-2 text-lg">{t('contact.info.address.title')}</h3>
                       <p className="text-gray-600 leading-relaxed">
-                        123 Olive Grove Avenue<br/>
-                        Downtown Cultural District<br/>
-                        City, State 12345
+                        {t('contact.info.address.line1')}<br/>
+                        {t('contact.info.address.line2')}<br/>
+                        {t('contact.info.address.line3')}
                       </p>
                     </div>
                   </div>
@@ -86,9 +88,9 @@ const ContactUs: React.FC = () => {
                       </svg>
                     </div>
                     <div>
-                      <h3 className="font-bold text-gray-800 mb-2 text-lg">Call Us</h3>
-                      <p className="text-gray-600 mb-2">(555) 123-4567</p>
-                      <p className="text-sm text-gray-500">Available daily 2:00 PM - 11:00 PM<br/>For reservations and inquiries</p>
+                      <h3 className="font-bold text-gray-800 mb-2 text-lg">{t('contact.info.phone.title')}</h3>
+                      <p className="text-gray-600 mb-2">{t('contact.info.phone.number')}</p>
+                      <p className="text-sm text-gray-500">{t('contact.info.phone.hours')}<br/>{t('contact.info.phone.subtitle')}</p>
                     </div>
                   </div>
 
@@ -100,10 +102,10 @@ const ContactUs: React.FC = () => {
                       </svg>
                     </div>
                     <div>
-                      <h3 className="font-bold text-gray-800 mb-2 text-lg">Email Us</h3>
-                      <p className="text-gray-600 mb-1">hello@verdantlounge.com</p>
-                      <p className="text-gray-600 mb-2">events@verdantlounge.com</p>
-                      <p className="text-sm text-gray-500">We respond within 24 hours</p>
+                      <h3 className="font-bold text-gray-800 mb-2 text-lg">{t('contact.info.email.title')}</h3>
+                      <p className="text-gray-600 mb-1">{t('contact.info.email.general')}</p>
+                      <p className="text-gray-600 mb-2">{t('contact.info.email.events')}</p>
+                      <p className="text-sm text-gray-500">{t('contact.info.email.response')}</p>
                     </div>
                   </div>
 
@@ -115,7 +117,7 @@ const ContactUs: React.FC = () => {
                       </svg>
                     </div>
                     <div>
-                      <h3 className="font-bold text-gray-800 mb-3 text-lg">Follow Us</h3>
+                      <h3 className="font-bold text-gray-800 mb-3 text-lg">{t('contact.info.social.title')}</h3>
                       <div className="flex space-x-3">
                         <a href="#" className="text-green-800 hover:text-green-900 transition-colors p-2 hover:bg-green-50 rounded-full">
                           <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -142,13 +144,13 @@ const ContactUs: React.FC = () => {
             {/* Contact Form */}
             <div className="lg:col-span-2">
               <div className="bg-white rounded-2xl shadow-lg p-8 border border-stone-200">
-                <h2 className="text-3xl font-bold text-gray-800 mb-6">Send Us a Message</h2>
+                <h2 className="text-3xl font-bold text-gray-800 mb-6">{t('contact.form.title')}</h2>
                 
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-3">
-                        Full Name *
+                        {t('contact.form.fields.name')} *
                       </label>
                       <input
                         type="text"
@@ -158,13 +160,13 @@ const ContactUs: React.FC = () => {
                         value={formData.name}
                         onChange={handleInputChange}
                         className="w-full px-4 py-4 border border-stone-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-stone-50 hover:bg-white"
-                        placeholder="Your full name"
+                        placeholder={t('contact.form.placeholders.name')}
                       />
                     </div>
                     
                     <div>
                       <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-3">
-                        Email Address *
+                        {t('contact.form.fields.email')} *
                       </label>
                       <input
                         type="email"
@@ -174,7 +176,7 @@ const ContactUs: React.FC = () => {
                         value={formData.email}
                         onChange={handleInputChange}
                         className="w-full px-4 py-4 border border-stone-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-stone-50 hover:bg-white"
-                        placeholder="your.email@example.com"
+                        placeholder={t('contact.form.placeholders.email')}
                       />
                     </div>
                   </div>
@@ -182,7 +184,7 @@ const ContactUs: React.FC = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-3">
-                        Phone Number
+                        {t('contact.form.fields.phone')}
                       </label>
                       <input
                         type="tel"
@@ -191,13 +193,13 @@ const ContactUs: React.FC = () => {
                         value={formData.phone}
                         onChange={handleInputChange}
                         className="w-full px-4 py-4 border border-stone-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-stone-50 hover:bg-white"
-                        placeholder="(555) 123-4567"
+                        placeholder={t('contact.form.placeholders.phone')}
                       />
                     </div>
                     
                     <div>
                       <label htmlFor="subject" className="block text-sm font-semibold text-gray-700 mb-3">
-                        Subject *
+                        {t('contact.form.fields.subject')} *
                       </label>
                       <select
                         id="subject"
@@ -207,13 +209,13 @@ const ContactUs: React.FC = () => {
                         onChange={handleInputChange}
                         className="w-full px-4 py-4 border border-stone-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-stone-50 hover:bg-white"
                       >
-                        <option value="">Select a subject</option>
-                        <option value="reservation">Table Reservation</option>
-                        <option value="private-event">Private Event Inquiry</option>
-                        <option value="catering">Catering Services</option>
-                        <option value="corporate">Corporate Events</option>
-                        <option value="feedback">Feedback</option>
-                        <option value="general">General Inquiry</option>
+                        <option value="">{t('contact.form.subjects.select')}</option>
+                        <option value="reservation">{t('contact.form.subjects.reservation')}</option>
+                        <option value="private-event">{t('contact.form.subjects.privateEvent')}</option>
+                        <option value="catering">{t('contact.form.subjects.catering')}</option>
+                        <option value="corporate">{t('contact.form.subjects.corporate')}</option>
+                        <option value="feedback">{t('contact.form.subjects.feedback')}</option>
+                        <option value="general">{t('contact.form.subjects.general')}</option>
                       </select>
                     </div>
                   </div>
@@ -222,7 +224,7 @@ const ContactUs: React.FC = () => {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                     <div>
                       <label htmlFor="eventType" className="block text-sm font-semibold text-gray-700 mb-3">
-                        Event Type
+                        {t('contact.form.fields.eventType')}
                       </label>
                       <select
                         id="eventType"
@@ -231,19 +233,19 @@ const ContactUs: React.FC = () => {
                         onChange={handleInputChange}
                         className="w-full px-4 py-4 border border-stone-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-stone-50 hover:bg-white"
                       >
-                        <option value="">Select event type</option>
-                        <option value="birthday">Birthday Celebration</option>
-                        <option value="corporate">Corporate Event</option>
-                        <option value="wedding">Wedding/Anniversary</option>
-                        <option value="networking">Networking Event</option>
-                        <option value="holiday">Holiday Party</option>
-                        <option value="other">Other Celebration</option>
+                        <option value="">{t('contact.form.eventTypes.select')}</option>
+                        <option value="birthday">{t('contact.form.eventTypes.birthday')}</option>
+                        <option value="corporate">{t('contact.form.eventTypes.corporate')}</option>
+                        <option value="wedding">{t('contact.form.eventTypes.wedding')}</option>
+                        <option value="networking">{t('contact.form.eventTypes.networking')}</option>
+                        <option value="holiday">{t('contact.form.eventTypes.holiday')}</option>
+                        <option value="other">{t('contact.form.eventTypes.other')}</option>
                       </select>
                     </div>
                     
                     <div>
                       <label htmlFor="date" className="block text-sm font-semibold text-gray-700 mb-3">
-                        Preferred Date
+                        {t('contact.form.fields.date')}
                       </label>
                       <input
                         type="date"
@@ -257,7 +259,7 @@ const ContactUs: React.FC = () => {
                     
                     <div>
                       <label htmlFor="guests" className="block text-sm font-semibold text-gray-700 mb-3">
-                        Number of Guests
+                        {t('contact.form.fields.guests')}
                       </label>
                       <input
                         type="number"
@@ -268,14 +270,14 @@ const ContactUs: React.FC = () => {
                         value={formData.guests}
                         onChange={handleInputChange}
                         className="w-full px-4 py-4 border border-stone-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-stone-50 hover:bg-white"
-                        placeholder="Number of guests"
+                        placeholder={t('contact.form.placeholders.guests')}
                       />
                     </div>
                   </div>
 
                   <div>
                     <label htmlFor="message" className="block text-sm font-semibold text-gray-700 mb-3">
-                      Message *
+                      {t('contact.form.fields.message')} *
                     </label>
                     <textarea
                       id="message"
@@ -285,7 +287,7 @@ const ContactUs: React.FC = () => {
                       value={formData.message}
                       onChange={handleInputChange}
                       className="w-full px-4 py-4 border border-stone-300 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-200 bg-stone-50 hover:bg-white"
-                      placeholder="Tell us about your inquiry, special requests, or any questions you may have..."
+                      placeholder={t('contact.form.placeholders.message')}
                     />
                   </div>
 
@@ -293,7 +295,7 @@ const ContactUs: React.FC = () => {
                     type="submit"
                     className="w-full bg-green-800 text-white px-8 py-4 rounded-xl text-lg font-semibold hover:bg-green-900 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                   >
-                    Send Message
+                    {t('contact.form.submit')}
                   </button>
                 </form>
               </div>
@@ -309,31 +311,31 @@ const ContactUs: React.FC = () => {
             
             {/* Hours */}
             <div className="bg-white rounded-2xl p-8 shadow-lg border border-stone-200">
-              <h3 className="text-2xl font-bold text-gray-800 mb-6">Operating Hours</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mb-6">{t('contact.hours.title')}</h3>
               <div className="space-y-4">
                 <div className="flex justify-between items-center py-3 border-b border-stone-200">
-                  <span className="font-semibold text-gray-800">Monday - Thursday</span>
-                  <span className="text-gray-600">5:00 PM - 12:00 AM</span>
+                  <span className="font-semibold text-gray-800">{t('contact.hours.days.mondayThursday')}</span>
+                  <span className="text-gray-600">{t('contact.hours.times.weekday')}</span>
                 </div>
                 <div className="flex justify-between items-center py-3 border-b border-stone-200">
-                  <span className="font-semibold text-gray-800">Friday - Saturday</span>
-                  <span className="text-gray-600">5:00 PM - 2:00 AM</span>
+                  <span className="font-semibold text-gray-800">{t('contact.hours.days.fridaySaturday')}</span>
+                  <span className="text-gray-600">{t('contact.hours.times.weekend')}</span>
                 </div>
                 <div className="flex justify-between items-center py-3 border-b border-stone-200">
-                  <span className="font-semibold text-gray-800">Sunday</span>
-                  <span className="text-gray-600">6:00 PM - 11:00 PM</span>
+                  <span className="font-semibold text-gray-800">{t('contact.hours.days.sunday')}</span>
+                  <span className="text-gray-600">{t('contact.hours.times.sunday')}</span>
                 </div>
                 <div className="mt-6 p-4 bg-green-50 rounded-xl border border-green-200">
                   <p className="text-sm text-green-800">
-                    <strong>Holiday Hours:</strong> Please call ahead during holidays as our hours may vary. We're happy to accommodate special arrangements for your celebrations.
+                    <strong>{t('contact.hours.notes.holiday').split(':')[0]}:</strong> {t('contact.hours.notes.holiday').split(':')[1]}
                   </p>
                 </div>
                 <div className="mt-6 p-4 bg-stone-100 rounded-xl">
                   <p className="text-sm text-gray-700 mb-3">
-                    <strong>Kitchen Closes:</strong> 30 minutes before closing time
+                    <strong>{t('contact.hours.notes.kitchen').split(':')[0]}:</strong> {t('contact.hours.notes.kitchen').split(':')[1]}
                   </p>
                   <p className="text-sm text-gray-700">
-                    <strong>Last Reservation:</strong> 1 hour before closing time
+                    <strong>{t('contact.hours.notes.lastReservation').split(':')[0]}:</strong> {t('contact.hours.notes.lastReservation').split(':')[1]}
                   </p>
                 </div>
               </div>
@@ -341,7 +343,7 @@ const ContactUs: React.FC = () => {
 
             {/* Location & Transportation */}
             <div className="bg-white rounded-2xl p-8 shadow-lg border border-stone-200">
-              <h3 className="text-2xl font-bold text-gray-800 mb-6">Visit Us</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mb-6">{t('contact.location.title')}</h3>
               
               {/* Map Placeholder */}
               <div className="bg-stone-100 rounded-xl h-64 flex items-center justify-center mb-6 border border-stone-200">
@@ -352,32 +354,32 @@ const ContactUs: React.FC = () => {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                   </div>
-                  <p className="text-gray-700 font-semibold">Interactive Map</p>
-                  <p className="text-sm text-gray-500 mt-2">Click for directions</p>
+                  <p className="text-gray-700 font-semibold">{t('contact.location.map.title')}</p>
+                  <p className="text-sm text-gray-500 mt-2">{t('contact.location.map.subtitle')}</p>
                 </div>
               </div>
               
               <div className="space-y-4">
                 <div className="p-4 bg-stone-50 rounded-xl">
-                  <h4 className="font-semibold text-gray-800 mb-2">Address</h4>
+                  <h4 className="font-semibold text-gray-800 mb-2">{t('contact.info.address.title')}</h4>
                   <p className="text-gray-600">
-                    123 Olive Grove Avenue<br/>
-                    Downtown Cultural District<br/>
-                    City, State 12345
+                    {t('contact.info.address.line1')}<br/>
+                    {t('contact.info.address.line2')}<br/>
+                    {t('contact.info.address.line3')}
                   </p>
                 </div>
                 
                 <div className="p-4 bg-stone-50 rounded-xl">
-                  <h4 className="font-semibold text-gray-800 mb-2">Parking</h4>
+                  <h4 className="font-semibold text-gray-800 mb-2">{t('contact.location.parking.title')}</h4>
                   <p className="text-gray-600 text-sm">
-                    Complimentary valet service available evenings after 6 PM. Street parking and nearby garage options also available.
+                    {t('contact.location.parking.description')}
                   </p>
                 </div>
                 
                 <div className="p-4 bg-stone-50 rounded-xl">
-                  <h4 className="font-semibold text-gray-800 mb-2">Public Transportation</h4>
+                  <h4 className="font-semibold text-gray-800 mb-2">{t('contact.location.transport.title')}</h4>
                   <p className="text-gray-600 text-sm">
-                    Bus routes 15, 22, and 34 stop within one block. Metro Green Line station just 3 blocks away.
+                    {t('contact.location.transport.description')}
                   </p>
                 </div>
               </div>
@@ -391,10 +393,10 @@ const ContactUs: React.FC = () => {
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold text-white mb-6">
-            Need Immediate Assistance?
+            {t('contact.quickContact.title')}
           </h2>
           <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
-            For urgent inquiries, same-day reservations, or immediate assistance, give us a call directly.
+            {t('contact.quickContact.description')}
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <a href="tel:+15551234567">
@@ -402,7 +404,7 @@ const ContactUs: React.FC = () => {
                 <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                 </svg>
-                Call Now: (555) 123-4567
+                {t('contact.quickContact.buttons.call')}
               </button>
             </a>
             <a href="mailto:hello@verdantlounge.com">
@@ -410,7 +412,7 @@ const ContactUs: React.FC = () => {
                 <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                Email Us
+                {t('contact.quickContact.buttons.email')}
               </button>
             </a>
           </div>

@@ -1,6 +1,7 @@
-// client/src/components/layout/header.tsx - ENHANCED VERSION
+// client/src/components/layout/header.tsx - ENHANCED VERSION WITH i18n
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { MagneticButton } from '../ui/MagneticButton';
 
 export const Header: React.FC = () => {
@@ -8,6 +9,7 @@ export const Header: React.FC = () => {
   const [scrollY, setScrollY] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,6 +30,12 @@ export const Header: React.FC = () => {
     setIsMenuOpen(false);
   };
 
+  // Language change handler
+  const changeLanguage = (lng: string) => {
+    i18n.changeLanguage(lng);
+    handleMobileMenuClose();
+  };
+
   const Logo = () => (
     <Link to="/" onClick={handleMobileMenuClose} className="group">
       <div className="flex items-center space-x-3 transform transition-all duration-300 group-hover:scale-105">
@@ -42,7 +50,7 @@ export const Header: React.FC = () => {
           <h1 className="text-2xl font-bold bg-gradient-to-r from-white to-green-100 bg-clip-text text-transparent group-hover:from-green-300 group-hover:to-white transition-all duration-300">
             Demo
           </h1>
-          <p className="text-xs text-green-300 font-medium uppercase tracking-wider">Lounge</p>
+          <p className="text-xs text-green-300 font-medium uppercase tracking-wider">{t('nav.lounge')}</p>
         </div>
       </div>
     </Link>
@@ -78,6 +86,34 @@ export const Header: React.FC = () => {
     </Link>
   );
 
+  const LanguageToggle = ({ isMobile = false }: { isMobile?: boolean }) => (
+    <div className={`flex items-center space-x-2 ${isMobile ? 'justify-center mt-4' : ''}`}>
+      <MagneticButton
+        onClick={() => changeLanguage('en')}
+        className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center space-x-1 ${
+          i18n.language === 'en'
+            ? 'bg-green-600 text-white shadow-lg'
+            : 'bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm border border-white/10'
+        }`}
+      >
+        <span className="text-lg">🇺🇸</span>
+        <span>EN</span>
+      </MagneticButton>
+      
+      <MagneticButton
+        onClick={() => changeLanguage('sq')}
+        className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center space-x-1 ${
+          i18n.language === 'sq'
+            ? 'bg-green-600 text-white shadow-lg'
+            : 'bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm border border-white/10'
+        }`}
+      >
+        <span className="text-lg">🇦🇱</span>
+        <span>SQ</span>
+      </MagneticButton>
+    </div>
+  );
+
   const ReservationButton = ({ isMobile = false }) => (
     <MagneticButton className={`group relative bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-green-500/25 transition-all duration-300 overflow-hidden ${
       isMobile ? 'w-full py-4 px-6' : 'px-8 py-3'
@@ -86,7 +122,7 @@ export const Header: React.FC = () => {
         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
-        <span>Reserve Table</span>
+        <span>{t('nav.reserveTable')}</span>
       </Link>
       
       {/* Animated background */}
@@ -135,15 +171,20 @@ export const Header: React.FC = () => {
 
             {/* Desktop Navigation */}
             <nav className="hidden md:flex space-x-2">
-              <NavigationItem to="/">Home</NavigationItem>
-              <NavigationItem to="/menu">Menu</NavigationItem>
-              <NavigationItem to="/events">Events</NavigationItem>
-              <NavigationItem to="/gallery">Gallery</NavigationItem>
-              <NavigationItem to="/contact">Contact</NavigationItem>
+              <NavigationItem to="/">{t('nav.home')}</NavigationItem>
+              <NavigationItem to="/menu">{t('nav.menu')}</NavigationItem>
+              <NavigationItem to="/events">{t('nav.events')}</NavigationItem>
+              <NavigationItem to="/gallery">{t('nav.gallery')}</NavigationItem>
+              <NavigationItem to="/contact">{t('nav.contact')}</NavigationItem>
             </nav>
 
             {/* Right side items */}
             <div className="flex items-center space-x-4">
+              {/* Language Toggle - Desktop */}
+              <div className="hidden md:block">
+                <LanguageToggle />
+              </div>
+              
               <div className="hidden md:block">
                 <ReservationButton />
               </div>
@@ -158,16 +199,19 @@ export const Header: React.FC = () => {
           }`}>
             <div className="pt-4 border-t border-green-600/20">
               <div className="space-y-2">
-                <NavigationItem to="/" isMobile>Home</NavigationItem>
-                <NavigationItem to="/menu" isMobile>Menu</NavigationItem>
-                <NavigationItem to="/events" isMobile>Events</NavigationItem>
-                <NavigationItem to="/gallery" isMobile>Gallery</NavigationItem>
-                <NavigationItem to="/contact" isMobile>Contact</NavigationItem>
+                <NavigationItem to="/" isMobile>{t('nav.home')}</NavigationItem>
+                <NavigationItem to="/menu" isMobile>{t('nav.menu')}</NavigationItem>
+                <NavigationItem to="/events" isMobile>{t('nav.events')}</NavigationItem>
+                <NavigationItem to="/gallery" isMobile>{t('nav.gallery')}</NavigationItem>
+                <NavigationItem to="/contact" isMobile>{t('nav.contact')}</NavigationItem>
               </div>
               
               <div className="mt-6">
                 <ReservationButton isMobile />
               </div>
+              
+              {/* Language Toggle - Mobile */}
+              <LanguageToggle isMobile />
               
               {/* Social links */}
               <div className="flex justify-center space-x-4 mt-6 pt-4 border-t border-green-600/20">

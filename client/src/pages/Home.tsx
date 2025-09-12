@@ -1,11 +1,13 @@
-// client/src/pages/Home.tsx - UPDATED VERSION
+// client/src/pages/Home.tsx - TRANSLATED VERSION
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { GlassmorphicCard } from '../components/ui/GlassmorphicCard';
 import { MagneticButton } from '../components/ui/MagneticButton';
 import { ParticleField } from '../components/ui/ParticleField';
 
 const Home: React.FC = () => {
+  const { t } = useTranslation();
   const [scrollY, setScrollY] = useState(0);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
@@ -64,17 +66,17 @@ const Home: React.FC = () => {
                 className="text-6xl md:text-8xl font-bold mb-6 leading-tight"
                 style={{ transform: `translateY(${scrollY * -0.1}px)` }}
               >
-                <span className="text-white">Welcome to</span>
+                <span className="text-white">{t('home.hero.title.welcome')}</span>
                 <br />
                 <span className="bg-gradient-to-r from-green-400 via-green-500 to-emerald-400 bg-clip-text text-transparent animate-pulse">
-                 Lounge
+                  {t('home.hero.title.lounge')}
                 </span>
               </h1>
               <p 
                 className="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed"
                 style={{ transform: `translateY(${scrollY * -0.15}px)` }}
               >
-                Where nature's elegance meets sophisticated dining. Experience the finest in cuisine, cocktails, and ambiance in an atmosphere that celebrates the harmony of luxury and natural beauty.
+                {t('home.hero.description')}
               </p>
             </div>
             
@@ -83,13 +85,13 @@ const Home: React.FC = () => {
                 className="group bg-transparent border-2 border-green-400 px-8 py-4 rounded-full overflow-hidden hover:shadow-2xl hover:shadow-green-400/25 transition-all duration-500"
               >
                 <Link to="/contact" className="relative z-10 font-semibold text-green-400 group-hover:text-black transition-colors duration-500">
-                  Reserve Your Experience
+                  {t('home.hero.buttons.reserve')}
                 </Link>
                 <div className="absolute inset-0 bg-green-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
               </MagneticButton>
               
               <MagneticButton className="bg-gradient-to-r from-green-600 to-green-700 text-white px-8 py-4 rounded-full font-semibold hover:from-green-500 hover:to-green-600 transition-all duration-300 shadow-xl hover:shadow-2xl">
-                <Link to="/menu">Discover Our Menu</Link>
+                <Link to="/menu">{t('home.hero.buttons.menu')}</Link>
               </MagneticButton>
             </div>
           </div>
@@ -112,25 +114,25 @@ const Home: React.FC = () => {
             <div>
               <div className="mb-6">
                 <span className="inline-block bg-green-400/20 text-green-300 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide backdrop-blur-sm">
-                  Our Story
+                  {t('about badge')}
                 </span>
               </div>
               <h2 className="text-4xl font-bold text-white mb-6">
-                A Sanctuary Where Every Detail Whispers Excellence
+                {t('about title')}
               </h2>
               <p className="text-lg text-gray-300 mb-6 leading-relaxed">
-                Nestled in the heart of the city, Lounge emerges as an oasis of refinement and natural beauty. Our space has been meticulously designed to blur the lines between indoor luxury and the serenity of nature.
+                {t('about description1')}
               </p>
               <p className="text-lg text-gray-300 mb-8 leading-relaxed">
-                From our living walls adorned with carefully selected botanicals to our sustainably sourced ingredients, every element speaks to our commitment to creating an environment where exceptional memories flourish naturally.
+                {t('about description2')}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4">
                 <MagneticButton className="bg-green-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-500 transition-all duration-300 shadow-lg">
-                  <Link to="/gallery">View Our Space</Link>
+                  <Link to="/gallery">{t('about buttons.viewSpace')}</Link>
                 </MagneticButton>
                 <MagneticButton className="border border-green-400 text-green-400 px-6 py-3 rounded-full font-semibold hover:bg-green-400/10 transition-all duration-300">
-                  <Link to="/events">Private Events</Link>
+                  <Link to="/events">{t('about buttons.privateEvents')}</Link>
                 </MagneticButton>
               </div>
             </div>
@@ -145,7 +147,7 @@ const Home: React.FC = () => {
                 <div className="absolute bottom-4 right-4 bg-green-600/90 text-white p-4 rounded-xl backdrop-blur-sm">
                   <div className="text-center">
                     <div className="text-2xl font-bold">5+</div>
-                    <div className="text-sm opacity-90">Years of Excellence</div>
+                    <div className="text-sm opacity-90">{t('home.about.stats.years')}</div>
                   </div>
                 </div>
               </GlassmorphicCard>
@@ -159,47 +161,47 @@ const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide mb-4">
-              Our Distinctions
+              {t('featuresbadge')}
             </span>
             <h2 className="text-4xl font-bold text-gray-800 mb-4">
-              What Makes Us Extraordinary
+              {t('features.title')}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Discover the unique elements that transform every visit into an unforgettable journey.
+              {t('features subtitle')}
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
-                icon: "🌿",
-                title: "Natural Ambiance",
-                description: "Immerse yourself in our biophilic design featuring living walls, natural lighting, and organic textures that create a sense of tranquil luxury."
+                icon: "",
+                titleKey: "naturalAmbiance",
+                descriptionKey: "naturalAmbiance"
               },
               {
-                icon: "🍸",
-                title: "Artisanal Cocktails",
-                description: "Our master mixologists craft innovative cocktails using house-infused spirits, fresh herbs from our garden, and the finest organic ingredients."
+                icon: "",
+                titleKey: "artisanalCocktails",
+                descriptionKey: "artisanalCocktails"
               },
               {
-                icon: "🎵",
-                title: "Curated Entertainment",
-                description: "Enjoy carefully selected live performances, from intimate acoustic sessions to sophisticated jazz ensembles, enhancing your dining experience."
+                icon: "",
+                titleKey: "curatedEntertainment",
+                descriptionKey: "curatedEntertainment"
               },
               {
-                icon: "🍽️",
-                title: "Sustainable Cuisine",
-                description: "Savor dishes crafted from locally sourced, organic ingredients that celebrate seasonal flavors while supporting sustainable farming practices."
+                icon: "",
+                titleKey: "sustainableCuisine",
+                descriptionKey: "sustainableCuisine"
               },
               {
-                icon: "🏛️",
-                title: "Exclusive Events",
-                description: "Host memorable gatherings in our beautifully appointed private spaces, complete with personalized service and custom culinary experiences."
+                icon: "",
+                titleKey: "exclusiveEvents",
+                descriptionKey: "exclusiveEvents"
               },
               {
-                icon: "💎",
-                title: "Personalized Service",
-                description: "Experience hospitality redefined through our attentive staff who anticipate your needs and create moments of genuine connection and care."
+                icon: "",
+                titleKey: "personalizedService",
+                descriptionKey: "personalizedService"
               }
             ].map((feature, index) => (
               <GlassmorphicCard
@@ -210,9 +212,11 @@ const Home: React.FC = () => {
                   <div className="text-4xl mb-4 transform hover:scale-125 transition-transform duration-300">
                     {feature.icon}
                   </div>
-                  <h3 className="text-xl font-bold text-gray-800 mb-4">{feature.title}</h3>
+                  <h3 className="text-xl font-bold text-gray-800 mb-4">
+                    {t(`features.items.${feature.titleKey}.title`)}
+                  </h3>
                   <p className="text-gray-600 leading-relaxed">
-                    {feature.description}
+                    {t(`${feature.descriptionKey}`)}
                   </p>
                 </div>
               </GlassmorphicCard>
@@ -228,37 +232,18 @@ const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
             <span className="inline-block bg-green-400/20 text-green-300 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide backdrop-blur-sm mb-4">
-              Testimonials
+              {t('testimonialsbadge')}
             </span>
             <h2 className="text-4xl font-bold text-white mb-4">
-              Stories from Our Guests
+              {t('testimonials title')}
             </h2>
             <p className="text-xl text-gray-300">
-              Discover why our guests consider us their sanctuary of choice.
+              {t('testimonials subtitle')}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              {
-                text: "An absolutely transcendent experience. Every detail is perfected.",
-                author: "Sarah Mitchell",
-                role: "Interior Designer",
-                initials: "SM"
-              },
-              {
-                text: "The perfect venue for our corporate event. The attention to detail and exceptional service made our gathering truly memorable.",
-                author: "James Liu",
-                role: "Marketing Director",
-                initials: "JL"
-              },
-              {
-                text: "An oasis in the city. The cocktails are works of art and the atmosphere is simply enchanting.",
-                author: "Maria Rodriguez",
-                role: "Creative Director",
-                initials: "MR"
-              }
-            ].map((testimonial, index) => (
+            {['sarah', 'james', 'maria'].map((testimonialKey, index) => (
               <GlassmorphicCard key={index} className="p-8">
                 <div className="flex items-center mb-6">
                   <div className="flex text-yellow-400">
@@ -270,15 +255,21 @@ const Home: React.FC = () => {
                   </div>
                 </div>
                 <p className="text-gray-200 mb-6 italic text-lg">
-                  "{testimonial.text}"
+                  "{t(`${testimonialKey}`)}"
                 </p>
                 <div className="flex items-center">
                   <div className="w-12 h-12 bg-green-400 rounded-full flex items-center justify-center mr-4">
-                    <span className="text-black font-semibold">{testimonial.initials}</span>
+                    <span className="text-black font-semibold">
+                      {t(`${testimonialKey}`).split(' ').map(n => n[0]).join('')}
+                    </span>
                   </div>
                   <div>
-                    <p className="text-white font-semibold">{testimonial.author}</p>
-                    <p className="text-green-300 text-sm">{testimonial.role}</p>
+                    <p className="text-white font-semibold">
+                      {t(`${testimonialKey}`)}
+                    </p>
+                    <p className="text-green-300 text-sm">
+                      {t(`${testimonialKey}`)}
+                    </p>
                   </div>
                 </div>
               </GlassmorphicCard>
@@ -294,18 +285,18 @@ const Home: React.FC = () => {
         
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Begin Your Lounge Journey
+            {t('cta title')}
           </h2>
           <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto leading-relaxed">
-            Step into a world where exceptional cuisine, handcrafted cocktails, and natural elegance converge to create unforgettable moments.
+            {t('description')}
           </p>
           
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <MagneticButton className="bg-white text-green-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-stone-100 transition-all duration-300 shadow-xl hover:shadow-2xl">
-              <Link to="/contact">Reserve Your Table</Link>
+              <Link to="/contact">{t('reserve')}</Link>
             </MagneticButton>
             <MagneticButton className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-green-800 transition-all duration-300">
-              <Link to="/events">Explore Events</Link>
+              <Link to="/events">{t('events')}</Link>
             </MagneticButton>
           </div>
         </div>
@@ -315,7 +306,7 @@ const Home: React.FC = () => {
       <div className="fixed bottom-8 right-8 z-50 group">
         <MagneticButton className="bg-gradient-to-r from-green-600 to-green-700 text-white px-6 py-3 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-110 hover:from-green-500 hover:to-green-600">
           <Link to="/contact" className="flex items-center space-x-2">
-            <span className="font-semibold">Reserve</span>
+            <span className="font-semibold">{t('home.floating.reserve')}</span>
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>

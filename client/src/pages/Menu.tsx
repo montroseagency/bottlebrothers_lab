@@ -1,17 +1,19 @@
 // src/pages/Menu.tsx
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Menu: React.FC = () => {
+  const { t } = useTranslation();
   const [activeCategory, setActiveCategory] = useState('all');
 
   const categories = [
-    { id: 'all', name: 'All Items', icon: '🍽️' },
-    { id: 'appetizers', name: 'Appetizers', icon: '🥗' },
-    { id: 'mains', name: 'Main Courses', icon: '🍖' },
-    { id: 'cocktails', name: 'Cocktails', icon: '🍸' },
-    { id: 'wine', name: 'Wine & Spirits', icon: '🍷' },
-    { id: 'desserts', name: 'Desserts', icon: '🍰' }
+    { id: 'all', name: t('all'), icon: '🍽️' },
+    { id: 'appetizers', name: t('appetizers'), icon: '🥗' },
+    { id: 'mains', name: t('mains'), icon: '🍖' },
+    { id: 'cocktails', name: t('cocktails'), icon: '🍸' },
+    { id: 'wine', name: t('wine'), icon: '🍷' },
+    { id: 'desserts', name: t('desserts'), icon: '🍰' }
   ];
 
   return (
@@ -22,23 +24,23 @@ const Menu: React.FC = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide mb-6">
-              Culinary Excellence
+              {t('badge')}
             </span>
             <h1 className="text-5xl md:text-7xl font-bold text-gray-800 mb-6 leading-tight">
-              Our Curated
-              <span className="block text-green-800">Menu</span>
+              {t('curated')}
+              <span className="block text-green-800">{t('menu')}</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-700 mb-8 max-w-4xl mx-auto leading-relaxed">
-              Discover our thoughtfully crafted selection of sustainable cuisine, artisanal cocktails, and premium wines. Every dish tells a story of local sourcing, creative innovation, and timeless flavor.
+              {t('description')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/contact">
                 <button className="bg-green-800 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-green-900 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-2">
-                  Reserve Your Table
+                  {t('reserve')}
                 </button>
               </Link>
               <button className="border-2 border-green-800 text-green-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-green-800 hover:text-white transition-all duration-300">
-                Wine Pairings
+                {t('pairings')}
               </button>
             </div>
           </div>
@@ -71,9 +73,9 @@ const Menu: React.FC = () => {
       <section className={`py-20 bg-stone-50 ${activeCategory !== 'all' && activeCategory !== 'appetizers' ? 'hidden' : ''}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">Small Plates & Appetizers</h2>
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">{t('appetizers')}</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Artfully crafted starters that awaken your palate and set the stage for an exceptional dining experience.
+              {t('appetizersSubtitle')}
             </p>
           </div>
 
@@ -185,9 +187,9 @@ const Menu: React.FC = () => {
       <section className={`py-20 bg-white ${activeCategory !== 'all' && activeCategory !== 'mains' ? 'hidden' : ''}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">Main Courses</h2>
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">{t('mains')}</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Masterfully prepared entrées celebrating the finest seasonal ingredients and innovative culinary techniques.
+              {t('mainsSubtitle')}
             </p>
           </div>
 
@@ -299,9 +301,9 @@ const Menu: React.FC = () => {
       <section className={`py-20 bg-stone-50 ${activeCategory !== 'all' && activeCategory !== 'cocktails' ? 'hidden' : ''}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">Artisanal Cocktails</h2>
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">{t('cocktails')}</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Handcrafted libations featuring house-infused spirits, garden-fresh herbs, and innovative flavor combinations.
+              {t('cocktailsSubtitle')}
             </p>
           </div>
 
@@ -380,16 +382,16 @@ const Menu: React.FC = () => {
       <section className={`py-20 bg-white ${activeCategory !== 'all' && activeCategory !== 'wine' ? 'hidden' : ''}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">Wine & Premium Spirits</h2>
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">{t('wine')}</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              A thoughtfully curated collection of exceptional wines and rare spirits from renowned vineyards and distilleries worldwide.
+              {t('wineSubtitle')}
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
             {/* Wine by Glass */}
             <div className="bg-stone-50 rounded-2xl p-8 border border-stone-200">
-              <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center">Wine by the Glass</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center">{t('byGlass')}</h3>
               <div className="space-y-6">
                 {[
                   {
@@ -433,7 +435,7 @@ const Menu: React.FC = () => {
 
             {/* Premium Spirits */}
             <div className="bg-stone-50 rounded-2xl p-8 border border-stone-200">
-              <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center">Premium Spirits</h3>
+              <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center">{t('premiumSpirits')}</h3>
               <div className="space-y-6">
                 {[
                   {
@@ -482,9 +484,9 @@ const Menu: React.FC = () => {
       <section className={`py-20 bg-stone-50 ${activeCategory !== 'all' && activeCategory !== 'desserts' ? 'hidden' : ''}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">Sweet Conclusions</h2>
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">{t('desserts')}</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Exquisite desserts crafted to provide the perfect finale to your culinary journey.
+              {t('dessertsSubtitle')}
             </p>
           </div>
 
@@ -551,20 +553,20 @@ const Menu: React.FC = () => {
       <section className="py-20 bg-gradient-to-r from-green-800 to-green-700">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold text-white mb-6">
-            Ready to Embark on This Culinary Journey?
+            {t('ctaTitle')}
           </h2>
           <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
-            Reserve your table today and discover why our thoughtfully crafted menu has become the talk of the city.
+            {t('ctaDescription')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link to="/contact">
               <button className="bg-white text-green-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-stone-100 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
-                Reserve Your Table
+                {t('reserve')}
               </button>
             </Link>
             <Link to="/events">
               <button className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-green-800 transition-all duration-300">
-                Private Dining
+                {t('privateDining')}
               </button>
             </Link>
           </div>

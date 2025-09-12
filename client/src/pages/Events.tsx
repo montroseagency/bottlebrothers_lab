@@ -1,8 +1,11 @@
-// src/pages/Events.tsx
+// src/pages/Events.tsx - TRANSLATED VERSION
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 const Events: React.FC = () => {
+  const { t } = useTranslation();
+
   return (
     <div className="bg-stone-50 min-h-screen">
       {/* Hero Section */}
@@ -11,23 +14,23 @@ const Events: React.FC = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide mb-6">
-              Memorable Occasions
+              {t('events.hero.badge')}
             </span>
             <h1 className="text-5xl md:text-7xl font-bold text-gray-800 mb-6 leading-tight">
-              Extraordinary
-              <span className="block text-green-800">Events</span>
+              {t('events.hero.title.extraordinary')}
+              <span className="block text-green-800">{t('events.hero.title.events')}</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-700 mb-8 max-w-4xl mx-auto leading-relaxed">
-              From intimate gatherings to grand celebrations, Lounge provides the perfect setting for life's most meaningful moments. Experience world-class hospitality in an atmosphere of natural elegance.
+              {t('events.hero.description')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/contact">
                 <button className="bg-green-800 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-green-900 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-2">
-                  Plan Your Event
+                  {t('events.hero.buttons.plan')}
                 </button>
               </Link>
               <button className="border-2 border-green-800 text-green-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-green-800 hover:text-white transition-all duration-300">
-                View Calendar
+                {t('events.hero.buttons.calendar')}
               </button>
             </div>
           </div>
@@ -39,13 +42,13 @@ const Events: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide mb-4">
-              What's Coming
+              {t('events.upcoming.badge')}
             </span>
             <h2 className="text-4xl font-bold text-gray-800 mb-4">
-              Upcoming Events
+              {t('events.upcoming.title')}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Join us for these carefully curated experiences that celebrate culture, cuisine, and community.
+              {t('events.upcoming.subtitle')}
             </p>
           </div>
 
@@ -161,13 +164,13 @@ const Events: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide mb-4">
-              Event Types
+              {t('events.eventTypes.badge')}
             </span>
             <h2 className="text-4xl font-bold text-gray-800 mb-4">
-              Occasions We Celebrate
+              {t('events.eventTypes.title')}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Our versatile spaces and experienced team transform to accommodate every type of gathering and celebration.
+              {t('events.eventTypes.subtitle')}
             </p>
           </div>
 
@@ -255,13 +258,13 @@ const Events: React.FC = () => {
             </div>
             <div>
               <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide mb-6">
-                Private Events
+                {t('events.privateEvents.badge')}
               </span>
               <h2 className="text-4xl font-bold text-gray-800 mb-6">
-                Your Vision, Our Expertise
+                {t('events.privateEvents.title')}
               </h2>
               <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                Transform your special occasion into an extraordinary experience with our private event services. Our dedicated events team collaborates with you to create a personalized celebration that reflects your unique style and exceeds every expectation.
+                {t('events.privateEvents.description')}
               </p>
               
               <div className="space-y-4 mb-8">
@@ -287,11 +290,11 @@ const Events: React.FC = () => {
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link to="/contact">
                   <button className="bg-green-800 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-green-900 transition-all duration-300 shadow-lg">
-                    Plan Your Event
+                    {t('events.privateEvents.buttons.plan')}
                   </button>
                 </Link>
                 <button className="border-2 border-green-800 text-green-800 px-8 py-3 rounded-full text-lg font-semibold hover:bg-green-50 transition-all duration-300">
-                  Download Brochure
+                  {t('events.privateEvents.buttons.brochure')}
                 </button>
               </div>
             </div>
@@ -304,13 +307,13 @@ const Events: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide mb-4">
-              Our Spaces
+              {t('events.venues.badge')}
             </span>
             <h2 className="text-4xl font-bold text-gray-800 mb-4">
-              Versatile Venues for Every Occasion
+              {t('events.venues.title')}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              From intimate gatherings to grand celebrations, our thoughtfully designed spaces adapt to your vision.
+              {t('events.venues.subtitle')}
             </p>
           </div>
 
@@ -374,20 +377,20 @@ const Events: React.FC = () => {
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            Ready to Create Something Extraordinary?
+            {t('events.cta.title')}
           </h2>
           <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto leading-relaxed">
-            Whether it's an intimate celebration or a grand occasion, let us help you create memories that will last a lifetime.
+            {t('events.cta.description')}
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Link to="/contact">
               <button className="bg-white text-green-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-stone-100 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
-                Start Planning Today
+                {t('events.cta.buttons.plan')}
               </button>
             </Link>
             <Link to="/menu">
               <button className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-green-800 transition-all duration-300">
-                Explore Catering Options
+                {t('events.cta.buttons.catering')}
               </button>
             </Link>
           </div>

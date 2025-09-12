@@ -1,0 +1,202 @@
+{
+  "nav": {
+    "home": "Home",
+    "menu": "Menu",
+    "events": "Events",
+    "gallery": "Gallery",
+    "contact": "Contact",
+    "reserveTable": "Reserve Table",
+    "lounge": "Lounge"
+  },
+  "home": {
+    "hero": {
+      "welcome": "Welcome to",
+      "subtitle": "Where nature's elegance meets sophisticated dining. Experience the finest in cuisine, cocktails, and ambiance in an atmosphere that celebrates the harmony of luxury and natural beauty.",
+      "reserveExperience": "Reserve Your Experience",
+      "discoverMenu": "Discover Our Menu"
+    },
+    "about": {
+      "badge": "Our Story",
+      "title": "A Sanctuary Where Every Detail Whispers Excellence",
+      "description1": "Nestled in the heart of the city, Lounge emerges as an oasis of refinement and natural beauty. Our space has been meticulously designed to blur the lines between indoor luxury and the serenity of nature.",
+      "description2": "From our living walls adorned with carefully selected botanicals to our sustainably sourced ingredients, every element speaks to our commitment to creating an environment where exceptional memories flourish naturally.",
+      "viewSpace": "View Our Space",
+      "privateEvents": "Private Events"
+    },
+    "features": {
+      "badge": "Our Distinctions",
+      "title": "What Makes Us Extraordinary",
+      "subtitle": "Discover the unique elements that transform every visit into an unforgettable journey.",
+      "naturalAmbiance": {
+        "title": "Natural Ambiance",
+        "description": "Immerse yourself in our biophilic design featuring living walls, natural lighting, and organic textures that create a sense of tranquil luxury."
+      },
+      "artisanalCocktails": {
+        "title": "Artisanal Cocktails",
+        "description": "Our master mixologists craft innovative cocktails using house-infused spirits, fresh herbs from our garden, and the finest organic ingredients."
+      },
+      "curatedEntertainment": {
+        "title": "Curated Entertainment",
+        "description": "Enjoy carefully selected live performances, from intimate acoustic sessions to sophisticated jazz ensembles, enhancing your dining experience."
+      },
+      "sustainableCuisine": {
+        "title": "Sustainable Cuisine",
+        "description": "Savor dishes crafted from locally sourced, organic ingredients that celebrate seasonal flavors while supporting sustainable farming practices."
+      },
+      "exclusiveEvents": {
+        "title": "Exclusive Events",
+        "description": "Host memorable gatherings in our beautifully appointed private spaces, complete with personalized service and custom culinary experiences."
+      },
+      "personalizedService": {
+        "title": "Personalized Service",
+        "description": "Experience hospitality redefined through our attentive staff who anticipate your needs and create moments of genuine connection and care."
+      }
+    },
+    "testimonials": {
+      "badge": "Testimonials",
+      "title": "Stories from Our Guests",
+      "subtitle": "Discover why our guests consider us their sanctuary of choice.",
+      "testimonial1": {
+        "text": "An absolutely transcendent experience. Every detail is perfected.",
+        "author": "Sarah Mitchell",
+        "role": "Interior Designer"
+      },
+      "testimonial2": {
+        "text": "The perfect venue for our corporate event. The attention to detail and exceptional service made our gathering truly memorable.",
+        "author": "James Liu",
+        "role": "Marketing Director"
+      },
+      "testimonial3": {
+        "text": "An oasis in the city. The cocktails are works of art and the atmosphere is simply enchanting.",
+        "author": "Maria Rodriguez",
+        "role": "Creative Director"
+      }
+    },
+    "cta": {
+      "title": "Begin Your Lounge Journey",
+      "subtitle": "Step into a world where exceptional cuisine, handcrafted cocktails, and natural elegance converge to create unforgettable moments.",
+      "reserveTable": "Reserve Your Table",
+      "exploreEvents": "Explore Events"
+    }
+  },
+  "menu": {
+    "hero": {
+      "badge": "Culinary Excellence",
+      "title": "Our Curated",
+      "titleAccent": "Menu",
+      "subtitle": "Discover our thoughtfully crafted selection of sustainable cuisine, artisanal cocktails, and premium wines. Every dish tells a story of local sourcing, creative innovation, and timeless flavor.",
+      "reserveTable": "Reserve Your Table",
+      "winePairings": "Wine Pairings"
+    },
+    "categories": {
+      "all": "All Items",
+      "appetizers": "Appetizers",
+      "mains": "Main Courses",
+      "cocktails": "Cocktails",
+      "wine": "Wine & Spirits",
+      "desserts": "Desserts"
+    },
+    "appetizersSection": {
+      "title": "Small Plates & Appetizers",
+      "subtitle": "Artfully crafted starters that awaken your palate and set the stage for an exceptional dining experience."
+    },
+    "mainsSection": {
+      "title": "Main Courses",
+      "subtitle": "Masterfully prepared entrées celebrating the finest seasonal ingredients and innovative culinary techniques."
+    },
+    "cocktailsSection": {
+      "title": "Artisanal Cocktails",
+      "subtitle": "Handcrafted libations featuring house-infused spirits, garden-fresh herbs, and innovative flavor combinations."
+    },
+    "wineSection": {
+      "title": "Wine & Premium Spirits",
+      "subtitle": "A thoughtfully curated collection of exceptional wines and rare spirits from renowned vineyards and distilleries worldwide."
+    },
+    "dessertsSection": {
+      "title": "Sweet Conclusions",
+      "subtitle": "Exquisite desserts crafted to provide the perfect finale to your culinary journey."
+    }
+  },
+  "events": {
+    "hero": {
+      "badge": "Memorable Occasions",
+      "title": "Extraordinary",
+      "titleAccent": "Events",
+      "subtitle": "From intimate gatherings to grand celebrations, Lounge provides the perfect setting for life's most meaningful moments. Experience world-class hospitality in an atmosphere of natural elegance.",
+      "planEvent": "Plan Your Event",
+      "viewCalendar": "View Calendar"
+    }
+  },
+  "gallery": {
+    "hero": {
+      "badge": "Visual Journey",
+      "title": "Our Gallery",
+      "subtitle": "Step into our world through these carefully curated moments. Discover the ambiance, artistry, and experiences that define Lounge.",
+      "bookVisit": "Book Your Visit",
+      "privateEvents": "Private Events"
+    },
+    "categories": {
+      "all": "All Photos",
+      "interior": "Interior",
+      "food": "Cuisine",
+      "cocktails": "Cocktails",
+      "events": "Events"
+    }
+  },
+  "contact": {
+    "hero": {
+      "badge": "Get In Touch",
+      "title": "Connect",
+      "titleAccent": "With Us",
+      "subtitle": "Ready to experience the perfect blend of natural elegance and exceptional hospitality? Reach out to us for reservations, private events, or any questions about Lounge."
+    },
+    "form": {
+      "title": "Send Us a Message",
+      "name": "Full Name",
+      "email": "Email Address",
+      "phone": "Phone Number",
+      "subject": "Subject",
+      "eventType": "Event Type",
+      "date": "Preferred Date",
+      "guests": "Number of Guests",
+      "message": "Message",
+      "sendMessage": "Send Message",
+      "required": "*",
+      "placeholders": {
+        "name": "Your full name",
+        "email": "your.email@example.com",
+        "phone": "(555) 123-4567",
+        "message": "Tell us about your inquiry, special requests, or any questions you may have..."
+      }
+    }
+  },
+  "footer": {
+    "title": "Lounge",
+    "subtitle": "Premium Dining Experience",
+    "description": "Experience the perfect blend of sophistication and comfort at our premium lounge. Where every moment becomes a cherished memory in an atmosphere of natural elegance.",
+    "stayConnected": "Stay Connected",
+    "joinNewsletter": "Join our newsletter",
+    "newsletter": {
+      "title": "Quick Reservation",
+      "join": "Join",
+      "welcome": "Welcome to our community!"
+    },
+    "quickLinks": "Quick Links",
+    "services": "Services",
+    "visitUs": "Visit Us",
+    "address": "Address",
+    "phone": "Phone",
+    "hours": "Hours",
+    "followUs": "Follow Us",
+    "reservations": "Reservations",
+    "privateEvents": "Private Events",
+    "stayUpdated": "Stay Updated",
+    "experienceTonight": "Experience Lounge Tonight"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "tryAgain": "Try Again",
+    "reserve": "Reserve"
+  }
+}

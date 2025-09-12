@@ -1,6 +1,7 @@
-// client/src/components/layout/Footer.tsx - ENHANCED VERSION
+// client/src/components/layout/Footer.tsx - TRANSLATED VERSION
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { MagneticButton } from '../ui/MagneticButton';
 import { ParticleField } from '../ui/ParticleField';
 
@@ -9,6 +10,7 @@ export const Footer: React.FC = () => {
   const [isNewsletterExpanded, setIsNewsletterExpanded] = useState(false);
   const [email, setEmail] = useState('');
   const [newsletterStatus, setNewsletterStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const { t } = useTranslation();
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -104,21 +106,20 @@ export const Footer: React.FC = () => {
                 <div className="absolute inset-0 bg-gradient-to-br from-green-300 to-green-500 rounded-3xl blur opacity-30 animate-pulse" />
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-white"> Lounge</h3>
-                <p className="text-green-300 font-medium">Premium Dining Experience</p>
+                <h3 className="text-2xl font-bold text-white">{t('footer.title')}</h3>
+                <p className="text-green-300 font-medium">{t('footer.subtitle')}</p>
               </div>
             </div>
             
             <p className="text-stone-300 text-lg leading-relaxed max-w-lg">
-              Experience the perfect blend of sophistication and comfort at our premium lounge. 
-              Where every moment becomes a cherished memory in an atmosphere of natural elegance.
+              {t('footer.description')}
             </p>
             
             {/* Newsletter Signup */}
             <div className="space-y-4">
               <div className="flex items-center space-x-3">
                 <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse" />
-                <h4 className="text-white font-semibold">Stay Connected</h4>
+                <h4 className="text-white font-semibold">{t('footer.stayConnected')}</h4>
               </div>
               
               <div className={`transition-all duration-500 ${isNewsletterExpanded ? 'max-h-40' : 'max-h-12'} overflow-hidden`}>
@@ -128,7 +129,7 @@ export const Footer: React.FC = () => {
                     className="w-full bg-white/10 backdrop-blur-sm border border-white/20 text-white px-6 py-3 rounded-2xl hover:bg-white/20 transition-all duration-300 text-left"
                   >
                     <div className="flex items-center justify-between">
-                      <span className="text-stone-300">Join our newsletter</span>
+                      <span className="text-stone-300">{t('footer.joinNewsletter')}</span>
                       <svg className="w-5 h-5 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
                       </svg>
@@ -147,7 +148,7 @@ export const Footer: React.FC = () => {
                       />
                       <MagneticButton className="bg-green-600 hover:bg-green-500 text-white px-6 py-3 rounded-2xl transition-colors font-medium">
                         <button type="submit" className="bg-transparent border-none outline-none p-0 m-0 w-full h-full">
-                          Join
+                          {t('footer.newsletter.join')}
                         </button>
                       </MagneticButton>
                     </div>
@@ -156,7 +157,7 @@ export const Footer: React.FC = () => {
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                         </svg>
-                        <span>Welcome to our community!</span>
+                        <span>{t('footer.newsletter.welcome')}</span>
                       </div>
                     )}
                   </form>
@@ -169,20 +170,20 @@ export const Footer: React.FC = () => {
           <div className="space-y-6">
             <h4 className="text-xl font-bold text-white flex items-center">
               <span className="w-1 h-6 bg-green-400 rounded-full mr-3" />
-              Quick Links
+              {t('footer.quickLinks')}
             </h4>
             <nav className="space-y-1">
-              <QuickLink to="/">Home</QuickLink>
-              <QuickLink to="/menu">Menu</QuickLink>
-              <QuickLink to="/events">Events</QuickLink>
-              <QuickLink to="/gallery">Gallery</QuickLink>
-              <QuickLink to="/contact">Contact Us</QuickLink>
+              <QuickLink to="/">{t('nav.home')}</QuickLink>
+              <QuickLink to="/menu">{t('nav.menu')}</QuickLink>
+              <QuickLink to="/events">{t('nav.events')}</QuickLink>
+              <QuickLink to="/gallery">{t('nav.gallery')}</QuickLink>
+              <QuickLink to="/contact">{t('nav.contact')}</QuickLink>
             </nav>
             
             <div className="pt-4">
-              <h5 className="text-white font-semibold mb-3">Services</h5>
+              <h5 className="text-white font-semibold mb-3">{t('footer.services')}</h5>
               <div className="space-y-1">
-                <QuickLink to="/events">Private Events</QuickLink>
+                <QuickLink to="/events">{t('footer.privateEvents')}</QuickLink>
                 <QuickLink to="/menu">Catering</QuickLink>
                 <QuickLink to="/contact">Corporate Bookings</QuickLink>
               </div>
@@ -193,7 +194,7 @@ export const Footer: React.FC = () => {
           <div className="space-y-6">
             <h4 className="text-xl font-bold text-white flex items-center">
               <span className="w-1 h-6 bg-green-400 rounded-full mr-3" />
-              Visit Us
+              {t('footer.visitUs')}
             </h4>
             
             <div className="space-y-4 text-sm">
@@ -204,7 +205,7 @@ export const Footer: React.FC = () => {
                   </svg>
                 </div>
                 <div className="text-stone-300">
-                  <div className="font-medium text-white mb-1">Address</div>
+                  <div className="font-medium text-white mb-1">{t('footer.address')}</div>
                   <div>123 Olive Grove Avenue<br/>Downtown District<br/>City, State 12345</div>
                 </div>
               </div>
@@ -216,7 +217,7 @@ export const Footer: React.FC = () => {
                   </svg>
                 </div>
                 <div className="text-stone-300">
-                  <div className="font-medium text-white mb-1">Phone</div>
+                  <div className="font-medium text-white mb-1">{t('footer.phone')}</div>
                   <a href="tel:+15551234567" className="hover:text-green-400 transition-colors">(555) 123-4567</a>
                 </div>
               </div>
@@ -228,7 +229,7 @@ export const Footer: React.FC = () => {
                   </svg>
                 </div>
                 <div className="text-stone-300">
-                  <div className="font-medium text-white mb-1">Hours</div>
+                  <div className="font-medium text-white mb-1">{t('footer.hours')}</div>
                   <div>Mon-Thu: 5PM-12AM<br/>Fri-Sat: 5PM-2AM<br/>Sun: 6PM-11PM</div>
                 </div>
               </div>
@@ -240,21 +241,21 @@ export const Footer: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
           <ContactCard
             icon={<svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" /></svg>}
-            title="Reservations"
+            title={t('footer.reservations')}
             content="Call us directly for same-day bookings and special requests"
             action={{ text: "Call Now", href: "tel:+15551234567" }}
           />
           
           <ContactCard
             icon={<svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>}
-            title="Private Events"
+            title={t('footer.privateEvents')}
             content="Transform your special occasion into an extraordinary experience"
             action={{ text: "Learn More", href: "/events" }}
           />
           
           <ContactCard
             icon={<svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>}
-            title="Stay Updated"
+            title={t('footer.stayUpdated')}
             content={
               <div>
                 <div className="text-stone-300">Get exclusive offers and event invitations</div>
@@ -278,7 +279,7 @@ export const Footer: React.FC = () => {
         {/* Bottom Bar */}
         <div className="border-t border-green-600/20 pt-8 flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
           <div className="text-stone-400 text-sm text-center md:text-left">
-            <p>© 2024  Lounge. All rights reserved.</p>
+            <p>© 2024  {t('footer.title')}. All rights reserved.</p>
             <p className="text-xs mt-1">Crafted with care for exceptional experiences.</p>
           </div>
           
@@ -293,7 +294,7 @@ export const Footer: React.FC = () => {
         <div className="text-center mt-8">
           <MagneticButton className="bg-gradient-to-r from-green-600 to-green-700 text-white px-10 py-4 rounded-2xl text-lg font-semibold hover:shadow-2xl hover:shadow-green-600/25 transition-all duration-300 group overflow-hidden">
             <Link to="/contact" className="relative z-10 flex items-center space-x-3">
-              <span>Experience Lounge Tonight</span>
+              <span>{t('footer.experienceTonight')}</span>
               <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
               </svg>
