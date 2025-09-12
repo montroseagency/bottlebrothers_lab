@@ -15,16 +15,23 @@ export const Header: React.FC = () => {
   };
 
   return (
-    <header className="shadow-lg sticky top-0 z-50 bg-green-200">
+    <header className="shadow-xl sticky top-0 z-50 bg-gradient-to-r from-green-800 to-green-700 backdrop-blur-lg">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           {/* Logo/Brand */}
           <div className="flex items-center">
             <div className="flex-shrink-0">
               <Link to="/" onClick={handleMobileMenuClose}>
-                <h1 className="text-2xl font-bold text-gray-800 hover:text-gray-600 transition-colors">
-                  Lounge
-                </h1>
+                <div className="flex items-center space-x-3">
+                  <div className="w-10 h-10 bg-stone-100 rounded-full flex items-center justify-center">
+                    <svg className="w-6 h-6 text-green-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                  </div>
+                  <h1 className="text-2xl font-bold text-stone-100 hover:text-white transition-colors">
+                    Verdant Lounge
+                  </h1>
+                </div>
               </Link>
             </div>
           </div>
@@ -33,10 +40,10 @@ export const Header: React.FC = () => {
           <nav className="hidden md:flex space-x-8">
             <Link 
               to="/" 
-              className={`px-3 py-2 text-sm font-medium transition-colors duration-200 ${
+              className={`px-4 py-2 text-sm font-medium transition-all duration-200 rounded-md ${
                 isActive('/') 
-                  ? 'text-gray-800 border-b-2 border-gray-800' 
-                  : 'text-gray-700 hover:text-gray-900'
+                  ? 'text-white bg-green-900 shadow-lg' 
+                  : 'text-stone-200 hover:text-white hover:bg-green-700/50'
               }`}
             >
               Home
@@ -44,10 +51,10 @@ export const Header: React.FC = () => {
             
             <Link 
               to="/menu" 
-              className={`px-3 py-2 text-sm font-medium transition-colors duration-200 ${
+              className={`px-4 py-2 text-sm font-medium transition-all duration-200 rounded-md ${
                 isActive('/menu') 
-                  ? 'text-gray-800 border-b-2 border-gray-800' 
-                  : 'text-gray-700 hover:text-gray-900'
+                  ? 'text-white bg-green-900 shadow-lg' 
+                  : 'text-stone-200 hover:text-white hover:bg-green-700/50'
               }`}
             >
               Menu
@@ -55,10 +62,10 @@ export const Header: React.FC = () => {
             
             <Link 
               to="/events" 
-              className={`px-3 py-2 text-sm font-medium transition-colors duration-200 ${
+              className={`px-4 py-2 text-sm font-medium transition-all duration-200 rounded-md ${
                 isActive('/events') 
-                  ? 'text-gray-800 border-b-2 border-gray-800' 
-                  : 'text-gray-700 hover:text-gray-900'
+                  ? 'text-white bg-green-900 shadow-lg' 
+                  : 'text-stone-200 hover:text-white hover:bg-green-700/50'
               }`}
             >
               Events
@@ -66,10 +73,10 @@ export const Header: React.FC = () => {
             
             <Link 
               to="/gallery" 
-              className={`px-3 py-2 text-sm font-medium transition-colors duration-200 ${
+              className={`px-4 py-2 text-sm font-medium transition-all duration-200 rounded-md ${
                 isActive('/gallery') 
-                  ? 'text-gray-800 border-b-2 border-gray-800' 
-                  : 'text-gray-700 hover:text-gray-900'
+                  ? 'text-white bg-green-900 shadow-lg' 
+                  : 'text-stone-200 hover:text-white hover:bg-green-700/50'
               }`}
             >
               Gallery
@@ -77,10 +84,10 @@ export const Header: React.FC = () => {
             
             <Link 
               to="/contact" 
-              className={`px-3 py-2 text-sm font-medium transition-colors duration-200 ${
+              className={`px-4 py-2 text-sm font-medium transition-all duration-200 rounded-md ${
                 isActive('/contact') 
-                  ? 'text-gray-800 border-b-2 border-gray-800' 
-                  : 'text-gray-700 hover:text-gray-900'
+                  ? 'text-white bg-green-900 shadow-lg' 
+                  : 'text-stone-200 hover:text-white hover:bg-green-700/50'
               }`}
             >
               Contact Us
@@ -92,8 +99,8 @@ export const Header: React.FC = () => {
             {/* Reservation Button - Hidden on small screens */}
             <div className="hidden md:block">
               <Link to="/contact">
-                <button className="bg-gray-800 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-700 transition-colors">
-                  Make Reservation
+                <button className="bg-stone-100 text-green-800 px-6 py-3 rounded-full text-sm font-semibold hover:bg-white hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                  Reserve Table
                 </button>
               </Link>
             </div>
@@ -101,7 +108,7 @@ export const Header: React.FC = () => {
             {/* Mobile menu button */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2 text-gray-800 hover:text-gray-600 transition-colors focus:outline-none"
+              className="md:hidden p-2 text-stone-200 hover:text-white transition-colors focus:outline-none"
               aria-label="Toggle mobile menu"
             >
               {isMenuOpen ? (
@@ -119,13 +126,13 @@ export const Header: React.FC = () => {
 
         {/* Mobile Navigation */}
         <div className={`md:hidden transition-all duration-300 ease-in-out ${isMenuOpen ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0 overflow-hidden'}`}>
-          <div className="px-2 pt-2 pb-3 space-y-1 border-t border-green-300">
+          <div className="px-2 pt-2 pb-6 space-y-2 border-t border-green-600">
             <Link 
               to="/" 
-              className={`block px-3 py-2 text-sm font-medium transition-all duration-200 rounded-md ${
+              className={`block px-4 py-3 text-sm font-medium transition-all duration-200 rounded-lg ${
                 isActive('/') 
-                  ? 'bg-gray-800 text-white' 
-                  : 'text-gray-700 hover:bg-gray-800 hover:text-white'
+                  ? 'bg-green-900 text-white' 
+                  : 'text-stone-200 hover:bg-green-700/50 hover:text-white'
               }`}
               onClick={handleMobileMenuClose}
             >
@@ -134,10 +141,10 @@ export const Header: React.FC = () => {
             
             <Link 
               to="/menu" 
-              className={`block px-3 py-2 text-sm font-medium transition-all duration-200 rounded-md ${
+              className={`block px-4 py-3 text-sm font-medium transition-all duration-200 rounded-lg ${
                 isActive('/menu') 
-                  ? 'bg-gray-800 text-white' 
-                  : 'text-gray-700 hover:bg-gray-800 hover:text-white'
+                  ? 'bg-green-900 text-white' 
+                  : 'text-stone-200 hover:bg-green-700/50 hover:text-white'
               }`}
               onClick={handleMobileMenuClose}
             >
@@ -146,10 +153,10 @@ export const Header: React.FC = () => {
             
             <Link 
               to="/events" 
-              className={`block px-3 py-2 text-sm font-medium transition-all duration-200 rounded-md ${
+              className={`block px-4 py-3 text-sm font-medium transition-all duration-200 rounded-lg ${
                 isActive('/events') 
-                  ? 'bg-gray-800 text-white' 
-                  : 'text-gray-700 hover:bg-gray-800 hover:text-white'
+                  ? 'bg-green-900 text-white' 
+                  : 'text-stone-200 hover:bg-green-700/50 hover:text-white'
               }`}
               onClick={handleMobileMenuClose}
             >
@@ -158,10 +165,10 @@ export const Header: React.FC = () => {
             
             <Link 
               to="/gallery" 
-              className={`block px-3 py-2 text-sm font-medium transition-all duration-200 rounded-md ${
+              className={`block px-4 py-3 text-sm font-medium transition-all duration-200 rounded-lg ${
                 isActive('/gallery') 
-                  ? 'bg-gray-800 text-white' 
-                  : 'text-gray-700 hover:bg-gray-800 hover:text-white'
+                  ? 'bg-green-900 text-white' 
+                  : 'text-stone-200 hover:bg-green-700/50 hover:text-white'
               }`}
               onClick={handleMobileMenuClose}
             >
@@ -170,10 +177,10 @@ export const Header: React.FC = () => {
             
             <Link 
               to="/contact" 
-              className={`block px-3 py-2 text-sm font-medium transition-all duration-200 rounded-md ${
+              className={`block px-4 py-3 text-sm font-medium transition-all duration-200 rounded-lg ${
                 isActive('/contact') 
-                  ? 'bg-gray-800 text-white' 
-                  : 'text-gray-700 hover:bg-gray-800 hover:text-white'
+                  ? 'bg-green-900 text-white' 
+                  : 'text-stone-200 hover:bg-green-700/50 hover:text-white'
               }`}
               onClick={handleMobileMenuClose}
             >
@@ -181,10 +188,10 @@ export const Header: React.FC = () => {
             </Link>
 
             {/* Mobile Reservation Button */}
-            <div className="pt-2">
+            <div className="pt-4">
               <Link to="/contact" onClick={handleMobileMenuClose}>
-                <button className="w-full bg-gray-800 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-gray-700 transition-colors">
-                  Make Reservation
+                <button className="w-full bg-stone-100 text-green-800 px-6 py-3 rounded-full text-sm font-semibold hover:bg-white transition-colors">
+                  Reserve Table
                 </button>
               </Link>
             </div>

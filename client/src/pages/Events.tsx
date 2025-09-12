@@ -4,25 +4,29 @@ import { Link } from 'react-router-dom';
 
 const Events: React.FC = () => {
   return (
-    <div className="bg-yellow-50 min-h-screen">
+    <div className="bg-stone-50 min-h-screen">
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-yellow-50 to-amber-100 py-20 lg:py-32">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="relative bg-gradient-to-br from-stone-100 to-stone-200 py-20 lg:py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-green-900/10 to-green-800/5"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
+            <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide mb-6">
+              Memorable Occasions
+            </span>
             <h1 className="text-5xl md:text-7xl font-bold text-gray-800 mb-6 leading-tight">
-              Unforgettable
-              <span className="block text-amber-800">Events</span>
+              Extraordinary
+              <span className="block text-green-800">Events</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-700 mb-8 max-w-4xl mx-auto leading-relaxed">
-              From intimate gatherings to grand celebrations, our lounge provides the perfect backdrop for every special occasion. Experience world-class entertainment and exceptional service.
+              From intimate gatherings to grand celebrations, Verdant Lounge provides the perfect setting for life's most meaningful moments. Experience world-class hospitality in an atmosphere of natural elegance.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/contact">
-                <button className="bg-amber-800 text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-amber-900 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                  Book Private Event
+                <button className="bg-green-800 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-green-900 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-2">
+                  Plan Your Event
                 </button>
               </Link>
-              <button className="border-2 border-amber-800 text-amber-800 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-amber-800 hover:text-white transition-all duration-300">
+              <button className="border-2 border-green-800 text-green-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-green-800 hover:text-white transition-all duration-300">
                 View Calendar
               </button>
             </div>
@@ -34,32 +38,42 @@ const Events: React.FC = () => {
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
+            <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide mb-4">
+              What's Coming
+            </span>
             <h2 className="text-4xl font-bold text-gray-800 mb-4">
               Upcoming Events
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Don't miss out on our exciting lineup of entertainment and special events.
+              Join us for these carefully curated experiences that celebrate culture, cuisine, and community.
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
             {/* Featured Event */}
-            <div className="bg-gradient-to-r from-amber-800 to-amber-900 rounded-2xl p-8 text-white lg:col-span-2">
-              <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
-                <div className="mb-6 md:mb-0">
-                  <div className="inline-block bg-amber-600 px-3 py-1 rounded-full text-sm font-medium mb-4">
+            <div className="lg:col-span-2 bg-gradient-to-r from-green-800 to-green-700 rounded-3xl overflow-hidden shadow-2xl">
+              <div className="flex flex-col lg:flex-row">
+                <div className="lg:w-1/2">
+                  <img 
+                    src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                    alt="Jazz and Wine Night"
+                    className="w-full h-64 lg:h-full object-cover"
+                  />
+                </div>
+                <div className="lg:w-1/2 p-8 lg:p-12 text-white flex flex-col justify-center">
+                  <div className="inline-block bg-green-600 px-4 py-2 rounded-full text-sm font-semibold mb-6 self-start">
                     Featured Event
                   </div>
-                  <h3 className="text-3xl font-bold mb-2">Jazz & Wine Night</h3>
-                  <p className="text-amber-100 mb-4 max-w-2xl">
-                    An evening of smooth jazz performances featuring renowned local artists, paired with our finest wine selection and gourmet small plates.
+                  <h3 className="text-3xl lg:text-4xl font-bold mb-4">Jazz & Wine Evening</h3>
+                  <p className="text-green-100 mb-6 text-lg leading-relaxed">
+                    An enchanting evening featuring smooth jazz performances by renowned local artists, perfectly paired with our sommelier's selection of premium wines and artisanal small plates.
                   </p>
-                  <div className="flex items-center space-x-6 text-amber-100">
+                  <div className="flex flex-col sm:flex-row gap-4 text-green-100 mb-6">
                     <div className="flex items-center">
                       <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
-                      Friday, September 20th
+                      Friday, December 15th
                     </div>
                     <div className="flex items-center">
                       <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -68,165 +82,154 @@ const Events: React.FC = () => {
                       7:00 PM - 11:00 PM
                     </div>
                   </div>
+                  <button className="bg-white text-green-800 px-8 py-3 rounded-full font-semibold hover:bg-stone-100 transition-colors self-start">
+                    Reserve Your Spot - $45
+                  </button>
                 </div>
-                <button className="bg-white text-amber-800 px-6 py-3 rounded-lg font-semibold hover:bg-gray-100 transition-colors whitespace-nowrap">
-                  Reserve Seats
-                </button>
               </div>
             </div>
 
             {/* Regular Events */}
-            <div className="bg-yellow-50 rounded-xl p-6 border border-amber-200">
-              <h4 className="text-xl font-bold text-gray-800 mb-2">Live DJ Night</h4>
-              <p className="text-gray-600 mb-4">
-                Dance the night away with our resident DJ spinning the latest hits and classic favorites.
-              </p>
-              <div className="flex items-center justify-between">
-                <div className="text-sm text-gray-600">
-                  <p className="font-medium">Every Saturday</p>
-                  <p>9:00 PM - 2:00 AM</p>
+            {[
+              {
+                title: "Live Acoustic Sessions",
+                description: "Intimate performances featuring emerging singer-songwriters and acoustic artists.",
+                schedule: "Every Thursday",
+                time: "8:00 PM - 10:00 PM",
+                price: "No Cover",
+                image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+              },
+              {
+                title: "Weekend DJ Sets",
+                description: "Dance the night away with curated playlists spanning genres from house to classic favorites.",
+                schedule: "Friday & Saturday",
+                time: "9:00 PM - 2:00 AM",
+                price: "$10 Cover",
+                image: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+              },
+              {
+                title: "Mixology Masterclass",
+                description: "Learn the art of cocktail crafting from our expert bartenders in this hands-on workshop.",
+                schedule: "First Wednesday",
+                time: "6:00 PM - 8:00 PM",
+                price: "$65 per person",
+                image: "https://images.unsplash.com/photo-1514362545857-3bc16c4c7d1b?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+              },
+              {
+                title: "Wine Appreciation Evening",
+                description: "Guided tasting of exceptional wines paired with specially selected appetizers.",
+                schedule: "Second Tuesday",
+                time: "7:30 PM - 9:30 PM",
+                price: "$55 per person",
+                image: "https://images.unsplash.com/photo-1506377247377-2a5b3b417ebb?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+              }
+            ].map((event, index) => (
+              <div key={index} className="bg-stone-50 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-stone-200">
+                <div className="aspect-w-16 aspect-h-9">
+                  <img 
+                    src={event.image}
+                    alt={event.title}
+                    className="w-full h-48 object-cover"
+                  />
                 </div>
-                <button className="bg-amber-800 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-amber-900 transition-colors">
-                  Get Tickets
-                </button>
-              </div>
-            </div>
-
-            <div className="bg-yellow-50 rounded-xl p-6 border border-amber-200">
-              <h4 className="text-xl font-bold text-gray-800 mb-2">Cocktail Workshop</h4>
-              <p className="text-gray-600 mb-4">
-                Learn the art of mixology from our expert bartenders in this hands-on experience.
-              </p>
-              <div className="flex items-center justify-between">
-                <div className="text-sm text-gray-600">
-                  <p className="font-medium">September 25th</p>
-                  <p>6:00 PM - 8:00 PM</p>
+                <div className="p-6">
+                  <h4 className="text-xl font-bold text-gray-800 mb-3">{event.title}</h4>
+                  <p className="text-gray-600 mb-4 leading-relaxed">
+                    {event.description}
+                  </p>
+                  <div className="flex items-center justify-between">
+                    <div className="text-sm text-gray-600">
+                      <p className="font-semibold text-green-800">{event.schedule}</p>
+                      <p>{event.time}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-green-800 font-bold mb-2">{event.price}</p>
+                      <button className="bg-green-800 text-white px-4 py-2 rounded-full text-sm font-semibold hover:bg-green-900 transition-colors">
+                        Book Now
+                      </button>
+                    </div>
+                  </div>
                 </div>
-                <button className="bg-amber-800 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-amber-900 transition-colors">
-                  Join Class
-                </button>
               </div>
-            </div>
-
-            <div className="bg-yellow-50 rounded-xl p-6 border border-amber-200">
-              <h4 className="text-xl font-bold text-gray-800 mb-2">Wine Tasting</h4>
-              <p className="text-gray-600 mb-4">
-                Explore exceptional wines from around the world with our sommelier-guided tasting.
-              </p>
-              <div className="flex items-center justify-between">
-                <div className="text-sm text-gray-600">
-                  <p className="font-medium">October 2nd</p>
-                  <p>7:30 PM - 9:30 PM</p>
-                </div>
-                <button className="bg-amber-800 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-amber-900 transition-colors">
-                  Book Now
-                </button>
-              </div>
-            </div>
-
-            <div className="bg-yellow-50 rounded-xl p-6 border border-amber-200">
-              <h4 className="text-xl font-bold text-gray-800 mb-2">Acoustic Sessions</h4>
-              <p className="text-gray-600 mb-4">
-                Intimate acoustic performances featuring local singer-songwriters and emerging artists.
-              </p>
-              <div className="flex items-center justify-between">
-                <div className="text-sm text-gray-600">
-                  <p className="font-medium">Every Thursday</p>
-                  <p>8:00 PM - 10:00 PM</p>
-                </div>
-                <button className="bg-amber-800 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-amber-900 transition-colors">
-                  Reserve Table
-                </button>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
       {/* Event Types */}
-      <section className="py-20 bg-yellow-50">
+      <section className="py-20 bg-stone-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
+            <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide mb-4">
+              Event Types
+            </span>
             <h2 className="text-4xl font-bold text-gray-800 mb-4">
-              Types of Events We Host
+              Occasions We Celebrate
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Our versatile space and experienced team can accommodate a wide variety of events and celebrations.
+              Our versatile spaces and experienced team transform to accommodate every type of gathering and celebration.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg className="w-8 h-8 text-amber-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" />
-                </svg>
+            {[
+              {
+                icon: "🎵",
+                title: "Live Entertainment",
+                description: "From intimate jazz quartets to acoustic soloists, we curate performances that enhance your dining experience without overwhelming conversation.",
+                features: ["Professional sound system", "Intimate stage setting", "Diverse musical genres"]
+              },
+              {
+                icon: "🏢",
+                title: "Corporate Events",
+                description: "Sophisticated venue perfect for business meetings, product launches, networking events, and corporate celebrations.",
+                features: ["AV equipment available", "Private dining options", "Professional service team"]
+              },
+              {
+                icon: "💝",
+                title: "Private Celebrations",
+                description: "Create unforgettable memories for birthdays, anniversaries, engagements, and other milestone occasions.",
+                features: ["Customizable décor", "Personalized menus", "Dedicated event coordinator"]
+              },
+              {
+                icon: "🍷",
+                title: "Wine & Spirit Events",
+                description: "Educational tastings, pairing dinners, and exclusive releases featuring premium wines and craft spirits.",
+                features: ["Expert sommelier guidance", "Curated selections", "Food pairings included"]
+              },
+              {
+                icon: "🎨",
+                title: "Cultural Events",
+                description: "Art exhibitions, book launches, poetry readings, and other cultural celebrations that enrich our community.",
+                features: ["Gallery wall space", "Flexible seating", "Intimate atmosphere"]
+              },
+              {
+                icon: "🌟",
+                title: "Seasonal Celebrations",
+                description: "Holiday parties, seasonal menu launches, and themed events that celebrate the changing seasons.",
+                features: ["Seasonal decorations", "Special menus", "Festive atmosphere"]
+              }
+            ].map((eventType, index) => (
+              <div key={index} className="bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                <div className="text-center mb-6">
+                  <div className="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <span className="text-3xl">{eventType.icon}</span>
+                  </div>
+                  <h3 className="text-xl font-bold text-gray-800 mb-4">{eventType.title}</h3>
+                  <p className="text-gray-600 leading-relaxed mb-6">
+                    {eventType.description}
+                  </p>
+                </div>
+                <div className="space-y-2">
+                  {eventType.features.map((feature, featureIndex) => (
+                    <div key={featureIndex} className="flex items-center text-sm text-gray-600">
+                      <div className="w-2 h-2 bg-green-800 rounded-full mr-3"></div>
+                      {feature}
+                    </div>
+                  ))}
+                </div>
               </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">Live Music</h3>
-              <p className="text-gray-600 text-center leading-relaxed">
-                From jazz ensembles to acoustic solo acts, we regularly feature talented musicians creating the perfect ambiance.
-              </p>
-            </div>
-
-            <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg className="w-8 h-8 text-amber-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">Corporate Events</h3>
-              <p className="text-gray-600 text-center leading-relaxed">
-                Professional atmosphere perfect for business meetings, networking events, and corporate celebrations.
-              </p>
-            </div>
-
-            <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg className="w-8 h-8 text-amber-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">Private Parties</h3>
-              <p className="text-gray-600 text-center leading-relaxed">
-                Celebrate birthdays, anniversaries, and special milestones in our elegant private dining areas.
-              </p>
-            </div>
-
-            <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg className="w-8 h-8 text-amber-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">Wine & Spirits</h3>
-              <p className="text-gray-600 text-center leading-relaxed">
-                Educational tastings and pairing events featuring premium wines, craft spirits, and expert guidance.
-              </p>
-            </div>
-
-            <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg className="w-8 h-8 text-amber-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">Themed Nights</h3>
-              <p className="text-gray-600 text-center leading-relaxed">
-                Special themed events and holiday celebrations that bring our community together for unique experiences.
-              </p>
-            </div>
-
-            <div className="bg-white rounded-xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg className="w-8 h-8 text-amber-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-                </svg>
-              </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-4 text-center">Workshops</h3>
-              <p className="text-gray-600 text-center leading-relaxed">
-                Interactive classes covering mixology, wine appreciation, and culinary arts in an intimate setting.
-              </p>
-            </div>
+            ))}
           </div>
         </div>
       </section>
@@ -234,94 +237,157 @@ const Events: React.FC = () => {
       {/* Private Events Section */}
       <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div className="relative">
+              <div className="aspect-w-4 aspect-h-3 rounded-2xl overflow-hidden shadow-2xl">
+                <img 
+                  src="https://images.unsplash.com/photo-1519671845924-1fd18db430b8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
+                  alt="Private Event Space"
+                  className="w-full h-96 object-cover"
+                />
+              </div>
+              <div className="absolute -bottom-6 -left-6 bg-green-800 text-white p-6 rounded-2xl shadow-xl">
+                <div className="text-center">
+                  <div className="text-3xl font-bold">500+</div>
+                  <div className="text-sm opacity-90">Events Hosted</div>
+                </div>
+              </div>
+            </div>
             <div>
+              <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide mb-6">
+                Private Events
+              </span>
               <h2 className="text-4xl font-bold text-gray-800 mb-6">
-                Host Your Private Event
+                Your Vision, Our Expertise
               </h2>
               <p className="text-lg text-gray-600 mb-6 leading-relaxed">
-                Make your special occasion truly memorable with our private event services. Our dedicated events team will work with you to create a personalized experience that exceeds your expectations.
+                Transform your special occasion into an extraordinary experience with our private event services. Our dedicated events team collaborates with you to create a personalized celebration that reflects your unique style and exceeds every expectation.
               </p>
               
               <div className="space-y-4 mb-8">
-                <div className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-amber-800 rounded-full flex items-center justify-center mt-0.5">
-                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                    </svg>
+                {[
+                  "Bespoke menu creation with our executive chef",
+                  "Personalized cocktail and wine pairings",
+                  "Custom décor and ambiance design",
+                  "Dedicated event coordinator and service team",
+                  "Professional audio/visual equipment",
+                  "Flexible space configurations up to 120 guests"
+                ].map((feature, index) => (
+                  <div key={index} className="flex items-start space-x-3">
+                    <div className="w-6 h-6 bg-green-800 rounded-full flex items-center justify-center mt-0.5">
+                      <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                      </svg>
+                    </div>
+                    <p className="text-gray-700">{feature}</p>
                   </div>
-                  <p className="text-gray-700">Customized menu and beverage packages</p>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-amber-800 rounded-full flex items-center justify-center mt-0.5">
-                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                    </svg>
-                  </div>
-                  <p className="text-gray-700">Dedicated event coordinator</p>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-amber-800 rounded-full flex items-center justify-center mt-0.5">
-                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                    </svg>
-                  </div>
-                  <p className="text-gray-700">Audio/visual equipment available</p>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="w-6 h-6 bg-amber-800 rounded-full flex items-center justify-center mt-0.5">
-                    <svg className="w-3 h-3 text-white" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
-                    </svg>
-                  </div>
-                  <p className="text-gray-700">Flexible seating arrangements</p>
-                </div>
+                ))}
               </div>
 
-              <Link to="/contact">
-                <button className="bg-amber-800 text-white px-8 py-3 rounded-lg text-lg font-semibold hover:bg-amber-900 transition-colors shadow-lg">
-                  Plan Your Event
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link to="/contact">
+                  <button className="bg-green-800 text-white px-8 py-3 rounded-full text-lg font-semibold hover:bg-green-900 transition-all duration-300 shadow-lg">
+                    Plan Your Event
+                  </button>
+                </Link>
+                <button className="border-2 border-green-800 text-green-800 px-8 py-3 rounded-full text-lg font-semibold hover:bg-green-50 transition-all duration-300">
+                  Download Brochure
                 </button>
-              </Link>
-            </div>
-
-            <div className="bg-amber-100 rounded-2xl p-8 h-96 flex flex-col justify-center">
-              <div className="text-center">
-                <div className="w-24 h-24 bg-amber-800 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                </div>
-                <h3 className="text-2xl font-bold text-gray-800 mb-4">Capacity Information</h3>
-                <div className="space-y-2 text-gray-700">
-                  <p><span className="font-semibold">Main Dining:</span> Up to 80 guests</p>
-                  <p><span className="font-semibold">Private Room:</span> Up to 30 guests</p>
-                  <p><span className="font-semibold">Full Venue:</span> Up to 120 guests</p>
-                </div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
+      {/* Venue Spaces */}
+      <section className="py-20 bg-stone-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide mb-4">
+              Our Spaces
+            </span>
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">
+              Versatile Venues for Every Occasion
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              From intimate gatherings to grand celebrations, our thoughtfully designed spaces adapt to your vision.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {[
+              {
+                name: "Main Dining Hall",
+                capacity: "Up to 80 guests",
+                description: "Our signature space featuring soaring ceilings, living walls, and ambient lighting perfect for larger celebrations and corporate events.",
+                image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                features: ["Stage area for entertainment", "Full bar service", "Flexible seating arrangements"]
+              },
+              {
+                name: "Private Garden Room",
+                capacity: "Up to 35 guests",
+                description: "An intimate space with floor-to-ceiling windows overlooking our herb garden, ideal for smaller gatherings and business meetings.",
+                image: "https://images.unsplash.com/photo-1559339352-11d035aa65de?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                features: ["Garden views", "Private entrance", "Built-in AV system"]
+              },
+              {
+                name: "Rooftop Terrace",
+                capacity: "Up to 50 guests",
+                description: "Open-air elegance with city views and retractable canopy, perfect for cocktail receptions and seasonal celebrations.",
+                image: "https://images.unsplash.com/photo-1551218370-daa71ba0c4d4?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                features: ["City skyline views", "Weather protection", "Outdoor bar setup"]
+              }
+            ].map((space, index) => (
+              <div key={index} className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
+                <div className="aspect-w-16 aspect-h-9">
+                  <img 
+                    src={space.image}
+                    alt={space.name}
+                    className="w-full h-48 object-cover"
+                  />
+                </div>
+                <div className="p-6">
+                  <div className="mb-4">
+                    <h3 className="text-xl font-bold text-gray-800 mb-2">{space.name}</h3>
+                    <p className="text-green-800 font-semibold">{space.capacity}</p>
+                  </div>
+                  <p className="text-gray-600 mb-4 leading-relaxed text-sm">
+                    {space.description}
+                  </p>
+                  <div className="space-y-2">
+                    {space.features.map((feature, featureIndex) => (
+                      <div key={featureIndex} className="flex items-center text-sm text-gray-600">
+                        <div className="w-2 h-2 bg-green-800 rounded-full mr-3"></div>
+                        {feature}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Call to Action */}
-      <section className="py-20 bg-gradient-to-r from-amber-800 to-amber-900">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">
-            Ready to Join Us for an Event?
+      <section className="py-20 bg-gradient-to-r from-green-800 to-green-700 relative overflow-hidden">
+        <div className="absolute inset-0 bg-black/20"></div>
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+            Ready to Create Something Extraordinary?
           </h2>
-          <p className="text-xl text-amber-100 mb-8 max-w-2xl mx-auto">
-            Whether it's a special celebration or a regular night out, we have something exciting happening every week.
+          <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto leading-relaxed">
+            Whether it's an intimate celebration or a grand occasion, let us help you create memories that will last a lifetime.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Link to="/contact">
-              <button className="bg-white text-amber-800 px-8 py-4 rounded-lg text-lg font-semibold hover:bg-gray-100 transition-colors shadow-lg">
-                Book Event Space
+              <button className="bg-white text-green-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-stone-100 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
+                Start Planning Today
               </button>
             </Link>
             <Link to="/menu">
-              <button className="border-2 border-white text-white px-8 py-4 rounded-lg text-lg font-semibold hover:bg-white hover:text-amber-800 transition-colors">
-                View Menu
+              <button className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-green-800 transition-all duration-300">
+                Explore Catering Options
               </button>
             </Link>
           </div>

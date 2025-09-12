@@ -5,7 +5,7 @@ import { Footer } from './components/layout/Footer';
 import Home from "./pages/Home";
 import Menu from './pages/Menu';
 import Events from './pages/Events';
-// import Gallery from './pages/Gallery'; // Not implemented yet
+import Gallery from './pages/Gallery'; // Not implemented yet
 import ContactUs from './pages/ContactUs';
 
 
@@ -22,7 +22,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/menu" element={<Menu />} />
             <Route path="/events" element={<Events />} />
-            {/* <Route path="/gallery" element={<Gallery />} /> */}
+            <Route path="/gallery" element={<Gallery />} /> 
             <Route path="/contact" element={<ContactUs />} />
           </Routes>
         </main>
