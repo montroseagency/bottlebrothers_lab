@@ -24,23 +24,23 @@ const Menu: React.FC = () => {
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide mb-6">
-              {t('badge')}
+              {t('menu.badge')}
             </span>
             <h1 className="text-5xl md:text-7xl font-bold text-gray-800 mb-6 leading-tight">
-              {t('curated')}
-              <span className="block text-green-800">{t('menu')}</span>
+              {t('menu.title')}
+              <span className="block text-green-800">{t('menu.menu')}</span>
             </h1>
             <p className="text-xl md:text-2xl text-gray-700 mb-8 max-w-4xl mx-auto leading-relaxed">
-              {t('description')}
+              {t('menu.subtitle')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/contact">
                 <button className="bg-green-800 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-green-900 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-2">
-                  {t('reserve')}
+                  {t('menu.reserveTable')}
                 </button>
               </Link>
               <button className="border-2 border-green-800 text-green-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-green-800 hover:text-white transition-all duration-300">
-                {t('pairings')}
+                {t('menu.winePairings')}
               </button>
             </div>
           </div>

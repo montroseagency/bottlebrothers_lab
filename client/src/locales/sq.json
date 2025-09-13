@@ -11,21 +11,25 @@
   "home": {
     "hero": {
       "welcome": "Mirë se vini në",
-      "subtitle": "Ku eleganca e natyrës takon ushqimin e sofistikuar. Përvoni më të mirën në kuzhinë, kokteje dhe atmosferë në një mjedis që celebron harmoninë e luksin dhe bukurinë natyrore.",
+      "lounge": "The Lounge",
+      "subtitle": "Ku eleganca e natyrës takon ushqimin e sofistikuar. Përjetoni më të mirën në kuzhinë, kokteje dhe atmosferë në një mjedis që celebron harmoninë e luksit dhe bukurisë natyrore.",
       "reserveExperience": "Rezervoni Përvojën Tuaj",
       "discoverMenu": "Zbuloni Menynë Tonë"
     },
     "about": {
       "badge": "Historia Jonë",
       "title": "Një Shenjtërore Ku Çdo Detaj Pëshpërit Përsosmëri",
-      "description1": "I vendosur në zemër të qytetit, Lounge-i shfaqet si një oaz rafinerie dhe bukurie natyrore. Hapësira jonë është projektuar me kujdes për të zbehur kufijtë midis luksin e brendshëm dhe qetësinë e natyrës.",
+      "description1": "I vendosur në zemër të qytetit, Lounge-i ynë shfaqet si një oazë rafinerie dhe bukurie natyrore. Hapësira jonë është projektuar me kujdes për të zbehur kufijtë midis luksit të brendshëm dhe qetësisë së natyrës.",
       "description2": "Nga muret tona të gjalla të stolisura me botanikë të zgjedhura me kujdes deri te përbërësit tanë të furnizuar në mënyrë të qëndrueshme, çdo element flet për angazhimin tonë për të krijuar një mjedis ku kujtimet e jashtëzakonshme lulëzojnë natyrshëm.",
       "viewSpace": "Shikoni Hapësirën Tonë",
-      "privateEvents": "Ngjarje Private"
+      "privateEvents": "Ngjarje Private",
+      "stats": {
+        "years": "Vite Përsosmëri"
+      }
     },
     "features": {
       "badge": "Dallimet Tona",
-      "title": "Ajo Që Na Bën të Jashtëzakonshëm",
+      "title": "Çfarë Na Bën të Jashtëzakonshëm",
       "subtitle": "Zbuloni elementet unike që transformojnë çdo vizitë në një udhëtim të paharrueshëm.",
       "naturalAmbiance": {
         "title": "Ambienti Natyror",
@@ -33,23 +37,23 @@
       },
       "artisanalCocktails": {
         "title": "Kokteje Artizanale",
-        "description": "Miksollogët tanë mjeshtër krijojnë kokteje inovative duke përdorur frymë të depërtuara të shtëpisë, bimë të freskëta nga kopshti ynë dhe përbërës organikë të cilësisë më të lartë."
+        "description": "Miksollogët tanë mjeshtër krijojnë kokteje inovative duke përdorur frymë të infuzuara në shtëpi, bimë të freskëta nga kopshti ynë dhe përbërësit më të mirë organikë."
       },
       "curatedEntertainment": {
         "title": "Argëtim i Kuruar",
-        "description": "Shijoni shfaqje të zgjedhura me kujdes, nga sesione akustike intime deri te ansamblet e sofistikuara jazz, duke përmirësuar përvojën tuaj të ngrënies."
+        "description": "Shijoni shfaqje të zgjedhura me kujdes, nga sesione akustike intime deri te ansamblet e sofistikuara të xhazit, duke përmirësuar përvojën tuaj të ngrënies."
       },
       "sustainableCuisine": {
         "title": "Kuzhinë e Qëndrueshme",
-        "description": "Shijoni pjata të krijuara nga përbërës organikë të furnizuar vendas që celebrojnë shijen stinore duke mbështetur praktikat e bujqësisë së qëndrueshme."
+        "description": "Shijoni pjata të krijuara nga përbërës organikë të furnizuar lokalisht që celebrojnë shijen stinore duke mbështetur praktikat e bujqësisë së qëndrueshme."
       },
       "exclusiveEvents": {
         "title": "Ngjarje Ekskluzive",
-        "description": "Organizoni tubimet e paharrueshme në hapësirat tona private të stolisura bukur, të përfunduara me shërbim të personalizuar dhe përvojë kulinare të porositura."
+        "description": "Organizoni mbledhje të paharrueshme në hapësirat tona private të stolisura bukur, të plotësuara me shërbim të personalizuar dhe përvojë kulinare të porositur."
       },
       "personalizedService": {
         "title": "Shërbim i Personalizuar",
-        "description": "Përvojeni mikpritjen e ridefinuar përmes stafit tonë të vëmendshëm që parashikon nevojat tuaja dhe krijon momente lidhje dhe kujdesi të vërtetë."
+        "description": "Përjetoni mikpritjen e ripërcaktuar përmes stafit tonë të vëmendshëm që parashikon nevojat tuaja dhe krijon momente lidhje dhe kujdesi të vërtetë."
       }
     },
     "testimonials": {
@@ -57,127 +61,223 @@
       "title": "Histori nga Mysafirët Tanë",
       "subtitle": "Zbuloni pse mysafirët tanë na konsiderojnë shenjtëroren e tyre të zgjedhur.",
       "testimonial1": {
-        "text": "Një përvojë absolutisht transcendentale. Çdo detaj është i përsosmëruar.",
+        "text": "Një përvojë absolutisht transcendente. Çdo detaj është i përsosmëruar.",
         "author": "Sarah Mitchell",
         "role": "Dizajnere Interiori"
       },
       "testimonial2": {
-        "text": "Vendi perfekt për ngjarjen tonë korporative. Vëmendja ndaj detajeve dhe shërbimi i jashtëzakonshëm e bëri tubimin tonë vërtet të paharrueshëm.",
+        "text": "Vendi perfekt për ngjarjen tonë korporative. Vëmendja ndaj detajeve dhe shërbimi i jashtëzakonshëm e bënë mbledhjen tonë vërtet të paharrueshme.",
         "author": "James Liu",
         "role": "Drejtor Marketingu"
       },
       "testimonial3": {
-        "text": "Një oaz në qytet. Koktejet janë vepra arti dhe atmosfera është thjesht magjepsëse.",
+        "text": "Një oazë në qytet. Koktejet janë vepra arti dhe atmosfera është thjesht magjepsëse.",
         "author": "Maria Rodriguez",
         "role": "Drejtore Kreative"
       }
     },
     "cta": {
-      "title": "Filloni Udhëtimin Tuaj në Lounge",
+      "title": "Filloni Udhëtimin Tuaj",
       "subtitle": "Hyni në një botë ku kuzhinë e jashtëzakonshme, kokteje të punuara me dorë dhe eleganca natyrore bashkohen për të krijuar momente të paharrueshme.",
       "reserveTable": "Rezervoni Tavolinën Tuaj",
       "exploreEvents": "Eksploroni Ngjarjet"
+    },
+    "floating": {
+      "reserve": "Rezervo"
     }
   },
   "menu": {
-    "hero": {
-      "badge": "Përsosmëria Kulinare",
-      "title": "Menyja Jonë",
-      "titleAccent": "e Kuruar",
-      "subtitle": "Zbuloni përzgjedhjen tonë të menduar me kujdes të kuzhinës së qëndrueshme, koktejeve artizanale dhe verërave premium. Çdo pjatë tregon një histori furnizimi lokal, inovacioni kreativ dhe shije të përhershme.",
-      "reserveTable": "Rezervoni Tavolinën Tuaj",
-      "winePairings": "Çiftim Verërash"
-    },
-    "categories": {
-      "all": "Të Gjitha Artikujt",
-      "appetizers": "Aperitivët",
-      "mains": "Pjatat Kryesore",
-      "cocktails": "Koktejet",
-      "wine": "Verëra & Frymë",
-      "desserts": "Ëmbëlsirat"
-    },
-    "appetizersSection": {
-      "title": "Pjata të Vogla & Aperitivë",
-      "subtitle": "Fillesa të krijuara me art që zgjojnë shqisat tuaja dhe vendosin skenën për një përvojë të jashtëzakonshme ngrënieje."
-    },
-    "mainsSection": {
-      "title": "Pjatat Kryesore",
-      "subtitle": "Entrée të përgatitura me mjeshtëri që celebrojnë përbërësit më të mirë stinorë dhe teknikat inovative kulinare."
-    },
-    "cocktailsSection": {
-      "title": "Kokteje Artizanale",
-      "subtitle": "Pije të punuara me dorë që përmbajnë frymë të depërtuara të shtëpisë, bimë të freskëta nga kopshti dhe kombinime inovative shijesh."
-    },
-    "wineSection": {
-      "title": "Verëra & Frymë Premium",
-      "subtitle": "Një koleksion i menduar me kujdes i verërave të jashtëzakonshme dhe frymërave të rralla nga vreshtat dhe distileritë e njohura botërore."
-    },
-    "dessertsSection": {
-      "title": "Përfundime të Ëmbla",
-      "subtitle": "Ëmbëlsira të shkëlqyera të krijuara për të ofruar finalin perfekt të udhëtimit tuaj kulinar."
-    }
+    "badge": "Përsosmëria Kulinare",
+    "title": "Menyja Jonë",
+    "menu": "e Kuruar",
+    "subtitle": "Zbuloni përzgjedhjen tonë të menduar me kujdes të kuzhinës së qëndrueshme, koktejeve artizanale dhe verërave premium.",
+    "reserveTable": "Rezervoni Tavolinën Tuaj",
+    "winePairings": "Çiftimi i Verërave",
+    "all": "Të Gjitha",
+    "appetizers": "Antipaste",
+    "mains": "Pjatat Kryesore",
+    "cocktails": "Koktejet",
+    "wine": "Verërat & Pijet",
+    "desserts": "Ëmbëlsirat",
+    "appetizersSubtitle": "Fillesa të krijuara me art që zgjojnë shqisat tuaja",
+    "mainsSubtitle": "Pjata kryesore të përgatitura me mjeshtëri që celebrojnë përbërësit më të mirë stinorë",
+    "cocktailsSubtitle": "Pije të punuara me dorë me frymë të infuzuara në shtëpi",
+    "wineSubtitle": "Një koleksion i kuruar me kujdes i verërave të jashtëzakonshme",
+    "dessertsSubtitle": "Ëmbëlsira të shkëlqyera të krijuara për të ofruar finalin perfekt",
+    "byGlass": "Me Gotë",
+    "premiumSpirits": "Pije Premium",
+    "ctaTitle": "Gati të Përjetoni Përsosmërinë?",
+    "ctaDescription": "Bashkohuni me ne për një përvojë të paharrueshme ngrënieje",
+    "privateDining": "Darkë Private"
   },
   "events": {
     "hero": {
       "badge": "Raste të Paharrueshme",
-      "title": "Ngjarje",
-      "titleAccent": "të Jashtëzakonshme",
-      "subtitle": "Nga tubimet intime deri te festimet e mëdha, Lounge-i ofron ambientin perfekt për momentet më kuptimplota të jetës. Përvojeni mikpritjen botërore në një atmosferë elegance natyrore.",
-      "planEvent": "Planifikoni Ngjarjen Tuaj",
-      "viewCalendar": "Shikoni Kalendarin"
-    }
-  },
-  "gallery": {
-    "hero": {
-      "badge": "Udhëtim Vizual",
-      "title": "Galeria Jonë",
-      "subtitle": "Hyni në botën tonë përmes këtyre momenteve të kuratuara me kujdes. Zbuloni atmosferën, artistikën dhe përvojat që përcaktojnë Lounge-in.",
-      "bookVisit": "Rezervoni Vizitën Tuaj",
-      "privateEvents": "Ngjarje Private"
+      "title": {
+        "extraordinary": "Ngjarje",
+        "events": "të Jashtëzakonshme"
+      },
+      "description": "Nga mbledhjet intime deri te festimet e mëdha, Lounge-i ynë ofron ambientin perfekt për momentet më domethënëse të jetës.",
+      "buttons": {
+        "plan": "Planifikoni Ngjarjen Tuaj",
+        "calendar": "Shikoni Kalendarin"
+      }
     },
-    "categories": {
-      "all": "Të Gjitha Fotografitë",
-      "interior": "Interiori",
-      "food": "Kuzhinë",
-      "cocktails": "Koktejet",
-      "events": "Ngjarjet"
+    "upcoming": {
+      "badge": "Këtë Muaj",
+      "title": "Ngjarjet e Ardhshme",
+      "subtitle": "Bashkohuni me ne për këto përvoja të veçanta"
+    },
+    "eventTypes": {
+      "badge": "Shërbimet e Ngjarjeve",
+      "title": "Perfekt për Çdo Rast",
+      "subtitle": "Ne e transformojmë vizionin tuaj në realitet"
+    },
+    "privateEvents": {
+      "badge": "Hapësira Ekskluzive",
+      "title": "Organizoni Ngjarjen Tuaj Private",
+      "description": "Ekipi ynë i dedikuar siguron që çdo detaj i ngjarjes tuaj të ekzekutohet pa të meta.",
+      "buttons": {
+        "plan": "Filloni Planifikimin",
+        "brochure": "Shkarkoni Broshurën"
+      }
+    },
+    "venues": {
+      "badge": "Hapësirat Tona",
+      "title": "Ambiente Shumëfunksionale",
+      "subtitle": "Çdo hapësirë ofron ambient dhe mundësi unike"
+    },
+    "cta": {
+      "title": "Le të Krijojmë Diçka të Jashtëzakonshme",
+      "description": "Kontaktoni ekipin tonë të ngjarjeve për të filluar planifikimin e rastit tuaj perfekt",
+      "buttons": {
+        "plan": "Planifikoni Ngjarjen Tuaj",
+        "catering": "Shikoni Menynë e Kateringut"
+      }
     }
   },
   "contact": {
     "hero": {
       "badge": "Kontaktoni",
-      "title": "Lidhuni",
-      "titleAccent": "Me Ne",
-      "subtitle": "Gati të përvojoni përzierjen perfekte të elegancës natyrore dhe mikpritjes së jashtëzakonshme? Na kontaktoni për rezervime, ngjarje private ose çdo pyetje rreth Lounge-it."
+      "title": {
+        "connect": "Lidhuni",
+        "withUs": "Me Ne"
+      },
+      "description": "Gati të përjetoni përzierjen perfekte të elegancës natyrore dhe mikpritjes së jashtëzakonshme? Na kontaktoni për rezervime, ngjarje private ose çdo pyetje."
     },
     "form": {
       "title": "Na Dërgoni një Mesazh",
-      "name": "Emri i Plotë",
-      "email": "Adresa e Email-it",
-      "phone": "Numri i Telefonit",
-      "subject": "Subjekti",
-      "eventType": "Lloji i Ngjarjes",
-      "date": "Data e Preferuar",
-      "guests": "Numri i Mysafirëve",
-      "message": "Mesazhi",
-      "sendMessage": "Dërgo Mesazhin",
-      "required": "*",
+      "fields": {
+        "name": "Emri i Plotë",
+        "email": "Adresa Email",
+        "phone": "Numri i Telefonit",
+        "subject": "Subjekti",
+        "eventType": "Lloji i Ngjarjes",
+        "date": "Data e Preferuar",
+        "guests": "Numri i Mysafirëve",
+        "message": "Mesazhi"
+      },
       "placeholders": {
         "name": "Emri juaj i plotë",
         "email": "email.juaj@shembull.com",
         "phone": "(555) 123-4567",
-        "message": "Na tregoni për pyetjen tuaj, kërkesat e veçanta ose çdo pyetje që mund të keni..."
+        "message": "Na tregoni për pyetjen tuaj...",
+        "guests": "Numri"
+      },
+      "subjects": {
+        "select": "Zgjidhni një Subjekt",
+        "reservation": "Rezervim Tavoline",
+        "privateEvent": "Ngjarje Private",
+        "catering": "Shërbime Kateringu",
+        "corporate": "Rezervim Korporativ",
+        "feedback": "Komente",
+        "general": "Pyetje të Përgjithshme"
+      },
+      "eventTypes": {
+        "select": "Zgjidhni Llojin e Ngjarjes",
+        "birthday": "Festë Ditëlindjeje",
+        "corporate": "Ngjarje Korporative",
+        "wedding": "Pritje Dasme",
+        "networking": "Ngjarje Rrjetëzimi",
+        "holiday": "Festë Pushimesh",
+        "other": "Tjetër"
+      },
+      "submit": "Dërgo Mesazhin",
+      "success": "Mesazhi u dërgua me sukses!"
+    },
+    "info": {
+      "title": "Kontaktoni",
+      "address": {
+        "title": "Adresa",
+        "line1": "Rruga Ullishte 123",
+        "line2": "Qendra e Qytetit",
+        "line3": "Tiranë, Shqipëri"
+      },
+      "phone": {
+        "title": "Telefoni",
+        "number": "+355 69 123 4567",
+        "hours": "E Hënë-E Premte: 9:00-22:00",
+        "subtitle": "Rezervime & Pyetje"
+      },
+      "email": {
+        "title": "Email",
+        "general": "info@thelounge.al",
+        "events": "ngjarje@thelounge.al",
+        "response": "Përgjigjemi brenda 24 orëve"
+      },
+      "social": {
+        "title": "Na Ndiqni"
+      }
+    },
+    "hours": {
+      "title": "Orari i Punës",
+      "days": {
+        "mondayThursday": "E Hënë - E Enjte",
+        "fridaySaturday": "E Premte - E Shtunë",
+        "sunday": "E Diel"
+      },
+      "times": {
+        "weekday": "17:00 - 00:00",
+        "weekend": "17:00 - 02:00",
+        "sunday": "18:00 - 23:00"
+      },
+      "notes": {
+        "holiday": "Orari i Festave: Mund të ndryshojë në raste të veçanta",
+        "kitchen": "Kuzhina: Porositë e fundit 45 minuta para mbylljes",
+        "lastReservation": "Rezervimi i Fundit: 21:00 çdo ditë"
+      }
+    },
+    "location": {
+      "title": "Si të Vini",
+      "map": {
+        "title": "Harta Interaktive",
+        "subtitle": "Klikoni për drejtime"
+      },
+      "parking": {
+        "title": "Parkimi",
+        "description": "Disponohet parkimi me valet. Opsione parkimi në rrugë dhe garazh në afërsi."
+      },
+      "transport": {
+        "title": "Transporti Publik",
+        "description": "5 minuta në këmbë nga Stacioni Qendror. Stacionet e autobusit 12, 34, 56 afër."
+      }
+    },
+    "quickContact": {
+      "title": "Preferoni të Flisni?",
+      "description": "Ekipi ynë është gati t'ju ndihmojë me rezervime dhe pyetje.",
+      "buttons": {
+        "call": "Telefononi Tani",
+        "email": "Na Shkruani"
       }
     }
   },
   "footer": {
-    "title": "Lounge",
-    "subtitle": "Përvojë Ngrënieje Premium",
-    "description": "Përvojeni përzierjen perfekte të sofistikimit dhe komfortit në lounge-in tonë premium. Ku çdo moment bëhet një kujt i çmuar në një atmosferë elegance natyrore.",
+    "title": "The Lounge",
+    "subtitle": "Përvojë Premium Ngrënieje",
+    "description": "Përjetoni përzierjen perfekte të sofistikimit dhe komoditetit në lounge-in tonë premium.",
     "stayConnected": "Qëndroni të Lidhur",
-    "joinNewsletter": "Bashkohuni me newsletter-in tonë",
+    "joinNewsletter": "Bashkohuni me buletinin tonë",
     "newsletter": {
-      "title": "Rezervim i Shpejtë",
       "join": "Bashkohu",
       "welcome": "Mirë se vini në komunitetin tonë!"
     },
@@ -186,12 +286,11 @@
     "visitUs": "Na Vizitoni",
     "address": "Adresa",
     "phone": "Telefoni",
-    "hours": "Orët",
-    "followUs": "Na Ndiqni",
+    "hours": "Orari",
     "reservations": "Rezervimet",
     "privateEvents": "Ngjarje Private",
     "stayUpdated": "Qëndroni të Informuar",
-    "experienceTonight": "Përvojeni Lounge-in Sonte"
+    "experienceTonight": "Përjetoni The Lounge Sonte"
   },
   "common": {
     "loading": "Duke u ngarkuar...",

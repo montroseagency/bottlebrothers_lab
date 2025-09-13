@@ -1,4 +1,4 @@
-// client/src/pages/Home.tsx - TRANSLATED VERSION
+// client/src/pages/Home.tsx - FIXED VERSION
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -66,17 +66,17 @@ const Home: React.FC = () => {
                 className="text-6xl md:text-8xl font-bold mb-6 leading-tight"
                 style={{ transform: `translateY(${scrollY * -0.1}px)` }}
               >
-                <span className="text-white">{t('home.hero.title.welcome')}</span>
+                <span className="text-white">{t('home.hero.welcome')}</span>
                 <br />
                 <span className="bg-gradient-to-r from-green-400 via-green-500 to-emerald-400 bg-clip-text text-transparent animate-pulse">
-                  {t('home.hero.title.lounge')}
+                  {t('home.hero.lounge')}
                 </span>
               </h1>
               <p 
                 className="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed"
                 style={{ transform: `translateY(${scrollY * -0.15}px)` }}
               >
-                {t('home.hero.description')}
+                {t('home.hero.subtitle')}
               </p>
             </div>
             
@@ -85,13 +85,13 @@ const Home: React.FC = () => {
                 className="group bg-transparent border-2 border-green-400 px-8 py-4 rounded-full overflow-hidden hover:shadow-2xl hover:shadow-green-400/25 transition-all duration-500"
               >
                 <Link to="/contact" className="relative z-10 font-semibold text-green-400 group-hover:text-black transition-colors duration-500">
-                  {t('home.hero.buttons.reserve')}
+                  {t('home.hero.reserveExperience')}
                 </Link>
                 <div className="absolute inset-0 bg-green-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
               </MagneticButton>
               
               <MagneticButton className="bg-gradient-to-r from-green-600 to-green-700 text-white px-8 py-4 rounded-full font-semibold hover:from-green-500 hover:to-green-600 transition-all duration-300 shadow-xl hover:shadow-2xl">
-                <Link to="/menu">{t('home.hero.buttons.menu')}</Link>
+                <Link to="/menu">{t('home.hero.discoverMenu')}</Link>
               </MagneticButton>
             </div>
           </div>
@@ -114,25 +114,25 @@ const Home: React.FC = () => {
             <div>
               <div className="mb-6">
                 <span className="inline-block bg-green-400/20 text-green-300 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide backdrop-blur-sm">
-                  {t('about badge')}
+                  {t('home.about.badge')}
                 </span>
               </div>
               <h2 className="text-4xl font-bold text-white mb-6">
-                {t('about title')}
+                {t('home.about.title')}
               </h2>
               <p className="text-lg text-gray-300 mb-6 leading-relaxed">
-                {t('about description1')}
+                {t('home.about.description1')}
               </p>
               <p className="text-lg text-gray-300 mb-8 leading-relaxed">
-                {t('about description2')}
+                {t('home.about.description2')}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4">
                 <MagneticButton className="bg-green-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-500 transition-all duration-300 shadow-lg">
-                  <Link to="/gallery">{t('about buttons.viewSpace')}</Link>
+                  <Link to="/gallery">{t('home.about.viewSpace')}</Link>
                 </MagneticButton>
                 <MagneticButton className="border border-green-400 text-green-400 px-6 py-3 rounded-full font-semibold hover:bg-green-400/10 transition-all duration-300">
-                  <Link to="/events">{t('about buttons.privateEvents')}</Link>
+                  <Link to="/events">{t('home.about.privateEvents')}</Link>
                 </MagneticButton>
               </div>
             </div>
@@ -161,45 +161,45 @@ const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide mb-4">
-              {t('featuresbadge')}
+              {t('home.features.badge')}
             </span>
             <h2 className="text-4xl font-bold text-gray-800 mb-4">
-              {t('features.title')}
+              {t('home.features.title')}
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              {t('features subtitle')}
+              {t('home.features.subtitle')}
             </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
               {
-                icon: "",
+                icon: "🌿",
                 titleKey: "naturalAmbiance",
                 descriptionKey: "naturalAmbiance"
               },
               {
-                icon: "",
+                icon: "🍸",
                 titleKey: "artisanalCocktails",
                 descriptionKey: "artisanalCocktails"
               },
               {
-                icon: "",
+                icon: "🎵",
                 titleKey: "curatedEntertainment",
                 descriptionKey: "curatedEntertainment"
               },
               {
-                icon: "",
+                icon: "🍃",
                 titleKey: "sustainableCuisine",
                 descriptionKey: "sustainableCuisine"
               },
               {
-                icon: "",
+                icon: "🎉",
                 titleKey: "exclusiveEvents",
                 descriptionKey: "exclusiveEvents"
               },
               {
-                icon: "",
+                icon: "⭐",
                 titleKey: "personalizedService",
                 descriptionKey: "personalizedService"
               }
@@ -213,10 +213,10 @@ const Home: React.FC = () => {
                     {feature.icon}
                   </div>
                   <h3 className="text-xl font-bold text-gray-800 mb-4">
-                    {t(`features.items.${feature.titleKey}.title`)}
+                    {t(`home.features.${feature.titleKey}.title`)}
                   </h3>
                   <p className="text-gray-600 leading-relaxed">
-                    {t(`${feature.descriptionKey}`)}
+                    {t(`home.features.${feature.descriptionKey}.description`)}
                   </p>
                 </div>
               </GlassmorphicCard>
@@ -232,18 +232,18 @@ const Home: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-16">
             <span className="inline-block bg-green-400/20 text-green-300 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide backdrop-blur-sm mb-4">
-              {t('testimonialsbadge')}
+              {t('home.testimonials.badge')}
             </span>
             <h2 className="text-4xl font-bold text-white mb-4">
-              {t('testimonials title')}
+              {t('home.testimonials.title')}
             </h2>
             <p className="text-xl text-gray-300">
-              {t('testimonials subtitle')}
+              {t('home.testimonials.subtitle')}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {['sarah', 'james', 'maria'].map((testimonialKey, index) => (
+            {['testimonial1', 'testimonial2', 'testimonial3'].map((testimonialKey, index) => (
               <GlassmorphicCard key={index} className="p-8">
                 <div className="flex items-center mb-6">
                   <div className="flex text-yellow-400">
@@ -255,20 +255,20 @@ const Home: React.FC = () => {
                   </div>
                 </div>
                 <p className="text-gray-200 mb-6 italic text-lg">
-                  "{t(`${testimonialKey}`)}"
+                  "{t(`home.testimonials.${testimonialKey}.text`)}"
                 </p>
                 <div className="flex items-center">
                   <div className="w-12 h-12 bg-green-400 rounded-full flex items-center justify-center mr-4">
                     <span className="text-black font-semibold">
-                      {t(`${testimonialKey}`).split(' ').map(n => n[0]).join('')}
+                      {t(`home.testimonials.${testimonialKey}.author`).split(' ').map(n => n[0]).join('')}
                     </span>
                   </div>
                   <div>
                     <p className="text-white font-semibold">
-                      {t(`${testimonialKey}`)}
+                      {t(`home.testimonials.${testimonialKey}.author`)}
                     </p>
                     <p className="text-green-300 text-sm">
-                      {t(`${testimonialKey}`)}
+                      {t(`home.testimonials.${testimonialKey}.role`)}
                     </p>
                   </div>
                 </div>
@@ -285,18 +285,18 @@ const Home: React.FC = () => {
         
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-            {t('cta title')}
+            {t('home.cta.title')}
           </h2>
           <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto leading-relaxed">
-            {t('description')}
+            {t('home.cta.subtitle')}
           </p>
           
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <MagneticButton className="bg-white text-green-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-stone-100 transition-all duration-300 shadow-xl hover:shadow-2xl">
-              <Link to="/contact">{t('reserve')}</Link>
+              <Link to="/contact">{t('home.cta.reserveTable')}</Link>
             </MagneticButton>
             <MagneticButton className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-green-800 transition-all duration-300">
-              <Link to="/events">{t('events')}</Link>
+              <Link to="/events">{t('home.cta.exploreEvents')}</Link>
             </MagneticButton>
           </div>
         </div>
