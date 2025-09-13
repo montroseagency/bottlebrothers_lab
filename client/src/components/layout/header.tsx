@@ -1,15 +1,17 @@
-// client/src/components/layout/header.tsx - ENHANCED VERSION WITH i18n
-import React, { useState, useEffect } from 'react';
+// client/src/components/layout/header.tsx - FIXED PROFESSIONAL RESPONSIVE VERSION
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { MagneticButton } from '../ui/MagneticButton';
 
 export const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
   const location = useLocation();
   const { t, i18n } = useTranslation();
+  const languageDropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,35 +24,58 @@ export const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (languageDropdownRef.current && !languageDropdownRef.current.contains(event.target as Node)) {
+        setIsLanguageDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   // Helper function to check if current route is active
   const isActive = (path: string) => location.pathname === path;
 
   // Close mobile menu when clicking on a link
   const handleMobileMenuClose = () => {
     setIsMenuOpen(false);
+    setIsLanguageDropdownOpen(false);
   };
 
   // Language change handler
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
-    handleMobileMenuClose();
+    setIsLanguageDropdownOpen(false);
+    if (isMenuOpen) handleMobileMenuClose();
+  };
+
+  // Get current language info
+  const getCurrentLanguage = () => {
+    const currentLang = i18n.language;
+    const languages = {
+      en: { flag: '🇺🇸', name: 'English', code: 'EN' },
+      sq: { flag: '🇦🇱', name: 'Shqip', code: 'SQ' }
+    };
+    return languages[currentLang as keyof typeof languages] || languages.en;
   };
 
   const Logo = () => (
     <Link to="/" onClick={handleMobileMenuClose} className="group">
       <div className="flex items-center space-x-3 transform transition-all duration-300 group-hover:scale-105">
-        <div className="relative w-12 h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:shadow-green-400/25 transition-all duration-300">
-          <svg className="w-7 h-7 text-white transform transition-transform duration-300 group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div className="relative w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:shadow-green-400/25 transition-all duration-300">
+          <svg className="w-5 h-5 sm:w-7 sm:h-7 text-white transform transition-transform duration-300 group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
           </svg>
-          {/* Glow effect */}
-          <div className="absolute inset-0 bg-gradient-to-br from-green-300 to-green-500 rounded-2xl blur opacity-0 group-hover:opacity-30 transition-opacity duration-300 animate-pulse" />
+          <div className="absolute inset-0 bg-gradient-to-br from-green-300 to-green-500 rounded-2xl blur opacity-0 group-hover:opacity-30 transition-opacity duration-300" />
         </div>
         <div>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-white to-green-100 bg-clip-text text-transparent group-hover:from-green-300 group-hover:to-white transition-all duration-300">
+          <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-white to-green-100 bg-clip-text text-transparent group-hover:from-green-300 group-hover:to-white transition-all duration-300">
             Demo
           </h1>
-          <p className="text-xs text-green-300 font-medium uppercase tracking-wider">{t('nav.lounge')}</p>
+          <p className="text-xs text-green-300 font-medium uppercase tracking-wider hidden sm:block">{t('nav.lounge')}</p>
         </div>
       </div>
     </Link>
@@ -59,23 +84,23 @@ export const Header: React.FC = () => {
   const NavigationItem = ({ to, children, isMobile = false }: { to: string; children: React.ReactNode; isMobile?: boolean }) => (
     <Link 
       to={to} 
-      className={`relative px-4 py-3 text-sm font-medium transition-all duration-300 rounded-xl group ${
+      className={`relative transition-all duration-300 rounded-lg group ${
         isMobile 
-          ? 'block w-full text-left' 
-          : 'inline-block'
+          ? 'block w-full text-left px-3 py-2 text-sm hover:scale-[1.02]' 
+          : 'inline-block px-4 py-3 text-sm rounded-xl'
       } ${
         isActive(to) 
-          ? 'text-white bg-gradient-to-r from-green-600 to-green-700 shadow-lg shadow-green-600/25' 
+          ? 'text-white bg-gradient-to-r from-green-600 to-green-700 shadow-md' 
           : 'text-stone-200 hover:text-white'
       }`}
       onClick={isMobile ? handleMobileMenuClose : undefined}
     >
-      <span className="relative z-10">{children}</span>
+      <span className="relative z-10 font-medium">{children}</span>
       
       {!isActive(to) && (
         <>
-          <div className="absolute inset-0 bg-gradient-to-r from-green-600/10 to-green-700/10 rounded-xl opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-          <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-green-500 rounded-xl opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur" />
+          <div className={`absolute inset-0 bg-gradient-to-r from-green-600/10 to-green-700/10 ${isMobile ? 'rounded-lg' : 'rounded-xl'} opacity-0 group-hover:opacity-100 transition-opacity duration-300`} />
+          <div className={`absolute inset-0 bg-gradient-to-r from-green-400 to-green-500 ${isMobile ? 'rounded-lg' : 'rounded-xl'} opacity-0 group-hover:opacity-20 transition-opacity duration-300 blur`} />
         </>
       )}
       
@@ -86,40 +111,103 @@ export const Header: React.FC = () => {
     </Link>
   );
 
-  const LanguageToggle = ({ isMobile = false }: { isMobile?: boolean }) => (
-    <div className={`flex items-center space-x-2 ${isMobile ? 'justify-center mt-4' : ''}`}>
-      <MagneticButton
-        onClick={() => changeLanguage('en')}
-        className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center space-x-1 ${
-          i18n.language === 'en'
-            ? 'bg-green-600 text-white shadow-lg'
-            : 'bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm border border-white/10'
-        }`}
-      >
-        <span className="text-lg">🇺🇸</span>
-        <span>EN</span>
-      </MagneticButton>
-      
-      <MagneticButton
-        onClick={() => changeLanguage('sq')}
-        className={`px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 flex items-center space-x-1 ${
-          i18n.language === 'sq'
-            ? 'bg-green-600 text-white shadow-lg'
-            : 'bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm border border-white/10'
-        }`}
-      >
-        <span className="text-lg">🇦🇱</span>
-        <span>SQ</span>
-      </MagneticButton>
-    </div>
-  );
+  const LanguageDropdown = ({ isMobile = false }: { isMobile?: boolean }) => {
+    const currentLang = getCurrentLanguage();
+    const languages = [
+      { code: 'en', flag: '🇺🇸', name: 'English', shortName: 'EN' },
+      { code: 'sq', flag: '🇦🇱', name: 'Shqip', shortName: 'SQ' }
+    ];
+
+    if (isMobile) {
+      // Mobile: Show as compact toggle buttons
+      return (
+        <div className="w-full">
+          <div className="text-xs text-white/70 mb-2 text-center font-medium">Language</div>
+          <div className="flex space-x-2">
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                onClick={() => changeLanguage(lang.code)}
+                className={`flex-1 flex items-center justify-center space-x-1 px-3 py-2 rounded-lg text-xs font-medium transition-all duration-300 ${
+                  i18n.language === lang.code
+                    ? 'bg-green-600 text-white shadow-md scale-105'
+                    : 'bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm border border-white/10 hover:scale-105'
+                }`}
+              >
+                <span className="text-sm">{lang.flag}</span>
+                <span className="font-semibold">{lang.shortName}</span>
+                {i18n.language === lang.code && (
+                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                  </svg>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    // Desktop: Show as dropdown
+    return (
+      <div className="relative" ref={languageDropdownRef}>
+        <button
+          onClick={() => setIsLanguageDropdownOpen(!isLanguageDropdownOpen)}
+          className="flex items-center space-x-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-300 bg-white/10 text-white hover:bg-white/20 backdrop-blur-sm border border-white/10"
+          aria-expanded={isLanguageDropdownOpen}
+          aria-haspopup="true"
+        >
+          <span className="text-base">{currentLang.flag}</span>
+          <span>{currentLang.code}</span>
+          <svg 
+            className={`w-4 h-4 transition-transform duration-200 ${isLanguageDropdownOpen ? 'rotate-180' : ''}`}
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+          </svg>
+        </button>
+
+        {/* Desktop Dropdown Menu */}
+        {isLanguageDropdownOpen && (
+          <div className="absolute right-0 top-full mt-2 bg-white/95 backdrop-blur-lg rounded-xl shadow-xl border border-green-200/20 overflow-hidden z-50 min-w-[140px]">
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                onClick={() => changeLanguage(lang.code)}
+                className={`w-full flex items-center space-x-3 px-4 py-3 text-sm transition-all duration-200 ${
+                  i18n.language === lang.code
+                    ? 'bg-green-600 text-white'
+                    : 'text-gray-800 hover:bg-green-50 hover:text-green-800'
+                }`}
+              >
+                <span className="text-lg">{lang.flag}</span>
+                <div className="flex flex-col items-start">
+                  <span className="font-medium">{lang.shortName}</span>
+                  <span className="text-xs opacity-75">{lang.name}</span>
+                </div>
+                {i18n.language === lang.code && (
+                  <div className="ml-auto">
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  };
 
   const ReservationButton = ({ isMobile = false }) => (
-    <MagneticButton className={`group relative bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-2xl shadow-xl hover:shadow-2xl hover:shadow-green-500/25 transition-all duration-300 overflow-hidden ${
-      isMobile ? 'w-full py-4 px-6' : 'px-8 py-3'
+    <MagneticButton className={`group relative bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:shadow-green-500/25 transition-all duration-300 overflow-hidden ${
+      isMobile ? 'w-full py-2.5 px-4 text-sm' : 'px-6 py-2.5 text-sm'
     }`}>
       <Link to="/contact" onClick={isMobile ? handleMobileMenuClose : undefined} className="relative z-10 flex items-center justify-center space-x-2">
-        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>
         <span>{t('nav.reserveTable')}</span>
@@ -135,9 +223,13 @@ export const Header: React.FC = () => {
 
   const MobileMenuToggle = () => (
     <button
-      onClick={() => setIsMenuOpen(!isMenuOpen)}
-      className="md:hidden relative p-3 text-stone-200 hover:text-white transition-colors focus:outline-none group"
+      onClick={() => {
+        setIsMenuOpen(!isMenuOpen);
+        setIsLanguageDropdownOpen(false);
+      }}
+      className="md:hidden relative p-2 text-stone-200 hover:text-white transition-colors focus:outline-none group"
       aria-label="Toggle mobile menu"
+      aria-expanded={isMenuOpen}
     >
       <div className="w-6 h-6 flex flex-col justify-center items-center">
         <span className={`block h-0.5 w-6 bg-current transform transition-all duration-300 ${isMenuOpen ? 'rotate-45 translate-y-0.5' : ''}`} />
@@ -158,7 +250,7 @@ export const Header: React.FC = () => {
           : 'bg-gradient-to-r from-green-900/80 to-green-800/60 backdrop-blur-lg'
       }`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-20">
+          <div className="flex justify-between items-center h-16 sm:h-20">
             {/* Logo */}
             <div className="flex items-center">
               <div 
@@ -179,50 +271,71 @@ export const Header: React.FC = () => {
             </nav>
 
             {/* Right side items */}
-            <div className="flex items-center space-x-4">
-              {/* Language Toggle - Desktop */}
+            <div className="flex items-center space-x-3">
+              {/* Language Dropdown - Desktop */}
               <div className="hidden md:block">
-                <LanguageToggle />
+                <LanguageDropdown />
               </div>
               
+              {/* Reservation Button - Desktop */}
               <div className="hidden md:block">
                 <ReservationButton />
               </div>
 
+              {/* Mobile Menu Toggle */}
               <MobileMenuToggle />
             </div>
           </div>
-
-          {/* Mobile Navigation */}
-          <div className={`md:hidden overflow-hidden transition-all duration-500 ease-in-out ${
-            isMenuOpen ? 'max-h-96 opacity-100 pb-6' : 'max-h-0 opacity-0'
-          }`}>
-            <div className="pt-4 border-t border-green-600/20">
-              <div className="space-y-2">
-                <NavigationItem to="/" isMobile>{t('nav.home')}</NavigationItem>
-                <NavigationItem to="/menu" isMobile>{t('nav.menu')}</NavigationItem>
-                <NavigationItem to="/events" isMobile>{t('nav.events')}</NavigationItem>
-                <NavigationItem to="/gallery" isMobile>{t('nav.gallery')}</NavigationItem>
-                <NavigationItem to="/contact" isMobile>{t('nav.contact')}</NavigationItem>
-              </div>
-              
-              <div className="mt-6">
-                <ReservationButton isMobile />
-              </div>
-              
-              {/* Language Toggle - Mobile */}
-              <LanguageToggle isMobile />
-              
-              {/* Social links */}
-              <div className="flex justify-center space-x-4 mt-6 pt-4 border-t border-green-600/20">
-                {['twitter', 'instagram', 'facebook'].map((social) => (
+        </div>
+        
+        {/* Mobile Navigation - INSIDE HEADER FOR PROPER CONTAINMENT */}
+        <div className={`md:hidden transition-all duration-300 ease-in-out ${
+          isMenuOpen 
+            ? 'max-h-80 opacity-100 visible overflow-y-auto' 
+            : 'max-h-0 opacity-0 invisible overflow-hidden'
+        }`}>
+          <div className={`px-4 sm:px-6 lg:px-8 py-3 space-y-3 ${
+            isScrolled 
+              ? 'bg-black/95' 
+              : 'bg-gradient-to-r from-green-900/95 to-green-800/90'
+          } backdrop-blur-xl border-t border-green-600/20`}>
+            
+            {/* Navigation Links */}
+            <div className="space-y-1">
+              <NavigationItem to="/" isMobile>{t('nav.home')}</NavigationItem>
+              <NavigationItem to="/menu" isMobile>{t('nav.menu')}</NavigationItem>
+              <NavigationItem to="/events" isMobile>{t('nav.events')}</NavigationItem>
+              <NavigationItem to="/gallery" isMobile>{t('nav.gallery')}</NavigationItem>
+              <NavigationItem to="/contact" isMobile>{t('nav.contact')}</NavigationItem>
+            </div>
+            
+            {/* Language Selector - Mobile */}
+            <div>
+              <LanguageDropdown isMobile />
+            </div>
+            
+            {/* Reservation Button */}
+            <div>
+              <ReservationButton isMobile />
+            </div>
+            
+            {/* Social Links */}
+            <div className="pt-2 border-t border-green-600/20">
+              <div className="text-xs text-white/60 mb-2 text-center font-medium">Follow Us</div>
+              <div className="flex justify-center space-x-3">
+                {[
+                  { name: 'twitter', icon: 'M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.827 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z' },
+                  { name: 'instagram', icon: 'M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z' },
+                  { name: 'facebook', icon: 'M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z' }
+                ].map((social) => (
                   <a
-                    key={social}
+                    key={social.name}
                     href="#"
-                    className="w-10 h-10 bg-green-600/20 rounded-full flex items-center justify-center text-green-400 hover:bg-green-600/30 hover:text-green-300 transition-colors"
+                    className="w-7 h-7 bg-green-600/20 rounded-full flex items-center justify-center text-green-400 hover:bg-green-600/30 hover:text-green-300 transition-all duration-300 hover:scale-110 border border-green-500/20"
+                    aria-label={`Follow us on ${social.name}`}
                   >
-                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                    <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
+                      <path d={social.icon} />
                     </svg>
                   </a>
                 ))}
@@ -235,8 +348,8 @@ export const Header: React.FC = () => {
       {/* Mobile menu backdrop */}
       {isMenuOpen && (
         <div 
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm z-40 md:hidden"
-          onClick={() => setIsMenuOpen(false)}
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 md:hidden"
+          onClick={handleMobileMenuClose}
         />
       )}
     </>

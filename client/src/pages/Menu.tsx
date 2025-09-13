@@ -1,4 +1,4 @@
-// src/pages/Menu.tsx
+// src/pages/Menu.tsx - PROFESSIONAL RESPONSIVE VERSION
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -18,28 +18,28 @@ const Menu: React.FC = () => {
 
   return (
     <div className="bg-stone-50 min-h-screen">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-stone-100 to-stone-200 py-20 lg:py-32 overflow-hidden">
+      {/* Hero Section - Mobile First */}
+      <section className="relative bg-gradient-to-br from-stone-100 to-stone-200 py-16 sm:py-20 lg:py-32 xl:py-40 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-green-900/10 to-green-800/5"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide mb-6">
+          <div className="text-center max-w-5xl mx-auto">
+            <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide mb-4 sm:mb-6">
               {t('menu.badge')}
             </span>
-            <h1 className="text-5xl md:text-7xl font-bold text-gray-800 mb-6 leading-tight">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-800 mb-4 sm:mb-6 leading-tight">
               {t('menu.title')}
               <span className="block text-green-800">{t('menu.menu')}</span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-700 mb-8 max-w-4xl mx-auto leading-relaxed">
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-700 mb-8 sm:mb-10 max-w-4xl mx-auto leading-relaxed px-4 sm:px-0">
               {t('menu.subtitle')}
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center px-4 sm:px-0">
               <Link to="/contact">
-                <button className="bg-green-800 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-green-900 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-2">
+                <button className="w-full sm:w-auto bg-green-800 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-green-900 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-2">
                   {t('menu.reserveTable')}
                 </button>
               </Link>
-              <button className="border-2 border-green-800 text-green-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-green-800 hover:text-white transition-all duration-300">
+              <button className="w-full sm:w-auto border-2 border-green-800 text-green-800 px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-green-800 hover:text-white transition-all duration-300">
                 {t('menu.winePairings')}
               </button>
             </div>
@@ -47,267 +47,185 @@ const Menu: React.FC = () => {
         </div>
       </section>
 
-      {/* Menu Categories */}
-      <section className="py-8 bg-white sticky top-20 z-40 shadow-md">
+      {/* Menu Categories - Enhanced Sticky Navigation */}
+      <section className="py-4 sm:py-6 lg:py-8 bg-white sticky top-16 sm:top-20 z-40 shadow-md border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-wrap justify-center gap-4">
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-3 lg:gap-4">
             {categories.map((category) => (
               <button
                 key={category.id}
                 onClick={() => setActiveCategory(category.id)}
-                className={`px-6 py-3 rounded-full text-sm font-medium transition-all duration-300 flex items-center space-x-2 ${
+                className={`px-4 sm:px-6 py-2 sm:py-3 rounded-full text-sm font-medium transition-all duration-300 flex items-center space-x-1 sm:space-x-2 ${
                   activeCategory === category.id
                     ? 'bg-green-800 text-white shadow-lg scale-105'
                     : 'bg-stone-100 text-green-800 hover:bg-green-100 hover:scale-105'
                 }`}
               >
-                <span>{category.icon}</span>
-                <span>{category.name}</span>
+                <span className="text-base sm:text-lg">{category.icon}</span>
+                <span className="hidden sm:inline">{category.name}</span>
               </button>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Appetizers Section */}
-      <section className={`py-20 bg-stone-50 ${activeCategory !== 'all' && activeCategory !== 'appetizers' ? 'hidden' : ''}`}>
+      {/* Appetizers Section - Enhanced Responsive Cards */}
+      <section className={`py-16 sm:py-20 lg:py-24 bg-stone-50 ${activeCategory !== 'all' && activeCategory !== 'appetizers' ? 'hidden' : ''}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">{t('appetizers')}</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <div className="text-center mb-12 sm:mb-16 max-w-3xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 sm:mb-6">{t('appetizers')}</h2>
+            <p className="text-lg sm:text-xl text-gray-600 leading-relaxed">
               {t('appetizersSubtitle')}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
-              <div className="aspect-w-16 aspect-h-9">
-                <img 
-                  src="https://images.unsplash.com/photo-1551782450-17144efb9c50?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                  alt="Truffle Arancini"
-                  className="w-full h-48 object-cover"
-                />
-              </div>
-              <div className="p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-800 mb-2">Truffle Arancini</h3>
-                    <p className="text-gray-600 text-sm leading-relaxed">
-                      Crispy risotto spheres infused with black truffle, served with roasted garlic aioli and fresh microgreens
-                    </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+            {[
+              {
+                name: "Truffle Arancini",
+                description: "Crispy risotto spheres infused with black truffle, served with roasted garlic aioli and fresh microgreens",
+                price: "$18",
+                image: "https://images.unsplash.com/photo-1551782450-17144efb9c50?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                tags: ["Vegetarian", "Chef's Signature"]
+              },
+              {
+                name: "Seared Sea Scallops",
+                description: "Pan-seared diver scallops with cauliflower purée, crispy pancetta, and aged balsamic reduction",
+                price: "$24",
+                image: "https://images.unsplash.com/photo-1563379091139-54f4eb468ced?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                tags: ["Gluten Free", "Sustainable Sourced"]
+              },
+              {
+                name: "Artisanal Charcuterie",
+                description: "Curated selection of house-cured meats, artisanal cheeses, seasonal preserves, and toasted sourdough",
+                price: "$32",
+                image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                tags: ["House Made", "Serves 2-3 people"]
+              },
+              {
+                name: "Yellowfin Tuna Tartare",
+                description: "Fresh yellowfin tuna with avocado mousse, cucumber pearls, sesame glass, and citrus ponzu",
+                price: "$21",
+                image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                tags: ["Fresh Daily", "Sashimi Grade"]
+              }
+            ].map((item, index) => (
+              <div key={index} className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
+                <div className="aspect-w-16 aspect-h-9">
+                  <img 
+                    src={item.image}
+                    alt={item.name}
+                    className="w-full h-40 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <div className="p-4 sm:p-6 space-y-4">
+                  <div className="flex justify-between items-start">
+                    <div className="flex-1 pr-4">
+                      <h3 className="text-lg sm:text-xl font-bold text-gray-800 group-hover:text-green-800 transition-colors duration-300 mb-2">{item.name}</h3>
+                      <p className="text-gray-600 text-sm leading-relaxed">
+                        {item.description}
+                      </p>
+                    </div>
+                    <span className="text-green-800 font-bold text-lg sm:text-xl flex-shrink-0">{item.price}</span>
                   </div>
-                  <span className="text-green-800 font-bold text-lg ml-4">$18</span>
-                </div>
-                <div className="flex items-center text-sm">
-                  <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full mr-2">Vegetarian</span>
-                  <span className="text-yellow-500">⭐ Chef's Signature</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
-              <div className="aspect-w-16 aspect-h-9">
-                <img 
-                  src="https://images.unsplash.com/photo-1563379091139-54f4eb468ced?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                  alt="Seared Scallops"
-                  className="w-full h-48 object-cover"
-                />
-              </div>
-              <div className="p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-800 mb-2">Seared Sea Scallops</h3>
-                    <p className="text-gray-600 text-sm leading-relaxed">
-                      Pan-seared diver scallops with cauliflower purée, crispy pancetta, and aged balsamic reduction
-                    </p>
+                  <div className="flex flex-wrap gap-2">
+                    {item.tags.map((tag, tagIndex) => (
+                      <span key={tagIndex} className="bg-green-100 text-green-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm">
+                        {tag}
+                      </span>
+                    ))}
                   </div>
-                  <span className="text-green-800 font-bold text-lg ml-4">$24</span>
-                </div>
-                <div className="flex items-center text-sm">
-                  <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full mr-2">Gluten Free</span>
-                  <span className="text-gray-500">Sustainable Sourced</span>
                 </div>
               </div>
-            </div>
-
-            <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
-              <div className="aspect-w-16 aspect-h-9">
-                <img 
-                  src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                  alt="Artisanal Charcuterie"
-                  className="w-full h-48 object-cover"
-                />
-              </div>
-              <div className="p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-800 mb-2">Artisanal Charcuterie</h3>
-                    <p className="text-gray-600 text-sm leading-relaxed">
-                      Curated selection of house-cured meats, artisanal cheeses, seasonal preserves, and toasted sourdough
-                    </p>
-                  </div>
-                  <span className="text-green-800 font-bold text-lg ml-4">$32</span>
-                </div>
-                <div className="flex items-center text-sm">
-                  <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full mr-2">House Made</span>
-                  <span className="text-gray-500">Serves 2-3 people</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
-              <div className="aspect-w-16 aspect-h-9">
-                <img 
-                  src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                  alt="Tuna Tartare"
-                  className="w-full h-48 object-cover"
-                />
-              </div>
-              <div className="p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-800 mb-2">Yellowfin Tuna Tartare</h3>
-                    <p className="text-gray-600 text-sm leading-relaxed">
-                      Fresh yellowfin tuna with avocado mousse, cucumber pearls, sesame glass, and citrus ponzu
-                    </p>
-                  </div>
-                  <span className="text-green-800 font-bold text-lg ml-4">$21</span>
-                </div>
-                <div className="flex items-center text-sm">
-                  <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full mr-2">Fresh Daily</span>
-                  <span className="text-gray-500">Sashimi Grade</span>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Main Courses Section */}
-      <section className={`py-20 bg-white ${activeCategory !== 'all' && activeCategory !== 'mains' ? 'hidden' : ''}`}>
+      {/* Main Courses Section - Enhanced Layout */}
+      <section className={`py-16 sm:py-20 lg:py-24 bg-white ${activeCategory !== 'all' && activeCategory !== 'mains' ? 'hidden' : ''}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">{t('mains')}</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <div className="text-center mb-12 sm:mb-16 max-w-3xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 sm:mb-6">{t('mains')}</h2>
+            <p className="text-lg sm:text-xl text-gray-600 leading-relaxed">
               {t('mainsSubtitle')}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <div className="bg-stone-50 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-stone-200">
-              <div className="aspect-w-16 aspect-h-9">
-                <img 
-                  src="https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                  alt="Wagyu Beef"
-                  className="w-full h-48 object-cover"
-                />
-              </div>
-              <div className="p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-800 mb-2">Wagyu Beef Tenderloin</h3>
-                    <p className="text-gray-600 text-sm leading-relaxed">
-                      8oz A5 wagyu with roasted bone marrow, heritage vegetables, and burgundy wine reduction
-                    </p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
+            {[
+              {
+                name: "Wagyu Beef Tenderloin",
+                description: "8oz A5 wagyu with roasted bone marrow, heritage vegetables, and burgundy wine reduction",
+                price: "$68",
+                image: "https://images.unsplash.com/photo-1546833999-b9f581a1996d?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                tags: ["Premium", "🏆 Signature Experience"]
+              },
+              {
+                name: "Wild Atlantic Salmon",
+                description: "Cedar plank salmon with quinoa tabbouleh, roasted asparagus, and lemon herb butter",
+                price: "$34",
+                image: "https://images.unsplash.com/photo-1467003909585-2f8a72700288?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                tags: ["Omega-3 Rich", "Wild Caught"]
+              },
+              {
+                name: "Herb-Crusted Rack of Lamb",
+                description: "New Zealand lamb with rosemary crust, ratatouille terrine, fondant potato, and mint chimichurri",
+                price: "$44",
+                image: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                tags: ["Grass Fed", "Free Range"]
+              },
+              {
+                name: "Maine Lobster Ravioli",
+                description: "House-made pasta filled with Maine lobster in saffron cream sauce with fresh summer herbs",
+                price: "$39",
+                image: "https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+                tags: ["House Made", "Fresh Pasta"]
+              }
+            ].map((item, index) => (
+              <div key={index} className="group bg-stone-50 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-stone-200">
+                <div className="aspect-w-16 aspect-h-9">
+                  <img 
+                    src={item.image}
+                    alt={item.name}
+                    className="w-full h-40 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                </div>
+                <div className="p-4 sm:p-6 space-y-4">
+                  <div className="flex justify-between items-start">
+                    <div className="flex-1 pr-4">
+                      <h3 className="text-lg sm:text-xl font-bold text-gray-800 group-hover:text-green-800 transition-colors duration-300 mb-2">{item.name}</h3>
+                      <p className="text-gray-600 text-sm leading-relaxed">
+                        {item.description}
+                      </p>
+                    </div>
+                    <span className="text-green-800 font-bold text-lg sm:text-xl flex-shrink-0">{item.price}</span>
                   </div>
-                  <span className="text-green-800 font-bold text-lg ml-4">$68</span>
-                </div>
-                <div className="flex items-center text-sm">
-                  <span className="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full mr-2">Premium</span>
-                  <span className="text-yellow-500">🏆 Signature Experience</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-stone-50 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-stone-200">
-              <div className="aspect-w-16 aspect-h-9">
-                <img 
-                  src="https://images.unsplash.com/photo-1467003909585-2f8a72700288?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                  alt="Atlantic Salmon"
-                  className="w-full h-48 object-cover"
-                />
-              </div>
-              <div className="p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-800 mb-2">Wild Atlantic Salmon</h3>
-                    <p className="text-gray-600 text-sm leading-relaxed">
-                      Cedar plank salmon with quinoa tabbouleh, roasted asparagus, and lemon herb butter
-                    </p>
+                  <div className="flex flex-wrap gap-2">
+                    {item.tags.map((tag, tagIndex) => (
+                      <span key={tagIndex} className="bg-green-100 text-green-800 px-2 sm:px-3 py-1 rounded-full text-xs sm:text-sm">
+                        {tag}
+                      </span>
+                    ))}
                   </div>
-                  <span className="text-green-800 font-bold text-lg ml-4">$34</span>
-                </div>
-                <div className="flex items-center text-sm">
-                  <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full mr-2">Omega-3 Rich</span>
-                  <span className="text-gray-500">Wild Caught</span>
                 </div>
               </div>
-            </div>
-
-            <div className="bg-stone-50 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-stone-200">
-              <div className="aspect-w-16 aspect-h-9">
-                <img 
-                  src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                  alt="Rack of Lamb"
-                  className="w-full h-48 object-cover"
-                />
-              </div>
-              <div className="p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-800 mb-2">Herb-Crusted Rack of Lamb</h3>
-                    <p className="text-gray-600 text-sm leading-relaxed">
-                      New Zealand lamb with rosemary crust, ratatouille terrine, fondant potato, and mint chimichurri
-                    </p>
-                  </div>
-                  <span className="text-green-800 font-bold text-lg ml-4">$44</span>
-                </div>
-                <div className="flex items-center text-sm">
-                  <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full mr-2">Grass Fed</span>
-                  <span className="text-gray-500">Free Range</span>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-stone-50 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-stone-200">
-              <div className="aspect-w-16 aspect-h-9">
-                <img 
-                  src="https://images.unsplash.com/photo-1621996346565-e3dbc353d2e5?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" 
-                  alt="Lobster Ravioli"
-                  className="w-full h-48 object-cover"
-                />
-              </div>
-              <div className="p-6">
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h3 className="text-xl font-bold text-gray-800 mb-2">Maine Lobster Ravioli</h3>
-                    <p className="text-gray-600 text-sm leading-relaxed">
-                      House-made pasta filled with Maine lobster in saffron cream sauce with fresh summer herbs
-                    </p>
-                  </div>
-                  <span className="text-green-800 font-bold text-lg ml-4">$39</span>
-                </div>
-                <div className="flex items-center text-sm">
-                  <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full mr-2">House Made</span>
-                  <span className="text-gray-500">Fresh Pasta</span>
-                </div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Cocktails Section */}
-      <section className={`py-20 bg-stone-50 ${activeCategory !== 'all' && activeCategory !== 'cocktails' ? 'hidden' : ''}`}>
+      {/* Cocktails Section - Enhanced Grid */}
+      <section className={`py-16 sm:py-20 lg:py-24 bg-stone-50 ${activeCategory !== 'all' && activeCategory !== 'cocktails' ? 'hidden' : ''}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">{t('cocktails')}</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <div className="text-center mb-12 sm:mb-16 max-w-3xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 sm:mb-6">{t('cocktails')}</h2>
+            <p className="text-lg sm:text-xl text-gray-600 leading-relaxed">
               {t('cocktailsSubtitle')}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {[
               {
                 name: "Garden Smash",
@@ -352,24 +270,24 @@ const Menu: React.FC = () => {
                 icon: "🌶️"
               }
             ].map((cocktail, index) => (
-              <div key={index} className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
+              <div key={index} className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
                 <div className="aspect-w-16 aspect-h-9">
                   <img 
                     src={cocktail.image}
                     alt={cocktail.name}
-                    className="w-full h-48 object-cover"
+                    className="w-full h-40 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
-                <div className="p-6">
-                  <div className="text-center">
-                    <div className="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <span className="text-2xl">{cocktail.icon}</span>
+                <div className="p-4 sm:p-6 space-y-4">
+                  <div className="text-center space-y-3">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-green-100 rounded-full flex items-center justify-center mx-auto group-hover:bg-green-200 transition-colors duration-300">
+                      <span className="text-xl sm:text-2xl transform group-hover:scale-110 transition-transform duration-300">{cocktail.icon}</span>
                     </div>
-                    <h3 className="text-lg font-bold text-gray-800 mb-3">{cocktail.name}</h3>
-                    <p className="text-gray-600 text-sm mb-4 leading-relaxed">
+                    <h3 className="text-base sm:text-lg font-bold text-gray-800 group-hover:text-green-800 transition-colors duration-300">{cocktail.name}</h3>
+                    <p className="text-gray-600 text-xs sm:text-sm leading-relaxed">
                       {cocktail.description}
                     </p>
-                    <span className="text-green-800 font-bold text-xl">{cocktail.price}</span>
+                    <span className="text-green-800 font-bold text-lg sm:text-xl">{cocktail.price}</span>
                   </div>
                 </div>
               </div>
@@ -378,21 +296,22 @@ const Menu: React.FC = () => {
         </div>
       </section>
 
-      {/* Wine & Spirits Section */}
-      <section className={`py-20 bg-white ${activeCategory !== 'all' && activeCategory !== 'wine' ? 'hidden' : ''}`}>
+      {/* Wine & Spirits Section - Enhanced Two-Column Layout */}
+      <section className={`py-16 sm:py-20 lg:py-24 bg-white ${activeCategory !== 'all' && activeCategory !== 'wine' ? 'hidden' : ''}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">{t('wine')}</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <div className="text-center mb-12 sm:mb-16 max-w-3xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 sm:mb-6">{t('wine')}</h2>
+            <p className="text-lg sm:text-xl text-gray-600 leading-relaxed">
               {t('wineSubtitle')}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-16">
+            
             {/* Wine by Glass */}
-            <div className="bg-stone-50 rounded-2xl p-8 border border-stone-200">
-              <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center">{t('byGlass')}</h3>
-              <div className="space-y-6">
+            <div className="bg-stone-50 rounded-2xl p-6 sm:p-8 border border-stone-200">
+              <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 sm:mb-8 text-center">{t('byGlass')}</h3>
+              <div className="space-y-4 sm:space-y-6">
                 {[
                   {
                     name: "Domaine de la Côte Chardonnay",
@@ -419,14 +338,14 @@ const Menu: React.FC = () => {
                     description: "Elegant bubbles with toasted brioche"
                   }
                 ].map((wine, index) => (
-                  <div key={index} className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow border border-stone-100">
-                    <div className="flex justify-between items-start">
+                  <div key={index} className="bg-white rounded-xl p-4 sm:p-6 shadow-md hover:shadow-lg transition-shadow border border-stone-100">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start space-y-2 sm:space-y-0">
                       <div className="flex-1">
-                        <h4 className="font-bold text-gray-800 mb-1">{wine.name}</h4>
-                        <p className="text-sm text-gray-600 mb-2">{wine.region}</p>
+                        <h4 className="font-bold text-gray-800 text-sm sm:text-base mb-1">{wine.name}</h4>
+                        <p className="text-xs sm:text-sm text-gray-600 mb-1 sm:mb-2">{wine.region}</p>
                         <p className="text-xs text-gray-500">{wine.description}</p>
                       </div>
-                      <span className="text-green-800 font-bold text-lg ml-4">{wine.price}</span>
+                      <span className="text-green-800 font-bold text-base sm:text-lg self-start sm:ml-4">{wine.price}</span>
                     </div>
                   </div>
                 ))}
@@ -434,9 +353,9 @@ const Menu: React.FC = () => {
             </div>
 
             {/* Premium Spirits */}
-            <div className="bg-stone-50 rounded-2xl p-8 border border-stone-200">
-              <h3 className="text-2xl font-bold text-gray-800 mb-8 text-center">{t('premiumSpirits')}</h3>
-              <div className="space-y-6">
+            <div className="bg-stone-50 rounded-2xl p-6 sm:p-8 border border-stone-200">
+              <h3 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-6 sm:mb-8 text-center">{t('premiumSpirits')}</h3>
+              <div className="space-y-4 sm:space-y-6">
                 {[
                   {
                     name: "Macallan 25 Year",
@@ -463,14 +382,14 @@ const Menu: React.FC = () => {
                     description: "Exceptionally smooth and pure"
                   }
                 ].map((spirit, index) => (
-                  <div key={index} className="bg-white rounded-xl p-6 shadow-md hover:shadow-lg transition-shadow border border-stone-100">
-                    <div className="flex justify-between items-start">
+                  <div key={index} className="bg-white rounded-xl p-4 sm:p-6 shadow-md hover:shadow-lg transition-shadow border border-stone-100">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start space-y-2 sm:space-y-0">
                       <div className="flex-1">
-                        <h4 className="font-bold text-gray-800 mb-1">{spirit.name}</h4>
-                        <p className="text-sm text-gray-600 mb-2">{spirit.type}</p>
+                        <h4 className="font-bold text-gray-800 text-sm sm:text-base mb-1">{spirit.name}</h4>
+                        <p className="text-xs sm:text-sm text-gray-600 mb-1 sm:mb-2">{spirit.type}</p>
                         <p className="text-xs text-gray-500">{spirit.description}</p>
                       </div>
-                      <span className="text-green-800 font-bold text-lg ml-4">{spirit.price}</span>
+                      <span className="text-green-800 font-bold text-base sm:text-lg self-start sm:ml-4">{spirit.price}</span>
                     </div>
                   </div>
                 ))}
@@ -480,17 +399,17 @@ const Menu: React.FC = () => {
         </div>
       </section>
 
-      {/* Desserts Section */}
-      <section className={`py-20 bg-stone-50 ${activeCategory !== 'all' && activeCategory !== 'desserts' ? 'hidden' : ''}`}>
+      {/* Desserts Section - Enhanced Card Layout */}
+      <section className={`py-16 sm:py-20 lg:py-24 bg-stone-50 ${activeCategory !== 'all' && activeCategory !== 'desserts' ? 'hidden' : ''}`}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">{t('desserts')}</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <div className="text-center mb-12 sm:mb-16 max-w-3xl mx-auto">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 sm:mb-6">{t('desserts')}</h2>
+            <p className="text-lg sm:text-xl text-gray-600 leading-relaxed">
               {t('dessertsSubtitle')}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
             {[
               {
                 name: "Dark Chocolate Soufflé",
@@ -521,27 +440,25 @@ const Menu: React.FC = () => {
                 tag: "Classic"
               }
             ].map((dessert, index) => (
-              <div key={index} className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
+              <div key={index} className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden">
                 <div className="aspect-w-16 aspect-h-9">
                   <img 
                     src={dessert.image}
                     alt={dessert.name}
-                    className="w-full h-48 object-cover"
+                    className="w-full h-40 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <h3 className="text-xl font-bold text-gray-800 mb-2">{dessert.name}</h3>
+                <div className="p-4 sm:p-6 space-y-4">
+                  <div className="flex justify-between items-start">
+                    <div className="flex-1 pr-4">
+                      <h3 className="text-lg sm:text-xl font-bold text-gray-800 group-hover:text-green-800 transition-colors duration-300 mb-2">{dessert.name}</h3>
                       <p className="text-gray-600 text-sm leading-relaxed">
                         {dessert.description}
                       </p>
                     </div>
-                    <span className="text-green-800 font-bold text-lg ml-4">{dessert.price}</span>
+                    <span className="text-green-800 font-bold text-lg sm:text-xl flex-shrink-0">{dessert.price}</span>
                   </div>
-                  <div className="flex items-center text-sm">
-                    <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full">{dessert.tag}</span>
-                  </div>
+                  <span className="inline-block bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs sm:text-sm">{dessert.tag}</span>
                 </div>
               </div>
             ))}
@@ -549,23 +466,23 @@ const Menu: React.FC = () => {
         </div>
       </section>
 
-      {/* Call to Action */}
-      <section className="py-20 bg-gradient-to-r from-green-800 to-green-700">
+      {/* Call to Action - Enhanced Responsive */}
+      <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-r from-green-800 to-green-700">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl font-bold text-white mb-6">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 sm:mb-6">
             {t('ctaTitle')}
           </h2>
-          <p className="text-xl text-green-100 mb-8 max-w-2xl mx-auto">
+          <p className="text-lg sm:text-xl text-green-100 mb-8 sm:mb-10 max-w-2xl mx-auto leading-relaxed">
             {t('ctaDescription')}
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
             <Link to="/contact">
-              <button className="bg-white text-green-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-stone-100 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
+              <button className="w-full sm:w-auto bg-white text-green-800 px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-stone-100 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
                 {t('reserve')}
               </button>
             </Link>
             <Link to="/events">
-              <button className="border-2 border-white text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-white hover:text-green-800 transition-all duration-300">
+              <button className="w-full sm:w-auto border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-white hover:text-green-800 transition-all duration-300">
                 {t('privateDining')}
               </button>
             </Link>
