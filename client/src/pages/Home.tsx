@@ -1,4 +1,4 @@
-// client/src/pages/Home.tsx - FIXED VERSION
+// client/src/pages/Home.tsx - LIGHT THEME VERSION
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -32,7 +32,7 @@ const Home: React.FC = () => {
   const MorphingBackground = () => (
     <div className="absolute inset-0 overflow-hidden">
       <div 
-        className="absolute w-96 h-96 bg-gradient-to-br from-green-400/20 to-green-600/20 rounded-full blur-3xl"
+        className="absolute w-96 h-96 bg-gradient-to-br from-green-400/10 to-green-600/10 rounded-full blur-3xl"
         style={{
           left: `${20 + mousePosition.x * 0.1}%`,
           top: `${10 + mousePosition.y * 0.1}%`,
@@ -41,7 +41,7 @@ const Home: React.FC = () => {
         }}
       />
       <div 
-        className="absolute w-64 h-64 bg-gradient-to-br from-amber-400/15 to-orange-500/15 rounded-full blur-2xl"
+        className="absolute w-64 h-64 bg-gradient-to-br from-green-300/8 to-green-500/8 rounded-full blur-2xl"
         style={{
           right: `${15 + mousePosition.y * 0.05}%`,
           bottom: `${20 + mousePosition.x * 0.05}%`,
@@ -55,9 +55,9 @@ const Home: React.FC = () => {
   return (
     <div className="bg-stone-50 min-h-screen">
       {/* Enhanced Hero Section */}
-      <section className="relative bg-gradient-to-br from-black via-stone-900 to-green-900 py-20 lg:py-32 overflow-hidden">
+      <section className="relative bg-gradient-to-br from-stone-100 to-stone-200 py-20 lg:py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-green-900/10 to-green-800/5"></div>
         <MorphingBackground />
-        <ParticleField particleCount={30} color="bg-green-300" />
         
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
           <div className="text-center">
@@ -66,14 +66,14 @@ const Home: React.FC = () => {
                 className="text-6xl md:text-8xl font-bold mb-6 leading-tight"
                 style={{ transform: `translateY(${scrollY * -0.1}px)` }}
               >
-                <span className="text-white">{t('home.hero.welcome')}</span>
+                <span className="text-gray-800">{t('home.hero.welcome')}</span>
                 <br />
-                <span className="bg-gradient-to-r from-green-400 via-green-500 to-emerald-400 bg-clip-text text-transparent animate-pulse">
+                <span className="bg-gradient-to-r from-green-600 via-green-700 to-green-800 bg-clip-text text-transparent">
                   {t('home.hero.lounge')}
                 </span>
               </h1>
               <p 
-                className="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed"
+                className="text-xl md:text-2xl text-gray-700 mb-8 max-w-4xl mx-auto leading-relaxed"
                 style={{ transform: `translateY(${scrollY * -0.15}px)` }}
               >
                 {t('home.hero.subtitle')}
@@ -81,16 +81,11 @@ const Home: React.FC = () => {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <MagneticButton 
-                className="group bg-transparent border-2 border-green-400 px-8 py-4 rounded-full overflow-hidden hover:shadow-2xl hover:shadow-green-400/25 transition-all duration-500"
-              >
-                <Link to="/contact" className="relative z-10 font-semibold text-green-400 group-hover:text-black transition-colors duration-500">
-                  {t('home.hero.reserveExperience')}
-                </Link>
-                <div className="absolute inset-0 bg-green-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+              <MagneticButton className="bg-green-800 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-green-900 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-2">
+                <Link to="/contact">{t('home.hero.reserveExperience')}</Link>
               </MagneticButton>
               
-              <MagneticButton className="bg-gradient-to-r from-green-600 to-green-700 text-white px-8 py-4 rounded-full font-semibold hover:from-green-500 hover:to-green-600 transition-all duration-300 shadow-xl hover:shadow-2xl">
+              <MagneticButton className="border-2 border-green-800 text-green-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-green-800 hover:text-white transition-all duration-300">
                 <Link to="/menu">{t('home.hero.discoverMenu')}</Link>
               </MagneticButton>
             </div>
@@ -99,65 +94,63 @@ const Home: React.FC = () => {
 
         {/* Scroll Indicator */}
         <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <div className="w-6 h-10 border-2 border-green-400 rounded-full flex justify-center">
-            <div className="w-1 h-3 bg-green-400 rounded-full mt-2 animate-pulse" />
+          <div className="w-6 h-10 border-2 border-green-600 rounded-full flex justify-center">
+            <div className="w-1 h-3 bg-green-600 rounded-full mt-2 animate-pulse" />
           </div>
         </div>
       </section>
 
-      {/* About Section with Glassmorphism */}
-      <section className="py-20 bg-gradient-to-br from-stone-900 via-green-900/20 to-black relative overflow-hidden">
-        <ParticleField particleCount={15} color="bg-green-400" />
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      {/* About Section */}
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
               <div className="mb-6">
-                <span className="inline-block bg-green-400/20 text-green-300 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide backdrop-blur-sm">
+                <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide">
                   {t('home.about.badge')}
                 </span>
               </div>
-              <h2 className="text-4xl font-bold text-white mb-6">
+              <h2 className="text-4xl font-bold text-gray-800 mb-6">
                 {t('home.about.title')}
               </h2>
-              <p className="text-lg text-gray-300 mb-6 leading-relaxed">
+              <p className="text-lg text-gray-600 mb-6 leading-relaxed">
                 {t('home.about.description1')}
               </p>
-              <p className="text-lg text-gray-300 mb-8 leading-relaxed">
+              <p className="text-lg text-gray-600 mb-8 leading-relaxed">
                 {t('home.about.description2')}
               </p>
               
               <div className="flex flex-col sm:flex-row gap-4">
-                <MagneticButton className="bg-green-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-500 transition-all duration-300 shadow-lg">
+                <MagneticButton className="bg-green-800 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-900 transition-all duration-300 shadow-lg">
                   <Link to="/gallery">{t('home.about.viewSpace')}</Link>
                 </MagneticButton>
-                <MagneticButton className="border border-green-400 text-green-400 px-6 py-3 rounded-full font-semibold hover:bg-green-400/10 transition-all duration-300">
+                <MagneticButton className="border border-green-800 text-green-800 px-6 py-3 rounded-full font-semibold hover:bg-green-50 transition-all duration-300">
                   <Link to="/events">{t('home.about.privateEvents')}</Link>
                 </MagneticButton>
               </div>
             </div>
             
             <div className="relative">
-              <GlassmorphicCard className="overflow-hidden">
+              <div className="bg-white rounded-2xl shadow-lg overflow-hidden border border-stone-200">
                 <img 
                   src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" 
                   alt="Lounge Interior"
                   className="w-full h-96 object-cover"
                 />
-                <div className="absolute bottom-4 right-4 bg-green-600/90 text-white p-4 rounded-xl backdrop-blur-sm">
+                <div className="absolute bottom-4 right-4 bg-green-800 text-white p-4 rounded-xl shadow-lg">
                   <div className="text-center">
                     <div className="text-2xl font-bold">5+</div>
                     <div className="text-sm opacity-90">{t('home.about.stats.years')}</div>
                   </div>
                 </div>
-              </GlassmorphicCard>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Enhanced Features Section */}
-      <section className="py-20 bg-gradient-to-br from-stone-50 to-stone-100">
+      <section className="py-20 bg-stone-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide mb-4">
@@ -204,9 +197,9 @@ const Home: React.FC = () => {
                 descriptionKey: "personalizedService"
               }
             ].map((feature, index) => (
-              <GlassmorphicCard
+              <div
                 key={index}
-                className="p-8 bg-white/80 backdrop-blur-sm hover:bg-white/90 transition-all duration-500"
+                className="p-8 bg-white rounded-2xl shadow-lg hover:shadow-xl transition-all duration-500 transform hover:-translate-y-2 border border-stone-200"
               >
                 <div className="text-center">
                   <div className="text-4xl mb-4 transform hover:scale-125 transition-transform duration-300">
@@ -219,32 +212,30 @@ const Home: React.FC = () => {
                     {t(`home.features.${feature.descriptionKey}.description`)}
                   </p>
                 </div>
-              </GlassmorphicCard>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
       {/* Enhanced Testimonials */}
-      <section className="py-20 bg-gradient-to-br from-green-900 to-black relative overflow-hidden">
-        <ParticleField particleCount={20} color="bg-green-300" />
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <section className="py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <span className="inline-block bg-green-400/20 text-green-300 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide backdrop-blur-sm mb-4">
+            <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide mb-4">
               {t('home.testimonials.badge')}
             </span>
-            <h2 className="text-4xl font-bold text-white mb-4">
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">
               {t('home.testimonials.title')}
             </h2>
-            <p className="text-xl text-gray-300">
+            <p className="text-xl text-gray-600">
               {t('home.testimonials.subtitle')}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {['testimonial1', 'testimonial2', 'testimonial3'].map((testimonialKey, index) => (
-              <GlassmorphicCard key={index} className="p-8">
+              <div key={index} className="p-8 bg-stone-50 rounded-2xl shadow-lg border border-stone-200 hover:shadow-xl transition-all duration-300">
                 <div className="flex items-center mb-6">
                   <div className="flex text-yellow-400">
                     {[...Array(5)].map((_, i) => (
@@ -254,25 +245,25 @@ const Home: React.FC = () => {
                     ))}
                   </div>
                 </div>
-                <p className="text-gray-200 mb-6 italic text-lg">
+                <p className="text-gray-700 mb-6 italic text-lg">
                   "{t(`home.testimonials.${testimonialKey}.text`)}"
                 </p>
                 <div className="flex items-center">
-                  <div className="w-12 h-12 bg-green-400 rounded-full flex items-center justify-center mr-4">
-                    <span className="text-black font-semibold">
+                  <div className="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center mr-4">
+                    <span className="text-white font-semibold">
                       {t(`home.testimonials.${testimonialKey}.author`).split(' ').map(n => n[0]).join('')}
                     </span>
                   </div>
                   <div>
-                    <p className="text-white font-semibold">
+                    <p className="text-gray-800 font-semibold">
                       {t(`home.testimonials.${testimonialKey}.author`)}
                     </p>
-                    <p className="text-green-300 text-sm">
+                    <p className="text-green-600 text-sm">
                       {t(`home.testimonials.${testimonialKey}.role`)}
                     </p>
                   </div>
                 </div>
-              </GlassmorphicCard>
+              </div>
             ))}
           </div>
         </div>
@@ -281,7 +272,6 @@ const Home: React.FC = () => {
       {/* Enhanced Call to Action */}
       <section className="py-20 bg-gradient-to-r from-green-800 to-green-700 relative overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
-        <ParticleField particleCount={25} color="bg-green-300" />
         
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">

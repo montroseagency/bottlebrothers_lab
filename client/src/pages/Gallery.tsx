@@ -1,4 +1,4 @@
-// client/src/pages/Gallery.tsx - ENHANCED VERSION
+// client/src/pages/Gallery.tsx - LIGHT THEME VERSION
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { PremiumHero } from '../components/ui/PremiumHero';
@@ -140,7 +140,7 @@ const Gallery: React.FC = () => {
       <div
         data-index={index}
         data-gallery-item
-        className={`group relative overflow-hidden rounded-2xl cursor-pointer transform transition-all duration-700 hover:scale-[1.02] hover:z-10 ${getSizeClasses()} ${
+        className={`group relative overflow-hidden rounded-2xl cursor-pointer transform transition-all duration-700 hover:scale-[1.02] hover:z-10 shadow-lg hover:shadow-2xl ${getSizeClasses()} ${
           visibleItems.has(index) ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
         }`}
         onClick={() => setLightboxImage(image.src)}
@@ -206,7 +206,7 @@ const Gallery: React.FC = () => {
   };
 
   return (
-    <div className="bg-black min-h-screen">
+    <div className="bg-stone-50 min-h-screen">
       <ScrollProgressBar 
         position="top" 
         style="animated" 
@@ -214,26 +214,39 @@ const Gallery: React.FC = () => {
         sections={['Gallery', 'Categories', 'Highlights']} 
       />
       
-      {/* Premium Hero */}
-      <PremiumHero
-        subtitle="Visual Journey"
-        title="Our Gallery"
-        description="Step into our world through these carefully curated moments. Discover the ambiance, artistry, and experiences that define Lounge."
-        primaryButton={{
-          text: "Book Your Visit",
-          link: "/contact"
-        }}
-        secondaryButton={{
-          text: "Private Events",
-          link: "/events"
-        }}
-        backgroundImage="https://images.unsplash.com/photo-1578662996442-48f60103fc96?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
-        overlay="gradient"
-        style="center"
-      />
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-br from-stone-100 to-stone-200 py-20 lg:py-32 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-green-900/10 to-green-800/5"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center">
+            <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide mb-6">
+              Visual Journey
+            </span>
+            <h1 className="text-5xl md:text-7xl font-bold text-gray-800 mb-6 leading-tight">
+              Our
+              <span className="block text-green-800">Gallery</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-700 mb-8 max-w-4xl mx-auto leading-relaxed">
+              Step into our world through these carefully curated moments. Discover the ambiance, artistry, and experiences that define Lounge.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link to="/contact">
+                <button className="bg-green-800 text-white px-8 py-4 rounded-full text-lg font-semibold hover:bg-green-900 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-2">
+                  Book Your Visit
+                </button>
+              </Link>
+              <Link to="/events">
+                <button className="border-2 border-green-800 text-green-800 px-8 py-4 rounded-full text-lg font-semibold hover:bg-green-800 hover:text-white transition-all duration-300">
+                  Private Events
+                </button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/* Enhanced Category Filters */}
-      <section className="py-8 bg-black/80 backdrop-blur-md sticky top-20 z-40 border-b border-green-600/20">
+      <section className="py-8 bg-white sticky top-20 z-40 border-b border-stone-200 shadow-md">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-4">
             {categories.map((category) => (
@@ -242,19 +255,21 @@ const Gallery: React.FC = () => {
                 onClick={() => setSelectedCategory(category.id)}
                 className={`group relative px-8 py-4 rounded-2xl text-sm font-medium transition-all duration-300 overflow-hidden ${
                   selectedCategory === category.id
-                    ? 'bg-green-600 text-white shadow-2xl shadow-green-600/25 scale-105'
-                    : 'bg-white/10 text-white hover:bg-white/20 hover:scale-105 backdrop-blur-sm border border-white/10'
+                    ? 'bg-green-800 text-white shadow-lg scale-105'
+                    : 'bg-stone-100 text-gray-700 hover:bg-green-50 hover:text-green-800 hover:scale-105 border border-stone-200'
                 }`}
               >
                 <span className="relative z-10 flex items-center space-x-2">
                   <span>{category.name}</span>
-                  <span className="bg-white/20 px-2 py-0.5 rounded-full text-xs">
+                  <span className={`px-2 py-0.5 rounded-full text-xs ${
+                    selectedCategory === category.id ? 'bg-white/20' : 'bg-green-100 text-green-700'
+                  }`}>
                     {category.count}
                   </span>
                 </span>
                 
                 {selectedCategory !== category.id && (
-                  <div className="absolute inset-0 bg-gradient-to-r from-green-600/20 to-green-400/20 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-green-600/10 to-green-400/10 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
                 )}
               </MagneticButton>
             ))}
@@ -263,10 +278,8 @@ const Gallery: React.FC = () => {
       </section>
 
       {/* Masonry Gallery Grid */}
-      <section className="py-20 bg-gradient-to-br from-black via-stone-900 to-green-900/20 relative overflow-hidden">
-        <ParticleField particleCount={30} color="bg-green-400" />
-        
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 bg-white relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 auto-rows-max">
             {filteredImages.map((image, index) => (
               <ImageCard key={`${selectedCategory}-${image.id}`} image={image} index={index} />
@@ -276,64 +289,65 @@ const Gallery: React.FC = () => {
           {filteredImages.length === 0 && (
             <div className="text-center py-20">
               <div className="text-6xl mb-4">🖼️</div>
-              <h3 className="text-2xl font-bold text-white mb-2">No images in this category</h3>
-              <p className="text-gray-400">Try selecting a different category to explore our gallery.</p>
+              <h3 className="text-2xl font-bold text-gray-800 mb-2">No images in this category</h3>
+              <p className="text-gray-600">Try selecting a different category to explore our gallery.</p>
             </div>
           )}
         </div>
       </section>
 
       {/* Gallery Stats */}
-      <section className="py-20 bg-black relative overflow-hidden">
-        <ParticleField particleCount={20} color="bg-green-300" />
-        
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">
+      <section className="py-12 sm:py-16 lg:py-20 bg-stone-50 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12 sm:mb-16">
+            <span className="inline-block bg-green-100 text-green-800 px-3 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wide mb-3 sm:mb-4">
+              Our Spaces
+            </span>
+            <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-800 mb-3 sm:mb-4">
               Experience Our Spaces
             </h2>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <p className="text-base sm:text-lg lg:text-xl text-gray-600 max-w-3xl mx-auto px-4">
               Each corner of Lounge has been designed to create memorable moments and foster meaningful connections.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
             {[
               {
-                icon: <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2-2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>,
+                icon: <svg className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2-2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" /></svg>,
                 title: "Interior Design",
                 description: "Biophilic design elements blend seamlessly with modern luxury, creating an atmosphere that's both sophisticated and naturally calming.",
                 stat: "25+",
                 statLabel: "Design Elements"
               },
               {
-                icon: <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>,
+                icon: <svg className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>,
                 title: "Culinary Art",
                 description: "Our dishes are crafted not just for taste, but as visual masterpieces that celebrate the beauty of natural ingredients.",
                 stat: "50+",
                 statLabel: "Signature Dishes"
               },
               {
-                icon: <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>,
+                icon: <svg className="w-6 h-6 sm:w-7 sm:h-7 lg:w-8 lg:h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>,
                 title: "Private Events",
                 description: "From intimate celebrations to corporate gatherings, our flexible spaces transform to match your vision perfectly.",
                 stat: "120",
                 statLabel: "Max Capacity"
               }
             ].map((item, index) => (
-              <GlassmorphicCard key={index} className="p-8 text-center bg-white/5 hover:bg-white/10 group">
-                <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-green-600 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
+              <div key={index} className="p-6 sm:p-8 text-center bg-white rounded-xl sm:rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-stone-200">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-green-600 to-green-700 rounded-xl sm:rounded-2xl flex items-center justify-center mx-auto mb-4 sm:mb-6 group-hover:scale-110 transition-transform duration-300 shadow-lg">
                   {item.icon}
                 </div>
-                <h3 className="text-xl font-bold text-white mb-4">{item.title}</h3>
-                <p className="text-gray-300 leading-relaxed mb-6 text-sm">
+                <h3 className="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-4">{item.title}</h3>
+                <p className="text-gray-600 leading-relaxed mb-4 sm:mb-6 text-xs sm:text-sm">
                   {item.description}
                 </p>
-                <div className="border-t border-white/10 pt-4">
-                  <div className="text-3xl font-bold text-green-400 mb-1">{item.stat}</div>
-                  <div className="text-xs text-gray-400 uppercase tracking-wide">{item.statLabel}</div>
+                <div className="border-t border-stone-200 pt-3 sm:pt-4">
+                  <div className="text-2xl sm:text-3xl font-bold text-green-600 mb-1">{item.stat}</div>
+                  <div className="text-xs text-gray-500 uppercase tracking-wide">{item.statLabel}</div>
                 </div>
-              </GlassmorphicCard>
+              </div>
             ))}
           </div>
         </div>
@@ -342,7 +356,6 @@ const Gallery: React.FC = () => {
       {/* Call to Action */}
       <section className="py-20 bg-gradient-to-r from-green-800 to-green-700 relative overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
-        <ParticleField particleCount={25} color="bg-green-300" />
         
         <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
