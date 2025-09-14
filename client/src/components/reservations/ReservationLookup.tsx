@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { apiClient, Reservation } from '../../services/api';
+import type { Reservation } from '../../services/api'; 
+import { apiClient } from '../../services/api';
 
 export const ReservationLookup: React.FC = () => {
   const { t } = useTranslation();

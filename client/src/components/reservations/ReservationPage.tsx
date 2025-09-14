@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { ReservationForm } from '../components/reservations/ReservationForm';
-import { ReservationSuccess } from '../components/reservations/ReservationSuccess';
-import { ReservationLookup } from '../components/reservations/ReservationLookup';
-import { Reservation } from '../services/api';
+import  { ReservationForm } from './ReservationForm';
+import { ReservationSuccess } from './ReservationSuccess';
+import { ReservationLookup } from './ReservationLookup';
+import type { Reservation } from '../../services/api';
 
 export const ReservationPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'new' | 'lookup'>('new');

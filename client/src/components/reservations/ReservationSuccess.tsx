@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Reservation } from '../../services/api';
+import type { Reservation } from '../../services/api';
 
 interface ReservationSuccessProps {
   reservation: Reservation;
