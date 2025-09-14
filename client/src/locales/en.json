@@ -156,6 +156,99 @@
       }
     }
   },
+  "gallery": {
+    "hero": {
+      "badge": "Visual Journey",
+      "title": {
+        "our": "Our",
+        "gallery": "Gallery"
+      },
+      "subtitle": "Step into our world through these carefully curated moments. Discover the ambiance, artistry, and experiences that define Lounge.",
+      "buttons": {
+        "bookVisit": "Book Your Visit",
+        "privateEvents": "Private Events"
+      }
+    },
+    "categories": {
+      "all": "All Photos",
+      "interior": "Interior",
+      "food": "Cuisine",
+      "cocktails": "Cocktails",
+      "events": "Events"
+    },
+    "images": {
+      "mainDining": {
+        "title": "Main Dining Area",
+        "description": "Our signature dining space with living walls"
+      },
+      "truffleArancini": {
+        "title": "Truffle Arancini",
+        "description": "Crispy risotto spheres with black truffle"
+      },
+      "gardenSmash": {
+        "title": "Garden Smash Cocktail",
+        "description": "Hendrick's gin with fresh garden herbs"
+      },
+      "privateDining": {
+        "title": "Private Dining Room",
+        "description": "Intimate space for special occasions"
+      },
+      "wildSalmon": {
+        "title": "Wild Atlantic Salmon",
+        "description": "Cedar plank salmon with seasonal vegetables"
+      },
+      "smokyOldFashioned": {
+        "title": "Smoky Old Fashioned",
+        "description": "Rye whiskey with applewood smoke"
+      },
+      "corporateEvent": {
+        "title": "Corporate Event",
+        "description": "Professional gatherings with style"
+      },
+      "charcuterie": {
+        "title": "Artisanal Charcuterie",
+        "description": "Curated selection of house-cured meats"
+      }
+    },
+    "stats": {
+      "badge": "Our Spaces",
+      "title": "Experience Our Spaces",
+      "subtitle": "Each corner of Lounge has been designed to create memorable moments and foster meaningful connections.",
+      "interiorDesign": {
+        "title": "Interior Design",
+        "description": "Biophilic design elements blend seamlessly with modern luxury, creating an atmosphere that's both sophisticated and naturally calming.",
+        "stat": "25+",
+        "statLabel": "Design Elements"
+      },
+      "culinaryArt": {
+        "title": "Culinary Art",
+        "description": "Our dishes are crafted not just for taste, but as visual masterpieces that celebrate the beauty of natural ingredients.",
+        "stat": "50+",
+        "statLabel": "Signature Dishes"
+      },
+      "privateEvents": {
+        "title": "Private Events",
+        "description": "From intimate celebrations to corporate gatherings, our flexible spaces transform to match your vision perfectly.",
+        "stat": "120",
+        "statLabel": "Max Capacity"
+      }
+    },
+    "cta": {
+      "title": "Ready to Create Your Own Memories?",
+      "subtitle": "Join us at Lounge and become part of our story. Every visit creates new moments worth capturing.",
+      "buttons": {
+        "makeReservation": "Make a Reservation",
+        "viewMenu": "View Our Menu"
+      }
+    },
+    "lightbox": {
+      "close": "Close"
+    },
+    "noImages": {
+      "title": "No images in this category",
+      "subtitle": "Try selecting a different category to explore our gallery."
+    }
+  },
   "contact": {
     "hero": {
       "badge": "Get In Touch",

@@ -1,6 +1,6 @@
 {
   "nav": {
-    "home": "Ballina",
+    "home": "Faqja Kryesore",
     "menu": "Menyja",
     "events": "Ngjarjet",
     "gallery": "Galeria",
@@ -11,7 +11,7 @@
   "home": {
     "hero": {
       "welcome": "Mirë se vini në",
-      "lounge": "The Lounge",
+      "lounge": " Lounge",
       "subtitle": "Ku eleganca e natyrës takon ushqimin e sofistikuar. Përjetoni më të mirën në kuzhinë, kokteje dhe atmosferë në një mjedis që celebron harmoninë e luksit dhe bukurisë natyrore.",
       "reserveExperience": "Rezervoni Përvojën Tuaj",
       "discoverMenu": "Zbuloni Menynë Tonë"
@@ -154,6 +154,99 @@
         "plan": "Planifikoni Ngjarjen Tuaj",
         "catering": "Shikoni Menynë e Kateringut"
       }
+    }
+  },
+  "gallery": {
+    "hero": {
+      "badge": "Udhëtim Vizual",
+      "title": {
+        "our": "Galeria",
+        "gallery": "Jonë"
+      },
+      "subtitle": "Hyni në botën tonë përmes këtyre momenteve të kuruara me kujdes. Zbuloni ambijentin, artizanatin dhe përvojat që e përkufizojnë Lounge-in.",
+      "buttons": {
+        "bookVisit": "Rezervoni Vizitën Tuaj",
+        "privateEvents": "Ngjarje Private"
+      }
+    },
+    "categories": {
+      "all": "Të Gjitha Fotografitë",
+      "interior": "Interiori",
+      "food": "Kuzhina",
+      "cocktails": "Koktejet",
+      "events": "Ngjarjet"
+    },
+    "images": {
+      "mainDining": {
+        "title": "Zona Kryesore e Ngrënies",
+        "description": "Hapësira jonë dalluese e ngrënies me mure të gjalla"
+      },
+      "truffleArancini": {
+        "title": "Arancini me Trufel",
+        "description": "Topça rizotti të crispy me trufel të zi"
+      },
+      "gardenSmash": {
+        "title": "Koktej Garden Smash",
+        "description": "Xhin Hendrick's me bimë të freskëta kopshti"
+      },
+      "privateDining": {
+        "title": "Salla e Ngrënies Private",
+        "description": "Hapësirë intime për raste të veçanta"
+      },
+      "wildSalmon": {
+        "title": "Salmon i Atlantikut të Egër",
+        "description": "Salmon në drrasa kedri me perime stinore"
+      },
+      "smokyOldFashioned": {
+        "title": "Old Fashioned me Tym",
+        "description": "Uiski Rye me tym dru molle"
+      },
+      "corporateEvent": {
+        "title": "Ngjarje Korporative",
+        "description": "Mbledhje profesionale me stil"
+      },
+      "charcuterie": {
+        "title": "Charcuterie Artizanale",
+        "description": "Përzgjedhje e kuruar mishesh të tharë në shtëpi"
+      }
+    },
+    "stats": {
+      "badge": "Hapësirat Tona",
+      "title": "Përjetoni Hapësirat Tona",
+      "subtitle": "Çdo cep i Lounge-it është projektuar për të krijuar momente të paharrueshme dhe për të nxitur lidhje kuptimplota.",
+      "interiorDesign": {
+        "title": "Dizajn Interiori",
+        "description": "Elementet e dizajnit biofilik përzihen në mënyrë të paqtë me luksin modern, duke krijuar një atmosferë që është si e sofistikuar ashtu dhe natyrshëm qetësuese.",
+        "stat": "25+",
+        "statLabel": "Elemente Dizajni"
+      },
+      "culinaryArt": {
+        "title": "Art Kulinar",
+        "description": "Pjatat tona janë krijuar jo vetëm për shije, por si kryevepra vizuale që celebrojnë bukurinë e përbërësve natyrorë.",
+        "stat": "50+",
+        "statLabel": "Pjata Dalluese"
+      },
+      "privateEvents": {
+        "title": "Ngjarje Private",
+        "description": "Nga festimet intime deri te mbledhjet korporative, hapësirat tona fleksibile transformohen për t'u përshtatur përsosur me vizionin tuaj.",
+        "stat": "120",
+        "statLabel": "Kapacitet Maksimal"
+      }
+    },
+    "cta": {
+      "title": "Gati të Krijoni Kujtimet Tuaja?",
+      "subtitle": "Bashkohuni me ne në Lounge dhe bëhuni pjesë e historisë sonë. Çdo vizitë krijon momente të reja që vlejnë të ruhen.",
+      "buttons": {
+        "makeReservation": "Bëni një Rezervim",
+        "viewMenu": "Shikoni Menynë Tonë"
+      }
+    },
+    "lightbox": {
+      "close": "Mbyll"
+    },
+    "noImages": {
+      "title": "Nuk ka imazhe në këtë kategori",
+      "subtitle": "Provo të zgjedhësh një kategori tjetër për të eksploruar galerinë tonë."
     }
   },
   "contact": {
