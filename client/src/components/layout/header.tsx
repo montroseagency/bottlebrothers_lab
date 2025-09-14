@@ -1,4 +1,4 @@
-// client/src/components/layout/header.tsx - FIXED PROFESSIONAL RESPONSIVE VERSION
+// client/src/components/layout/header.tsx - CLEAN LOGO VERSION
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -63,20 +63,32 @@ export const Header: React.FC = () => {
   };
 
   const Logo = () => (
-    <Link to="/" onClick={handleMobileMenuClose} className="group">
-      <div className="flex items-center space-x-3 transform transition-all duration-300 group-hover:scale-105">
-        <div className="relative w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-green-400 to-green-600 rounded-2xl flex items-center justify-center shadow-lg group-hover:shadow-xl group-hover:shadow-green-400/25 transition-all duration-300">
-          <svg className="w-5 h-5 sm:w-7 sm:h-7 text-white transform transition-transform duration-300 group-hover:rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-          </svg>
-          <div className="absolute inset-0 bg-gradient-to-br from-green-300 to-green-500 rounded-2xl blur opacity-0 group-hover:opacity-30 transition-opacity duration-300" />
-        </div>
-        <div>
-          <h1 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-white to-green-100 bg-clip-text text-transparent group-hover:from-green-300 group-hover:to-white transition-all duration-300">
-            Demo
-          </h1>
-          <p className="text-xs text-green-300 font-medium uppercase tracking-wider hidden sm:block">{t('nav.lounge')}</p>
-        </div>
+    <Link to="/" onClick={handleMobileMenuClose} className="group flex items-center space-x-3">
+      {/* Simple Logo Icon */}
+      <div className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12">
+        <svg 
+          className="w-8 h-8 sm:w-10 sm:h-10 text-green-400 transition-all duration-300 group-hover:text-green-300 group-hover:scale-110" 
+          fill="none" 
+          stroke="currentColor" 
+          viewBox="0 0 24 24"
+        >
+          <path 
+            strokeLinecap="round" 
+            strokeLinejoin="round" 
+            strokeWidth={1.5} 
+            d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" 
+          />
+        </svg>
+      </div>
+      
+      {/* Logo Text */}
+      <div className="flex flex-col">
+        <h1 className="text-xl sm:text-2xl font-bold text-white group-hover:text-green-300 transition-colors duration-300">
+          The Lounge
+        </h1>
+        <p className="text-xs text-green-300 font-medium uppercase tracking-wider hidden sm:block">
+          Premium Dining
+        </p>
       </div>
     </Link>
   );
@@ -253,10 +265,7 @@ export const Header: React.FC = () => {
           <div className="flex justify-between items-center h-16 sm:h-20">
             {/* Logo */}
             <div className="flex items-center">
-              <div 
-                className="flex-shrink-0 transform transition-all duration-300"
-                style={{ transform: `translateY(${scrollY * -0.05}px)` }}
-              >
+              <div className="flex-shrink-0">
                 <Logo />
               </div>
             </div>
@@ -288,7 +297,7 @@ export const Header: React.FC = () => {
           </div>
         </div>
         
-        {/* Mobile Navigation - INSIDE HEADER FOR PROPER CONTAINMENT */}
+        {/* Mobile Navigation */}
         <div className={`md:hidden transition-all duration-300 ease-in-out ${
           isMenuOpen 
             ? 'max-h-80 opacity-100 visible overflow-y-auto' 
