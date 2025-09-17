@@ -53,6 +53,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         console.error('Error parsing stored user data:', error);
         localStorage.removeItem('adminToken');
         localStorage.removeItem('adminUser');
+        localStorage.removeItem('adminRefreshToken');
       }
     }
     
@@ -63,6 +64,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setLoading(true);
     setError(null);
 
+    console.log('Attempting login to:', 'http://localhost:8000/api/auth/login/');
+
     try {
       const response = await fetch('http://localhost:8000/api/auth/login/', {
         method: 'POST',
@@ -72,24 +75,35 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         body: JSON.stringify({ username, password }),
       });
 
+      console.log('Response status:', response.status);
+      
       const data = await response.json();
+      console.log('Response data:', data);
 
       if (response.ok) {
-        setUser(data.user);
-        setToken(data.access);
-        
-        // Store in localStorage
-        localStorage.setItem('adminToken', data.access);
-        localStorage.setItem('adminUser', JSON.stringify(data.user));
-        localStorage.setItem('adminRefreshToken', data.refresh);
-        
-        return true;
+        // Check if we got JWT tokens (which we are getting)
+        if (data.access && data.user) {
+          setUser(data.user);
+          setToken(data.access);
+          
+          // Store tokens and user in localStorage
+          localStorage.setItem('adminToken', data.access);
+          localStorage.setItem('adminUser', JSON.stringify(data.user));
+          localStorage.setItem('adminRefreshToken', data.refresh);
+          
+          return true;
+        } else {
+          setError('Invalid response from server');
+          return false;
+        }
       } else {
-        setError(data.detail || 'Login failed');
+        const errorMessage = data.detail || data.error || 'Login failed';
+        setError(errorMessage);
         return false;
       }
     } catch (error) {
-      setError('Network error. Please try again.');
+      console.error('Network error details:', error);
+      setError('Network error. Please check if the server is running.');
       return false;
     } finally {
       setLoading(false);
@@ -146,7 +160,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   );
 };
 
-// API helper hook
+// API helper hook for JWT authentication
 export const useAuthenticatedApi = () => {
   const { token } = useAuth();
 
@@ -163,9 +177,23 @@ export const useAuthenticatedApi = () => {
     if (!response.ok) {
       if (response.status === 401) {
         // Token expired or invalid, redirect to login
+        localStorage.removeItem('adminToken');
+        localStorage.removeItem('adminUser');
+        localStorage.removeItem('adminRefreshToken');
         window.location.href = '/auth';
+        throw new Error('Authentication required');
       }
-      throw new Error(`API call failed: ${response.statusText}`);
+      
+      // Try to get error message from response
+      let errorMessage = `API call failed: ${response.status} ${response.statusText}`;
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.detail || errorData.error || errorMessage;
+      } catch {
+        // Ignore JSON parsing errors, use default message
+      }
+      
+      throw new Error(errorMessage);
     }
 
     return response.json();
