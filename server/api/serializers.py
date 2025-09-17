@@ -1,8 +1,39 @@
 # server/api/serializers.py
 from rest_framework import serializers
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from django.contrib.auth.models import User
 from .models import Reservation, ContactMessage, RestaurantSettings
 from django.utils import timezone
 from datetime import datetime, timedelta
+
+
+class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
+    @classmethod
+    def get_token(cls, user):
+        token = super().get_token(user)
+        # Add custom claims
+        token['username'] = user.username
+        token['is_staff'] = user.is_staff
+        return token
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        
+        # Check if user is staff
+        if not self.user.is_staff:
+            raise serializers.ValidationError('Access denied. Admin privileges required.')
+        
+        # Add user data to response
+        data.update({
+            'user': {
+                'id': self.user.id,
+                'username': self.user.username,
+                'email': self.user.email,
+                'is_staff': self.user.is_staff,
+                'is_superuser': self.user.is_superuser,
+            }
+        })
+        return data
 
 
 class ReservationSerializer(serializers.ModelSerializer):
@@ -17,7 +48,7 @@ class ReservationSerializer(serializers.ModelSerializer):
             'dietary_restrictions', 'status', 'created_at', 'updated_at',
             'is_past_date'
         ]
-        read_only_fields = ['id', 'created_at', 'updated_at', 'status']
+        read_only_fields = ['id', 'created_at', 'updated_at']
     
     def validate_date(self, value):
         """Validate that the reservation date is not in the past"""
@@ -54,7 +85,6 @@ class ReservationSerializer(serializers.ModelSerializer):
     
     def validate(self, data):
         """Cross-field validation"""
-        # Check if datetime is not in the past
         if 'date' in data and 'time' in data:
             reservation_datetime = timezone.datetime.combine(
                 data['date'],
@@ -72,7 +102,8 @@ class ContactMessageSerializer(serializers.ModelSerializer):
         model = ContactMessage
         fields = [
             'id', 'name', 'email', 'phone', 'subject', 'message',
-            'event_date', 'guest_count', 'event_type', 'created_at'
+            'event_date', 'guest_count', 'event_type', 'is_read', 
+            'is_replied', 'created_at'
         ]
         read_only_fields = ['id', 'created_at']
     
@@ -84,7 +115,6 @@ class ContactMessageSerializer(serializers.ModelSerializer):
     
     def validate(self, data):
         """Cross-field validation"""
-        # If it's a private event, require event details
         if data.get('subject') in ['private_event', 'catering', 'corporate']:
             if not data.get('event_date'):
                 raise serializers.ValidationError({
@@ -113,3 +143,36 @@ class DayAvailabilitySerializer(serializers.Serializer):
 class ReservationLookupSerializer(serializers.Serializer):
     email = serializers.EmailField(required=True)
     phone = serializers.CharField(required=True)
+
+
+class AdminLoginSerializer(serializers.Serializer):
+    username = serializers.CharField(required=True)
+    password = serializers.CharField(required=True, write_only=True)
+
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'is_staff', 'is_superuser', 'date_joined']
+        read_only_fields = ['id', 'date_joined']
+
+
+class DashboardStatsSerializer(serializers.Serializer):
+    total_reservations = serializers.IntegerField()
+    total_guests = serializers.IntegerField()
+    pending_reservations = serializers.IntegerField()
+    confirmed_reservations = serializers.IntegerField()
+    completed_reservations = serializers.IntegerField()
+    cancelled_reservations = serializers.IntegerField()
+    unread_messages = serializers.IntegerField()
+    monthly_revenue = serializers.DecimalField(max_digits=10, decimal_places=2)
+    capacity_utilization = serializers.FloatField()
+
+
+class AdminDashboardSerializer(serializers.Serializer):
+    todays_reservations = ReservationSerializer(many=True)
+    tomorrows_reservations = ReservationSerializer(many=True)
+    week_stats = serializers.DictField()
+    status_stats = serializers.ListField()
+    recent_messages = ContactMessageSerializer(many=True)
+    unread_messages_count = serializers.IntegerField()
