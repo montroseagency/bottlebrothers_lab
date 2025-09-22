@@ -1,7 +1,9 @@
 // src/services/api.ts
 
-// Base URL for your API
-const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api';
+// Base URL for your API - using REACT_APP_ prefix for Create React App
+const API_BASE_URL = (window as any)?.env?.REACT_APP_API_URL || 
+                     (typeof process !== 'undefined' ? process.env.REACT_APP_API_URL : null) || 
+                     'http://localhost:3001/api';
 
 // Event type definitions
 export interface Event {
@@ -58,9 +60,12 @@ export interface CreateEventData {
 
 // API Error handling
 export class ApiError extends Error {
-  constructor(public status: number, message: string) {
+  public status: number;
+  
+  constructor(status: number, message: string) {
     super(message);
     this.name = 'ApiError';
+    this.status = status;
   }
 }
 
@@ -85,9 +90,9 @@ const makeRequest = async (
   options: RequestInit = {}, 
   token?: string
 ) => {
-  const headers: HeadersInit = {
+  const headers: Record<string, string> = {
     'Content-Type': 'application/json',
-    ...options.headers,
+    ...(options.headers as Record<string, string>),
   };
 
   if (token) {

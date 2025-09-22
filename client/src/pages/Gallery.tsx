@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
-import type{ GalleryItem, } from '../services/api';
-import { ParticleField } from '../components/ui/ParticleField';
+// Import the GalleryItem type from your API service
+import { GalleryItem } from '../services/api';
 import { apiClient } from '../services/api';
 import { MagneticButton } from '../components/ui/MagneticButton';
 
