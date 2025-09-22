@@ -2,7 +2,7 @@
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.models import User
-from .models import Reservation, ContactMessage, RestaurantSettings
+from .models import Reservation, ContactMessage, RestaurantSettings, GalleryItem
 from django.utils import timezone
 from datetime import datetime, timedelta
 
@@ -128,6 +128,45 @@ class ContactMessageSerializer(serializers.ModelSerializer):
         return data
 
 
+class GalleryItemSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = GalleryItem
+        fields = [
+            'id', 'title', 'description', 'image', 'image_url', 'category',
+            'is_featured', 'display_order', 'is_active', 'created_at', 'updated_at'
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at', 'image_url']
+    
+    def get_image_url(self, obj):
+        """Get the full URL for the image"""
+        if obj.image:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.image.url)
+            return obj.image.url
+        return None
+    
+    def validate_title(self, value):
+        """Validate title"""
+        if len(value.strip()) < 3:
+            raise serializers.ValidationError("Title must be at least 3 characters long.")
+        return value.strip()
+    
+    def validate_description(self, value):
+        """Validate description"""
+        if len(value.strip()) < 10:
+            raise serializers.ValidationError("Description must be at least 10 characters long.")
+        return value.strip()
+    
+    def validate_display_order(self, value):
+        """Validate display order"""
+        if value < 0:
+            raise serializers.ValidationError("Display order must be 0 or positive.")
+        return value
+
+
 class AvailabilitySlotSerializer(serializers.Serializer):
     time = serializers.TimeField()
     time_display = serializers.CharField()
@@ -176,3 +215,4 @@ class AdminDashboardSerializer(serializers.Serializer):
     status_stats = serializers.ListField()
     recent_messages = ContactMessageSerializer(many=True)
     unread_messages_count = serializers.IntegerField()
+    gallery_items_count = serializers.IntegerField()

@@ -1,10 +1,13 @@
 # server/api/urls.py
 from django.urls import path, include
+from django.conf import settings
+from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenRefreshView
 from .views import (
     ReservationViewSet, 
     ContactMessageViewSet,
+    GalleryItemViewSet,
     CustomTokenObtainPairView,
     admin_login,
     admin_logout,
@@ -14,6 +17,7 @@ from .views import (
 router = DefaultRouter()
 router.register(r'reservations', ReservationViewSet)
 router.register(r'contact', ContactMessageViewSet)
+router.register(r'gallery', GalleryItemViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
@@ -28,27 +32,6 @@ urlpatterns = [
     path('dashboard/analytics/', dashboard_analytics, name='dashboard_analytics'),
 ]
 
-
-# server/server/urls.py
-from django.contrib import admin
-from django.urls import path, include
-from django.http import JsonResponse
-
-def api_root(request):
-    return JsonResponse({
-        'message': 'Restaurant API',
-        'endpoints': {
-            'reservations': '/api/reservations/',
-            'availability': '/api/reservations/availability/',
-            'lookup': '/api/reservations/lookup/',
-            'contact': '/api/contact/',
-            'auth': '/api/auth/',
-            'dashboard': '/api/dashboard/',
-        }
-    })
-
-urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include('api.urls')),
-    path('', api_root),
-]
+# Serve media files during development
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

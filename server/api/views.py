@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
 from django.contrib.auth import authenticate
 from django.db.models import Q, Sum, Count, Avg
 from django.db import models
@@ -13,10 +14,11 @@ from django.utils import timezone
 from datetime import datetime, timedelta, time
 import uuid
 
-from .models import Reservation, ContactMessage, RestaurantSettings
+from .models import Reservation, ContactMessage, RestaurantSettings, GalleryItem
 from .serializers import (
     ReservationSerializer, 
     ContactMessageSerializer,
+    GalleryItemSerializer,
     DayAvailabilitySerializer,
     ReservationLookupSerializer,
     CustomTokenObtainPairSerializer,
@@ -230,6 +232,7 @@ class ReservationViewSet(viewsets.ModelViewSet):
             'status_stats': list(status_stats),
             'recent_messages': ContactMessageSerializer(recent_messages, many=True).data,
             'unread_messages_count': ContactMessage.objects.filter(is_read=False).count(),
+            'gallery_items_count': GalleryItem.objects.filter(is_active=True).count(),
         }
         
         return Response(dashboard_data)
@@ -349,6 +352,127 @@ class ContactMessageViewSet(viewsets.ModelViewSet):
             )
 
 
+class GalleryItemViewSet(viewsets.ModelViewSet):
+    queryset = GalleryItem.objects.all()
+    serializer_class = GalleryItemSerializer
+    parser_classes = (MultiPartParser, FormParser, JSONParser)
+    
+    def get_permissions(self):
+        """Public access for list/retrieve, admin only for create/update/delete"""
+        if self.action in ['list', 'retrieve', 'public']:
+            permission_classes = [AllowAny]
+        else:
+            permission_classes = [IsAuthenticated]
+        return [permission() for permission in permission_classes]
+    
+    def get_queryset(self):
+        """Filter queryset based on action and permissions"""
+        if self.action in ['list', 'retrieve'] and not self.request.user.is_authenticated:
+            # Public access - only show active items
+            return GalleryItem.objects.filter(is_active=True)
+        return GalleryItem.objects.all()
+    
+    def list(self, request):
+        """List gallery items with filtering options"""
+        queryset = self.get_queryset()
+        
+        # Filter by category
+        category = request.query_params.get('category')
+        if category:
+            queryset = queryset.filter(category=category)
+        
+        # Filter by featured status
+        featured = request.query_params.get('featured')
+        if featured == 'true':
+            queryset = queryset.filter(is_featured=True)
+        
+        # Order by display_order and created_at
+        queryset = queryset.order_by('display_order', '-created_at')
+        
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    @action(detail=False, methods=['get'])
+    def public(self, request):
+        """Get public gallery items for the frontend gallery page"""
+        queryset = GalleryItem.objects.filter(is_active=True).order_by('display_order', '-created_at')
+        
+        # Filter by category if requested
+        category = request.query_params.get('category')
+        if category:
+            queryset = queryset.filter(category=category)
+        
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    @action(detail=False, methods=['get'])
+    def featured(self, request):
+        """Get featured gallery items"""
+        queryset = GalleryItem.objects.filter(is_active=True, is_featured=True).order_by('display_order')
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    @action(detail=False, methods=['get'])
+    def categories(self, request):
+        """Get available categories with counts"""
+        categories = GalleryItem.objects.filter(is_active=True).values('category').annotate(
+            count=Count('id')
+        ).order_by('category')
+        
+        category_data = []
+        for cat in categories:
+            display_name = dict(GalleryItem.CATEGORY_CHOICES).get(cat['category'], cat['category'])
+            category_data.append({
+                'value': cat['category'],
+                'label': display_name,
+                'count': cat['count']
+            })
+        
+        return Response(category_data)
+    
+    @action(detail=True, methods=['patch'], permission_classes=[IsAuthenticated])
+    def toggle_active(self, request, pk=None):
+        """Toggle active status of gallery item"""
+        try:
+            item = self.get_object()
+            item.is_active = not item.is_active
+            item.save()
+            
+            serializer = self.get_serializer(item)
+            return Response(serializer.data)
+            
+        except GalleryItem.DoesNotExist:
+            return Response(
+                {'detail': 'Gallery item not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+    
+    @action(detail=True, methods=['patch'], permission_classes=[IsAuthenticated])
+    def toggle_featured(self, request, pk=None):
+        """Toggle featured status of gallery item"""
+        try:
+            item = self.get_object()
+            item.is_featured = not item.is_featured
+            item.save()
+            
+            serializer = self.get_serializer(item)
+            return Response(serializer.data)
+            
+        except GalleryItem.DoesNotExist:
+            return Response(
+                {'detail': 'Gallery item not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+    
+    def perform_create(self, serializer):
+        """Handle gallery item creation"""
+        serializer.save()
+    
+    def perform_update(self, serializer):
+        """Handle gallery item updates"""
+        serializer.save()
+
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def admin_login(request):
@@ -448,6 +572,14 @@ def dashboard_analytics(request):
         avg_size=models.Avg('party_size')
     )['avg_size'] or 0
     
+    # Gallery stats
+    gallery_stats = {
+        'total_items': GalleryItem.objects.count(),
+        'active_items': GalleryItem.objects.filter(is_active=True).count(),
+        'featured_items': GalleryItem.objects.filter(is_active=True, is_featured=True).count(),
+        'by_category': list(GalleryItem.objects.filter(is_active=True).values('category').annotate(count=Count('id')))
+    }
+    
     analytics_data = {
         'monthly_revenue': estimated_revenue,
         'total_reservations_30d': monthly_reservations.count(),
@@ -456,6 +588,7 @@ def dashboard_analytics(request):
         'popular_times': list(popular_times),
         'average_party_size': round(avg_party_size, 1),
         'capacity_utilization': 0.75,  # This would need more complex calculation
+        'gallery_stats': gallery_stats,
     }
     
     return Response(analytics_data)

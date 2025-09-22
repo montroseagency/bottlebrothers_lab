@@ -3,6 +3,13 @@ from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
 import uuid
+import os
+
+def gallery_image_path(instance, filename):
+    """Generate file path for gallery images"""
+    ext = filename.split('.')[-1]
+    filename = f"{uuid.uuid4().hex}.{ext}"
+    return os.path.join('gallery', filename)
 
 class Reservation(models.Model):
     STATUS_CHOICES = [
@@ -130,6 +137,60 @@ class ContactMessage(models.Model):
         return f"{self.name} - {self.get_subject_display()}"
 
 
+class GalleryItem(models.Model):
+    """Model for gallery images and descriptions"""
+    CATEGORY_CHOICES = [
+        ('food', 'Food & Drinks'),
+        ('interior', 'Interior Design'),
+        ('events', 'Events & Celebrations'),
+        ('staff', 'Our Team'),
+        ('atmosphere', 'Atmosphere'),
+        ('other', 'Other'),
+    ]
+    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=200, help_text="Title of the image")
+    description = models.TextField(help_text="Description that appears with the image")
+    image = models.ImageField(upload_to=gallery_image_path, help_text="Upload gallery image")
+    category = models.CharField(
+        max_length=20,
+        choices=CATEGORY_CHOICES,
+        default='other',
+        help_text="Category for organizing gallery items"
+    )
+    is_featured = models.BooleanField(
+        default=False,
+        help_text="Feature this image prominently in the gallery"
+    )
+    display_order = models.IntegerField(
+        default=0,
+        help_text="Order in which to display (lower numbers first)"
+    )
+    is_active = models.BooleanField(
+        default=True,
+        help_text="Show this item in the public gallery"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['display_order', '-created_at']
+        indexes = [
+            models.Index(fields=['is_active', 'display_order']),
+            models.Index(fields=['category', 'is_active']),
+            models.Index(fields=['is_featured', 'is_active']),
+        ]
+    
+    def __str__(self):
+        return f"{self.title} - {self.get_category_display()}"
+    
+    def delete(self, *args, **kwargs):
+        # Delete the image file when the model instance is deleted
+        if self.image:
+            self.image.delete(save=False)
+        super().delete(*args, **kwargs)
+
+
 class RestaurantSettings(models.Model):
     """Singleton model for restaurant settings"""
     max_capacity = models.IntegerField(default=100)
@@ -153,5 +214,4 @@ class RestaurantSettings(models.Model):
     @classmethod
     def get_settings(cls):
         obj, created = cls.objects.get_or_create(pk=1)
-        return obj   
-    
+        return obj

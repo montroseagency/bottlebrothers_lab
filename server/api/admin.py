@@ -1,7 +1,8 @@
 # server/api/admin.py
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Reservation, ContactMessage, RestaurantSettings
+from django.utils.safestring import mark_safe
+from .models import Reservation, ContactMessage, RestaurantSettings, GalleryItem
 
 
 @admin.register(Reservation)
@@ -118,6 +119,90 @@ class ContactMessageAdmin(admin.ModelAdmin):
     mark_as_replied.short_description = 'Mark as replied'
 
 
+@admin.register(GalleryItem)
+class GalleryItemAdmin(admin.ModelAdmin):
+    list_display = [
+        'image_thumbnail', 'title', 'category_badge', 'display_order', 
+        'is_featured', 'is_active', 'created_at'
+    ]
+    list_filter = ['category', 'is_featured', 'is_active', 'created_at']
+    search_fields = ['title', 'description']
+    readonly_fields = ['id', 'created_at', 'updated_at', 'image_preview']
+    ordering = ['display_order', '-created_at']
+    list_editable = ['display_order', 'is_featured', 'is_active']
+    
+    fieldsets = (
+        ('Content', {
+            'fields': ('title', 'description', 'image', 'image_preview')
+        }),
+        ('Organization', {
+            'fields': ('category', 'display_order')
+        }),
+        ('Visibility', {
+            'fields': ('is_active', 'is_featured')
+        }),
+        ('System Information', {
+            'fields': ('id', 'created_at', 'updated_at'),
+            'classes': ('collapse',)
+        }),
+    )
+    
+    actions = ['mark_as_featured', 'unmark_as_featured', 'activate_items', 'deactivate_items']
+    
+    def image_thumbnail(self, obj):
+        if obj.image:
+            return mark_safe(
+                f'<img src="{obj.image.url}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;" />'
+            )
+        return "No Image"
+    image_thumbnail.short_description = 'Image'
+    
+    def image_preview(self, obj):
+        if obj.image:
+            return mark_safe(
+                f'<img src="{obj.image.url}" style="max-width: 300px; max-height: 200px; object-fit: contain;" />'
+            )
+        return "No image uploaded"
+    image_preview.short_description = 'Image Preview'
+    
+    def category_badge(self, obj):
+        colors = {
+            'food': '#28a745',
+            'interior': '#17a2b8',
+            'events': '#ffc107',
+            'staff': '#6f42c1',
+            'atmosphere': '#fd7e14',
+            'other': '#6c757d',
+        }
+        return format_html(
+            '<span style="background-color: {}; color: white; padding: 2px 8px; '
+            'border-radius: 3px; font-size: 11px; font-weight: bold;">{}</span>',
+            colors.get(obj.category, '#6c757d'),
+            obj.get_category_display()
+        )
+    category_badge.short_description = 'Category'
+    
+    def mark_as_featured(self, request, queryset):
+        updated = queryset.update(is_featured=True)
+        self.message_user(request, f'{updated} item(s) marked as featured.')
+    mark_as_featured.short_description = 'Mark as featured'
+    
+    def unmark_as_featured(self, request, queryset):
+        updated = queryset.update(is_featured=False)
+        self.message_user(request, f'{updated} item(s) unmarked as featured.')
+    unmark_as_featured.short_description = 'Unmark as featured'
+    
+    def activate_items(self, request, queryset):
+        updated = queryset.update(is_active=True)
+        self.message_user(request, f'{updated} item(s) activated.')
+    activate_items.short_description = 'Activate selected items'
+    
+    def deactivate_items(self, request, queryset):
+        updated = queryset.update(is_active=False)
+        self.message_user(request, f'{updated} item(s) deactivated.')
+    deactivate_items.short_description = 'Deactivate selected items'
+
+
 @admin.register(RestaurantSettings)
 class RestaurantSettingsAdmin(admin.ModelAdmin):
     list_display = [
@@ -148,3 +233,9 @@ class RestaurantSettingsAdmin(admin.ModelAdmin):
     def has_delete_permission(self, request, obj=None):
         # Don't allow deletion
         return False
+
+
+# Customize admin site header and title
+admin.site.site_header = 'The Lounge - Restaurant Admin'
+admin.site.site_title = 'The Lounge Admin'
+admin.site.index_title = 'Welcome to The Lounge Administration'
