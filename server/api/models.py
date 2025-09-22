@@ -1,4 +1,4 @@
-# server/api/models.py
+# server/api/models.py - UPDATED WITH EVENTS
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
@@ -10,6 +10,18 @@ def gallery_image_path(instance, filename):
     ext = filename.split('.')[-1]
     filename = f"{uuid.uuid4().hex}.{ext}"
     return os.path.join('gallery', filename)
+
+def event_image_path(instance, filename):
+    """Generate file path for event images"""
+    ext = filename.split('.')[-1]
+    filename = f"{uuid.uuid4().hex}.{ext}"
+    return os.path.join('events', filename)
+
+def venue_image_path(instance, filename):
+    """Generate file path for venue images"""
+    ext = filename.split('.')[-1]
+    filename = f"{uuid.uuid4().hex}.{ext}"
+    return os.path.join('venues', filename)
 
 class Reservation(models.Model):
     STATUS_CHOICES = [
@@ -183,6 +195,212 @@ class GalleryItem(models.Model):
     
     def __str__(self):
         return f"{self.title} - {self.get_category_display()}"
+    
+    def delete(self, *args, **kwargs):
+        # Delete the image file when the model instance is deleted
+        if self.image:
+            self.image.delete(save=False)
+        super().delete(*args, **kwargs)
+
+
+class Event(models.Model):
+    """Model for restaurant events"""
+    EVENT_TYPE_CHOICES = [
+        ('featured', 'Featured Event'),
+        ('regular', 'Regular Event'),
+        ('recurring', 'Recurring Event'),
+    ]
+    
+    FREQUENCY_CHOICES = [
+        ('once', 'One Time Only'),
+        ('daily', 'Daily'),
+        ('weekly', 'Weekly'),
+        ('monthly', 'Monthly'),
+    ]
+    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=200, help_text="Event title")
+    description = models.TextField(help_text="Event description")
+    image = models.ImageField(upload_to=event_image_path, help_text="Event image")
+    event_type = models.CharField(
+        max_length=20,
+        choices=EVENT_TYPE_CHOICES,
+        default='regular',
+        help_text="Type of event"
+    )
+    
+    # Date and time fields
+    start_date = models.DateField(help_text="Event start date")
+    end_date = models.DateField(blank=True, null=True, help_text="Event end date (for multi-day events)")
+    start_time = models.TimeField(help_text="Event start time")
+    end_time = models.TimeField(help_text="Event end time")
+    
+    # Recurring event fields
+    frequency = models.CharField(
+        max_length=20,
+        choices=FREQUENCY_CHOICES,
+        default='once',
+        help_text="How often this event occurs"
+    )
+    recurring_day = models.CharField(
+        max_length=20,
+        blank=True,
+        null=True,
+        help_text="Day of week for recurring events (e.g., 'Thursday', 'Friday & Saturday')"
+    )
+    
+    # Pricing and capacity
+    price = models.DecimalField(
+        max_digits=8,
+        decimal_places=2,
+        help_text="Event price (0.00 for free events)"
+    )
+    price_display = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        help_text="Custom price display (e.g., 'No Cover', '$10 Cover', '$65 per person')"
+    )
+    max_capacity = models.IntegerField(
+        blank=True,
+        null=True,
+        help_text="Maximum number of attendees"
+    )
+    
+    # Display settings
+    is_featured = models.BooleanField(
+        default=False,
+        help_text="Feature this event prominently"
+    )
+    is_active = models.BooleanField(
+        default=True,
+        help_text="Show this event publicly"
+    )
+    display_order = models.IntegerField(
+        default=0,
+        help_text="Order in which to display (lower numbers first)"
+    )
+    
+    # Additional details
+    special_notes = models.TextField(
+        blank=True,
+        null=True,
+        help_text="Any special notes or requirements"
+    )
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['display_order', '-start_date', 'start_time']
+        indexes = [
+            models.Index(fields=['is_active', 'display_order']),
+            models.Index(fields=['event_type', 'is_active']),
+            models.Index(fields=['is_featured', 'is_active']),
+            models.Index(fields=['start_date', 'is_active']),
+        ]
+    
+    def __str__(self):
+        return f"{self.title} - {self.start_date}"
+    
+    @property
+    def formatted_time(self):
+        """Return formatted time range"""
+        start_str = self.start_time.strftime('%-I:%M %p')
+        end_str = self.end_time.strftime('%-I:%M %p')
+        return f"{start_str} - {end_str}"
+    
+    @property
+    def is_past_event(self):
+        """Check if event is in the past"""
+        event_datetime = timezone.datetime.combine(
+            self.start_date,
+            self.start_time,
+            tzinfo=timezone.get_current_timezone()
+        )
+        return event_datetime < timezone.now()
+    
+    @property
+    def price_formatted(self):
+        """Return formatted price"""
+        if self.price_display:
+            return self.price_display
+        elif self.price == 0:
+            return "Free"
+        else:
+            return f"${self.price}"
+    
+    def delete(self, *args, **kwargs):
+        # Delete the image file when the model instance is deleted
+        if self.image:
+            self.image.delete(save=False)
+        super().delete(*args, **kwargs)
+
+
+class EventType(models.Model):
+    """Model for different types of events the restaurant offers"""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=200, help_text="Event type title")
+    description = models.TextField(help_text="Description of this event type")
+    icon = models.CharField(
+        max_length=10,
+        help_text="Emoji icon for this event type (e.g., 🎵, 🏢, 💝)"
+    )
+    features = models.JSONField(
+        default=list,
+        help_text="List of features for this event type"
+    )
+    is_active = models.BooleanField(
+        default=True,
+        help_text="Show this event type publicly"
+    )
+    display_order = models.IntegerField(
+        default=0,
+        help_text="Order in which to display (lower numbers first)"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['display_order', 'title']
+    
+    def __str__(self):
+        return self.title
+
+
+class VenueSpace(models.Model):
+    """Model for different venue spaces available for events"""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=200, help_text="Venue space name")
+    description = models.TextField(help_text="Description of the venue space")
+    capacity = models.CharField(
+        max_length=100,
+        help_text="Capacity description (e.g., 'Up to 80 guests')"
+    )
+    max_capacity_number = models.IntegerField(
+        help_text="Maximum number of guests (for filtering/booking)"
+    )
+    image = models.ImageField(upload_to=venue_image_path, help_text="Venue space image")
+    features = models.JSONField(
+        default=list,
+        help_text="List of features for this venue space"
+    )
+    is_active = models.BooleanField(
+        default=True,
+        help_text="Show this venue space publicly"
+    )
+    display_order = models.IntegerField(
+        default=0,
+        help_text="Order in which to display (lower numbers first)"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['display_order', 'name']
+    
+    def __str__(self):
+        return f"{self.name} - {self.capacity}"
     
     def delete(self, *args, **kwargs):
         # Delete the image file when the model instance is deleted

@@ -1,311 +1,275 @@
-// client/src/services/api.ts
-const API_BASE_URL = 'http://localhost:8000/api';
+// src/services/api.ts
 
-// Types
-export interface Reservation {
-  id: string;
-  first_name: string;
-  last_name: string;
-  full_name: string;
-  email: string;
-  phone: string;
-  date: string;
-  time: string;
-  party_size: number;
-  occasion: string;
-  special_requests?: string;
-  dietary_restrictions?: string;
-  status: 'pending' | 'confirmed' | 'seated' | 'completed' | 'cancelled' | 'no_show';
-  created_at: string;
-  updated_at: string;
-  is_past_date: boolean;
-}
+// Base URL for your API
+const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:3001/api';
 
-export interface ReservationFormData {
-  first_name: string;
-  last_name: string;
-  email: string;
-  phone: string;
-  date: string;
-  time: string;
-  party_size: number;
-  occasion?: string;
-  special_requests?: string;
-  dietary_restrictions?: string;
-}
-
-export interface TimeSlot {
-  time: string;
-  time_display: string;
-  available_capacity: number;
-  is_available: boolean;
-}
-
-export interface DayAvailability {
-  date: string;
-  slots: TimeSlot[];
-}
-
-export interface ContactMessage {
-  id: string;
-  name: string;
-  email: string;
-  phone?: string;
-  subject: string;
-  message: string;
-  event_date?: string;
-  guest_count?: number;
-  event_type?: string;
-  is_read: boolean;
-  is_replied: boolean;
-  created_at: string;
-}
-
-export interface GalleryItem {
+// Event type definitions
+export interface Event {
   id: string;
   title: string;
   description: string;
-  image: string;
   image_url?: string;
-  category: 'food' | 'interior' | 'events' | 'staff' | 'atmosphere' | 'other';
+  event_type: 'featured' | 'recurring' | 'one-time';
+  status: 'upcoming' | 'active' | 'completed' | 'cancelled';
+  start_date: string;
+  start_time: string;
+  end_time?: string;
+  end_date?: string;
+  recurring_type?: 'none' | 'daily' | 'weekly' | 'monthly';
+  recurring_days?: string;
+  formatted_price: string;
+  location: string;
+  booking_required: boolean;
+  booking_url?: string;
   is_featured: boolean;
-  display_order: number;
-  is_active: boolean;
-  created_at: string;
-  updated_at: string;
+  duration_display: string;
+  capacity?: number;
+  booking_count?: number;
+  created_at?: string;
+  updated_at?: string;
 }
 
-export interface GalleryFormData {
+export interface EventFilters {
+  event_type?: string;
+  status?: string;
+  is_active?: boolean;
+  location?: string;
+  date?: string;
+}
+
+export interface CreateEventData {
   title: string;
   description: string;
-  image?: File;
-  category: string;
-  is_featured: boolean;
-  display_order: number;
-  is_active: boolean;
+  image_url?: string;
+  event_type: string;
+  start_date: string;
+  start_time: string;
+  end_time?: string;
+  end_date?: string;
+  recurring_type?: string;
+  recurring_days?: string;
+  formatted_price: string;
+  location: string;
+  booking_required: boolean;
+  booking_url?: string;
+  is_featured?: boolean;
+  capacity?: number;
 }
 
+// API Error handling
+export class ApiError extends Error {
+  constructor(public status: number, message: string) {
+    super(message);
+    this.name = 'ApiError';
+  }
+}
+
+// Helper function to handle API responses
+const handleResponse = async (response: Response) => {
+  if (!response.ok) {
+    const errorMessage = await response.text();
+    throw new ApiError(response.status, errorMessage || `HTTP error! status: ${response.status}`);
+  }
+  
+  const contentType = response.headers.get('content-type');
+  if (contentType && contentType.includes('application/json')) {
+    return response.json();
+  }
+  
+  return response.text();
+};
+
+// Helper function to make authenticated requests
+const makeRequest = async (
+  url: string, 
+  options: RequestInit = {}, 
+  token?: string
+) => {
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json',
+    ...options.headers,
+  };
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`;
+  }
+
+  const response = await fetch(`${API_BASE_URL}${url}`, {
+    ...options,
+    headers,
+  });
+
+  return handleResponse(response);
+};
+
+// API Client class
 export class ApiClient {
-  private baseURL: string;
-  private token: string | null;
-
-  constructor() {
-    this.baseURL = API_BASE_URL;
-    this.token = localStorage.getItem('adminToken');
-  }
-
-  private async request<T>(
-    endpoint: string,
-    options: RequestInit = {}
-  ): Promise<T> {
-    const url = `${this.baseURL}${endpoint}`;
-    
-    const config: RequestInit = {
-      ...options,
-      headers: {
-        'Content-Type': 'application/json',
-        ...(this.token && { Authorization: `Bearer ${this.token}` }),
-        ...options.headers,
-      },
-    };
-
-    const response = await fetch(url, config);
-    
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.detail || `HTTP ${response.status}`);
+  // Public Events (no authentication required)
+  async getPublicEvents(): Promise<Event[]> {
+    try {
+      const response = await makeRequest('/events/public');
+      return response;
+    } catch (error) {
+      console.error('Failed to fetch public events:', error);
+      throw error;
     }
-    
-    return response.json();
   }
 
-  private async formRequest<T>(
-    endpoint: string,
-    formData: FormData,
-    method: 'POST' | 'PUT' | 'PATCH' = 'POST'
-  ): Promise<T> {
-    const url = `${this.baseURL}${endpoint}`;
-    
-    const config: RequestInit = {
-      method,
-      headers: {
-        ...(this.token && { Authorization: `Bearer ${this.token}` }),
-      },
-      body: formData,
-    };
-
-    const response = await fetch(url, config);
-    
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.detail || `HTTP ${response.status}`);
+  async getFeaturedEvents(): Promise<Event[]> {
+    try {
+      const response = await makeRequest('/events/featured');
+      return response;
+    } catch (error) {
+      console.error('Failed to fetch featured events:', error);
+      throw error;
     }
-    
-    return response.json();
   }
 
-  // Reservation methods
-  async createReservation(data: ReservationFormData): Promise<Reservation> {
-    return this.request<Reservation>('/reservations/', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
-  }
-
-  async getReservations(): Promise<Reservation[]> {
-    return this.request<Reservation[]>('/reservations/');
-  }
-
-  async getReservation(id: string): Promise<Reservation> {
-    return this.request<Reservation>(`/reservations/${id}/`);
-  }
-
-  async updateReservation(id: string, data: Partial<ReservationFormData>): Promise<Reservation> {
-    return this.request<Reservation>(`/reservations/${id}/`, {
-      method: 'PATCH',
-      body: JSON.stringify(data),
-    });
-  }
-
-  async updateReservationStatus(id: string, status: string): Promise<Reservation> {
-    return this.request<Reservation>(`/reservations/${id}/update_status/`, {
-      method: 'PATCH',
-      body: JSON.stringify({ status }),
-    });
-  }
-
-  async cancelReservation(id: string): Promise<{ message: string }> {
-    return this.request<{ message: string }>(`/reservations/${id}/cancel/`, {
-      method: 'POST',
-    });
-  }
-
-  async lookupReservation(email: string, phone: string): Promise<Reservation[]> {
-    const params = new URLSearchParams({ email, phone });
-    return this.request<Reservation[]>(`/reservations/lookup/?${params}`);
-  }
-
-  async getAvailability(startDate: string, endDate?: string): Promise<DayAvailability[]> {
-    const params = new URLSearchParams({ start_date: startDate });
-    if (endDate) params.append('end_date', endDate);
-    return this.request<DayAvailability[]>(`/reservations/availability/?${params}`);
-  }
-
-  // Contact methods
-  async sendContactMessage(data: any): Promise<{ message: string; data: ContactMessage }> {
-    return this.request<{ message: string; data: ContactMessage }>('/contact/', {
-      method: 'POST',
-      body: JSON.stringify(data),
-    });
-  }
-
-  async getContactMessages(): Promise<ContactMessage[]> {
-    return this.request<ContactMessage[]>('/contact/');
-  }
-
-  async markMessageRead(id: string): Promise<ContactMessage> {
-    return this.request<ContactMessage>(`/contact/${id}/mark_read/`, {
-      method: 'PATCH',
-    });
-  }
-
-  async markMessageReplied(id: string): Promise<ContactMessage> {
-    return this.request<ContactMessage>(`/contact/${id}/mark_replied/`, {
-      method: 'PATCH',
-    });
-  }
-
-  // Gallery methods
-  async getGalleryItems(params?: { category?: string; featured?: boolean }): Promise<GalleryItem[]> {
-    const queryParams = new URLSearchParams();
-    if (params?.category) queryParams.append('category', params.category);
-    if (params?.featured) queryParams.append('featured', 'true');
-    
-    const query = queryParams.toString();
-    return this.request<GalleryItem[]>(`/gallery/${query ? `?${query}` : ''}`);
-  }
-
-  async getPublicGalleryItems(category?: string): Promise<GalleryItem[]> {
-    const params = category ? `?category=${category}` : '';
-    return this.request<GalleryItem[]>(`/gallery/public/${params}`);
-  }
-
-  async getFeaturedGalleryItems(): Promise<GalleryItem[]> {
-    return this.request<GalleryItem[]>('/gallery/featured/');
-  }
-
-  async getGalleryCategories(): Promise<Array<{ value: string; label: string; count: number }>> {
-    return this.request<Array<{ value: string; label: string; count: number }>>('/gallery/categories/');
-  }
-
-  async createGalleryItem(data: GalleryFormData): Promise<GalleryItem> {
-    const formData = new FormData();
-    formData.append('title', data.title);
-    formData.append('description', data.description);
-    formData.append('category', data.category);
-    formData.append('is_featured', data.is_featured.toString());
-    formData.append('display_order', data.display_order.toString());
-    formData.append('is_active', data.is_active.toString());
-    
-    if (data.image) {
-      formData.append('image', data.image);
+  async getUpcomingEvents(limit?: number): Promise<Event[]> {
+    try {
+      const url = limit ? `/events/upcoming?limit=${limit}` : '/events/upcoming';
+      const response = await makeRequest(url);
+      return response;
+    } catch (error) {
+      console.error('Failed to fetch upcoming events:', error);
+      throw error;
     }
-
-    return this.formRequest<GalleryItem>('/gallery/', formData, 'POST');
   }
 
-  async updateGalleryItem(id: string, data: Partial<GalleryFormData>): Promise<GalleryItem> {
-    const formData = new FormData();
-    
-    if (data.title) formData.append('title', data.title);
-    if (data.description) formData.append('description', data.description);
-    if (data.category) formData.append('category', data.category);
-    if (data.is_featured !== undefined) formData.append('is_featured', data.is_featured.toString());
-    if (data.display_order !== undefined) formData.append('display_order', data.display_order.toString());
-    if (data.is_active !== undefined) formData.append('is_active', data.is_active.toString());
-    if (data.image) formData.append('image', data.image);
-
-    return this.formRequest<GalleryItem>(`/gallery/${id}/`, formData, 'PATCH');
+  async getEventTypes(): Promise<Array<{ id: string; name: string; count: number }>> {
+    try {
+      const response = await makeRequest('/events/types');
+      return response;
+    } catch (error) {
+      console.error('Failed to fetch event types:', error);
+      throw error;
+    }
   }
 
-  async deleteGalleryItem(id: string): Promise<void> {
-    await this.request<void>(`/gallery/${id}/`, {
-      method: 'DELETE',
-    });
+  // Authenticated endpoints (require token)
+  async getEvents(token: string, filters?: EventFilters): Promise<Event[]> {
+    try {
+      let url = '/events';
+      
+      if (filters) {
+        const params = new URLSearchParams();
+        Object.entries(filters).forEach(([key, value]) => {
+          if (value !== null && value !== undefined) {
+            params.append(key, String(value));
+          }
+        });
+        if (params.toString()) {
+          url += `?${params.toString()}`;
+        }
+      }
+
+      const response = await makeRequest(url, { method: 'GET' }, token);
+      return response;
+    } catch (error) {
+      console.error('Failed to fetch events:', error);
+      throw error;
+    }
   }
 
-  async toggleGalleryItemActive(id: string): Promise<GalleryItem> {
-    return this.request<GalleryItem>(`/gallery/${id}/toggle_active/`, {
-      method: 'PATCH',
-    });
+  async createEvent(token: string, eventData: CreateEventData): Promise<Event> {
+    try {
+      const response = await makeRequest(
+        '/events',
+        {
+          method: 'POST',
+          body: JSON.stringify(eventData),
+        },
+        token
+      );
+      return response;
+    } catch (error) {
+      console.error('Failed to create event:', error);
+      throw error;
+    }
   }
 
-  async toggleGalleryItemFeatured(id: string): Promise<GalleryItem> {
-    return this.request<GalleryItem>(`/gallery/${id}/toggle_featured/`, {
-      method: 'PATCH',
-    });
+  async updateEvent(token: string, eventId: string, eventData: Partial<CreateEventData>): Promise<Event> {
+    try {
+      const response = await makeRequest(
+        `/events/${eventId}`,
+        {
+          method: 'PUT',
+          body: JSON.stringify(eventData),
+        },
+        token
+      );
+      return response;
+    } catch (error) {
+      console.error('Failed to update event:', error);
+      throw error;
+    }
   }
 
-  // Dashboard methods
-  async getDashboardData(): Promise<any> {
-    return this.request<any>('/reservations/dashboard/');
+  async deleteEvent(token: string, eventId: string): Promise<void> {
+    try {
+      await makeRequest(
+        `/events/${eventId}`,
+        { method: 'DELETE' },
+        token
+      );
+    } catch (error) {
+      console.error('Failed to delete event:', error);
+      throw error;
+    }
   }
 
-  async getDashboardAnalytics(): Promise<any> {
-    return this.request<any>('/dashboard/analytics/');
+  async toggleEventActive(token: string, eventId: string): Promise<Event> {
+    try {
+      const response = await makeRequest(
+        `/events/${eventId}/toggle-active`,
+        { method: 'POST' },
+        token
+      );
+      return response;
+    } catch (error) {
+      console.error('Failed to toggle event active status:', error);
+      throw error;
+    }
   }
 
-  // Auth methods
-  setToken(token: string): void {
-    this.token = token;
-    localStorage.setItem('adminToken', token);
+  async toggleEventFeatured(token: string, eventId: string): Promise<Event> {
+    try {
+      const response = await makeRequest(
+        `/events/${eventId}/toggle-featured`,
+        { method: 'POST' },
+        token
+      );
+      return response;
+    } catch (error) {
+      console.error('Failed to toggle event featured status:', error);
+      throw error;
+    }
   }
 
-  clearToken(): void {
-    this.token = null;
-    localStorage.removeItem('adminToken');
+  // Additional utility methods
+  async getEventById(eventId: string): Promise<Event> {
+    try {
+      const response = await makeRequest(`/events/${eventId}/public`);
+      return response;
+    } catch (error) {
+      console.error('Failed to fetch event by ID:', error);
+      throw error;
+    }
+  }
+
+  async searchEvents(query: string): Promise<Event[]> {
+    try {
+      const response = await makeRequest(`/events/search?q=${encodeURIComponent(query)}`);
+      return response;
+    } catch (error) {
+      console.error('Failed to search events:', error);
+      throw error;
+    }
   }
 }
 
+// Create and export a singleton instance
 export const apiClient = new ApiClient();
+
+// Export default as well for flexibility
 export default apiClient;

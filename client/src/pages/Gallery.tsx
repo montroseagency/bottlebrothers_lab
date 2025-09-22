@@ -1,13 +1,16 @@
-// client/src/pages/Gallery.tsx - FIXED VERSION
+// client/src/pages/Gallery.tsx - WITH TRANSLATIONS
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Link } from 'react-router-dom';
 import type{ GalleryItem, } from '../services/api';
 import { ParticleField } from '../components/ui/ParticleField';
 import { apiClient } from '../services/api';
 import { MagneticButton } from '../components/ui/MagneticButton';
+
 interface GalleryPageProps {}
 
 export const GalleryPage: React.FC<GalleryPageProps> = () => {
+  const { t } = useTranslation();
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
   const [filteredItems, setFilteredItems] = useState<GalleryItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -15,14 +18,13 @@ export const GalleryPage: React.FC<GalleryPageProps> = () => {
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [selectedImage, setSelectedImage] = useState<GalleryItem | null>(null);
   const [imageLoading, setImageLoading] = useState<{ [key: string]: boolean }>({});
-  const { t } = useTranslation();
 
   const categories = [
-    { value: 'all', label: 'All Categories' },
-    { value: 'food', label: 'Food & Drinks' },
-    { value: 'interior', label: 'Interior Design' },
-    { value: 'events', label: 'Events & Celebrations' },
-    { value: 'staff', label: 'Our Team' },
+    { value: 'all', label: t('gallery.categories.all') },
+    { value: 'food', label: t('gallery.categories.food') },
+    { value: 'interior', label: t('gallery.categories.interior') },
+    { value: 'events', label: t('gallery.categories.events') },
+    { value: 'cocktails', label: t('gallery.categories.cocktails') },
     { value: 'atmosphere', label: 'Atmosphere' },
     { value: 'other', label: 'Other' },
   ];
@@ -86,31 +88,45 @@ export const GalleryPage: React.FC<GalleryPageProps> = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-black flex items-center justify-center">
+      <div className="min-h-screen bg-gradient-to-br from-black via-stone-900 to-green-900/20 flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-16 w-16 border-b-2 border-green-400 mx-auto mb-4"></div>
-          <p className="text-white text-xl">Loading gallery...</p>
+          <p className="text-white text-xl">{t('common.loading')}</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-stone-900 to-green-900/20 relative overflow-hidden">
-      <ParticleField particleCount={30} color="bg-green-400" />
-      
-      <div className="relative z-10 pt-24 pb-20">
-        {/* Hero Section */}
-        <div className="text-center mb-16 px-4 sm:px-6 lg:px-8">
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 leading-tight">
-            Visual <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400">Stories</span>
-          </h1>
-          <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Step into our world through these carefully curated moments that capture the essence of exceptional dining, 
-            elegant atmosphere, and unforgettable experiences.
-          </p>
+    <div className="min-h-screen bg-gradient-to-br from-stone-100 via-stone-50 to-green-50 relative overflow-hidden">
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-br from-stone-100 to-stone-200 py-16 sm:py-20 lg:py-32 xl:py-40 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-green-900/10 to-green-800/5"></div>
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-5xl mx-auto">
+            <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide mb-4 sm:mb-6">
+              {t('gallery.hero.badge')}
+            </span>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-gray-800 mb-4 sm:mb-6 leading-tight">
+              {t('gallery.hero.title.our')}
+              <span className="block text-green-800">{t('gallery.hero.title.gallery')}</span>
+            </h1>
+            <p className="text-lg sm:text-xl md:text-2xl text-gray-700 mb-8 sm:mb-10 max-w-4xl mx-auto leading-relaxed px-4 sm:px-0">
+              {t('gallery.hero.subtitle')}
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center px-4 sm:px-0">
+              <MagneticButton className="w-full sm:w-auto bg-green-800 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-green-900 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-2">
+                <Link to="/contact" className="block w-full text-center">{t('gallery.hero.buttons.bookVisit')}</Link>
+              </MagneticButton>
+              <MagneticButton className="w-full sm:w-auto border-2 border-green-800 text-green-800 px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-green-800 hover:text-white transition-all duration-300">
+                <Link to="/events" className="block w-full text-center">{t('gallery.hero.buttons.privateEvents')}</Link>
+              </MagneticButton>
+            </div>
+          </div>
         </div>
+      </section>
 
+      <div className="relative z-10 py-16 sm:py-20">
         {/* Filter Tabs */}
         <div className="max-w-6xl mx-auto mb-12 px-4 sm:px-6 lg:px-8">
           <div className="flex flex-wrap justify-center gap-4">
@@ -126,7 +142,7 @@ export const GalleryPage: React.FC<GalleryPageProps> = () => {
                   className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
                     selectedCategory === category.value
                       ? 'bg-green-600 text-white shadow-lg shadow-green-600/25'
-                      : 'bg-white/10 text-white border border-white/20 hover:bg-white/20 backdrop-blur-sm'
+                      : 'bg-white/80 text-green-800 border border-green-200 hover:bg-green-50 backdrop-blur-sm'
                   }`}
                 >
                   <span className="flex items-center space-x-2">
@@ -134,7 +150,7 @@ export const GalleryPage: React.FC<GalleryPageProps> = () => {
                     <span className={`text-xs px-2 py-0.5 rounded-full ${
                       selectedCategory === category.value
                         ? 'bg-white/20'
-                        : 'bg-green-400/20'
+                        : 'bg-green-100'
                     }`}>
                       {itemCount}
                     </span>
@@ -148,18 +164,18 @@ export const GalleryPage: React.FC<GalleryPageProps> = () => {
         {/* Error State */}
         {error && (
           <div className="max-w-6xl mx-auto mb-12 px-4 sm:px-6 lg:px-8">
-            <div className="bg-red-500/10 border border-red-500/20 rounded-xl p-6 text-center backdrop-blur-sm">
+            <div className="bg-red-50 border border-red-200 rounded-xl p-6 text-center">
               <div className="flex items-center justify-center mb-4">
                 <svg className="w-12 h-12 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
               </div>
-              <p className="text-red-400 mb-4">{error}</p>
+              <p className="text-red-600 mb-4">{t('common.error')}</p>
               <button
                 onClick={fetchGalleryItems}
                 className="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-lg transition-colors"
               >
-                Try Again
+                {t('common.tryAgain')}
               </button>
             </div>
           </div>
@@ -169,14 +185,14 @@ export const GalleryPage: React.FC<GalleryPageProps> = () => {
         {filteredItems.length === 0 && !error ? (
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center py-20">
-              <svg className="w-20 h-20 text-gray-600 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-20 h-20 text-gray-400 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
-              <h3 className="text-2xl font-semibold text-white mb-2">No Images Found</h3>
-              <p className="text-gray-400">
+              <h3 className="text-2xl font-semibold text-gray-700 mb-2">{t('gallery.noImages.title')}</h3>
+              <p className="text-gray-500">
                 {selectedCategory === 'all' 
-                  ? "We're working on adding beautiful images to showcase our restaurant."
-                  : `No images found in the ${categories.find(c => c.value === selectedCategory)?.label} category.`
+                  ? t('gallery.noImages.subtitle')
+                  : t('gallery.noImages.subtitle')
                 }
               </p>
             </div>
@@ -187,7 +203,7 @@ export const GalleryPage: React.FC<GalleryPageProps> = () => {
               {filteredItems.map((item, index) => (
                 <div
                   key={item.id}
-                  className={`group relative overflow-hidden rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 hover:border-green-400/50 transition-all duration-500 cursor-pointer ${
+                  className={`group relative overflow-hidden rounded-2xl bg-white shadow-lg hover:shadow-xl border border-stone-200 hover:border-green-300 transition-all duration-500 cursor-pointer ${
                     item.is_featured ? 'lg:col-span-2 lg:row-span-2' : ''
                   }`}
                   style={{
@@ -200,7 +216,7 @@ export const GalleryPage: React.FC<GalleryPageProps> = () => {
                     item.is_featured ? 'h-96 lg:h-full' : 'h-64'
                   }`}>
                     {imageLoading[item.id] && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-gray-800">
+                      <div className="absolute inset-0 flex items-center justify-center bg-gray-100">
                         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-green-400"></div>
                       </div>
                     )}
@@ -259,6 +275,81 @@ export const GalleryPage: React.FC<GalleryPageProps> = () => {
           </div>
         )}
 
+        {/* Stats Section */}
+        <section className="py-16 sm:py-20 lg:py-24 bg-white mt-16 sm:mt-20">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-12 sm:mb-16 max-w-3xl mx-auto">
+              <span className="inline-block bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide mb-4">
+                {t('gallery.stats.badge')}
+              </span>
+              <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 mb-4 sm:mb-6">
+                {t('gallery.stats.title')}
+              </h2>
+              <p className="text-lg sm:text-xl text-gray-600 leading-relaxed">
+                {t('gallery.stats.subtitle')}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 sm:gap-12">
+              {[
+                {
+                  titleKey: 'interiorDesign',
+                  descriptionKey: 'interiorDesign',
+                  statKey: 'interiorDesign'
+                },
+                {
+                  titleKey: 'culinaryArt',
+                  descriptionKey: 'culinaryArt', 
+                  statKey: 'culinaryArt'
+                },
+                {
+                  titleKey: 'privateEvents',
+                  descriptionKey: 'privateEvents',
+                  statKey: 'privateEvents'
+                }
+              ].map((item, index) => (
+                <div key={index} className="text-center p-6 sm:p-8 bg-stone-50 rounded-2xl shadow-lg border border-stone-200">
+                  <div className="mb-6">
+                    <div className="text-4xl sm:text-5xl font-bold text-green-800 mb-2">
+                      {t(`gallery.stats.${item.statKey}.stat`)}
+                    </div>
+                    <div className="text-sm text-green-600 font-semibold uppercase tracking-wide">
+                      {t(`gallery.stats.${item.statKey}.statLabel`)}
+                    </div>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-bold text-gray-800 mb-4">
+                    {t(`gallery.stats.${item.titleKey}.title`)}
+                  </h3>
+                  <p className="text-gray-600 leading-relaxed">
+                    {t(`gallery.stats.${item.descriptionKey}.description`)}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Call to Action */}
+        <section className="py-16 sm:py-20 lg:py-24 bg-gradient-to-r from-green-800 to-green-700 relative overflow-hidden">
+          <div className="absolute inset-0 bg-black/20"></div>
+          <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-white mb-4 sm:mb-6">
+              {t('gallery.cta.title')}
+            </h2>
+            <p className="text-lg sm:text-xl text-green-100 mb-8 sm:mb-10 max-w-2xl mx-auto leading-relaxed">
+              {t('gallery.cta.subtitle')}
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
+              <MagneticButton className="w-full sm:w-auto bg-white text-green-800 px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-stone-100 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
+                <Link to="/contact" className="block text-center">{t('gallery.cta.buttons.makeReservation')}</Link>
+              </MagneticButton>
+              <MagneticButton className="w-full sm:w-auto border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-white hover:text-green-800 transition-all duration-300">
+                <Link to="/menu" className="block text-center">{t('gallery.cta.buttons.viewMenu')}</Link>
+              </MagneticButton>
+            </div>
+          </div>
+        </section>
+
         {/* Modal */}
         {selectedImage && (
           <div className="fixed inset-0 bg-black/90 backdrop-blur-lg z-50 flex items-center justify-center p-4">
@@ -267,6 +358,7 @@ export const GalleryPage: React.FC<GalleryPageProps> = () => {
               <button
                 onClick={closeModal}
                 className="absolute top-4 right-4 z-10 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-colors"
+                aria-label={t('gallery.lightbox.close')}
               >
                 <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
