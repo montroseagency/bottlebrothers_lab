@@ -1,4 +1,4 @@
-# server/api/views.py - COMPLETE VERSION
+# server/api/views.py - ENHANCED VERSION
 from rest_framework import viewsets, status, permissions
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
@@ -40,6 +40,61 @@ class ReservationViewSet(viewsets.ModelViewSet):
         else:
             permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
+    
+    def get_queryset(self):
+        """Filter reservations based on query parameters"""
+        queryset = Reservation.objects.all()
+        
+        if not self.request.user.is_authenticated and self.action not in ['create', 'lookup']:
+            return queryset.none()
+        
+        # Apply filters
+        status_filter = self.request.query_params.get('status')
+        if status_filter:
+            queryset = queryset.filter(status=status_filter)
+        
+        date_filter = self.request.query_params.get('date')
+        if date_filter:
+            try:
+                filter_date = datetime.strptime(date_filter, '%Y-%m-%d').date()
+                queryset = queryset.filter(date=filter_date)
+            except ValueError:
+                pass
+        
+        date_from = self.request.query_params.get('date_from')
+        if date_from:
+            try:
+                from_date = datetime.strptime(date_from, '%Y-%m-%d').date()
+                queryset = queryset.filter(date__gte=from_date)
+            except ValueError:
+                pass
+        
+        date_to = self.request.query_params.get('date_to')
+        if date_to:
+            try:
+                to_date = datetime.strptime(date_to, '%Y-%m-%d').date()
+                queryset = queryset.filter(date__lte=to_date)
+            except ValueError:
+                pass
+        
+        search = self.request.query_params.get('search')
+        if search:
+            queryset = queryset.filter(
+                Q(first_name__icontains=search) |
+                Q(last_name__icontains=search) |
+                Q(email__icontains=search) |
+                Q(phone__icontains=search)
+            )
+        
+        email = self.request.query_params.get('email')
+        if email:
+            queryset = queryset.filter(email__iexact=email)
+        
+        phone = self.request.query_params.get('phone')
+        if phone:
+            queryset = queryset.filter(phone=phone)
+        
+        return queryset.order_by('-created_at')
     
     @action(detail=False, methods=['get'])
     def availability(self, request):
@@ -122,12 +177,30 @@ class ReservationViewSet(viewsets.ModelViewSet):
             )
         
         reservations = Reservation.objects.filter(
-            email=email,
+            email__iexact=email,
             phone=phone
         ).order_by('-created_at')
         
         serializer = self.get_serializer(reservations, many=True)
         return Response(serializer.data)
+    
+    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
+    def stats(self, request):
+        """Get reservation statistics for dashboard"""
+        today = timezone.now().date()
+        
+        stats = {
+            'total_reservations': Reservation.objects.count(),
+            'confirmed_reservations': Reservation.objects.filter(status='confirmed').count(),
+            'pending_reservations': Reservation.objects.filter(status='pending').count(),
+            'cancelled_reservations': Reservation.objects.filter(status='cancelled').count(),
+            'completed_reservations': Reservation.objects.filter(status='completed').count(),
+            'seated_reservations': Reservation.objects.filter(status='seated').count(),
+            'no_show_reservations': Reservation.objects.filter(status='no_show').count(),
+            'today_reservations': Reservation.objects.filter(date=today).count(),
+        }
+        
+        return Response(stats)
     
     @action(detail=True, methods=['post'])
     def cancel(self, request, pk=None):
@@ -483,34 +556,6 @@ class EventViewSet(viewsets.ModelViewSet):
             )
 
 
-class EventTypeViewSet(viewsets.ModelViewSet):
-    queryset = EventType.objects.all()
-    serializer_class = EventTypeSerializer
-    permission_classes = [IsAuthenticated]
-    
-    def get_permissions(self):
-        """Public access for list/retrieve"""
-        if self.action in ['list', 'retrieve']:
-            permission_classes = [AllowAny]
-        else:
-            permission_classes = [IsAuthenticated]
-        return [permission() for permission in permission_classes]
-
-
-class VenueSpaceViewSet(viewsets.ModelViewSet):
-    queryset = VenueSpace.objects.all()
-    serializer_class = VenueSpaceSerializer
-    parser_classes = (MultiPartParser, FormParser, JSONParser)
-    
-    def get_permissions(self):
-        """Public access for list/retrieve"""
-        if self.action in ['list', 'retrieve']:
-            permission_classes = [AllowAny]
-        else:
-            permission_classes = [IsAuthenticated]
-        return [permission() for permission in permission_classes]
-
-
 # Authentication views
 class CustomTokenObtainPairView(TokenObtainPairView):
     def post(self, request, *args, **kwargs):
@@ -572,6 +617,7 @@ def dashboard_analytics(request):
     # Reservations analytics
     total_reservations = Reservation.objects.count()
     pending_reservations = Reservation.objects.filter(status='pending').count()
+    confirmed_reservations = Reservation.objects.filter(status='confirmed').count()
     today_reservations = Reservation.objects.filter(date=today).count()
     
     # Events analytics
@@ -598,6 +644,7 @@ def dashboard_analytics(request):
         'reservations': {
             'total': total_reservations,
             'pending': pending_reservations,
+            'confirmed': confirmed_reservations,
             'today': today_reservations,
         },
         'events': {

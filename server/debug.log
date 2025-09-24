@@ -16,3 +16,31 @@ INFO 2025-09-24 07:39:48,071 autoreload 21612 28908 Watching for file changes wi
 INFO 2025-09-24 07:40:38,355 autoreload 21612 28908 C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\admin.py changed, reloading.
 INFO 2025-09-24 07:40:39,573 autoreload 3020 25352 Watching for file changes with StatReloader
 INFO 2025-09-24 07:41:22,083 autoreload 9332 29684 Watching for file changes with StatReloader
+INFO 2025-09-24 07:57:48,832 basehttp 9332 29692 "OPTIONS /api/reservations/dashboard/ HTTP/1.1" 200 0
+WARNING 2025-09-24 07:57:49,238 log 9332 29796 Unauthorized: /api/reservations/dashboard/
+WARNING 2025-09-24 07:57:49,243 basehttp 9332 29796 "GET /api/reservations/dashboard/ HTTP/1.1" 401 183
+WARNING 2025-09-24 07:57:49,249 log 9332 29796 Unauthorized: /api/reservations/dashboard/
+INFO 2025-09-24 07:57:49,252 basehttp 9332 29796 - Broken pipe from ('127.0.0.1', 51269)
+INFO 2025-09-24 07:58:00,120 basehttp 9332 29692 "OPTIONS /api/auth/login/ HTTP/1.1" 200 0
+INFO 2025-09-24 07:58:04,827 basehttp 9332 29692 "POST /api/auth/login/ HTTP/1.1" 200 626
+INFO 2025-09-24 07:58:04,963 basehttp 9332 29692 "OPTIONS /api/reservations/dashboard/ HTTP/1.1" 200 0
+WARNING 2025-09-24 07:58:04,974 log 9332 29692 Not Found: /api/reservations/dashboard/
+INFO 2025-09-24 07:58:04,975 basehttp 9332 20452 "OPTIONS /api/reservations/dashboard/ HTTP/1.1" 200 0
+WARNING 2025-09-24 07:58:04,980 basehttp 9332 29692 "GET /api/reservations/dashboard/ HTTP/1.1" 404 23
+WARNING 2025-09-24 07:58:04,988 log 9332 20452 Not Found: /api/reservations/dashboard/
+WARNING 2025-09-24 07:58:04,997 basehttp 9332 20452 "GET /api/reservations/dashboard/ HTTP/1.1" 404 23
+INFO 2025-09-24 07:58:19,001 basehttp 9332 29692 "OPTIONS /api/reservations/ HTTP/1.1" 200 0
+INFO 2025-09-24 07:58:19,023 basehttp 9332 29692 "GET /api/reservations/ HTTP/1.1" 200 52
+INFO 2025-09-24 07:58:19,043 basehttp 9332 29692 "GET /api/reservations/ HTTP/1.1" 200 52
+WARNING 2025-09-24 07:59:42,711 log 9332 29692 Not Found: /api/reservations/dashboard/
+WARNING 2025-09-24 07:59:42,713 log 9332 20452 Not Found: /api/reservations/dashboard/
+WARNING 2025-09-24 07:59:42,718 basehttp 9332 29692 "GET /api/reservations/dashboard/ HTTP/1.1" 404 23
+WARNING 2025-09-24 07:59:42,725 basehttp 9332 20452 "GET /api/reservations/dashboard/ HTTP/1.1" 404 23
+INFO 2025-09-24 07:59:46,021 basehttp 9332 29692 "GET /api/reservations/ HTTP/1.1" 200 52
+INFO 2025-09-24 07:59:46,034 basehttp 9332 29692 "GET /api/reservations/ HTTP/1.1" 200 52
+INFO 2025-09-24 08:08:26,334 autoreload 9332 29684 C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\views.py changed, reloading.
+INFO 2025-09-24 08:08:30,206 autoreload 14564 20676 Watching for file changes with StatReloader
+INFO 2025-09-24 08:08:39,704 autoreload 14564 20676 C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\urls.py changed, reloading.
+INFO 2025-09-24 08:08:42,515 autoreload 3048 22992 Watching for file changes with StatReloader
+INFO 2025-09-24 08:31:48,076 basehttp 3048 19308 "GET /api/reservations/ HTTP/1.1" 200 52
+INFO 2025-09-24 08:31:48,105 basehttp 3048 19308 "GET /api/reservations/ HTTP/1.1" 200 52
