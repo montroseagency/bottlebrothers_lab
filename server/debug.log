@@ -1,0 +1,18 @@
+INFO 2025-09-24 07:23:34,575 autoreload 23616 29536 Watching for file changes with StatReloader
+INFO 2025-09-24 07:25:06,451 autoreload 17760 26828 Watching for file changes with StatReloader
+INFO 2025-09-24 07:29:31,018 autoreload 17760 26828 C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\views.py changed, reloading.
+INFO 2025-09-24 07:29:33,942 autoreload 23780 19204 Watching for file changes with StatReloader
+INFO 2025-09-24 07:32:01,650 autoreload 23780 19204 C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\serializers.py changed, reloading.
+INFO 2025-09-24 07:32:05,473 autoreload 13512 21496 Watching for file changes with StatReloader
+INFO 2025-09-24 07:32:30,059 autoreload 13512 21496 C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\views.py changed, reloading.
+INFO 2025-09-24 07:32:34,428 autoreload 10944 24824 Watching for file changes with StatReloader
+INFO 2025-09-24 07:33:32,201 autoreload 10944 24824 C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\admin.py changed, reloading.
+INFO 2025-09-24 07:33:34,847 autoreload 17712 23972 Watching for file changes with StatReloader
+INFO 2025-09-24 07:34:03,889 autoreload 17712 23972 C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py changed, reloading.
+INFO 2025-09-24 07:34:05,469 autoreload 6296 30156 Watching for file changes with StatReloader
+INFO 2025-09-24 07:37:45,262 autoreload 6296 30156 C:\Users\Perdoruess\bottlebrothers_lab-7\server\server\settings.py changed, reloading.
+INFO 2025-09-24 07:39:20,263 autoreload 22020 26224 Watching for file changes with StatReloader
+INFO 2025-09-24 07:39:48,071 autoreload 21612 28908 Watching for file changes with StatReloader
+INFO 2025-09-24 07:40:38,355 autoreload 21612 28908 C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\admin.py changed, reloading.
+INFO 2025-09-24 07:40:39,573 autoreload 3020 25352 Watching for file changes with StatReloader
+INFO 2025-09-24 07:41:22,083 autoreload 9332 29684 Watching for file changes with StatReloader

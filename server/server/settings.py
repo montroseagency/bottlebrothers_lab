@@ -1,10 +1,11 @@
-# server/server/settings.py
+# server/server/settings.py - COMPLETE VERSION WITH MEDIA FILES
 """
 Django settings for server project.
 """
 
 from pathlib import Path
 from datetime import timedelta
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -60,6 +61,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',  # Add media context processor
             ],
         },
     },
@@ -98,8 +100,17 @@ USE_I18N = True
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Media files (User uploads)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Create media directories
+os.makedirs(MEDIA_ROOT / 'gallery', exist_ok=True)
+os.makedirs(MEDIA_ROOT / 'events', exist_ok=True)
+os.makedirs(MEDIA_ROOT / 'venues', exist_ok=True)
 
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
@@ -202,6 +213,35 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=7),
 }
 
+# File Upload Settings
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024   # 10MB
+FILE_UPLOAD_PERMISSIONS = 0o644
+
+# server/server/settings.py - ADD THESE LINES FOR IMAGE UPLOADS
+
+import os
+
+# Static files (CSS, JavaScript, Images)
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+
+# Media files (User uploads) - ADD THIS SECTION
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Create media directories
+os.makedirs(MEDIA_ROOT / 'gallery', exist_ok=True)
+os.makedirs(MEDIA_ROOT / 'events', exist_ok=True)
+os.makedirs(MEDIA_ROOT / 'venues', exist_ok=True)
+
+# File upload settings
+FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10MB
+DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024   # 10MB
+# Allowed file types for uploads
+ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+MAX_IMAGE_SIZE = 5 * 1024 * 1024  # 5MB
+
 # Email Configuration (for reservation confirmations)
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
@@ -209,16 +249,46 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 SECURE_CROSS_ORIGIN_OPENER_POLICY = None
 SECURE_REFERRER_POLICY = None
 
-# Logging for debugging CORS issues
+# Logging configuration
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '{levelname} {asctime} {module} {process:d} {thread:d} {message}',
+            'style': '{',
+        },
+        'simple': {
+            'format': '{levelname} {message}',
+            'style': '{',
+        },
+    },
     'handlers': {
         'console': {
             'class': 'logging.StreamHandler',
+            'formatter': 'simple',
+        },
+        'file': {
+            'class': 'logging.FileHandler',
+            'filename': BASE_DIR / 'debug.log',
+            'formatter': 'verbose',
         },
     },
+    'root': {
+        'handlers': ['console'],
+        'level': 'INFO',
+    },
     'loggers': {
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'INFO',
+            'propagate': False,
+        },
+        'api': {
+            'handlers': ['console', 'file'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
         'corsheaders': {
             'handlers': ['console'],
             'level': 'DEBUG',

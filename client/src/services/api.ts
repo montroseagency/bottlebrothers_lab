@@ -1,9 +1,9 @@
-// src/services/api.ts
+// src/services/api.ts - COMPLETE VERSION
 
 // Base URL for your API - using REACT_APP_ prefix for Create React App
 const API_BASE_URL = (window as any)?.env?.REACT_APP_API_URL || 
                      (typeof process !== 'undefined' ? process.env.REACT_APP_API_URL : null) || 
-                     'http://localhost:3001/api';
+                     'http://localhost:8000/api';
 
 // Event type definitions
 export interface Event {
@@ -11,7 +11,7 @@ export interface Event {
   title: string;
   description: string;
   image_url?: string;
-  event_type: 'featured' | 'recurring' | 'one-time';
+  event_type: 'featured' | 'recurring' | 'regular';
   status: 'upcoming' | 'active' | 'completed' | 'cancelled';
   start_date: string;
   start_time: string;
@@ -31,6 +31,20 @@ export interface Event {
   updated_at?: string;
 }
 
+// Gallery type definitions
+export interface GalleryItem {
+  id: string;
+  title: string;
+  description: string;
+  image_url: string;
+  category: 'food' | 'interior' | 'events' | 'cocktails' | 'atmosphere' | 'staff' | 'other';
+  is_featured: boolean;
+  display_order?: number;
+  is_active?: boolean;
+  created_at?: string;
+  updated_at?: string;
+}
+
 export interface EventFilters {
   event_type?: string;
   status?: string;
@@ -39,23 +53,40 @@ export interface EventFilters {
   date?: string;
 }
 
+export interface GalleryFilters {
+  category?: string;
+  is_featured?: boolean;
+  is_active?: boolean;
+}
+
 export interface CreateEventData {
   title: string;
   description: string;
+  image?: File;
   image_url?: string;
   event_type: string;
   start_date: string;
   start_time: string;
   end_time?: string;
   end_date?: string;
-  recurring_type?: string;
-  recurring_days?: string;
-  formatted_price: string;
+  frequency?: string;
+  recurring_day?: string;
+  price?: number;
+  price_display?: string;
   location: string;
   booking_required: boolean;
   booking_url?: string;
   is_featured?: boolean;
-  capacity?: number;
+  max_capacity?: number;
+}
+
+export interface CreateGalleryData {
+  title: string;
+  description: string;
+  image: File;
+  category: string;
+  is_featured?: boolean;
+  display_order?: number;
 }
 
 // API Error handling
@@ -91,9 +122,13 @@ const makeRequest = async (
   token?: string
 ) => {
   const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
     ...(options.headers as Record<string, string>),
   };
+
+  // Only add Content-Type for non-FormData requests
+  if (!(options.body instanceof FormData)) {
+    headers['Content-Type'] = 'application/json';
+  }
 
   if (token) {
     headers.Authorization = `Bearer ${token}`;
@@ -112,7 +147,7 @@ export class ApiClient {
   // Public Events (no authentication required)
   async getPublicEvents(): Promise<Event[]> {
     try {
-      const response = await makeRequest('/events/public');
+      const response = await makeRequest('/events/public/');
       return response;
     } catch (error) {
       console.error('Failed to fetch public events:', error);
@@ -122,7 +157,7 @@ export class ApiClient {
 
   async getFeaturedEvents(): Promise<Event[]> {
     try {
-      const response = await makeRequest('/events/featured');
+      const response = await makeRequest('/events/featured/');
       return response;
     } catch (error) {
       console.error('Failed to fetch featured events:', error);
@@ -132,7 +167,7 @@ export class ApiClient {
 
   async getUpcomingEvents(limit?: number): Promise<Event[]> {
     try {
-      const url = limit ? `/events/upcoming?limit=${limit}` : '/events/upcoming';
+      const url = limit ? `/events/upcoming/?limit=${limit}` : '/events/upcoming/';
       const response = await makeRequest(url);
       return response;
     } catch (error) {
@@ -141,9 +176,9 @@ export class ApiClient {
     }
   }
 
-  async getEventTypes(): Promise<Array<{ id: string; name: string; count: number }>> {
+  async getEventTypes(): Promise<Array<{ value: string; label: string; count: number }>> {
     try {
-      const response = await makeRequest('/events/types');
+      const response = await makeRequest('/events/types/');
       return response;
     } catch (error) {
       console.error('Failed to fetch event types:', error);
@@ -151,10 +186,181 @@ export class ApiClient {
     }
   }
 
-  // Authenticated endpoints (require token)
+  // Public Gallery (no authentication required)
+  async getPublicGalleryItems(filters?: GalleryFilters): Promise<GalleryItem[]> {
+    try {
+      let url = '/gallery/public/';
+      
+      if (filters) {
+        const params = new URLSearchParams();
+        Object.entries(filters).forEach(([key, value]) => {
+          if (value !== null && value !== undefined) {
+            params.append(key, String(value));
+          }
+        });
+        if (params.toString()) {
+          url += `?${params.toString()}`;
+        }
+      }
+
+      const response = await makeRequest(url);
+      return response;
+    } catch (error) {
+      console.error('Failed to fetch public gallery items:', error);
+      throw error;
+    }
+  }
+
+  async getFeaturedGalleryItems(): Promise<GalleryItem[]> {
+    try {
+      const response = await makeRequest('/gallery/public/?featured=true');
+      return response;
+    } catch (error) {
+      console.error('Failed to fetch featured gallery items:', error);
+      throw error;
+    }
+  }
+
+  async getGalleryCategories(): Promise<Array<{ value: string; label: string; count: number }>> {
+    try {
+      const response = await makeRequest('/gallery/categories/');
+      return response;
+    } catch (error) {
+      console.error('Failed to fetch gallery categories:', error);
+      throw error;
+    }
+  }
+
+  // Authenticated Gallery endpoints (require token)
+  async getGalleryItems(token: string, filters?: GalleryFilters): Promise<GalleryItem[]> {
+    try {
+      let url = '/gallery/';
+      
+      if (filters) {
+        const params = new URLSearchParams();
+        Object.entries(filters).forEach(([key, value]) => {
+          if (value !== null && value !== undefined) {
+            params.append(key, String(value));
+          }
+        });
+        if (params.toString()) {
+          url += `?${params.toString()}`;
+        }
+      }
+
+      const response = await makeRequest(url, { method: 'GET' }, token);
+      return response;
+    } catch (error) {
+      console.error('Failed to fetch gallery items:', error);
+      throw error;
+    }
+  }
+
+  async createGalleryItem(token: string, galleryData: CreateGalleryData): Promise<GalleryItem> {
+    try {
+      const formData = new FormData();
+      formData.append('title', galleryData.title);
+      formData.append('description', galleryData.description);
+      formData.append('image', galleryData.image);
+      formData.append('category', galleryData.category);
+      
+      if (galleryData.is_featured !== undefined) {
+        formData.append('is_featured', galleryData.is_featured.toString());
+      }
+      
+      if (galleryData.display_order !== undefined) {
+        formData.append('display_order', galleryData.display_order.toString());
+      }
+
+      const response = await makeRequest(
+        '/gallery/',
+        {
+          method: 'POST',
+          body: formData,
+        },
+        token
+      );
+      return response;
+    } catch (error) {
+      console.error('Failed to create gallery item:', error);
+      throw error;
+    }
+  }
+
+  async updateGalleryItem(token: string, itemId: string, galleryData: Partial<CreateGalleryData>): Promise<GalleryItem> {
+    try {
+      const formData = new FormData();
+      
+      Object.entries(galleryData).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          if (key === 'image' && value instanceof File) {
+            formData.append(key, value);
+          } else {
+            formData.append(key, String(value));
+          }
+        }
+      });
+
+      const response = await makeRequest(
+        `/gallery/${itemId}/`,
+        {
+          method: 'PUT',
+          body: formData,
+        },
+        token
+      );
+      return response;
+    } catch (error) {
+      console.error('Failed to update gallery item:', error);
+      throw error;
+    }
+  }
+
+  async deleteGalleryItem(token: string, itemId: string): Promise<void> {
+    try {
+      await makeRequest(
+        `/gallery/${itemId}/`,
+        { method: 'DELETE' },
+        token
+      );
+    } catch (error) {
+      console.error('Failed to delete gallery item:', error);
+      throw error;
+    }
+  }
+
+  async toggleGalleryItemActive(token: string, itemId: string): Promise<GalleryItem> {
+    try {
+      const response = await makeRequest(
+        `/gallery/${itemId}/toggle_active/`,
+        { method: 'PATCH' },
+        token
+      );
+      return response;
+    } catch (error) {
+      console.error('Failed to toggle gallery item active status:', error);
+      throw error;
+    }
+  }
+
+  async toggleGalleryItemFeatured(token: string, itemId: string): Promise<GalleryItem> {
+    try {
+      const response = await makeRequest(
+        `/gallery/${itemId}/toggle_featured/`,
+        { method: 'PATCH' },
+        token
+      );
+      return response;
+    } catch (error) {
+      console.error('Failed to toggle gallery item featured status:', error);
+      throw error;
+    }
+  }
+
+  // Authenticated Events endpoints (require token)
   async getEvents(token: string, filters?: EventFilters): Promise<Event[]> {
     try {
-      let url = '/events';
+      let url = '/events/';
       
       if (filters) {
         const params = new URLSearchParams();
@@ -178,11 +384,24 @@ export class ApiClient {
 
   async createEvent(token: string, eventData: CreateEventData): Promise<Event> {
     try {
+      const formData = new FormData();
+      
+      // Add all the fields to FormData
+      Object.entries(eventData).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          if (key === 'image' && value instanceof File) {
+            formData.append(key, value);
+          } else {
+            formData.append(key, String(value));
+          }
+        }
+      });
+
       const response = await makeRequest(
-        '/events',
+        '/events/',
         {
           method: 'POST',
-          body: JSON.stringify(eventData),
+          body: formData,
         },
         token
       );
@@ -195,11 +414,23 @@ export class ApiClient {
 
   async updateEvent(token: string, eventId: string, eventData: Partial<CreateEventData>): Promise<Event> {
     try {
+      const formData = new FormData();
+      
+      Object.entries(eventData).forEach(([key, value]) => {
+        if (value !== undefined && value !== null) {
+          if (key === 'image' && value instanceof File) {
+            formData.append(key, value);
+          } else {
+            formData.append(key, String(value));
+          }
+        }
+      });
+
       const response = await makeRequest(
-        `/events/${eventId}`,
+        `/events/${eventId}/`,
         {
           method: 'PUT',
-          body: JSON.stringify(eventData),
+          body: formData,
         },
         token
       );
@@ -213,7 +444,7 @@ export class ApiClient {
   async deleteEvent(token: string, eventId: string): Promise<void> {
     try {
       await makeRequest(
-        `/events/${eventId}`,
+        `/events/${eventId}/`,
         { method: 'DELETE' },
         token
       );
@@ -226,8 +457,8 @@ export class ApiClient {
   async toggleEventActive(token: string, eventId: string): Promise<Event> {
     try {
       const response = await makeRequest(
-        `/events/${eventId}/toggle-active`,
-        { method: 'POST' },
+        `/events/${eventId}/toggle_active/`,
+        { method: 'PATCH' },
         token
       );
       return response;
@@ -240,8 +471,8 @@ export class ApiClient {
   async toggleEventFeatured(token: string, eventId: string): Promise<Event> {
     try {
       const response = await makeRequest(
-        `/events/${eventId}/toggle-featured`,
-        { method: 'POST' },
+        `/events/${eventId}/toggle_featured/`,
+        { method: 'PATCH' },
         token
       );
       return response;
@@ -254,7 +485,7 @@ export class ApiClient {
   // Additional utility methods
   async getEventById(eventId: string): Promise<Event> {
     try {
-      const response = await makeRequest(`/events/${eventId}/public`);
+      const response = await makeRequest(`/events/${eventId}/`);
       return response;
     } catch (error) {
       console.error('Failed to fetch event by ID:', error);
@@ -262,12 +493,32 @@ export class ApiClient {
     }
   }
 
+  async getGalleryItemById(itemId: string): Promise<GalleryItem> {
+    try {
+      const response = await makeRequest(`/gallery/${itemId}/`);
+      return response;
+    } catch (error) {
+      console.error('Failed to fetch gallery item by ID:', error);
+      throw error;
+    }
+  }
+
   async searchEvents(query: string): Promise<Event[]> {
     try {
-      const response = await makeRequest(`/events/search?q=${encodeURIComponent(query)}`);
+      const response = await makeRequest(`/events/public/?search=${encodeURIComponent(query)}`);
       return response;
     } catch (error) {
       console.error('Failed to search events:', error);
+      throw error;
+    }
+  }
+
+  async searchGalleryItems(query: string): Promise<GalleryItem[]> {
+    try {
+      const response = await makeRequest(`/gallery/public/?search=${encodeURIComponent(query)}`);
+      return response;
+    } catch (error) {
+      console.error('Failed to search gallery items:', error);
       throw error;
     }
   }

@@ -1,4 +1,4 @@
-# server/api/models.py - UPDATED WITH EVENTS
+# server/api/models.py - UPDATED WITH FRONTEND COMPATIBILITY
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
@@ -155,7 +155,7 @@ class GalleryItem(models.Model):
         ('food', 'Food & Drinks'),
         ('interior', 'Interior Design'),
         ('events', 'Events & Celebrations'),
-        ('staff', 'Our Team'),
+        ('cocktails', 'Cocktails'),
         ('atmosphere', 'Atmosphere'),
         ('other', 'Other'),
     ]
@@ -204,11 +204,25 @@ class GalleryItem(models.Model):
 
 
 class Event(models.Model):
-    """Model for restaurant events"""
+    """Model for restaurant events - Compatible with frontend expectations"""
     EVENT_TYPE_CHOICES = [
         ('featured', 'Featured Event'),
         ('regular', 'Regular Event'),
         ('recurring', 'Recurring Event'),
+    ]
+    
+    STATUS_CHOICES = [
+        ('upcoming', 'Upcoming'),
+        ('active', 'Active'),
+        ('completed', 'Completed'),
+        ('cancelled', 'Cancelled'),
+    ]
+    
+    RECURRING_TYPE_CHOICES = [
+        ('none', 'One Time Only'),
+        ('daily', 'Daily'),
+        ('weekly', 'Weekly'),
+        ('monthly', 'Monthly'),
     ]
     
     FREQUENCY_CHOICES = [
@@ -222,6 +236,8 @@ class Event(models.Model):
     title = models.CharField(max_length=200, help_text="Event title")
     description = models.TextField(help_text="Event description")
     image = models.ImageField(upload_to=event_image_path, help_text="Event image")
+    
+    # Frontend expects these fields
     event_type = models.CharField(
         max_length=20,
         choices=EVENT_TYPE_CHOICES,
@@ -229,42 +245,99 @@ class Event(models.Model):
         help_text="Type of event"
     )
     
-    # Date and time fields
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='upcoming',
+        help_text="Event status"
+    )
+    
+    # Date and time fields (frontend compatible)
     start_date = models.DateField(help_text="Event start date")
     end_date = models.DateField(blank=True, null=True, help_text="Event end date (for multi-day events)")
     start_time = models.TimeField(help_text="Event start time")
     end_time = models.TimeField(help_text="Event end time")
     
-    # Recurring event fields
+    # Recurring event fields (frontend compatible)
+    recurring_type = models.CharField(
+        max_length=20,
+        choices=RECURRING_TYPE_CHOICES,
+        default='none',
+        help_text="How often this event occurs"
+    )
+    recurring_days = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+        help_text="Days of week for recurring events (e.g., 'thursday', 'friday,saturday')"
+    )
+    recurring_until = models.DateField(
+        blank=True, 
+        null=True, 
+        help_text="End date for recurring events"
+    )
+    
+    # Legacy frequency field for backward compatibility
     frequency = models.CharField(
         max_length=20,
         choices=FREQUENCY_CHOICES,
         default='once',
-        help_text="How often this event occurs"
+        help_text="How often this event occurs (legacy field)"
     )
     recurring_day = models.CharField(
         max_length=20,
         blank=True,
         null=True,
-        help_text="Day of week for recurring events (e.g., 'Thursday', 'Friday & Saturday')"
+        help_text="Day of week for recurring events (legacy field)"
     )
     
-    # Pricing and capacity
+    # Pricing and capacity (frontend compatible)
     price = models.DecimalField(
         max_digits=8,
         decimal_places=2,
+        default=0.00,
         help_text="Event price (0.00 for free events)"
+    )
+    formatted_price = models.CharField(
+        max_length=50,
+        blank=True,
+        null=True,
+        help_text="Formatted price display (e.g., 'No Cover', '$10 Cover', '$65 per person')"
     )
     price_display = models.CharField(
         max_length=50,
         blank=True,
         null=True,
-        help_text="Custom price display (e.g., 'No Cover', '$10 Cover', '$65 per person')"
+        help_text="Custom price display (legacy field)"
+    )
+    
+    # Frontend expects these fields
+    capacity = models.IntegerField(
+        blank=True,
+        null=True,
+        help_text="Maximum number of attendees"
     )
     max_capacity = models.IntegerField(
         blank=True,
         null=True,
-        help_text="Maximum number of attendees"
+        help_text="Maximum number of attendees (legacy field)"
+    )
+    
+    location = models.CharField(
+        max_length=200,
+        default='Main Dining Hall',
+        help_text="Event location"
+    )
+    
+    booking_required = models.BooleanField(
+        default=False,
+        help_text="Whether booking is required for this event"
+    )
+    
+    booking_url = models.URLField(
+        blank=True,
+        null=True,
+        help_text="URL for booking this event"
     )
     
     # Display settings
@@ -287,6 +360,11 @@ class Event(models.Model):
         null=True,
         help_text="Any special notes or requirements"
     )
+    special_instructions = models.TextField(
+        blank=True,
+        null=True,
+        help_text="Special instructions (legacy field)"
+    )
     
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -298,6 +376,7 @@ class Event(models.Model):
             models.Index(fields=['event_type', 'is_active']),
             models.Index(fields=['is_featured', 'is_active']),
             models.Index(fields=['start_date', 'is_active']),
+            models.Index(fields=['status', 'is_active']),
         ]
     
     def __str__(self):
@@ -311,6 +390,11 @@ class Event(models.Model):
         return f"{start_str} - {end_str}"
     
     @property
+    def duration_display(self):
+        """Return formatted time range for frontend"""
+        return self.formatted_time
+    
+    @property
     def is_past_event(self):
         """Check if event is in the past"""
         event_datetime = timezone.datetime.combine(
@@ -322,13 +406,30 @@ class Event(models.Model):
     
     @property
     def price_formatted(self):
-        """Return formatted price"""
-        if self.price_display:
+        """Return formatted price for frontend compatibility"""
+        if self.formatted_price:
+            return self.formatted_price
+        elif self.price_display:
             return self.price_display
         elif self.price == 0:
             return "Free"
         else:
             return f"${self.price}"
+    
+    def save(self, *args, **kwargs):
+        # Sync legacy fields
+        if self.recurring_type != 'none' and not self.frequency:
+            self.frequency = self.recurring_type
+        if self.recurring_days and not self.recurring_day:
+            self.recurring_day = self.recurring_days
+        if self.capacity and not self.max_capacity:
+            self.max_capacity = self.capacity
+        elif self.max_capacity and not self.capacity:
+            self.capacity = self.max_capacity
+        if self.special_notes and not self.special_instructions:
+            self.special_instructions = self.special_notes
+        
+        super().save(*args, **kwargs)
     
     def delete(self, *args, **kwargs):
         # Delete the image file when the model instance is deleted
