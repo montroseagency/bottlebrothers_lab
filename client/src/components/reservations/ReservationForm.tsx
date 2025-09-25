@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import type {  ReservationFormData,DayAvailability} from '../../services/api'; 
-import apiClient, { ApiClient } from '../../services/api';
+import type { ReservationFormData, DayAvailability } from '../../services/api';
+import apiClient from '../../services/api';
 
 interface ReservationFormProps {
   onSuccess?: (reservation: any) => void;
   onError?: (error: string) => void;
+  className?: string;
 }
 
 export const ReservationForm: React.FC<ReservationFormProps> = ({
   onSuccess,
-  onError
+  onError,
+  className = ''
 }) => {
   const { t } = useTranslation();
   const [formData, setFormData] = useState<ReservationFormData>({
@@ -28,7 +30,9 @@ export const ReservationForm: React.FC<ReservationFormProps> = ({
   
   const [availability, setAvailability] = useState<DayAvailability[]>([]);
   const [loading, setLoading] = useState(false);
+  const [availabilityLoading, setAvailabilityLoading] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [success, setSuccess] = useState(false);
 
   // Fetch availability when date changes
   useEffect(() => {
@@ -38,16 +42,32 @@ export const ReservationForm: React.FC<ReservationFormProps> = ({
   }, [formData.date]);
 
   const fetchAvailability = async (date: string) => {
+    setAvailabilityLoading(true);
     try {
-      const endDate = new Date(date);
-      endDate.setDate(endDate.getDate() + 1);
-      const availabilityData = await apiClient.getAvailability(
-        date,
-        endDate.toISOString().split('T')[0]
-      );
+      const availabilityData = await apiClient.getAvailability(date);
       setAvailability(availabilityData);
+      
+      // Reset time selection if current selection is no longer available
+      if (formData.time) {
+        const dayData = availabilityData.find(day => day.date === date);
+        const isTimeStillAvailable = dayData?.slots.some(slot => 
+          slot.time === formData.time && 
+          slot.is_available && 
+          (slot.available_capacity || 0) >= formData.party_size
+        );
+        
+        if (!isTimeStillAvailable) {
+          setFormData(prev => ({ ...prev, time: '' }));
+        }
+      }
     } catch (error) {
       console.error('Error fetching availability:', error);
+      setErrors(prev => ({
+        ...prev,
+        date: 'Unable to load availability for this date. Please try again.'
+      }));
+    } finally {
+      setAvailabilityLoading(false);
     }
   };
 
@@ -55,9 +75,10 @@ export const ReservationForm: React.FC<ReservationFormProps> = ({
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
+    
     setFormData(prev => ({
       ...prev,
-      [name]: value
+      [name]: name === 'party_size' ? parseInt(value) || 1 : value
     }));
     
     // Clear error when user starts typing
@@ -67,11 +88,28 @@ export const ReservationForm: React.FC<ReservationFormProps> = ({
         [name]: ''
       }));
     }
+
+    // Clear success message
+    setSuccess(false);
+
+    // If party size changes and time is selected, recheck availability
+    if (name === 'party_size' && formData.time && formData.date) {
+      const dayData = availability.find(day => day.date === formData.date);
+      const selectedSlot = dayData?.slots.find(slot => slot.time === formData.time);
+      
+      if (selectedSlot && (selectedSlot.available_capacity || 0) < parseInt(value)) {
+        setErrors(prev => ({
+          ...prev,
+          time: 'Selected time slot cannot accommodate your party size. Please select a different time.'
+        }));
+      }
+    }
   };
 
   const validateForm = (): boolean => {
     const newErrors: { [key: string]: string } = {};
 
+    // Required field validations
     if (!formData.first_name.trim()) {
       newErrors.first_name = 'First name is required';
     }
@@ -81,13 +119,21 @@ export const ReservationForm: React.FC<ReservationFormProps> = ({
     if (!formData.email.trim()) {
       newErrors.email = 'Email is required';
     } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email';
+      newErrors.email = 'Please enter a valid email address';
     }
     if (!formData.phone.trim()) {
       newErrors.phone = 'Phone number is required';
     }
     if (!formData.date) {
       newErrors.date = 'Date is required';
+    } else {
+      const selectedDate = new Date(formData.date);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      if (selectedDate < today) {
+        newErrors.date = 'Cannot make reservations for past dates';
+      }
     }
     if (!formData.time) {
       newErrors.time = 'Time is required';
@@ -108,12 +154,15 @@ export const ReservationForm: React.FC<ReservationFormProps> = ({
     }
 
     setLoading(true);
+    setErrors({});
     
     try {
       const reservation = await apiClient.createReservation(formData);
+      
+      setSuccess(true);
       onSuccess?.(reservation);
       
-      // Reset form
+      // Reset form after successful submission
       setFormData({
         first_name: '',
         last_name: '',
@@ -128,8 +177,9 @@ export const ReservationForm: React.FC<ReservationFormProps> = ({
       });
       
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to create reservation';
+      const errorMessage = error instanceof Error ? error.message : 'Failed to create reservation. Please try again.';
       onError?.(errorMessage);
+      setErrors({ general: errorMessage });
     } finally {
       setLoading(false);
     }
@@ -140,7 +190,7 @@ export const ReservationForm: React.FC<ReservationFormProps> = ({
     
     const dayAvailability = availability.find(day => day.date === formData.date);
     return dayAvailability?.slots.filter(slot => 
-      slot.is_available && slot.available_capacity >= formData.party_size
+      slot.is_available && (slot.available_capacity || 0) >= formData.party_size
     ) || [];
   };
 
@@ -148,10 +198,32 @@ export const ReservationForm: React.FC<ReservationFormProps> = ({
   const maxDate = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
 
   return (
-    <div className="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-lg">
+    <div className={`max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-lg ${className}`}>
       <h2 className="text-2xl font-bold text-gray-800 mb-6">
-        {t('nav.reserveTable')}
+        Reserve Your Table
       </h2>
+      
+      {success && (
+        <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+          <div className="flex">
+            <svg className="w-5 h-5 text-green-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            </svg>
+            <p className="text-green-700">Your reservation has been submitted successfully!</p>
+          </div>
+        </div>
+      )}
+
+      {errors.general && (
+        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+          <div className="flex">
+            <svg className="w-5 h-5 text-red-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            <p className="text-red-700">{errors.general}</p>
+          </div>
+        </div>
+      )}
       
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Personal Information */}
@@ -268,12 +340,20 @@ export const ReservationForm: React.FC<ReservationFormProps> = ({
               className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 ${
                 errors.time ? 'border-red-500' : 'border-gray-300'
               }`}
-              disabled={!formData.date}
+              disabled={!formData.date || availabilityLoading}
             >
-              <option value="">Select time</option>
+              <option value="">
+                {!formData.date 
+                  ? 'Select date first' 
+                  : availabilityLoading 
+                  ? 'Loading...' 
+                  : 'Select time'
+                }
+              </option>
               {getAvailableTimeSlots().map(slot => (
                 <option key={slot.time} value={slot.time}>
-                  {slot.time_display} ({slot.available_capacity} available)
+                  {slot.time_display} 
+                  {slot.available_capacity !== undefined && ` (${slot.available_capacity} available)`}
                 </option>
               ))}
             </select>
@@ -359,7 +439,7 @@ export const ReservationForm: React.FC<ReservationFormProps> = ({
         {/* Submit Button */}
         <button
           type="submit"
-          disabled={loading}
+          disabled={loading || availabilityLoading}
           className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300 flex items-center justify-center space-x-2"
         >
           {loading ? (

@@ -1,13 +1,22 @@
-// client/src/services/api.ts - COMPLETE VERSION WITH RESERVATIONS
+// client/src/services/api.ts - COMPLETE VERSION WITH RESERVATIONS (FIXED)
+
+// ========== SAFE ENVIRONMENT HANDLING ==========
 const getApiBaseUrl = (): string => {
-  if (typeof window !== 'undefined' && (window as any)?.env?.REACT_APP_API_URL) {
-    return (window as any).env.REACT_APP_API_URL;
+  // Check for window-based environment variables (if set by build process)
+  if (typeof window !== 'undefined' && (window as any)?.__ENV__?.REACT_APP_API_URL) {
+    return (window as any).__ENV__.REACT_APP_API_URL;
   }
   
-  if (typeof process !== 'undefined' && process.env?.REACT_APP_API_URL) {
-    return process.env.REACT_APP_API_URL;
+  // Safely check for process.env
+  try {
+    if (typeof process !== 'undefined' && process?.env?.REACT_APP_API_URL) {
+      return process.env.REACT_APP_API_URL;
+    }
+  } catch {
+    // process is not available, continue to fallback
   }
   
+  // Development fallback
   return 'http://localhost:8000/api';
 };
 
@@ -82,6 +91,47 @@ export interface Reservation {
   created_at: string;
   updated_at: string;
   is_past_date?: boolean;
+}
+
+export interface ReservationFormData {
+  first_name: string;
+  last_name: string;
+  email: string;
+  phone: string;
+  date: string;
+  time: string;
+  party_size: number;
+  occasion?: string;
+  special_requests?: string;
+  dietary_restrictions?: string;
+}
+
+export interface TimeSlot {
+  time: string;
+  time_display: string;
+  is_available: boolean;
+  available_capacity?: number;
+  existing_reservations?: number;
+}
+
+export interface DayAvailability {
+  date: string;
+  slots: TimeSlot[];
+}
+
+export interface ContactMessage {
+  id?: string;
+  name: string;
+  email: string;
+  phone?: string;
+  subject: 'reservation' | 'private_event' | 'catering' | 'corporate' | 'feedback' | 'general';
+  message: string;
+  event_date?: string;
+  guest_count?: number;
+  event_type?: 'wedding' | 'birthday' | 'corporate' | 'anniversary' | 'graduation' | 'other';
+  is_read?: boolean;
+  is_replied?: boolean;
+  created_at?: string;
 }
 
 export interface ReservationFilters {
@@ -247,7 +297,18 @@ const handleResponse = async <T>(response: Response): Promise<T> => {
       const contentType = response.headers.get('content-type');
       if (contentType && contentType.includes('application/json')) {
         const errorData = await response.json();
-        errorMessage = errorData.message || errorData.error || errorMessage;
+        errorMessage = errorData.message || errorData.error || errorData.detail || errorMessage;
+        
+        // Handle Django validation errors
+        if (errorData.non_field_errors) {
+          errorMessage = errorData.non_field_errors.join(', ');
+        } else if (typeof errorData === 'object') {
+          const firstKey = Object.keys(errorData)[0];
+          if (firstKey && errorData[firstKey]) {
+            const errorValue = errorData[firstKey];
+            errorMessage = Array.isArray(errorValue) ? errorValue.join(', ') : String(errorValue);
+          }
+        }
       } else {
         errorMessage = await response.text() || errorMessage;
       }
@@ -361,6 +422,70 @@ export class ApiClient {
   // ========== RESERVATIONS ==========
 
   /**
+   * Get available time slots for a specific date
+   */
+  async getAvailability(startDate: string, endDate?: string): Promise<DayAvailability[]> {
+    try {
+      const params: Record<string, string> = { start_date: startDate };
+      if (endDate) {
+        params.end_date = endDate;
+      }
+      
+      return await makeRequest<DayAvailability[]>('/reservations/availability/', { method: 'GET' }, undefined, params);
+    } catch (error) {
+      console.error('Failed to fetch availability:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Create a new reservation (public endpoint)
+   */
+  async createReservation(reservationData: ReservationFormData): Promise<Reservation> {
+    try {
+      return await makeRequest<Reservation>(
+        '/reservations/',
+        {
+          method: 'POST',
+          body: JSON.stringify(reservationData),
+        }
+      );
+    } catch (error) {
+      console.error('Failed to create reservation:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Lookup reservations by email and phone (public endpoint)
+   */
+  async lookupReservation(email: string, phone: string): Promise<Reservation[]> {
+    try {
+      return await makeRequest<Reservation[]>('/reservations/lookup/', { method: 'GET' }, undefined, { email, phone });
+    } catch (error) {
+      console.error('Failed to lookup reservation:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Cancel a reservation (public endpoint with reservation ID)
+   */
+  async cancelReservation(reservationId: string): Promise<{ message: string; reservation: Reservation }> {
+    try {
+      return await makeRequest<{ message: string; reservation: Reservation }>(
+        `/reservations/${reservationId}/cancel/`,
+        { method: 'POST' }
+      );
+    } catch (error) {
+      console.error('Failed to cancel reservation:', error);
+      throw error;
+    }
+  }
+
+  // ========== ADMIN RESERVATIONS (require authentication) ==========
+
+  /**
    * Get all reservations (requires authentication)
    */
   async getReservations(token: string, filters?: ReservationFilters): Promise<Reservation[]> {
@@ -375,27 +500,31 @@ export class ApiClient {
   /**
    * Get reservation statistics for dashboard
    */
-  async getReservationStats(token: string, dateFrom?: string, dateTo?: string): Promise<ReservationStats> {
+  async getReservationStats(token: string): Promise<ReservationStats> {
     try {
-      // Since backend doesn't have dedicated stats endpoint yet, calculate from reservations
-      const reservations = await this.getReservations(token);
-      const today = new Date().toISOString().split('T')[0];
-      
-      const stats: ReservationStats = {
-        total_reservations: reservations.length,
-        confirmed_reservations: reservations.filter(r => r.status === 'confirmed').length,
-        pending_reservations: reservations.filter(r => r.status === 'pending').length,
-        cancelled_reservations: reservations.filter(r => r.status === 'cancelled').length,
-        completed_reservations: reservations.filter(r => r.status === 'completed').length,
-        seated_reservations: reservations.filter(r => r.status === 'seated').length,
-        no_show_reservations: reservations.filter(r => r.status === 'no_show').length,
-        today_reservations: reservations.filter(r => r.date === today).length,
-      };
-
-      return stats;
+      return await makeRequest<ReservationStats>('/reservations/stats/', { method: 'GET' }, token);
     } catch (error) {
       console.error('Failed to fetch reservation stats:', error);
-      throw error;
+      // Fallback to calculating from reservations list
+      try {
+        const reservations = await this.getReservations(token);
+        const today = new Date().toISOString().split('T')[0];
+        
+        const stats: ReservationStats = {
+          total_reservations: reservations.length,
+          confirmed_reservations: reservations.filter(r => r.status === 'confirmed').length,
+          pending_reservations: reservations.filter(r => r.status === 'pending').length,
+          cancelled_reservations: reservations.filter(r => r.status === 'cancelled').length,
+          completed_reservations: reservations.filter(r => r.status === 'completed').length,
+          seated_reservations: reservations.filter(r => r.status === 'seated').length,
+          no_show_reservations: reservations.filter(r => r.status === 'no_show').length,
+          today_reservations: reservations.filter(r => r.date === today).length,
+        };
+
+        return stats;
+      } catch (fallbackError) {
+        throw error; // Throw original error
+      }
     }
   }
 
@@ -407,24 +536,6 @@ export class ApiClient {
       return await makeRequest<Reservation>(`/reservations/${reservationId}/`, { method: 'GET' }, token);
     } catch (error) {
       console.error('Failed to fetch reservation by ID:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Create a new reservation
-   */
-  async createReservation(reservationData: CreateReservationData): Promise<Reservation> {
-    try {
-      return await makeRequest<Reservation>(
-        '/reservations/',
-        {
-          method: 'POST',
-          body: JSON.stringify(reservationData),
-        }
-      );
-    } catch (error) {
-      console.error('Failed to create reservation:', error);
       throw error;
     }
   }
@@ -444,22 +555,6 @@ export class ApiClient {
       );
     } catch (error) {
       console.error('Failed to update reservation:', error);
-      throw error;
-    }
-  }
-
-  /**
-   * Cancel a reservation
-   */
-  async cancelReservation(token: string, reservationId: string): Promise<Reservation> {
-    try {
-      return await makeRequest<Reservation>(
-        `/reservations/${reservationId}/cancel/`,
-        { method: 'POST' },
-        token
-      );
-    } catch (error) {
-      console.error('Failed to cancel reservation:', error);
       throw error;
     }
   }
@@ -556,15 +651,113 @@ export class ApiClient {
     }
   }
 
+  // ========== CONTACT MESSAGES ==========
+
   /**
-   * Lookup reservations by email and phone
+   * Submit a contact message (public endpoint)
    */
-  async lookupReservation(email: string, phone: string): Promise<Reservation[]> {
+  async submitContactMessage(contactData: ContactMessage): Promise<{ message: string }> {
     try {
-      return await makeRequest<Reservation[]>('/reservations/lookup/', { method: 'GET' }, undefined, { email, phone });
+      const result = await makeRequest<ContactMessage>(
+        '/contact/',
+        {
+          method: 'POST',
+          body: JSON.stringify(contactData),
+        }
+      );
+      
+      return { message: 'Message sent successfully' };
     } catch (error) {
-      console.error('Failed to lookup reservation:', error);
+      console.error('Failed to submit contact message:', error);
       throw error;
+    }
+  }
+
+  /**
+   * Get all contact messages (requires authentication)
+   */
+  async getContactMessages(token: string): Promise<ContactMessage[]> {
+    try {
+      return await makeRequest<ContactMessage[]>('/contact/', { method: 'GET' }, token);
+    } catch (error) {
+      console.error('Failed to fetch contact messages:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Mark contact message as read
+   */
+  async markMessageRead(token: string, messageId: string): Promise<ContactMessage> {
+    try {
+      return await makeRequest<ContactMessage>(
+        `/contact/${messageId}/mark_read/`,
+        { method: 'PATCH' },
+        token
+      );
+    } catch (error) {
+      console.error('Failed to mark message as read:', error);
+      throw error;
+    }
+  }
+
+  // ========== AUTHENTICATION ==========
+
+  /**
+   * Admin login
+   */
+  async adminLogin(username: string, password: string): Promise<{
+    access: string;
+    refresh: string;
+    user: any;
+    message: string;
+  }> {
+    try {
+      const response = await makeRequest<{
+        access: string;
+        refresh: string;
+        user: any;
+        message: string;
+      }>('/auth/login/', {
+        method: 'POST',
+        body: JSON.stringify({ username, password }),
+      });
+
+      // Store tokens in localStorage
+      if (response.access) {
+        localStorage.setItem('access_token', response.access);
+      }
+      if (response.refresh) {
+        localStorage.setItem('refresh_token', response.refresh);
+      }
+
+      return response;
+    } catch (error) {
+      console.error('Failed to login:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Admin logout
+   */
+  async adminLogout(): Promise<void> {
+    try {
+      const refreshToken = localStorage.getItem('refresh_token');
+      
+      if (refreshToken) {
+        await makeRequest('/auth/logout/', {
+          method: 'POST',
+          body: JSON.stringify({ refresh_token: refreshToken }),
+        });
+      }
+    } catch (error) {
+      console.error('Logout request failed:', error);
+      // Continue with cleanup even if request fails
+    } finally {
+      // Always clear local storage
+      localStorage.removeItem('access_token');
+      localStorage.removeItem('refresh_token');
     }
   }
 
@@ -833,7 +1026,7 @@ export class ApiClient {
 
   async healthCheck(): Promise<{ status: string; timestamp: string }> {
     try {
-      return await makeRequest<{ status: string; timestamp: string }>('/health/', { method: 'GET' });
+      return await makeRequest<{ status: string; timestamp: string }>('/', { method: 'GET' });
     } catch (error) {
       console.error('Health check failed:', error);
       throw error;
