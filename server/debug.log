@@ -44,3 +44,5 @@ INFO 2025-09-24 08:08:39,704 autoreload 14564 20676 C:\Users\Perdoruess\bottlebr
 INFO 2025-09-24 08:08:42,515 autoreload 3048 22992 Watching for file changes with StatReloader
 INFO 2025-09-24 08:31:48,076 basehttp 3048 19308 "GET /api/reservations/ HTTP/1.1" 200 52
 INFO 2025-09-24 08:31:48,105 basehttp 3048 19308 "GET /api/reservations/ HTTP/1.1" 200 52
+INFO 2025-09-26 07:58:20,955 autoreload 3048 22992 C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\serializers.py changed, reloading.
+INFO 2025-09-26 07:58:32,737 autoreload 27460 30264 Watching for file changes with StatReloader

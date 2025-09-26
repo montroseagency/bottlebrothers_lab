@@ -1,121 +1,116 @@
-// client/src/App.tsx - UPDATED WITH ADMIN EVENTS ROUTING
+// client/src/App.tsx - COMPLETE FILE
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { I18nextProvider } from 'react-i18next';
+import i18n from './i18n';
 import { AuthProvider } from './contexts/AuthContext';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
-import { AdminLayout } from './components/admin/AdminLayout';
-import { Header } from './components/layout/header';
-import { Footer } from './components/layout/Footer';
-import { ScrollProgressBar } from './components/ui/ScrollProgressBar';
 
-// Public Pages
+// Layout components
+import { Header } from './components/layout/Header';
+import { Footer } from './components/layout/Footer';
+
+// Page components
 import Home from './pages/Home';
 import Menu from './pages/Menu';
 import Events from './pages/Events';
-import Gallery from './pages/Gallery';
+import { GalleryPage } from './pages/Gallery';
 import Contact from './pages/Contact';
-import { ReservationPage } from './components/reservations/ReservationPage';
 
-// Admin Pages
-import AdminLogin from './pages/AdminLogin';
-import AdminDashboard from './pages/AdminDashboard';
-import AdminEvents from './pages/AdminEvents'; // NEW
-import AdminReservations from './pages/AdminReservations';
-import AdminMessages from './pages/AdminMessages';
-import AdminAnalytics from './pages/AdminAnalytics';
+// Auth components
+import { LoginPage } from './components/auth/';
+import { AdminLayout } from './components/admin/AdminLayout';
+import { Dashboard } from './components/admin/Dashboard';
+import { ReservationsManagement } from './components/admin/ReservationsManagement';
+import { EventsManagement } from './components/admin/EventsManagement';
 import { GalleryManagement } from './components/admin/GalleryManagement';
+import { MessagesManagement } from './components/admin/MessagesManagement';
+import { AnalyticsPage } from './components/admin/AnalyticsPage';
 
-// Layout wrapper for public pages
-const PublicLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => (
-  <>
-    <ScrollProgressBar 
-      position="top" 
-      color="gradient" 
-      style="glow" 
-      sections={['Home', 'Menu', 'Events', 'Gallery', 'Contact']} 
-    />
-    <Header />
-    <main className="pt-16 sm:pt-20">
-      {children}
-    </main>
-    <Footer />
-  </>
-);
+// UI components
+import { ScrollProgressBar } from './components/ui/ScrollProgressBar';
+import { FloatingReservation } from './components/ui/FloatingReservation';
 
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <div className="App min-h-screen bg-stone-50">
-          <Routes>
-            {/* Public Routes */}
-            <Route path="/" element={<PublicLayout><Home /></PublicLayout>} />
-            <Route path="/menu" element={<PublicLayout><Menu /></PublicLayout>} />
-            <Route path="/events" element={<PublicLayout><Events /></PublicLayout>} />
-            <Route path="/gallery" element={<PublicLayout><Gallery /></PublicLayout>} />
-            <Route path="/contact" element={<PublicLayout><Contact /></PublicLayout>} />
-            <Route path="/reservations" element={<PublicLayout><ReservationPage /></PublicLayout>} />
-
-            {/* Admin Login */}
-            <Route path="/auth" element={<AdminLogin />} />
-
-            {/* Protected Admin Routes */}
-            <Route path="/auth/dashboard" element={
-              <ProtectedRoute>
-                <AdminLayout>
-                  <AdminDashboard />
-                </AdminLayout>
-              </ProtectedRoute>
-            } />
+    <I18nextProvider i18n={i18n}>
+      <AuthProvider>
+        <Router>
+          <div className="min-h-screen bg-stone-50 flex flex-col">
+            <ScrollProgressBar position="top" color="gradient" style="glow" />
             
-            <Route path="/auth/reservations" element={
-              <ProtectedRoute>
-                <AdminLayout>
-                  <AdminReservations />
-                </AdminLayout>
-              </ProtectedRoute>
-            } />
-
-            {/* NEW: Admin Events Route */}
-            <Route path="/auth/events" element={
-              <ProtectedRoute>
-                <AdminLayout>
-                  <AdminEvents />
-                </AdminLayout>
-              </ProtectedRoute>
-            } />
-            
-            <Route path="/auth/gallery" element={
-              <ProtectedRoute>
-                <AdminLayout>
-                  <GalleryManagement />
-                </AdminLayout>
-              </ProtectedRoute>
-            } />
-            
-            <Route path="/auth/messages" element={
-              <ProtectedRoute>
-                <AdminLayout>
-                  <AdminMessages />
-                </AdminLayout>
-              </ProtectedRoute>
-            } />
-            
-            <Route path="/auth/analytics" element={
-              <ProtectedRoute>
-                <AdminLayout>
-                  <AdminAnalytics />
-                </AdminLayout>
-              </ProtectedRoute>
-            } />
-
-            {/* Fallback Routes */}
-            <Route path="/admin" element={<Navigate to="/auth" replace />} />
-            <Route path="*" element={<Navigate to="/" replace />} />
-          </Routes>
-        </div>
-      </Router>
-    </AuthProvider>
+            <Routes>
+              {/* Public Routes with Header/Footer */}
+              <Route path="/" element={
+                <>
+                  <Header />
+                  <Home />
+                  <Footer />
+                  <FloatingReservation position="bottom-right" style="compact" />
+                </>
+              } />
+              
+              <Route path="/menu" element={
+                <>
+                  <Header />
+                  <Menu />
+                  <Footer />
+                  <FloatingReservation position="bottom-right" style="compact" />
+                </>
+              } />
+              
+              <Route path="/events" element={
+                <>
+                  <Header />
+                  <Events />
+                  <Footer />
+                  <FloatingReservation position="bottom-right" style="compact" />
+                </>
+              } />
+              
+              <Route path="/gallery" element={
+                <>
+                  <Header />
+                  <GalleryPage />
+                  <Footer />
+                  <FloatingReservation position="bottom-right" style="compact" />
+                </>
+              } />
+              
+              <Route path="/contact" element={
+                <>
+                  <Header />
+                  <Contact />
+                  <Footer />
+                  <FloatingReservation position="bottom-right" style="compact" />
+                </>
+              } />
+              
+              {/* Auth Routes */}
+              <Route path="/auth" element={<LoginPage />} />
+              
+              {/* Admin Routes */}
+              <Route path="/auth/*" element={
+                <ProtectedRoute requireAdmin={true}>
+                  <AdminLayout />
+                </ProtectedRoute>
+              }>
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="reservations" element={<ReservationsManagement />} />
+                <Route path="events" element={<EventsManagement />} />
+                <Route path="gallery" element={<GalleryManagement />} />
+                <Route path="messages" element={<MessagesManagement />} />
+                <Route path="analytics" element={<AnalyticsPage />} />
+                <Route path="" element={<Navigate to="/auth/dashboard" replace />} />
+              </Route>
+              
+              {/* Catch all - redirect to home */}
+              <Route path="*" element={<Navigate to="/" replace />} />
+            </Routes>
+          </div>
+        </Router>
+      </AuthProvider>
+    </I18nextProvider>
   );
 }
 

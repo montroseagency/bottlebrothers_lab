@@ -1,4 +1,4 @@
-# server/api/serializers.py - COMPLETE VERSION
+# server/api/serializers.py - COMPLETE FILE
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
@@ -111,15 +111,20 @@ class EventSerializer(serializers.ModelSerializer):
     is_past_event = serializers.ReadOnlyField()
     price_formatted = serializers.ReadOnlyField()
     formatted_time = serializers.ReadOnlyField()
+    duration_display = serializers.ReadOnlyField()
     
     class Meta:
         model = Event
         fields = [
             'id', 'title', 'description', 'image', 'image_url', 'event_type', 
             'start_date', 'end_date', 'start_time', 'end_time',
-            'frequency', 'recurring_day', 'price', 'price_display', 'price_formatted',
-            'max_capacity', 'is_featured', 'is_active', 'display_order',
-            'special_notes', 'created_at', 'updated_at', 'is_past_event', 'formatted_time'
+            'frequency', 'recurring_day', 'recurring_type', 'recurring_days',
+            'recurring_until', 'price', 'price_display', 'formatted_price',
+            'price_formatted', 'capacity', 'max_capacity', 'location',
+            'booking_required', 'booking_url', 'is_featured', 'is_active', 
+            'display_order', 'special_notes', 'special_instructions',
+            'status', 'created_at', 'updated_at', 'is_past_event', 
+            'formatted_time', 'duration_display'
         ]
         read_only_fields = ['id', 'created_at', 'updated_at']
     
@@ -153,8 +158,9 @@ class EventSerializer(serializers.ModelSerializer):
         
         # Validate times
         if data.get('end_time') and data.get('start_time'):
-            if data['end_time'] <= data['start_time']:
-                raise serializers.ValidationError("End time must be after start time.")
+            if data.get('start_date') == data.get('end_date', data.get('start_date')):
+                if data['end_time'] <= data['start_time']:
+                    raise serializers.ValidationError("End time must be after start time.")
         
         # Validate past dates for new events
         if data.get('start_date') and data['start_date'] < timezone.now().date():
@@ -169,14 +175,17 @@ class PublicEventSerializer(serializers.ModelSerializer):
     image_url = serializers.SerializerMethodField()
     price_formatted = serializers.ReadOnlyField()
     formatted_time = serializers.ReadOnlyField()
+    duration_display = serializers.ReadOnlyField()
     
     class Meta:
         model = Event
         fields = [
             'id', 'title', 'description', 'image_url', 'event_type',
             'start_date', 'end_date', 'start_time', 'end_time',
-            'frequency', 'recurring_day', 'price_formatted', 
-            'max_capacity', 'is_featured', 'formatted_time', 'special_notes'
+            'frequency', 'recurring_day', 'recurring_type', 'recurring_days',
+            'formatted_price', 'price_formatted', 'capacity', 'max_capacity', 
+            'location', 'booking_required', 'booking_url', 'is_featured', 
+            'formatted_time', 'duration_display', 'special_notes', 'status'
         ]
     
     def get_image_url(self, obj):
@@ -224,7 +233,7 @@ class VenueSpaceSerializer(serializers.ModelSerializer):
 class CustomUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'is_staff']
+        fields = ['id', 'username', 'email', 'first_name', 'last_name', 'is_staff', 'is_superuser']
 
 
 class LoginSerializer(serializers.Serializer):
