@@ -1,6 +1,6 @@
 // client/src/pages/AdminReservations.tsx
 import React, { useState, useEffect } from 'react';
-import { useAuthenticatedApi } from '../contexts/AuthContext';
+import { useAuthenticatedApi } from '../../contexts/AuthContext';
 
 interface Reservation {
   id: string;

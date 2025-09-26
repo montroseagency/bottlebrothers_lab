@@ -18,14 +18,14 @@ import { GalleryPage } from './pages/Gallery';
 import Contact from './pages/Contact';
 
 // Auth components
-import { LoginPage } from './components/auth/';
+import { LoginPage } from './components/auth/AdminLogin';
 import { AdminLayout } from './components/admin/AdminLayout';
-import { Dashboard } from './components/admin/Dashboard';
-import { ReservationsManagement } from './components/admin/ReservationsManagement';
+import { Dashboard } from './components/admin/AdminDashboard';
+import { ReservationsManagement } from './components/admin/AdminReservations';
 import { EventsManagement } from './components/admin/EventsManagement';
 import { GalleryManagement } from './components/admin/GalleryManagement';
-import { MessagesManagement } from './components/admin/MessagesManagement';
-import { AnalyticsPage } from './components/admin/AnalyticsPage';
+import { MessagesManagement } from './components/admin/AdminMessages';
+import { AnalyticsPage } from './components/admin/AdminAnalytics';
 
 // UI components
 import { ScrollProgressBar } from './components/ui/ScrollProgressBar';

@@ -1,6 +1,6 @@
 // client/src/pages/AdminDashboard.tsx
 import React, { useState, useEffect } from 'react';
-import { useAuthenticatedApi } from '../contexts/AuthContext';
+import { useAuthenticatedApi } from '../../contexts/AuthContext';
 
 interface DashboardData {
   todays_reservations: any[];

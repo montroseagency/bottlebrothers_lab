@@ -1,8 +1,8 @@
 // client/src/pages/ContactReservations.tsx
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ReservationForm } from '../components/reservations/ReservationForm';
-import apiClient from '../services/api';
+import { ReservationForm } from '../reservations/ReservationForm';
+import apiClient from '../../services/api';
 
 const ContactReservations: React.FC = () => {
   const { t } = useTranslation();

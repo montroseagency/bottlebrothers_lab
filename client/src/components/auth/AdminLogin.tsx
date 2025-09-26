@@ -1,7 +1,7 @@
 // client/src/pages/AdminLogin.tsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../contexts/AuthContext';
 
 const AdminLogin: React.FC = () => {
   const [username, setUsername] = useState('');

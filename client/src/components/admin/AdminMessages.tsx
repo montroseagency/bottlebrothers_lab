@@ -1,7 +1,7 @@
 // client/src/pages/AdminMessages.tsx
 import React, { useState, useEffect } from 'react';
-import { useAuthenticatedApi } from '../contexts/AuthContext';
-import type { ContactMessage } from '../services/api';
+import { useAuthenticatedApi } from '../../contexts/AuthContext';
+import type { ContactMessage } from '../../services/api';
 
 const AdminMessages: React.FC = () => {
   const [messages, setMessages] = useState<ContactMessage[]>([]);
