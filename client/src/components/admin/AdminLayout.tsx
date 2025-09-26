@@ -1,18 +1,29 @@
-// client/src/components/admin/AdminLayout.tsx - UPDATED WITH EVENTS
+// client/src/components/admin/AdminLayout.tsx - FIXED VERSION
 import React, { useState } from 'react';
-import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import { MagneticButton } from '../ui/MagneticButton';
 
-export const AdminLayout: React.FC = () => {
+interface AdminLayoutProps {
+  children: React.ReactNode;
+}
+
+export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const { user, logout } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await logout();
-    navigate('/auth');
+    try {
+      await logout();
+      // Use window.location for reliable navigation after logout
+      window.location.href = '/auth';
+    } catch (error) {
+      console.error('Logout error:', error);
+      // Force navigation even if logout fails
+      window.location.href = '/auth';
+    }
   };
 
   const menuItems = [
@@ -193,11 +204,9 @@ export const AdminLayout: React.FC = () => {
 
         {/* Page Content */}
         <main className="flex-1 p-6 overflow-auto">
-          <Outlet />
+          {children}
         </main>
       </div>
     </div>
   );
-}; 
-
-
+};

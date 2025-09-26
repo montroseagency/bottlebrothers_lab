@@ -67,3 +67,1066 @@ WARNING 2025-09-26 12:25:09,851 basehttp 19640 29068 "GET /media/gallery/4977b4d
 INFO 2025-09-26 12:25:10,133 basehttp 19640 10552 "GET /media/gallery/ca9f94b1f91b4871b86764436f871e5d.jpg HTTP/1.1" 200 22272
 INFO 2025-09-26 12:25:15,613 basehttp 19640 24972 "GET /api/events/public/ HTTP/1.1" 200 2
 INFO 2025-09-26 12:25:15,628 basehttp 19640 24972 "GET /api/events/public/ HTTP/1.1" 200 2
+INFO 2025-09-26 12:28:05,974 autoreload 15812 22264 Watching for file changes with StatReloader
+INFO 2025-09-26 12:28:44,908 basehttp 15812 6180 "GET /api/events/public/ HTTP/1.1" 200 2
+INFO 2025-09-26 12:28:44,937 basehttp 15812 6180 "GET /api/events/public/ HTTP/1.1" 200 2
+INFO 2025-09-26 12:46:15,928 basehttp 15812 6092 "GET /api/events/public/ HTTP/1.1" 200 2
+INFO 2025-09-26 12:46:15,968 basehttp 15812 6092 "GET /api/events/public/ HTTP/1.1" 200 2
+INFO 2025-09-26 12:48:35,987 basehttp 15812 14640 "GET /api/events/public/ HTTP/1.1" 200 2
+INFO 2025-09-26 12:48:36,009 basehttp 15812 14640 "GET /api/events/public/ HTTP/1.1" 200 2
+INFO 2025-09-26 12:52:00,020 basehttp 15812 332 "GET /api/events/public/ HTTP/1.1" 200 2
+INFO 2025-09-26 12:52:00,052 basehttp 15812 332 "GET /api/events/public/ HTTP/1.1" 200 2
+INFO 2025-09-26 12:52:21,753 basehttp 15812 332 "OPTIONS /api/auth/login/ HTTP/1.1" 200 0
+WARNING 2025-09-26 12:52:22,912 log 15812 332 Bad Request: /api/auth/login/
+WARNING 2025-09-26 12:52:22,913 basehttp 15812 332 "POST /api/auth/login/ HTTP/1.1" 400 44
+INFO 2025-09-26 12:53:22,587 autoreload 20516 10452 Watching for file changes with StatReloader
+INFO 2025-09-26 12:53:37,476 basehttp 20516 27592 "POST /api/auth/login/ HTTP/1.1" 200 640
+INFO 2025-09-26 12:53:37,704 basehttp 20516 27592 "OPTIONS /api/reservations/dashboard/ HTTP/1.1" 200 0
+INFO 2025-09-26 12:53:37,742 basehttp 20516 27592 "OPTIONS /api/reservations/dashboard/ HTTP/1.1" 200 0
+WARNING 2025-09-26 12:53:37,745 log 20516 24264 Not Found: /api/reservations/dashboard/
+WARNING 2025-09-26 12:53:37,770 log 20516 27592 Not Found: /api/reservations/dashboard/
+WARNING 2025-09-26 12:53:37,774 basehttp 20516 24264 "GET /api/reservations/dashboard/ HTTP/1.1" 404 23
+WARNING 2025-09-26 12:53:37,802 basehttp 20516 27592 "GET /api/reservations/dashboard/ HTTP/1.1" 404 23
+INFO 2025-09-26 12:53:40,324 basehttp 20516 24264 "OPTIONS /api/contact/ HTTP/1.1" 200 0
+INFO 2025-09-26 12:53:40,343 basehttp 20516 24264 "GET /api/contact/ HTTP/1.1" 200 52
+INFO 2025-09-26 12:53:40,376 basehttp 20516 24264 "GET /api/contact/ HTTP/1.1" 200 52
+INFO 2025-09-26 12:53:42,841 basehttp 20516 24264 "OPTIONS /api/events/ HTTP/1.1" 200 0
+INFO 2025-09-26 12:53:42,862 basehttp 20516 24264 "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-09-26 12:53:42,890 basehttp 20516 24264 "GET /api/events/ HTTP/1.1" 200 2
+WARNING 2025-09-26 12:55:37,518 log 20516 24264 Bad Request: /api/events/
+WARNING 2025-09-26 12:55:37,519 basehttp 20516 24264 "POST /api/events/ HTTP/1.1" 400 105
+WARNING 2025-09-26 13:26:45,839 log 20516 16560 Bad Request: /api/events/
+WARNING 2025-09-26 13:26:45,840 basehttp 20516 16560 "POST /api/events/ HTTP/1.1" 400 105
+INFO 2025-09-26 13:28:16,387 basehttp 20516 16560 "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-09-26 13:28:16,406 basehttp 20516 23160 "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-09-26 13:28:17,904 basehttp 20516 23160 "GET /api/events/public/ HTTP/1.1" 200 2
+INFO 2025-09-26 13:28:17,914 basehttp 20516 23160 "GET /api/events/public/ HTTP/1.1" 200 2
+ERROR 2025-09-26 13:28:59,504 log 20516 16560 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\mixins.py", line 20, in create
+    headers = self.get_success_headers(serializer.data)
+                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 555, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:28:59,555 basehttp 20516 16560 "POST /api/events/ HTTP/1.1" 500 149547
+ERROR 2025-09-26 13:28:59,653 log 20516 23160 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\mixins.py", line 20, in create
+    headers = self.get_success_headers(serializer.data)
+                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 555, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:28:59,707 basehttp 20516 23160 "POST /api/events/ HTTP/1.1" 500 149547
+ERROR 2025-09-26 13:29:00,007 log 20516 16560 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\mixins.py", line 20, in create
+    headers = self.get_success_headers(serializer.data)
+                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 555, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:29:00,036 basehttp 20516 16560 "POST /api/events/ HTTP/1.1" 500 149547
+ERROR 2025-09-26 13:29:00,886 log 20516 23160 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\mixins.py", line 20, in create
+    headers = self.get_success_headers(serializer.data)
+                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 555, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:29:00,895 basehttp 20516 23160 "POST /api/events/ HTTP/1.1" 500 149546
+ERROR 2025-09-26 13:29:01,296 log 20516 16560 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\mixins.py", line 20, in create
+    headers = self.get_success_headers(serializer.data)
+                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 555, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:29:01,304 basehttp 20516 16560 "POST /api/events/ HTTP/1.1" 500 149547
+ERROR 2025-09-26 13:29:01,472 log 20516 23160 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\mixins.py", line 20, in create
+    headers = self.get_success_headers(serializer.data)
+                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 555, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:29:01,497 basehttp 20516 23160 "POST /api/events/ HTTP/1.1" 500 149547
+ERROR 2025-09-26 13:29:01,628 log 20516 16560 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\mixins.py", line 20, in create
+    headers = self.get_success_headers(serializer.data)
+                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 555, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:29:01,636 basehttp 20516 16560 "POST /api/events/ HTTP/1.1" 500 149547
+ERROR 2025-09-26 13:29:01,770 log 20516 23160 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\mixins.py", line 20, in create
+    headers = self.get_success_headers(serializer.data)
+                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 555, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:29:01,780 basehttp 20516 23160 "POST /api/events/ HTTP/1.1" 500 149547
+ERROR 2025-09-26 13:29:01,897 log 20516 16560 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\mixins.py", line 20, in create
+    headers = self.get_success_headers(serializer.data)
+                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 555, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:29:01,906 basehttp 20516 16560 "POST /api/events/ HTTP/1.1" 500 149547
+ERROR 2025-09-26 13:29:02,046 log 20516 23160 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\mixins.py", line 20, in create
+    headers = self.get_success_headers(serializer.data)
+                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 555, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:29:02,090 basehttp 20516 23160 "POST /api/events/ HTTP/1.1" 500 149547
+ERROR 2025-09-26 13:29:02,183 log 20516 16560 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\mixins.py", line 20, in create
+    headers = self.get_success_headers(serializer.data)
+                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 555, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:29:02,193 basehttp 20516 16560 "POST /api/events/ HTTP/1.1" 500 149547
+ERROR 2025-09-26 13:29:02,336 log 20516 23160 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\mixins.py", line 20, in create
+    headers = self.get_success_headers(serializer.data)
+                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 555, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:29:02,391 basehttp 20516 23160 "POST /api/events/ HTTP/1.1" 500 149547
+ERROR 2025-09-26 13:29:02,511 log 20516 16560 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\mixins.py", line 20, in create
+    headers = self.get_success_headers(serializer.data)
+                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 555, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:29:02,581 basehttp 20516 16560 "POST /api/events/ HTTP/1.1" 500 149547
+ERROR 2025-09-26 13:29:02,672 log 20516 23160 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\mixins.py", line 20, in create
+    headers = self.get_success_headers(serializer.data)
+                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 555, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:29:02,720 basehttp 20516 23160 "POST /api/events/ HTTP/1.1" 500 149547
+INFO 2025-09-26 13:29:11,026 basehttp 20516 23160 "GET /api/contact/ HTTP/1.1" 200 52
+INFO 2025-09-26 13:29:11,039 basehttp 20516 23160 "GET /api/contact/ HTTP/1.1" 200 52
+ERROR 2025-09-26 13:29:12,093 log 20516 23160 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\views.py", line 438, in list
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:29:12,123 basehttp 20516 23160 "GET /api/events/ HTTP/1.1" 500 157003
+ERROR 2025-09-26 13:29:12,239 log 20516 23160 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\views.py", line 438, in list
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:29:12,249 basehttp 20516 23160 "GET /api/events/ HTTP/1.1" 500 157003
+INFO 2025-09-26 13:29:13,025 basehttp 20516 23160 "OPTIONS /api/reservations/ HTTP/1.1" 200 0
+INFO 2025-09-26 13:29:13,048 basehttp 20516 23160 "GET /api/reservations/ HTTP/1.1" 200 52
+INFO 2025-09-26 13:29:13,064 basehttp 20516 23160 "GET /api/reservations/ HTTP/1.1" 200 52
+ERROR 2025-09-26 13:29:13,710 log 20516 16560 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\views.py", line 438, in list
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:29:13,715 log 20516 23160 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\views.py", line 438, in list
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:29:13,729 basehttp 20516 16560 "GET /api/events/ HTTP/1.1" 500 157003
+ERROR 2025-09-26 13:29:13,781 basehttp 20516 23160 "GET /api/events/ HTTP/1.1" 500 157003
+WARNING 2025-09-26 13:29:14,315 log 20516 23160 Not Found: /api/reservations/dashboard/
+WARNING 2025-09-26 13:29:14,316 log 20516 16560 Not Found: /api/reservations/dashboard/
+WARNING 2025-09-26 13:29:14,317 basehttp 20516 23160 "GET /api/reservations/dashboard/ HTTP/1.1" 404 23
+WARNING 2025-09-26 13:29:14,352 basehttp 20516 16560 "GET /api/reservations/dashboard/ HTTP/1.1" 404 23
+INFO 2025-09-26 13:29:14,799 basehttp 20516 23160 "GET /api/reservations/ HTTP/1.1" 200 52
+INFO 2025-09-26 13:29:14,815 basehttp 20516 23160 "GET /api/reservations/ HTTP/1.1" 200 52
+ERROR 2025-09-26 13:29:15,283 log 20516 16560 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\views.py", line 438, in list
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:29:15,312 log 20516 23160 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\views.py", line 438, in list
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:29:15,323 basehttp 20516 16560 "GET /api/events/ HTTP/1.1" 500 157003
+ERROR 2025-09-26 13:29:15,352 basehttp 20516 23160 "GET /api/events/ HTTP/1.1" 500 157003
+INFO 2025-09-26 13:29:16,774 basehttp 20516 23160 "GET /api/contact/ HTTP/1.1" 200 52
+INFO 2025-09-26 13:29:16,797 basehttp 20516 23160 "GET /api/contact/ HTTP/1.1" 200 52
+INFO 2025-09-26 13:29:17,421 basehttp 20516 23160 "OPTIONS /api/dashboard/analytics/ HTTP/1.1" 200 0
+INFO 2025-09-26 13:29:17,502 basehttp 20516 23160 "GET /api/dashboard/analytics/ HTTP/1.1" 200 192
+INFO 2025-09-26 13:29:17,563 basehttp 20516 23160 "GET /api/dashboard/analytics/ HTTP/1.1" 200 192
+INFO 2025-09-26 13:29:19,159 basehttp 20516 23160 "GET /api/dashboard/analytics/ HTTP/1.1" 200 192
+INFO 2025-09-26 13:29:19,220 basehttp 20516 23160 "GET /api/dashboard/analytics/ HTTP/1.1" 200 192
+WARNING 2025-09-26 13:29:26,661 log 20516 23160 Not Found: /api/reservations/dashboard/
+WARNING 2025-09-26 13:29:26,663 log 20516 16560 Not Found: /api/reservations/dashboard/
+WARNING 2025-09-26 13:29:26,665 basehttp 20516 23160 "GET /api/reservations/dashboard/ HTTP/1.1" 404 23
+WARNING 2025-09-26 13:29:26,673 basehttp 20516 16560 "GET /api/reservations/dashboard/ HTTP/1.1" 404 23
+INFO 2025-09-26 13:29:28,612 basehttp 20516 23160 "GET /api/contact/ HTTP/1.1" 200 52
+INFO 2025-09-26 13:29:28,630 basehttp 20516 23160 "GET /api/contact/ HTTP/1.1" 200 52
+ERROR 2025-09-26 13:29:30,396 log 20516 23160 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\views.py", line 438, in list
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:29:30,419 log 20516 16560 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\views.py", line 438, in list
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:29:30,440 basehttp 20516 23160 "GET /api/events/ HTTP/1.1" 500 157003
+ERROR 2025-09-26 13:29:30,598 basehttp 20516 16560 "GET /api/events/ HTTP/1.1" 500 157003
+ERROR 2025-09-26 13:29:46,042 log 20516 23160 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\mixins.py", line 20, in create
+    headers = self.get_success_headers(serializer.data)
+                                       ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 555, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:29:46,048 basehttp 20516 23160 "POST /api/events/ HTTP/1.1" 500 149573
+ERROR 2025-09-26 13:29:55,252 log 20516 23160 Internal Server Error: /api/events/public/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\views.py", line 498, in public
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:29:55,302 basehttp 20516 23160 "GET /api/events/public/ HTTP/1.1" 500 152843
+ERROR 2025-09-26 13:29:56,109 log 20516 23160 Internal Server Error: /api/events/public/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\views.py", line 498, in public
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 768, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 253, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 687, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\serializers.py", line 509, in to_representation
+    attribute = field.get_attribute(instance)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 446, in get_attribute
+    return get_attribute(instance, self.source_attrs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\fields.py", line 96, in get_attribute
+    instance = getattr(instance, attr)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py", line 388, in formatted_time
+    start_str = self.start_time.strftime('%-I:%M %p')
+ValueError: Invalid format string
+ERROR 2025-09-26 13:29:56,353 basehttp 20516 23160 "GET /api/events/public/ HTTP/1.1" 500 152843

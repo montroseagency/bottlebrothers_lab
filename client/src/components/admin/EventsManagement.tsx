@@ -1,8 +1,7 @@
-// client/src/components/admin/EventsManagement.tsx
+// client/src/components/admin/EventsManagement.tsx - FIXED VERSION
 import React, { useState, useEffect } from 'react';
 import { useAuthenticatedApi } from '../../contexts/AuthContext';
 import type { Event } from '../../services/api';
-import { apiClient } from '../../services/api';
 
 export const EventsManagement: React.FC = () => {
   const { apiCall } = useAuthenticatedApi();
@@ -129,18 +128,52 @@ export const EventsManagement: React.FC = () => {
     setMessage('');
     
     try {
+      // Create FormData manually to ensure proper handling
       const formDataToSend = new FormData();
       
       // Add all form fields
-      Object.entries(formData).forEach(([key, value]) => {
-        if (value !== null && value !== undefined) {
-          formDataToSend.append(key, String(value));
-        }
-      });
+      formDataToSend.append('title', formData.title);
+      formDataToSend.append('description', formData.description);
+      formDataToSend.append('event_type', formData.event_type);
+      formDataToSend.append('start_date', formData.start_date);
+      formDataToSend.append('start_time', formData.start_time);
+      formDataToSend.append('end_time', formData.end_time);
+      formDataToSend.append('recurring_type', formData.recurring_type);
+      formDataToSend.append('formatted_price', formData.formatted_price);
+      formDataToSend.append('price', formData.price.toString());
+      formDataToSend.append('location', formData.location);
+      formDataToSend.append('capacity', formData.capacity.toString());
+      formDataToSend.append('booking_required', formData.booking_required.toString());
+      formDataToSend.append('is_featured', formData.is_featured.toString());
+      formDataToSend.append('is_active', formData.is_active.toString());
+      formDataToSend.append('display_order', formData.display_order.toString());
+      
+      // Add optional fields only if they have values
+      if (formData.end_date) {
+        formDataToSend.append('end_date', formData.end_date);
+      }
+      if (formData.recurring_days) {
+        formDataToSend.append('recurring_days', formData.recurring_days);
+      }
+      if (formData.recurring_until) {
+        formDataToSend.append('recurring_until', formData.recurring_until);
+      }
+      if (formData.booking_url) {
+        formDataToSend.append('booking_url', formData.booking_url);
+      }
+      if (formData.special_notes) {
+        formDataToSend.append('special_notes', formData.special_notes);
+      }
       
       // Add image if selected
       if (selectedFile) {
         formDataToSend.append('image', selectedFile);
+      }
+      
+      // Debug: Log FormData contents
+      console.log('Sending FormData with the following fields:');
+      for (let [key, value] of formDataToSend.entries()) {
+        console.log(`${key}:`, value);
       }
       
       if (editingEvent) {
@@ -394,57 +427,6 @@ export const EventsManagement: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Recurring Event Settings */}
-                {formData.event_type === 'recurring' && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 bg-gray-50 rounded-lg">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Recurring Type
-                      </label>
-                      <select
-                        name="recurring_type"
-                        value={formData.recurring_type}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                      >
-                        <option value="none">One Time Only</option>
-                        <option value="daily">Daily</option>
-                        <option value="weekly">Weekly</option>
-                        <option value="monthly">Monthly</option>
-                      </select>
-                    </div>
-                    
-                    {formData.recurring_type === 'weekly' && (
-                      <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          Days of Week
-                        </label>
-                        <input
-                          type="text"
-                          name="recurring_days"
-                          value={formData.recurring_days}
-                          onChange={handleInputChange}
-                          placeholder="e.g., thursday,friday,saturday"
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                        />
-                      </div>
-                    )}
-                    
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Recurring Until
-                      </label>
-                      <input
-                        type="date"
-                        name="recurring_until"
-                        value={formData.recurring_until}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                      />
-                    </div>
-                  </div>
-                )}
-
                 {/* Pricing & Capacity */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div>
@@ -490,39 +472,6 @@ export const EventsManagement: React.FC = () => {
                   </div>
                 </div>
 
-                {/* Booking Settings */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="flex items-center space-x-3">
-                    <input
-                      type="checkbox"
-                      name="booking_required"
-                      id="booking_required"
-                      checked={formData.booking_required}
-                      onChange={handleInputChange}
-                      className="w-4 h-4 text-green-600 border-gray-300 rounded focus:ring-green-500"
-                    />
-                    <label htmlFor="booking_required" className="text-sm font-medium text-gray-700">
-                      Booking Required
-                    </label>
-                  </div>
-                  
-                  {formData.booking_required && (
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Booking URL
-                      </label>
-                      <input
-                        type="url"
-                        name="booking_url"
-                        value={formData.booking_url}
-                        onChange={handleInputChange}
-                        placeholder="https://..."
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                      />
-                    </div>
-                  )}
-                </div>
-
                 {/* Display Settings */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="flex items-center space-x-3">
@@ -565,21 +514,6 @@ export const EventsManagement: React.FC = () => {
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
                     />
                   </div>
-                </div>
-
-                {/* Special Notes */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Special Notes
-                  </label>
-                  <textarea
-                    name="special_notes"
-                    value={formData.special_notes}
-                    onChange={handleInputChange}
-                    rows={3}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
-                    placeholder="Any special instructions or requirements..."
-                  />
                 </div>
 
                 {/* Event Image */}

@@ -38,9 +38,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [initialized, setInitialized] = useState(false);
 
   // Check for existing token on app load - FIXED: Only run once
   useEffect(() => {
+    if (initialized) return; // Prevent re-initialization
+
     const initializeAuth = () => {
       try {
         const storedToken = localStorage.getItem('adminToken');
@@ -59,18 +62,17 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         localStorage.removeItem('adminRefreshToken');
       } finally {
         setLoading(false);
+        setInitialized(true);
       }
     };
 
     initializeAuth();
-  }, []); // Empty dependency array - only run once
+  }, [initialized]); // Only depend on initialized flag
 
   // Memoize login function to prevent recreating on every render
   const login = useCallback(async (username: string, password: string): Promise<boolean> => {
     setLoading(true);
     setError(null);
-
-    console.log('Attempting login to:', 'http://localhost:8000/api/auth/login/');
 
     try {
       const response = await fetch('http://localhost:8000/api/auth/login/', {
@@ -81,10 +83,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         body: JSON.stringify({ username, password }),
       });
 
-      console.log('Response status:', response.status);
-      
       const data = await response.json();
-      console.log('Response data:', data);
 
       if (response.ok) {
         // Check if we got JWT tokens
@@ -118,8 +117,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   // Memoize logout function
   const logout = useCallback(async (): Promise<void> => {
-    setLoading(true);
-    
     try {
       const refreshToken = localStorage.getItem('adminRefreshToken');
       
@@ -143,7 +140,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       localStorage.removeItem('adminToken');
       localStorage.removeItem('adminUser');
       localStorage.removeItem('adminRefreshToken');
-      setLoading(false);
     }
   }, [token]); // Only depend on token
 
@@ -161,6 +157,18 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     error,
   }), [user, token, login, logout, isAuthenticated, loading, error]);
 
+  // Don't render children until initialization is complete
+  if (!initialized) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="flex flex-col items-center space-y-4">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+          <p className="text-gray-600">Initializing...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <AuthContext.Provider value={contextValue}>
       {children}
@@ -173,13 +181,18 @@ export const useAuthenticatedApi = () => {
   const { token } = useAuth();
 
   const apiCall = useCallback(async (endpoint: string, options: RequestInit = {}) => {
+    const isFormData = options.body instanceof FormData;
+    
+    // Create headers - don't set Content-Type for FormData
+    const headers: Record<string, string> = {
+      ...(token && { 'Authorization': `Bearer ${token}` }),
+      ...(!isFormData && { 'Content-Type': 'application/json' }),
+      ...(options.headers as Record<string, string>),
+    };
+
     const response = await fetch(`http://localhost:8000/api${endpoint}`, {
       ...options,
-      headers: {
-        'Content-Type': 'application/json',
-        ...(token && { 'Authorization': `Bearer ${token}` }),
-        ...options.headers,
-      },
+      headers,
     });
 
     if (!response.ok) {
@@ -195,8 +208,22 @@ export const useAuthenticatedApi = () => {
       // Try to get error message from response
       let errorMessage = `API call failed: ${response.status} ${response.statusText}`;
       try {
-        const errorData = await response.json();
-        errorMessage = errorData.detail || errorData.error || errorMessage;
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('application/json')) {
+          const errorData = await response.json();
+          errorMessage = errorData.detail || errorData.error || errorMessage;
+          
+          // Handle Django validation errors
+          if (errorData.non_field_errors) {
+            errorMessage = errorData.non_field_errors.join(', ');
+          } else if (typeof errorData === 'object') {
+            const firstKey = Object.keys(errorData)[0];
+            if (firstKey && errorData[firstKey]) {
+              const errorValue = errorData[firstKey];
+              errorMessage = Array.isArray(errorValue) ? errorValue.join(', ') : String(errorValue);
+            }
+          }
+        }
       } catch {
         // Ignore JSON parsing errors, use default message
       }
@@ -204,7 +231,13 @@ export const useAuthenticatedApi = () => {
       throw new Error(errorMessage);
     }
 
-    return response.json();
+    // Handle response based on content type
+    const contentType = response.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      return response.json();
+    }
+    
+    return response.text();
   }, [token]); // Only depend on token
 
   return { apiCall };
