@@ -46,3 +46,24 @@ INFO 2025-09-24 08:31:48,076 basehttp 3048 19308 "GET /api/reservations/ HTTP/1.
 INFO 2025-09-24 08:31:48,105 basehttp 3048 19308 "GET /api/reservations/ HTTP/1.1" 200 52
 INFO 2025-09-26 07:58:20,955 autoreload 3048 22992 C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\serializers.py changed, reloading.
 INFO 2025-09-26 07:58:32,737 autoreload 27460 30264 Watching for file changes with StatReloader
+INFO 2025-09-26 10:36:34,448 autoreload 19640 20932 Watching for file changes with StatReloader
+INFO 2025-09-26 10:36:37,046 basehttp 19640 10560 "GET / HTTP/1.1" 200 282
+WARNING 2025-09-26 10:36:37,569 log 19640 14676 Not Found: /favicon.ico
+WARNING 2025-09-26 10:36:37,575 basehttp 19640 14676 "GET /favicon.ico HTTP/1.1" 404 2440
+INFO 2025-09-26 10:36:51,234 basehttp 19640 6160 "OPTIONS /api/reservations/dashboard/ HTTP/1.1" 200 0
+INFO 2025-09-26 10:36:51,234 basehttp 19640 20316 "OPTIONS /api/reservations/dashboard/ HTTP/1.1" 200 0
+WARNING 2025-09-26 10:36:51,688 log 19640 6160 Unauthorized: /api/reservations/dashboard/
+WARNING 2025-09-26 10:36:51,691 log 19640 20316 Unauthorized: /api/reservations/dashboard/
+WARNING 2025-09-26 10:36:51,693 basehttp 19640 6160 "GET /api/reservations/dashboard/ HTTP/1.1" 401 183
+INFO 2025-09-26 10:36:51,714 basehttp 19640 20316 - Broken pipe from ('127.0.0.1', 50589)
+INFO 2025-09-26 12:25:05,478 basehttp 19640 26736 "OPTIONS /api/events/public/ HTTP/1.1" 200 0
+INFO 2025-09-26 12:25:05,496 basehttp 19640 24972 "GET /api/events/public/ HTTP/1.1" 200 2
+INFO 2025-09-26 12:25:05,529 basehttp 19640 24972 "GET /api/events/public/ HTTP/1.1" 200 2
+INFO 2025-09-26 12:25:09,462 basehttp 19640 24972 "OPTIONS /api/gallery/public/ HTTP/1.1" 200 0
+INFO 2025-09-26 12:25:09,482 basehttp 19640 24972 "GET /api/gallery/public/ HTTP/1.1" 200 458
+INFO 2025-09-26 12:25:09,498 basehttp 19640 24972 "GET /api/gallery/public/ HTTP/1.1" 200 458
+WARNING 2025-09-26 12:25:09,850 log 19640 29068 Not Found: /media/gallery/4977b4d89700444f99604571036d7f33.png
+WARNING 2025-09-26 12:25:09,851 basehttp 19640 29068 "GET /media/gallery/4977b4d89700444f99604571036d7f33.png HTTP/1.1" 404 2805
+INFO 2025-09-26 12:25:10,133 basehttp 19640 10552 "GET /media/gallery/ca9f94b1f91b4871b86764436f871e5d.jpg HTTP/1.1" 200 22272
+INFO 2025-09-26 12:25:15,613 basehttp 19640 24972 "GET /api/events/public/ HTTP/1.1" 200 2
+INFO 2025-09-26 12:25:15,628 basehttp 19640 24972 "GET /api/events/public/ HTTP/1.1" 200 2

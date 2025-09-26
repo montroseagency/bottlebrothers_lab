@@ -1,5 +1,5 @@
-// client/src/contexts/AuthContext.tsx
-import React, { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
+// client/src/contexts/AuthContext.tsx - FIXED VERSION
+import React, { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
 
 interface User {
   id: number;
@@ -13,7 +13,7 @@ interface AuthContextType {
   user: User | null;
   token: string | null;
   login: (username: string, password: string) => Promise<boolean>;
-  logout: () => void;
+  logout: () => Promise<void>;
   isAuthenticated: boolean;
   loading: boolean;
   error: string | null;
@@ -39,28 +39,34 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Check for existing token on app load
+  // Check for existing token on app load - FIXED: Only run once
   useEffect(() => {
-    const storedToken = localStorage.getItem('adminToken');
-    const storedUser = localStorage.getItem('adminUser');
-    
-    if (storedToken && storedUser) {
+    const initializeAuth = () => {
       try {
-        const parsedUser = JSON.parse(storedUser);
-        setToken(storedToken);
-        setUser(parsedUser);
+        const storedToken = localStorage.getItem('adminToken');
+        const storedUser = localStorage.getItem('adminUser');
+        
+        if (storedToken && storedUser) {
+          const parsedUser = JSON.parse(storedUser);
+          setToken(storedToken);
+          setUser(parsedUser);
+        }
       } catch (error) {
         console.error('Error parsing stored user data:', error);
+        // Clear invalid data
         localStorage.removeItem('adminToken');
         localStorage.removeItem('adminUser');
         localStorage.removeItem('adminRefreshToken');
+      } finally {
+        setLoading(false);
       }
-    }
-    
-    setLoading(false);
-  }, []);
+    };
 
-  const login = async (username: string, password: string): Promise<boolean> => {
+    initializeAuth();
+  }, []); // Empty dependency array - only run once
+
+  // Memoize login function to prevent recreating on every render
+  const login = useCallback(async (username: string, password: string): Promise<boolean> => {
     setLoading(true);
     setError(null);
 
@@ -81,7 +87,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       console.log('Response data:', data);
 
       if (response.ok) {
-        // Check if we got JWT tokens (which we are getting)
+        // Check if we got JWT tokens
         if (data.access && data.user) {
           setUser(data.user);
           setToken(data.access);
@@ -108,9 +114,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []); // No dependencies needed
 
-  const logout = async () => {
+  // Memoize logout function
+  const logout = useCallback(async (): Promise<void> => {
     setLoading(true);
     
     try {
@@ -128,22 +135,23 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       }
     } catch (error) {
       console.error('Logout error:', error);
+    } finally {
+      // Clear state and localStorage
+      setUser(null);
+      setToken(null);
+      setError(null);
+      localStorage.removeItem('adminToken');
+      localStorage.removeItem('adminUser');
+      localStorage.removeItem('adminRefreshToken');
+      setLoading(false);
     }
+  }, [token]); // Only depend on token
 
-    // Clear state and localStorage
-    setUser(null);
-    setToken(null);
-    setError(null);
-    localStorage.removeItem('adminToken');
-    localStorage.removeItem('adminUser');
-    localStorage.removeItem('adminRefreshToken');
-    
-    setLoading(false);
-  };
+  // Memoize computed values
+  const isAuthenticated = Boolean(user && token);
 
-  const isAuthenticated = !!user && !!token;
-
-  const value: AuthContextType = {
+  // Memoize the context value to prevent unnecessary re-renders
+  const contextValue = React.useMemo<AuthContextType>(() => ({
     user,
     token,
     login,
@@ -151,20 +159,20 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     isAuthenticated,
     loading,
     error,
-  };
+  }), [user, token, login, logout, isAuthenticated, loading, error]);
 
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider value={contextValue}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-// API helper hook for JWT authentication
+// API helper hook for JWT authentication - FIXED: Memoized
 export const useAuthenticatedApi = () => {
   const { token } = useAuth();
 
-  const apiCall = async (endpoint: string, options: RequestInit = {}) => {
+  const apiCall = useCallback(async (endpoint: string, options: RequestInit = {}) => {
     const response = await fetch(`http://localhost:8000/api${endpoint}`, {
       ...options,
       headers: {
@@ -197,7 +205,7 @@ export const useAuthenticatedApi = () => {
     }
 
     return response.json();
-  };
+  }, [token]); // Only depend on token
 
   return { apiCall };
 };

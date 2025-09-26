@@ -1,5 +1,5 @@
-// client/src/pages/AdminLogin.tsx
-import React, { useState, useEffect } from 'react';
+// client/src/components/auth/AdminLogin.tsx - FIXED VERSION V2
+import React, { useState, useEffect, useCallback } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -11,15 +11,20 @@ const AdminLogin: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const from = location.state?.from?.pathname || '/auth/dashboard';
+  // Memoize the redirect path to prevent recreation
+  const from = React.useMemo(() => {
+    return location.state?.from?.pathname || '/auth/dashboard';
+  }, [location.state?.from?.pathname]);
 
+  // Handle navigation - FIXED: Only navigate when authentication state changes
   useEffect(() => {
     if (isAuthenticated) {
       navigate(from, { replace: true });
     }
-  }, [isAuthenticated, navigate, from]);
+  }, [isAuthenticated, navigate, from]); // Stable dependencies
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Memoize the submit handler to prevent recreation
+  const handleSubmit = useCallback(async (e: React.FormEvent) => {
     e.preventDefault();
     
     if (!username.trim() || !password.trim()) {
@@ -31,14 +36,36 @@ const AdminLogin: React.FC = () => {
     try {
       const success = await login(username, password);
       if (success) {
-        navigate(from, { replace: true });
+        // Navigation will be handled by useEffect above
+        console.log('Login successful');
       }
     } catch (error) {
       console.error('Login error:', error);
     } finally {
       setLoading(false);
     }
-  };
+  }, [username, password, login]);
+
+  // Memoize input change handlers
+  const handleUsernameChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(e.target.value);
+  }, []);
+
+  const handlePasswordChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  }, []);
+
+  // If already authenticated, don't render the login form
+  if (isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-green-900 via-green-800 to-black flex items-center justify-center">
+        <div className="text-white text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-white mx-auto mb-4"></div>
+          <p>Redirecting to dashboard...</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-900 via-green-800 to-black flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -75,9 +102,10 @@ const AdminLogin: React.FC = () => {
                 type="text"
                 required
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                onChange={handleUsernameChange}
                 className="w-full px-3 py-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent"
                 placeholder="Enter your username"
+                disabled={loading}
               />
             </div>
 
@@ -91,9 +119,10 @@ const AdminLogin: React.FC = () => {
                 type="password"
                 required
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                onChange={handlePasswordChange}
                 className="w-full px-3 py-3 bg-white/20 backdrop-blur-sm border border-white/30 rounded-lg text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-green-400 focus:border-transparent"
                 placeholder="Enter your password"
+                disabled={loading}
               />
             </div>
 
@@ -140,4 +169,8 @@ const AdminLogin: React.FC = () => {
   );
 };
 
+// Named export for compatibility
+export const LoginPage = AdminLogin;
+
+// Default export
 export default AdminLogin;

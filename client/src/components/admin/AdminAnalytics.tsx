@@ -1,6 +1,6 @@
-// client/src/pages/AdminAnalytics.tsx
+// client/src/components/admin/AdminAnalytics.tsx - FIXED IMPORTS
 import React, { useState, useEffect } from 'react';
-import { useAuthenticatedApi } from '../contexts/AuthContext';
+import { useAuthenticatedApi } from '../../contexts/AuthContext';
 
 interface AnalyticsData {
   monthly_revenue: number;

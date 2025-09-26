@@ -1,5 +1,4 @@
-// client/src/App.tsx - COMPLETE FILE
-import React from 'react';
+// client/src/App.tsx - FIXED VERSION
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { I18nextProvider } from 'react-i18next';
 import i18n from './i18n';
@@ -15,17 +14,17 @@ import Home from './pages/Home';
 import Menu from './pages/Menu';
 import Events from './pages/Events';
 import { GalleryPage } from './pages/Gallery';
-import Contact from './pages/Contact';
+import ContactReservations from './components/admin/ContactReservations'; // Fixed import
 
-// Auth components
-import { LoginPage } from './components/auth/AdminLogin';
+// Auth components - Fixed imports
+import AdminLogin from './components/auth/AdminLogin'; // Default import
 import { AdminLayout } from './components/admin/AdminLayout';
-import { Dashboard } from './components/admin/AdminDashboard';
-import { ReservationsManagement } from './components/admin/AdminReservations';
+import AdminDashboard from './components/admin/AdminDashboard'; // Default import
+import AdminReservations from './components/admin/AdminReservations'; // Default import
 import { EventsManagement } from './components/admin/EventsManagement';
 import { GalleryManagement } from './components/admin/GalleryManagement';
-import { MessagesManagement } from './components/admin/AdminMessages';
-import { AnalyticsPage } from './components/admin/AdminAnalytics';
+import AdminMessages from './components/admin/AdminMessages'; // Default import
+import AdminAnalytics from './components/admin/AdminAnalytics'; // Default import
 
 // UI components
 import { ScrollProgressBar } from './components/ui/ScrollProgressBar';
@@ -80,14 +79,14 @@ function App() {
               <Route path="/contact" element={
                 <>
                   <Header />
-                  <Contact />
+                  <ContactReservations />
                   <Footer />
                   <FloatingReservation position="bottom-right" style="compact" />
                 </>
               } />
               
               {/* Auth Routes */}
-              <Route path="/auth" element={<LoginPage />} />
+              <Route path="/auth" element={<AdminLogin />} />
               
               {/* Admin Routes */}
               <Route path="/auth/*" element={
@@ -95,12 +94,12 @@ function App() {
                   <AdminLayout />
                 </ProtectedRoute>
               }>
-                <Route path="dashboard" element={<Dashboard />} />
-                <Route path="reservations" element={<ReservationsManagement />} />
+                <Route path="dashboard" element={<AdminDashboard />} />
+                <Route path="reservations" element={<AdminReservations />} />
                 <Route path="events" element={<EventsManagement />} />
                 <Route path="gallery" element={<GalleryManagement />} />
-                <Route path="messages" element={<MessagesManagement />} />
-                <Route path="analytics" element={<AnalyticsPage />} />
+                <Route path="messages" element={<AdminMessages />} />
+                <Route path="analytics" element={<AdminAnalytics />} />
                 <Route path="" element={<Navigate to="/auth/dashboard" replace />} />
               </Route>
               

@@ -1,4 +1,4 @@
-// client/src/pages/AdminDashboard.tsx
+// client/src/components/admin/AdminDashboard.tsx - FIXED IMPORTS
 import React, { useState, useEffect } from 'react';
 import { useAuthenticatedApi } from '../../contexts/AuthContext';
 
