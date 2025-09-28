@@ -384,10 +384,15 @@ class Event(models.Model):
     
     @property
     def formatted_time(self):
-        """Return formatted time range"""
-        start_str = self.start_time.strftime('%-I:%M %p')
-        end_str = self.end_time.strftime('%-I:%M %p')
-        return f"{start_str} - {end_str}"
+        """Return formatted time range - FIXED FOR WINDOWS COMPATIBILITY"""
+        try:
+            # Use cross-platform compatible format strings
+            start_str = self.start_time.strftime('%I:%M %p').lstrip('0')
+            end_str = self.end_time.strftime('%I:%M %p').lstrip('0')
+            return f"{start_str} - {end_str}"
+        except (AttributeError, ValueError) as e:
+            # Fallback if there's any issue with time formatting
+            return f"{self.start_time} - {self.end_time}"
     
     @property
     def duration_display(self):
@@ -397,12 +402,15 @@ class Event(models.Model):
     @property
     def is_past_event(self):
         """Check if event is in the past"""
-        event_datetime = timezone.datetime.combine(
-            self.start_date,
-            self.start_time,
-            tzinfo=timezone.get_current_timezone()
-        )
-        return event_datetime < timezone.now()
+        try:
+            event_datetime = timezone.datetime.combine(
+                self.start_date,
+                self.start_time,
+                tzinfo=timezone.get_current_timezone()
+            )
+            return event_datetime < timezone.now()
+        except (AttributeError, ValueError):
+            return False
     
     @property
     def price_formatted(self):
@@ -436,6 +444,7 @@ class Event(models.Model):
         if self.image:
             self.image.delete(save=False)
         super().delete(*args, **kwargs)
+
 
 
 class EventType(models.Model):
