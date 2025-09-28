@@ -1,4 +1,4 @@
-// client/src/services/api.ts - COMPLETE VERSION WITH RESERVATIONS (FIXED)
+
 
 // ========== SAFE ENVIRONMENT HANDLING ==========
 const getApiBaseUrl = (): string => {
@@ -243,6 +243,116 @@ export interface GalleryCategoryResponse {
   count: number;
 }
 
+// MENU TYPES
+export interface MenuCategory {
+  id: string;
+  name: string;
+  category_type: string;
+  description: string;
+  icon: string;
+  display_order: number;
+  is_active: boolean;
+  items_count: number;
+  menu_items?: MenuItem[];
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface MenuItem {
+  id: string;
+  category: string;
+  category_name: string;
+  category_type: string;
+  name: string;
+  description: string;
+  price: number;
+  formatted_price: string;
+  image?: File | null;
+  image_url?: string;
+  dietary_info: string[];
+  tags: string[];
+  ingredients: string;
+  allergens: string;
+  calories?: number;
+  preparation_time: string;
+  is_available: boolean;
+  is_featured: boolean;
+  display_order: number;
+  has_variants: boolean;
+  variants?: MenuItemVariant[];
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface MenuItemVariant {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  formatted_price: string;
+  variant_type: string;
+  display_order: number;
+  is_available: boolean;
+}
+
+export interface CreateMenuCategoryData {
+  name: string;
+  category_type: string;
+  description?: string;
+  icon?: string;
+  display_order?: number;
+  is_active?: boolean;
+}
+
+export interface UpdateMenuCategoryData extends Partial<CreateMenuCategoryData> {
+  id?: string;
+}
+
+export interface CreateMenuItemData {
+  category: string;
+  name: string;
+  description: string;
+  price: number;
+  image?: File | null;
+  dietary_info?: string[];
+  tags?: string[];
+  ingredients?: string;
+  allergens?: string;
+  calories?: number;
+  preparation_time?: string;
+  is_available?: boolean;
+  is_featured?: boolean;
+  display_order?: number;
+  has_variants?: boolean;
+}
+
+export interface UpdateMenuItemData extends Partial<CreateMenuItemData> {
+  id?: string;
+}
+
+export interface CreateMenuItemVariantData {
+  menu_item: string;
+  name: string;
+  description?: string;
+  price: number;
+  variant_type: string;
+  display_order?: number;
+  is_available?: boolean;
+}
+
+export interface UpdateMenuItemVariantData extends Partial<CreateMenuItemVariantData> {
+  id?: string;
+}
+
+export interface MenuFilters {
+  category?: string;
+  category_type?: string;
+  featured?: boolean;
+  dietary?: string;
+  search?: string;
+  is_available?: boolean;
+}
+
 export interface ApiResponse<T> {
   data: T;
   message?: string;
@@ -401,6 +511,8 @@ export const createFormData = (data: Record<string, any>): FormData => {
         formData.append(key, value);
       } else if (typeof value === 'boolean') {
         formData.append(key, value ? 'true' : 'false');
+      } else if (Array.isArray(value)) {
+        formData.append(key, JSON.stringify(value));
       } else {
         formData.append(key, String(value));
       }
@@ -1022,6 +1134,294 @@ export class ApiClient {
     }
   }
 
+  // ========== MENU ==========
+
+  /**
+   * Get menu categories (public endpoint)
+   */
+  async getPublicMenuCategories(filters?: MenuFilters): Promise<MenuCategory[]> {
+    try {
+      return await makeRequest<MenuCategory[]>('/menu/categories/public/', { method: 'GET' }, undefined, filters);
+    } catch (error) {
+      console.error('Failed to fetch public menu categories:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get menu items by category (public endpoint)
+   */
+  async getPublicMenuByCategory(filters?: MenuFilters): Promise<MenuCategory[]> {
+    try {
+      return await makeRequest<MenuCategory[]>('/menu/items/by_category/', { method: 'GET' }, undefined, filters);
+    } catch (error) {
+      console.error('Failed to fetch public menu by category:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get public menu items
+   */
+  async getPublicMenuItems(filters?: MenuFilters): Promise<MenuItem[]> {
+    try {
+      return await makeRequest<MenuItem[]>('/menu/items/public/', { method: 'GET' }, undefined, filters);
+    } catch (error) {
+      console.error('Failed to fetch public menu items:', error);
+      throw error;
+    }
+  }
+
+  // ========== ADMIN MENU (require authentication) ==========
+
+  /**
+   * Get all menu categories (requires authentication)
+   */
+  async getMenuCategories(token: string, filters?: MenuFilters): Promise<MenuCategory[]> {
+    try {
+      return await makeRequest<MenuCategory[]>('/menu/categories/', { method: 'GET' }, token, filters);
+    } catch (error) {
+      console.error('Failed to fetch menu categories:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Create a new menu category
+   */
+  async createMenuCategory(token: string, categoryData: CreateMenuCategoryData): Promise<MenuCategory> {
+    try {
+      return await makeRequest<MenuCategory>(
+        '/menu/categories/',
+        {
+          method: 'POST',
+          body: JSON.stringify(categoryData),
+        },
+        token
+      );
+    } catch (error) {
+      console.error('Failed to create menu category:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Update a menu category
+   */
+  async updateMenuCategory(token: string, categoryId: string, categoryData: UpdateMenuCategoryData): Promise<MenuCategory> {
+    try {
+      return await makeRequest<MenuCategory>(
+        `/menu/categories/${categoryId}/`,
+        {
+          method: 'PATCH',
+          body: JSON.stringify(categoryData),
+        },
+        token
+      );
+    } catch (error) {
+      console.error('Failed to update menu category:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Delete a menu category
+   */
+  async deleteMenuCategory(token: string, categoryId: string): Promise<void> {
+    try {
+      await makeRequest<void>(
+        `/menu/categories/${categoryId}/`,
+        { method: 'DELETE' },
+        token
+      );
+    } catch (error) {
+      console.error('Failed to delete menu category:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Toggle menu category active status
+   */
+  async toggleMenuCategoryActive(token: string, categoryId: string): Promise<MenuCategory> {
+    try {
+      return await makeRequest<MenuCategory>(
+        `/menu/categories/${categoryId}/toggle_active/`,
+        { method: 'PATCH' },
+        token
+      );
+    } catch (error) {
+      console.error('Failed to toggle menu category active status:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get all menu items (requires authentication)
+   */
+  async getMenuItems(token: string, filters?: MenuFilters): Promise<MenuItem[]> {
+    try {
+      return await makeRequest<MenuItem[]>('/menu/items/', { method: 'GET' }, token, filters);
+    } catch (error) {
+      console.error('Failed to fetch menu items:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Create a new menu item
+   */
+  async createMenuItem(token: string, itemData: CreateMenuItemData): Promise<MenuItem> {
+    try {
+      const formData = createFormData(itemData);
+      return await makeRequest<MenuItem>(
+        '/menu/items/',
+        {
+          method: 'POST',
+          body: formData,
+        },
+        token
+      );
+    } catch (error) {
+      console.error('Failed to create menu item:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Update a menu item
+   */
+  async updateMenuItem(token: string, itemId: string, itemData: UpdateMenuItemData): Promise<MenuItem> {
+    try {
+      const formData = createFormData(itemData);
+      return await makeRequest<MenuItem>(
+        `/menu/items/${itemId}/`,
+        {
+          method: 'PATCH',
+          body: formData,
+        },
+        token
+      );
+    } catch (error) {
+      console.error('Failed to update menu item:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Delete a menu item
+   */
+  async deleteMenuItem(token: string, itemId: string): Promise<void> {
+    try {
+      await makeRequest<void>(
+        `/menu/items/${itemId}/`,
+        { method: 'DELETE' },
+        token
+      );
+    } catch (error) {
+      console.error('Failed to delete menu item:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Toggle menu item available status
+   */
+  async toggleMenuItemAvailable(token: string, itemId: string): Promise<MenuItem> {
+    try {
+      return await makeRequest<MenuItem>(
+        `/menu/items/${itemId}/toggle_available/`,
+        { method: 'PATCH' },
+        token
+      );
+    } catch (error) {
+      console.error('Failed to toggle menu item available status:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Toggle menu item featured status
+   */
+  async toggleMenuItemFeatured(token: string, itemId: string): Promise<MenuItem> {
+    try {
+      return await makeRequest<MenuItem>(
+        `/menu/items/${itemId}/toggle_featured/`,
+        { method: 'PATCH' },
+        token
+      );
+    } catch (error) {
+      console.error('Failed to toggle menu item featured status:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Get menu item variants
+   */
+  async getMenuItemVariants(token: string, itemId: string): Promise<MenuItemVariant[]> {
+    try {
+      return await makeRequest<MenuItemVariant[]>('/menu/variants/', { method: 'GET' }, token, { menu_item: itemId });
+    } catch (error) {
+      console.error('Failed to fetch menu item variants:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Create a menu item variant
+   */
+  async createMenuItemVariant(token: string, variantData: CreateMenuItemVariantData): Promise<MenuItemVariant> {
+    try {
+      return await makeRequest<MenuItemVariant>(
+        '/menu/variants/',
+        {
+          method: 'POST',
+          body: JSON.stringify(variantData),
+        },
+        token
+      );
+    } catch (error) {
+      console.error('Failed to create menu item variant:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Update a menu item variant
+   */
+  async updateMenuItemVariant(token: string, variantId: string, variantData: UpdateMenuItemVariantData): Promise<MenuItemVariant> {
+    try {
+      return await makeRequest<MenuItemVariant>(
+        `/menu/variants/${variantId}/`,
+        {
+          method: 'PATCH',
+          body: JSON.stringify(variantData),
+        },
+        token
+      );
+    } catch (error) {
+      console.error('Failed to update menu item variant:', error);
+      throw error;
+    }
+  }
+
+  /**
+   * Delete a menu item variant
+   */
+  async deleteMenuItemVariant(token: string, variantId: string): Promise<void> {
+    try {
+      await makeRequest<void>(
+        `/menu/variants/${variantId}/`,
+        { method: 'DELETE' },
+        token
+      );
+    } catch (error) {
+      console.error('Failed to delete menu item variant:', error);
+      throw error;
+    }
+  }
+
   // ========== UTILITY METHODS ==========
 
   async healthCheck(): Promise<{ status: string; timestamp: string }> {
@@ -1044,4 +1444,4 @@ export const createApiClient = (baseUrl?: string): ApiClient => {
   return new ApiClient(baseUrl);
 };
 
-export default apiClient;
+export default apiClient;  

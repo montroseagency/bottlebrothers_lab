@@ -1,4 +1,4 @@
-# server/api/urls.py - UPDATED VERSION WITH RESERVATION STATS
+# Updated server/api/urls.py - Add menu routes to existing router
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
@@ -9,6 +9,9 @@ from .views import (
     ContactMessageViewSet,
     GalleryItemViewSet,
     EventViewSet,
+    MenuCategoryViewSet,
+    MenuItemViewSet,
+    MenuItemVariantViewSet,
     CustomTokenObtainPairView,
     admin_login,
     admin_logout,
@@ -20,6 +23,9 @@ router.register(r'reservations', ReservationViewSet)
 router.register(r'contact', ContactMessageViewSet)
 router.register(r'gallery', GalleryItemViewSet)
 router.register(r'events', EventViewSet)
+router.register(r'menu/categories', MenuCategoryViewSet)
+router.register(r'menu/items', MenuItemViewSet)
+router.register(r'menu/variants', MenuItemVariantViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

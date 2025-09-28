@@ -1207,3 +1207,179 @@ WARNING 2025-09-26 13:38:25,824 log 10636 17884 Not Found: /media/gallery/4977b4
 WARNING 2025-09-26 13:38:25,835 basehttp 10636 17884 "GET /media/gallery/4977b4d89700444f99604571036d7f33.png HTTP/1.1" 404 2805
 INFO 2025-09-26 13:38:35,996 basehttp 10636 17736 "GET /api/events/public/ HTTP/1.1" 200 5442
 INFO 2025-09-26 13:38:36,024 basehttp 10636 17736 "GET /api/events/public/ HTTP/1.1" 200 5442
+INFO 2025-09-28 06:26:59,564 basehttp 10636 30680 "OPTIONS /api/events/public/ HTTP/1.1" 200 0
+INFO 2025-09-28 06:26:59,671 basehttp 10636 30680 "GET /api/events/public/ HTTP/1.1" 200 2
+INFO 2025-09-28 06:26:59,690 basehttp 10636 30680 "GET /api/events/public/ HTTP/1.1" 200 2
+INFO 2025-09-28 06:27:15,119 basehttp 10636 30680 "OPTIONS /api/reservations/dashboard/ HTTP/1.1" 200 0
+INFO 2025-09-28 06:27:15,129 basehttp 10636 30680 "OPTIONS /api/reservations/dashboard/ HTTP/1.1" 200 0
+WARNING 2025-09-28 06:27:15,173 log 10636 16636 Unauthorized: /api/reservations/dashboard/
+WARNING 2025-09-28 06:27:15,174 log 10636 30680 Unauthorized: /api/reservations/dashboard/
+WARNING 2025-09-28 06:27:15,183 basehttp 10636 16636 "GET /api/reservations/dashboard/ HTTP/1.1" 401 183
+WARNING 2025-09-28 06:27:15,197 basehttp 10636 30680 "GET /api/reservations/dashboard/ HTTP/1.1" 401 183
+INFO 2025-09-28 06:27:20,349 basehttp 10636 16636 "OPTIONS /api/auth/login/ HTTP/1.1" 200 0
+WARNING 2025-09-28 06:27:21,423 log 10636 30680 Bad Request: /api/auth/login/
+WARNING 2025-09-28 06:27:21,424 basehttp 10636 30680 "POST /api/auth/login/ HTTP/1.1" 400 44
+WARNING 2025-09-28 06:27:28,598 log 10636 16636 Bad Request: /api/auth/login/
+WARNING 2025-09-28 06:27:28,602 basehttp 10636 16636 "POST /api/auth/login/ HTTP/1.1" 400 44
+INFO 2025-09-28 06:28:54,314 autoreload 28480 19800 Watching for file changes with StatReloader
+INFO 2025-09-28 06:29:00,166 basehttp 28480 28780 "POST /api/auth/login/ HTTP/1.1" 200 642
+INFO 2025-09-28 06:29:00,300 basehttp 28480 28780 "OPTIONS /api/reservations/dashboard/ HTTP/1.1" 200 0
+INFO 2025-09-28 06:29:00,305 basehttp 28480 8012 "OPTIONS /api/reservations/dashboard/ HTTP/1.1" 200 0
+WARNING 2025-09-28 06:29:00,317 log 28480 8012 Not Found: /api/reservations/dashboard/
+WARNING 2025-09-28 06:29:00,324 basehttp 28480 8012 "GET /api/reservations/dashboard/ HTTP/1.1" 404 23
+WARNING 2025-09-28 06:29:00,356 log 28480 25336 Not Found: /api/reservations/dashboard/
+WARNING 2025-09-28 06:29:00,358 basehttp 28480 25336 "GET /api/reservations/dashboard/ HTTP/1.1" 404 23
+INFO 2025-09-28 06:29:02,877 basehttp 28480 8012 "OPTIONS /api/events/ HTTP/1.1" 200 0
+INFO 2025-09-28 06:29:02,958 basehttp 28480 25336 "GET /api/events/ HTTP/1.1" 200 7930
+INFO 2025-09-28 06:29:02,979 basehttp 28480 25336 "GET /api/events/ HTTP/1.1" 200 7930
+WARNING 2025-09-28 06:29:07,380 log 28480 25336 Not Found: /api/reservations/dashboard/
+WARNING 2025-09-28 06:29:07,383 log 28480 8012 Not Found: /api/reservations/dashboard/
+WARNING 2025-09-28 06:29:07,385 basehttp 28480 25336 "GET /api/reservations/dashboard/ HTTP/1.1" 404 23
+WARNING 2025-09-28 06:29:07,389 basehttp 28480 8012 "GET /api/reservations/dashboard/ HTTP/1.1" 404 23
+INFO 2025-09-28 06:29:08,877 basehttp 28480 25336 "GET /api/events/ HTTP/1.1" 200 7930
+INFO 2025-09-28 06:29:09,014 basehttp 28480 25336 "GET /api/events/ HTTP/1.1" 200 7930
+INFO 2025-09-28 06:29:21,827 basehttp 28480 25336 "GET /api/events/public/ HTTP/1.1" 200 2
+INFO 2025-09-28 06:29:21,844 basehttp 28480 25336 "GET /api/events/public/ HTTP/1.1" 200 2
+INFO 2025-09-28 06:29:36,875 basehttp 28480 25336 "OPTIONS /api/gallery/public/ HTTP/1.1" 200 0
+INFO 2025-09-28 06:29:36,893 basehttp 28480 25336 "GET /api/gallery/public/ HTTP/1.1" 200 458
+INFO 2025-09-28 06:29:36,924 basehttp 28480 25336 "GET /api/gallery/public/ HTTP/1.1" 200 458
+WARNING 2025-09-28 06:29:38,599 log 28480 5564 Not Found: /media/gallery/4977b4d89700444f99604571036d7f33.png
+WARNING 2025-09-28 06:29:38,612 basehttp 28480 5564 "GET /media/gallery/4977b4d89700444f99604571036d7f33.png HTTP/1.1" 404 2805
+INFO 2025-09-28 06:29:38,688 basehttp 28480 14492 "GET /media/gallery/ca9f94b1f91b4871b86764436f871e5d.jpg HTTP/1.1" 200 22272
+INFO 2025-09-28 06:29:46,779 basehttp 28480 25336 "GET /api/events/public/ HTTP/1.1" 200 2
+INFO 2025-09-28 06:29:46,793 basehttp 28480 25336 "GET /api/events/public/ HTTP/1.1" 200 2
+INFO 2025-09-28 06:30:05,596 basehttp 28480 25336 "OPTIONS /api/events/d27c9951-dfe5-40e5-a175-4afef0f558c0/ HTTP/1.1" 200 0
+INFO 2025-09-28 06:30:05,642 basehttp 28480 25336 "DELETE /api/events/d27c9951-dfe5-40e5-a175-4afef0f558c0/ HTTP/1.1" 204 0
+INFO 2025-09-28 06:30:05,731 basehttp 28480 25336 "GET /api/events/ HTTP/1.1" 200 6947
+INFO 2025-09-28 06:30:08,144 basehttp 28480 25336 "OPTIONS /api/events/4f56417d-06cb-49d8-a49e-1f63af066c6b/ HTTP/1.1" 200 0
+INFO 2025-09-28 06:30:08,178 basehttp 28480 25336 "DELETE /api/events/4f56417d-06cb-49d8-a49e-1f63af066c6b/ HTTP/1.1" 204 0
+INFO 2025-09-28 06:30:08,226 basehttp 28480 25336 "GET /api/events/ HTTP/1.1" 200 5964
+INFO 2025-09-28 06:30:10,130 basehttp 28480 25336 "OPTIONS /api/events/7fcab236-1665-41ac-a6bc-2f43c98ce8b3/ HTTP/1.1" 200 0
+INFO 2025-09-28 06:30:10,168 basehttp 28480 25336 "DELETE /api/events/7fcab236-1665-41ac-a6bc-2f43c98ce8b3/ HTTP/1.1" 204 0
+INFO 2025-09-28 06:30:10,231 basehttp 28480 25336 "GET /api/events/ HTTP/1.1" 200 4981
+INFO 2025-09-28 06:30:13,350 basehttp 28480 25336 "OPTIONS /api/events/6934eac1-9331-4c4f-89b1-6bb5c1c2ac2b/ HTTP/1.1" 200 0
+INFO 2025-09-28 06:30:13,385 basehttp 28480 25336 "DELETE /api/events/6934eac1-9331-4c4f-89b1-6bb5c1c2ac2b/ HTTP/1.1" 204 0
+INFO 2025-09-28 06:30:13,460 basehttp 28480 25336 "GET /api/events/ HTTP/1.1" 200 3998
+INFO 2025-09-28 06:32:01,394 basehttp 28480 25336 "OPTIONS /api/events/40b21696-b5be-42ae-a2e7-cf12b3c840bb/ HTTP/1.1" 200 0
+INFO 2025-09-28 06:32:01,437 basehttp 28480 25336 "DELETE /api/events/40b21696-b5be-42ae-a2e7-cf12b3c840bb/ HTTP/1.1" 204 0
+INFO 2025-09-28 06:32:01,520 basehttp 28480 25336 "GET /api/events/ HTTP/1.1" 200 3015
+INFO 2025-09-28 06:32:04,316 basehttp 28480 25336 "OPTIONS /api/events/b91afbc0-e120-4851-8c42-f2f085e7bb9d/ HTTP/1.1" 200 0
+INFO 2025-09-28 06:32:04,348 basehttp 28480 25336 "DELETE /api/events/b91afbc0-e120-4851-8c42-f2f085e7bb9d/ HTTP/1.1" 204 0
+INFO 2025-09-28 06:32:04,412 basehttp 28480 25336 "GET /api/events/ HTTP/1.1" 200 2023
+INFO 2025-09-28 06:32:06,897 basehttp 28480 25336 "OPTIONS /api/events/1f5fd429-3a66-4451-b5ad-69ae52df3f85/ HTTP/1.1" 200 0
+INFO 2025-09-28 06:32:06,926 basehttp 28480 25336 "DELETE /api/events/1f5fd429-3a66-4451-b5ad-69ae52df3f85/ HTTP/1.1" 204 0
+INFO 2025-09-28 06:32:06,964 basehttp 28480 25336 "GET /api/events/ HTTP/1.1" 200 1031
+INFO 2025-09-28 06:32:09,736 basehttp 28480 25336 "OPTIONS /api/events/738ad9e6-5e58-4103-8690-6096f6527e9f/ HTTP/1.1" 200 0
+INFO 2025-09-28 06:32:09,770 basehttp 28480 25336 "DELETE /api/events/738ad9e6-5e58-4103-8690-6096f6527e9f/ HTTP/1.1" 204 0
+INFO 2025-09-28 06:32:09,813 basehttp 28480 25336 "GET /api/events/ HTTP/1.1" 200 2
+INFO 2025-09-28 06:36:58,625 basehttp 28480 1624 "POST /api/events/ HTTP/1.1" 201 989
+INFO 2025-09-28 06:36:58,647 basehttp 28480 1624 "GET /api/events/ HTTP/1.1" 200 991
+INFO 2025-09-28 06:37:04,357 basehttp 28480 1624 "GET /api/events/public/ HTTP/1.1" 200 679
+INFO 2025-09-28 06:37:04,474 basehttp 28480 24888 "GET /api/events/public/ HTTP/1.1" 200 679
+INFO 2025-09-28 06:37:04,716 basehttp 28480 14860 "GET /media/events/a013d7e3655d448595ab3916662b791a.png HTTP/1.1" 200 219903
+INFO 2025-09-28 07:14:01,542 autoreload 28480 19800 C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\models.py changed, reloading.
+INFO 2025-09-28 07:14:04,654 autoreload 8560 9528 Watching for file changes with StatReloader
+INFO 2025-09-28 07:14:31,288 autoreload 8560 9528 C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\serializers.py changed, reloading.
+INFO 2025-09-28 07:14:34,194 autoreload 16276 11036 Watching for file changes with StatReloader
+INFO 2025-09-28 07:14:38,841 autoreload 16276 11036 C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\serializers.py changed, reloading.
+INFO 2025-09-28 07:14:44,264 autoreload 5496 3888 Watching for file changes with StatReloader
+INFO 2025-09-28 07:15:46,738 autoreload 5496 3888 C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\serializers.py changed, reloading.
+INFO 2025-09-28 07:15:50,013 autoreload 27712 20996 Watching for file changes with StatReloader
+INFO 2025-09-28 07:16:19,459 autoreload 27712 20996 C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\views.py changed, reloading.
+INFO 2025-09-28 07:16:23,869 autoreload 27956 27500 Watching for file changes with StatReloader
+INFO 2025-09-28 07:17:34,258 autoreload 27956 27500 C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\views.py changed, reloading.
+INFO 2025-09-28 07:17:36,086 autoreload 22692 17260 Watching for file changes with StatReloader
+INFO 2025-09-28 07:18:51,397 autoreload 22692 17260 C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\urls.py changed, reloading.
+INFO 2025-09-28 07:18:54,444 autoreload 312 17896 Watching for file changes with StatReloader
+INFO 2025-09-28 07:39:24,810 basehttp 312 2748 "OPTIONS /api/menu/items/by_category/ HTTP/1.1" 200 0
+ERROR 2025-09-28 07:39:25,191 log 312 32 Internal Server Error: /api/menu/items/by_category/
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such table: api_menucategory
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\views.py", line 238, in by_category
+    for category in categories:
+                    ^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\db\models\query.py", line 398, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\db\models\query.py", line 1926, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1562, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Perdoruess\bottlebrothers_lab-7\server\venv\Lib\site-packages\django\db\backends\sqlite3\base.py", line 328, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such table: api_menucategory
+ERROR 2025-09-28 07:39:25,265 basehttp 312 32 "GET /api/menu/items/by_category/ HTTP/1.1" 500 166430
+INFO 2025-09-28 07:41:39,824 autoreload 27248 6716 Watching for file changes with StatReloader
+INFO 2025-09-28 07:41:45,896 basehttp 27248 24988 "GET /api/menu/items/by_category/ HTTP/1.1" 200 2
+INFO 2025-09-28 07:41:45,935 basehttp 27248 6900 "GET /api/menu/items/by_category/ HTTP/1.1" 200 2
+WARNING 2025-09-28 07:41:56,654 log 27248 24988 Unauthorized: /api/events/
+WARNING 2025-09-28 07:41:56,662 basehttp 27248 24988 "GET /api/events/ HTTP/1.1" 401 183
+WARNING 2025-09-28 07:41:56,758 log 27248 24988 Unauthorized: /api/events/
+INFO 2025-09-28 07:41:56,895 basehttp 27248 24988 - Broken pipe from ('127.0.0.1', 62936)
+INFO 2025-09-28 07:42:08,783 basehttp 27248 6900 "POST /api/auth/login/ HTTP/1.1" 200 640
+WARNING 2025-09-28 07:42:09,036 log 27248 6900 Not Found: /api/reservations/dashboard/
+WARNING 2025-09-28 07:42:09,038 log 27248 6792 Not Found: /api/reservations/dashboard/
+WARNING 2025-09-28 07:42:09,038 basehttp 27248 6900 "GET /api/reservations/dashboard/ HTTP/1.1" 404 23
+WARNING 2025-09-28 07:42:09,041 basehttp 27248 6792 "GET /api/reservations/dashboard/ HTTP/1.1" 404 23
+INFO 2025-09-28 07:42:25,489 basehttp 27248 6900 "OPTIONS /api/gallery/ HTTP/1.1" 200 0
+INFO 2025-09-28 07:42:25,499 basehttp 27248 6900 "GET /api/gallery/ HTTP/1.1" 200 2
+INFO 2025-09-28 07:42:25,735 basehttp 27248 6900 "POST /api/gallery/ HTTP/1.1" 201 437
+INFO 2025-09-28 07:42:30,163 basehttp 27248 6900 "GET /api/menu/items/by_category/ HTTP/1.1" 200 2
+INFO 2025-09-28 07:42:30,227 basehttp 27248 6900 "GET /api/menu/items/by_category/ HTTP/1.1" 200 2
+INFO 2025-09-28 07:43:09,406 basehttp 27248 6900 "GET /api/menu/items/by_category/ HTTP/1.1" 200 2
+INFO 2025-09-28 07:43:09,720 basehttp 27248 6900 "GET /api/menu/items/by_category/ HTTP/1.1" 200 2

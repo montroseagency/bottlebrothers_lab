@@ -3,7 +3,7 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.utils import timezone
-from .models import Reservation, ContactMessage, GalleryItem, Event, EventType, VenueSpace
+from .models import Reservation, ContactMessage, GalleryItem, Event, EventType, VenueSpace, MenuCategory, MenuItem, MenuItemVariant
 
 class ReservationSerializer(serializers.ModelSerializer):
     full_name = serializers.ReadOnlyField()
@@ -33,7 +33,142 @@ class ReservationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Party size cannot exceed 20 people.")
         return value
 
+class MenuItemVariantSerializer(serializers.ModelSerializer):
+    formatted_price = serializers.ReadOnlyField()
+    
+    class Meta:
+        model = MenuItemVariant
+        fields = [
+            'id', 'name', 'description', 'price', 'formatted_price',
+            'variant_type', 'display_order', 'is_available'
+        ]
+        read_only_fields = ['id']
 
+
+class MenuItemSerializer(serializers.ModelSerializer):
+    formatted_price = serializers.ReadOnlyField()
+    image_url = serializers.SerializerMethodField()
+    variants = MenuItemVariantSerializer(many=True, read_only=True)
+    category_name = serializers.CharField(source='category.name', read_only=True)
+    category_type = serializers.CharField(source='category.category_type', read_only=True)
+    
+    class Meta:
+        model = MenuItem
+        fields = [
+            'id', 'category', 'category_name', 'category_type', 'name', 
+            'description', 'price', 'formatted_price', 'image', 'image_url',
+            'dietary_info', 'tags', 'ingredients', 'allergens', 'calories',
+            'preparation_time', 'is_available', 'is_featured', 'display_order',
+            'has_variants', 'variants', 'created_at', 'updated_at'
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at']
+    
+    def get_image_url(self, obj):
+        """Get the full URL for the menu item image"""
+        if obj.image:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.image.url)
+            return obj.image.url
+        return None
+    
+    def validate_name(self, value):
+        """Validate name"""
+        if len(value.strip()) < 3:
+            raise serializers.ValidationError("Name must be at least 3 characters long.")
+        return value.strip()
+    
+    def validate_description(self, value):
+        """Validate description"""
+        if len(value.strip()) < 10:
+            raise serializers.ValidationError("Description must be at least 10 characters long.")
+        return value.strip()
+    
+    def validate_price(self, value):
+        """Validate price"""
+        if value <= 0:
+            raise serializers.ValidationError("Price must be greater than 0.")
+        return value
+
+
+class PublicMenuItemSerializer(serializers.ModelSerializer):
+    """Serializer for public menu display (limited fields)"""
+    formatted_price = serializers.ReadOnlyField()
+    image_url = serializers.SerializerMethodField()
+    variants = MenuItemVariantSerializer(many=True, read_only=True)
+    category_name = serializers.CharField(source='category.name', read_only=True)
+    category_type = serializers.CharField(source='category.category_type', read_only=True)
+    
+    class Meta:
+        model = MenuItem
+        fields = [
+            'id', 'category_name', 'category_type', 'name', 'description', 
+            'formatted_price', 'image_url', 'dietary_info', 'tags',
+            'ingredients', 'allergens', 'is_featured', 'has_variants', 'variants'
+        ]
+    
+    def get_image_url(self, obj):
+        """Get the full URL for the menu item image"""
+        if obj.image:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.image.url)
+            return obj.image.url
+        return None
+
+
+class MenuCategorySerializer(serializers.ModelSerializer):
+    menu_items = MenuItemSerializer(many=True, read_only=True)
+    items_count = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = MenuCategory
+        fields = [
+            'id', 'name', 'category_type', 'description', 'icon',
+            'display_order', 'is_active', 'items_count', 'menu_items',
+            'created_at', 'updated_at'
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at']
+    
+    def get_items_count(self, obj):
+        """Get count of available menu items in this category"""
+        return obj.menu_items.filter(is_available=True).count()
+    
+    def validate_name(self, value):
+        """Validate name"""
+        if len(value.strip()) < 2:
+            raise serializers.ValidationError("Name must be at least 2 characters long.")
+        return value.strip()
+
+
+class PublicMenuCategorySerializer(serializers.ModelSerializer):
+    """Serializer for public menu display (limited fields)"""
+    menu_items = PublicMenuItemSerializer(many=True, read_only=True)
+    items_count = serializers.SerializerMethodField()
+    
+    class Meta:
+        model = MenuCategory
+        fields = [
+            'id', 'name', 'category_type', 'description', 'icon',
+            'items_count', 'menu_items'
+        ]
+    
+    def get_items_count(self, obj):
+        """Get count of available menu items in this category"""
+        return obj.menu_items.filter(is_available=True).count()
+    
+    def to_representation(self, instance):
+        """Filter menu items to only show available ones"""
+        data = super().to_representation(instance)
+        if 'menu_items' in data:
+            # Only include available items in public view
+            available_items = [
+                item for item in data['menu_items'] 
+                if instance.menu_items.get(id=item['id']).is_available
+            ]
+            data['menu_items'] = available_items
+        return data
+    
 class ContactMessageSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactMessage

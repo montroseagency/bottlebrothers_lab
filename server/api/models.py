@@ -202,7 +202,251 @@ class GalleryItem(models.Model):
             self.image.delete(save=False)
         super().delete(*args, **kwargs)
 
+# Add these models to your existing server/api/models.py file
 
+def menu_image_path(instance, filename):
+    """Generate file path for menu item images"""
+    ext = filename.split('.')[-1]
+    filename = f"{uuid.uuid4().hex}.{ext}"
+    return os.path.join('menu', filename)
+
+class MenuCategory(models.Model):
+    """Model for menu categories (appetizers, mains, etc.)"""
+    CATEGORY_CHOICES = [
+        ('appetizers', 'Appetizers'),
+        ('mains', 'Main Courses'),
+        ('cocktails', 'Cocktails'),
+        ('wine', 'Wine & Spirits'),
+        ('desserts', 'Desserts'),
+        ('beverages', 'Beverages'),
+        ('specials', 'Chef\'s Specials'),
+    ]
+    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=100, help_text="Category name")
+    category_type = models.CharField(
+        max_length=20,
+        choices=CATEGORY_CHOICES,
+        unique=True,
+        help_text="Category type"
+    )
+    description = models.TextField(blank=True, help_text="Category description")
+    icon = models.CharField(
+        max_length=10,
+        blank=True,
+        help_text="Emoji icon for category (e.g., 🥗, 🍖, 🍸)"
+    )
+    display_order = models.IntegerField(
+        default=0,
+        help_text="Order in which to display (lower numbers first)"
+    )
+    is_active = models.BooleanField(
+        default=True,
+        help_text="Show this category on the menu"
+    )
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['display_order', 'name']
+        verbose_name = 'Menu Category'
+        verbose_name_plural = 'Menu Categories'
+    
+    def __str__(self):
+        return self.name
+
+
+class MenuItem(models.Model):
+    """Model for menu items"""
+    DIETARY_CHOICES = [
+        ('vegetarian', 'Vegetarian'),
+        ('vegan', 'Vegan'),
+        ('gluten_free', 'Gluten Free'),
+        ('dairy_free', 'Dairy Free'),
+        ('nut_free', 'Nut Free'),
+        ('keto', 'Keto Friendly'),
+        ('paleo', 'Paleo'),
+        ('halal', 'Halal'),
+        ('kosher', 'Kosher'),
+    ]
+    
+    TAG_CHOICES = [
+        ('signature', 'Chef\'s Signature'),
+        ('popular', 'Popular Choice'),
+        ('new', 'New Item'),
+        ('seasonal', 'Seasonal'),
+        ('spicy', 'Spicy'),
+        ('house_made', 'House Made'),
+        ('locally_sourced', 'Locally Sourced'),
+        ('organic', 'Organic'),
+        ('sustainable', 'Sustainably Sourced'),
+        ('premium', 'Premium'),
+    ]
+    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    category = models.ForeignKey(
+        MenuCategory,
+        on_delete=models.CASCADE,
+        related_name='menu_items',
+        help_text="Menu category"
+    )
+    name = models.CharField(max_length=200, help_text="Item name")
+    description = models.TextField(help_text="Item description")
+    price = models.DecimalField(
+        max_digits=8,
+        decimal_places=2,
+        help_text="Item price"
+    )
+    image = models.ImageField(
+        upload_to=menu_image_path,
+        blank=True,
+        null=True,
+        help_text="Item image (optional)"
+    )
+    
+    # Dietary restrictions and tags
+    dietary_info = models.JSONField(
+        default=list,
+        blank=True,
+        help_text="List of dietary restrictions/info (e.g., ['vegetarian', 'gluten_free'])"
+    )
+    tags = models.JSONField(
+        default=list,
+        blank=True,
+        help_text="List of tags (e.g., ['signature', 'popular'])"
+    )
+    
+    # Additional details
+    ingredients = models.TextField(
+        blank=True,
+        help_text="Main ingredients (optional)"
+    )
+    allergens = models.TextField(
+        blank=True,
+        help_text="Allergen information (optional)"
+    )
+    calories = models.IntegerField(
+        blank=True,
+        null=True,
+        help_text="Calorie count (optional)"
+    )
+    preparation_time = models.CharField(
+        max_length=50,
+        blank=True,
+        help_text="Preparation time (e.g., '15 minutes', optional)"
+    )
+    
+    # Display settings
+    is_available = models.BooleanField(
+        default=True,
+        help_text="Item is currently available"
+    )
+    is_featured = models.BooleanField(
+        default=False,
+        help_text="Feature this item prominently"
+    )
+    display_order = models.IntegerField(
+        default=0,
+        help_text="Order within category (lower numbers first)"
+    )
+    
+    # Pricing options for drinks/wine
+    has_variants = models.BooleanField(
+        default=False,
+        help_text="Item has size/variant options (e.g., glass vs bottle)"
+    )
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['category__display_order', 'display_order', 'name']
+        indexes = [
+            models.Index(fields=['category', 'is_available']),
+            models.Index(fields=['is_featured', 'is_available']),
+            models.Index(fields=['display_order']),
+        ]
+    
+    def __str__(self):
+        return f"{self.name} - {self.category.name}"
+    
+    @property
+    def formatted_price(self):
+        """Return formatted price"""
+        return f"${self.price}"
+    
+    @property
+    def image_url(self):
+        """Get image URL if image exists"""
+        if self.image:
+            return self.image.url
+        return None
+    
+    def delete(self, *args, **kwargs):
+        # Delete the image file when the model instance is deleted
+        if self.image:
+            self.image.delete(save=False)
+        super().delete(*args, **kwargs)
+
+
+class MenuItemVariant(models.Model):
+    """Model for menu item variants (e.g., glass vs bottle for wine)"""
+    VARIANT_TYPE_CHOICES = [
+        ('size', 'Size'),
+        ('portion', 'Portion'),
+        ('preparation', 'Preparation Style'),
+        ('wine_format', 'Wine Format'),
+        ('other', 'Other'),
+    ]
+    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    menu_item = models.ForeignKey(
+        MenuItem,
+        on_delete=models.CASCADE,
+        related_name='variants',
+        help_text="Menu item this variant belongs to"
+    )
+    name = models.CharField(
+        max_length=100,
+        help_text="Variant name (e.g., 'Glass', 'Bottle', 'Small', 'Large')"
+    )
+    description = models.CharField(
+        max_length=200,
+        blank=True,
+        help_text="Variant description (optional)"
+    )
+    price = models.DecimalField(
+        max_digits=8,
+        decimal_places=2,
+        help_text="Variant price"
+    )
+    variant_type = models.CharField(
+        max_length=20,
+        choices=VARIANT_TYPE_CHOICES,
+        default='size',
+        help_text="Type of variant"
+    )
+    display_order = models.IntegerField(
+        default=0,
+        help_text="Display order within item"
+    )
+    is_available = models.BooleanField(
+        default=True,
+        help_text="Variant is currently available"
+    )
+    
+    class Meta:
+        ordering = ['display_order', 'price']
+        unique_together = ['menu_item', 'name']
+    
+    def __str__(self):
+        return f"{self.menu_item.name} - {self.name} (${self.price})"
+    
+    @property
+    def formatted_price(self):
+        """Return formatted price"""
+        return f"${self.price}"
+    
 class Event(models.Model):
     """Model for restaurant events - Compatible with frontend expectations"""
     EVENT_TYPE_CHOICES = [
