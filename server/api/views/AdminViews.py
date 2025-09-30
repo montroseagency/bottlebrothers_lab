@@ -1,4 +1,4 @@
-# server/api/views.py - ENHANCED VERSION
+# server/api/views/AdminViews.py - COMPLETE FIXED VERSION
 from rest_framework import viewsets, status, permissions
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
@@ -9,17 +9,12 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.utils import timezone
-from django.db.models import Count, Q
+from django.db.models import Count, Q, Sum, Avg
 from django.core.exceptions import ValidationError
 from datetime import datetime, timedelta, date, time
-import json
 
-from api.models import (
-    Reservation, Event, GalleryItem, ContactMessage
-)
-from api.serializers import (
-  LoginSerializer, CustomUserSerializer,
-)
+from api.models import Reservation, Event, GalleryItem, ContactMessage
+from api.serializers import LoginSerializer, CustomUserSerializer
 
 
 # Authentication views
@@ -77,54 +72,78 @@ def admin_logout(request):
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def dashboard_analytics(request):
-    """Get dashboard analytics data"""
+    """Get comprehensive dashboard analytics data matching frontend expectations"""
     today = timezone.now().date()
+    thirty_days_ago = today - timedelta(days=30)
+    seven_days_ago = today - timedelta(days=7)
     
-    # Reservations analytics
-    total_reservations = Reservation.objects.count()
-    pending_reservations = Reservation.objects.filter(status='pending').count()
-    confirmed_reservations = Reservation.objects.filter(status='confirmed').count()
-    today_reservations = Reservation.objects.filter(date=today).count()
+    # Get reservations for the last 30 days
+    recent_reservations = Reservation.objects.filter(
+        date__gte=thirty_days_ago,
+        date__lte=today
+    )
     
-    # Events analytics
-    total_events = Event.objects.count()
-    active_events = Event.objects.filter(is_active=True).count()
-    upcoming_events = Event.objects.filter(
-        is_active=True, 
-        start_date__gte=today
-    ).count()
+    # Calculate monthly revenue (estimated at $50 per person)
+    total_guests = recent_reservations.aggregate(
+        total=Sum('party_size')
+    )['total'] or 0
+    estimated_revenue = total_guests * 50  # $50 per person estimate
     
-    # Gallery analytics
-    total_gallery_items = GalleryItem.objects.count()
-    active_gallery_items = GalleryItem.objects.filter(is_active=True).count()
-    featured_gallery_items = GalleryItem.objects.filter(
-        is_active=True, 
-        is_featured=True
-    ).count()
+    # Total reservations in last 30 days
+    total_reservations_30d = recent_reservations.count()
     
-    # Contact messages analytics
-    total_messages = ContactMessage.objects.count()
-    unread_messages = ContactMessage.objects.filter(is_read=False).count()
+    # Status breakdown
+    status_breakdown = list(
+        recent_reservations.values('status')
+        .annotate(count=Count('id'))
+        .order_by('status')
+    )
+    
+    # Daily reservations for the last 7 days
+    daily_reservations = []
+    for i in range(7):
+        day = today - timedelta(days=6-i)
+        count = Reservation.objects.filter(date=day).count()
+        daily_reservations.append({
+            'date': day.isoformat(),
+            'count': count
+        })
+    
+    # Popular reservation times (top 5)
+    popular_times_query = (
+        recent_reservations
+        .values('time')
+        .annotate(count=Count('id'))
+        .order_by('-count')[:5]
+    )
+    
+    # Format times as strings
+    popular_times = []
+    for time_slot in popular_times_query:
+        if time_slot['time']:
+            popular_times.append({
+                'time': time_slot['time'].strftime('%H:%M'),
+                'count': time_slot['count']
+            })
+    
+    # Average party size
+    avg_party_size = recent_reservations.aggregate(
+        avg=Avg('party_size')
+    )['avg'] or 0
+    
+    # Capacity utilization calculation
+    # Assuming 100 seats total and multiple time slots per day
+    total_slots = 7 * 5  # 7 days * 5 time slots per day
+    total_capacity = 100 * total_slots
+    total_booked_seats = total_guests
+    capacity_utilization = (total_booked_seats / total_capacity) if total_capacity > 0 else 0
     
     return Response({
-        'reservations': {
-            'total': total_reservations,
-            'pending': pending_reservations,
-            'confirmed': confirmed_reservations,
-            'today': today_reservations,
-        },
-        'events': {
-            'total': total_events,
-            'active': active_events,
-            'upcoming': upcoming_events,
-        },
-        'gallery': {
-            'total': total_gallery_items,
-            'active': active_gallery_items,
-            'featured': featured_gallery_items,
-        },
-        'messages': {
-            'total': total_messages,
-            'unread': unread_messages,
-        }
+        'monthly_revenue': float(estimated_revenue),
+        'total_reservations_30d': total_reservations_30d,
+        'status_breakdown': status_breakdown,
+        'daily_reservations': daily_reservations,
+        'popular_times': popular_times,
+        'average_party_size': round(float(avg_party_size), 1),
+        'capacity_utilization': round(capacity_utilization, 2),
     })

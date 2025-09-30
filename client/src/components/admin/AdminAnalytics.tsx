@@ -1,4 +1,4 @@
-// client/src/components/admin/AdminAnalytics.tsx - FIXED IMPORTS
+// client/src/components/admin/AdminAnalytics.tsx - FULLY FIXED VERSION
 import React, { useState, useEffect } from 'react';
 import { useAuthenticatedApi } from '../../contexts/AuthContext';
 
@@ -24,6 +24,7 @@ interface AnalyticsData {
 const AdminAnalytics: React.FC = () => {
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const [timeRange, setTimeRange] = useState('30d');
   const { apiCall } = useAuthenticatedApi();
 
@@ -33,10 +34,14 @@ const AdminAnalytics: React.FC = () => {
 
   const fetchAnalytics = async () => {
     try {
+      setLoading(true);
+      setError(null);
       const data = await apiCall('/dashboard/analytics/');
       setAnalytics(data);
     } catch (error) {
       console.error('Error fetching analytics:', error);
+      setError(error instanceof Error ? error.message : 'Failed to load analytics');
+      setAnalytics(null);
     } finally {
       setLoading(false);
     }
@@ -77,10 +82,22 @@ const AdminAnalytics: React.FC = () => {
     );
   }
 
-  if (!analytics) {
+  if (error || !analytics) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">Failed to load analytics data</p>
+        <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100 mb-4">
+          <svg className="h-6 w-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <p className="text-gray-900 font-medium mb-2">Failed to load analytics data</p>
+        <p className="text-gray-500 text-sm mb-4">{error || 'There was an error fetching the analytics data.'}</p>
+        <button
+          onClick={fetchAnalytics}
+          className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
+        >
+          Retry
+        </button>
       </div>
     );
   }
@@ -114,7 +131,7 @@ const AdminAnalytics: React.FC = () => {
             </div>
             <div className="ml-4">
               <p className="text-green-100 text-sm font-medium">Estimated Revenue</p>
-              <p className="text-2xl font-bold">{formatCurrency(analytics.monthly_revenue)}</p>
+              <p className="text-2xl font-bold">{formatCurrency(analytics?.monthly_revenue || 0)}</p>
             </div>
           </div>
         </div>
@@ -128,7 +145,7 @@ const AdminAnalytics: React.FC = () => {
             </div>
             <div className="ml-4">
               <p className="text-blue-100 text-sm font-medium">Total Reservations</p>
-              <p className="text-2xl font-bold">{analytics.total_reservations_30d}</p>
+              <p className="text-2xl font-bold">{analytics?.total_reservations_30d || 0}</p>
             </div>
           </div>
         </div>
@@ -142,7 +159,7 @@ const AdminAnalytics: React.FC = () => {
             </div>
             <div className="ml-4">
               <p className="text-purple-100 text-sm font-medium">Avg Party Size</p>
-              <p className="text-2xl font-bold">{analytics.average_party_size}</p>
+              <p className="text-2xl font-bold">{analytics?.average_party_size || 0}</p>
             </div>
           </div>
         </div>
@@ -156,7 +173,7 @@ const AdminAnalytics: React.FC = () => {
             </div>
             <div className="ml-4">
               <p className="text-orange-100 text-sm font-medium">Capacity Utilization</p>
-              <p className="text-2xl font-bold">{Math.round(analytics.capacity_utilization * 100)}%</p>
+              <p className="text-2xl font-bold">{Math.round((analytics?.capacity_utilization || 0) * 100)}%</p>
             </div>
           </div>
         </div>
@@ -168,31 +185,35 @@ const AdminAnalytics: React.FC = () => {
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <h3 className="text-lg font-medium text-gray-900 mb-4">Daily Reservations (Last 7 Days)</h3>
           <div className="space-y-3">
-            {analytics.daily_reservations.map((day, index) => {
-              const maxCount = Math.max(...analytics.daily_reservations.map(d => d.count));
-              const percentage = maxCount > 0 ? (day.count / maxCount) * 100 : 0;
-              
-              return (
-                <div key={index} className="flex items-center space-x-3">
-                  <div className="w-16 text-sm text-gray-600">
-                    {new Date(day.date).toLocaleDateString('en-US', { 
-                      weekday: 'short', 
-                      month: 'short', 
-                      day: 'numeric' 
-                    })}
+            {analytics?.daily_reservations && analytics.daily_reservations.length > 0 ? (
+              analytics.daily_reservations.map((day, index) => {
+                const maxCount = Math.max(...(analytics?.daily_reservations?.map(d => d.count) || [1]));
+                const percentage = maxCount > 0 ? (day.count / maxCount) * 100 : 0;
+                
+                return (
+                  <div key={index} className="flex items-center space-x-3">
+                    <div className="w-16 text-sm text-gray-600">
+                      {new Date(day.date).toLocaleDateString('en-US', { 
+                        weekday: 'short', 
+                        month: 'short', 
+                        day: 'numeric' 
+                      })}
+                    </div>
+                    <div className="flex-1 bg-gray-200 rounded-full h-6 relative">
+                      <div
+                        className="bg-green-500 h-6 rounded-full transition-all duration-300"
+                        style={{ width: `${percentage}%` }}
+                      />
+                      <span className="absolute inset-0 flex items-center justify-center text-xs font-medium text-gray-700">
+                        {day.count}
+                      </span>
+                    </div>
                   </div>
-                  <div className="flex-1 bg-gray-200 rounded-full h-6 relative">
-                    <div
-                      className="bg-green-500 h-6 rounded-full transition-all duration-300"
-                      style={{ width: `${percentage}%` }}
-                    />
-                    <span className="absolute inset-0 flex items-center justify-center text-xs font-medium text-gray-700">
-                      {day.count}
-                    </span>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })
+            ) : (
+              <p className="text-gray-500 text-center py-4">No reservation data available</p>
+            )}
           </div>
         </div>
 
@@ -200,28 +221,32 @@ const AdminAnalytics: React.FC = () => {
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
           <h3 className="text-lg font-medium text-gray-900 mb-4">Reservation Status Breakdown</h3>
           <div className="space-y-4">
-            {analytics.status_breakdown.map((status, index) => {
-              const total = analytics.status_breakdown.reduce((sum, s) => sum + s.count, 0);
-              const percentage = total > 0 ? (status.count / total) * 100 : 0;
-              
-              return (
-                <div key={index} className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div
-                      className="w-4 h-4 rounded-full"
-                      style={{ backgroundColor: getStatusColor(status.status) }}
-                    />
-                    <span className="text-sm font-medium text-gray-700 capitalize">
-                      {status.status.replace('_', ' ')}
-                    </span>
+            {analytics?.status_breakdown && analytics.status_breakdown.length > 0 ? (
+              analytics.status_breakdown.map((status, index) => {
+                const total = analytics?.status_breakdown?.reduce((sum, s) => sum + s.count, 0) || 1;
+                const percentage = total > 0 ? (status.count / total) * 100 : 0;
+                
+                return (
+                  <div key={index} className="flex items-center justify-between">
+                    <div className="flex items-center space-x-3">
+                      <div
+                        className="w-4 h-4 rounded-full"
+                        style={{ backgroundColor: getStatusColor(status.status) }}
+                      />
+                      <span className="text-sm font-medium text-gray-700 capitalize">
+                        {status.status.replace('_', ' ')}
+                      </span>
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <span className="text-sm text-gray-600">{status.count}</span>
+                      <span className="text-xs text-gray-500">({percentage.toFixed(1)}%)</span>
+                    </div>
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <span className="text-sm text-gray-600">{status.count}</span>
-                    <span className="text-xs text-gray-500">({percentage.toFixed(1)}%)</span>
-                  </div>
-                </div>
-              );
-            })}
+                );
+              })
+            ) : (
+              <p className="text-gray-500 text-center py-4">No status data available</p>
+            )}
           </div>
         </div>
       </div>
@@ -230,27 +255,33 @@ const AdminAnalytics: React.FC = () => {
       <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
         <h3 className="text-lg font-medium text-gray-900 mb-4">Popular Reservation Times</h3>
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
-          {analytics.popular_times.map((time, index) => {
-            const maxCount = Math.max(...analytics.popular_times.map(t => t.count));
-            const percentage = maxCount > 0 ? (time.count / maxCount) * 100 : 0;
-            
-            return (
-              <div key={index} className="text-center">
-                <div className="bg-gray-200 rounded-lg h-32 flex items-end justify-center p-2 mb-2">
-                  <div
-                    className="bg-green-500 rounded-t w-full transition-all duration-300"
-                    style={{ height: `${percentage}%`, minHeight: '20px' }}
-                  />
+          {analytics?.popular_times && analytics.popular_times.length > 0 ? (
+            analytics.popular_times.map((time, index) => {
+              const maxCount = Math.max(...(analytics?.popular_times?.map(t => t.count) || [1]));
+              const percentage = maxCount > 0 ? (time.count / maxCount) * 100 : 0;
+              
+              return (
+                <div key={index} className="text-center">
+                  <div className="bg-gray-200 rounded-lg h-32 flex items-end justify-center p-2 mb-2">
+                    <div
+                      className="bg-green-500 rounded-t w-full transition-all duration-300"
+                      style={{ height: `${percentage}%`, minHeight: '20px' }}
+                    />
+                  </div>
+                  <div className="text-sm font-medium text-gray-900">
+                    {formatTime(time.time)}
+                  </div>
+                  <div className="text-xs text-gray-500">
+                    {time.count} reservations
+                  </div>
                 </div>
-                <div className="text-sm font-medium text-gray-900">
-                  {formatTime(time.time)}
-                </div>
-                <div className="text-xs text-gray-500">
-                  {time.count} reservations
-                </div>
-              </div>
-            );
-          })}
+              );
+            })
+          ) : (
+            <div className="col-span-5">
+              <p className="text-gray-500 text-center py-4">No popular times data available</p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -260,28 +291,32 @@ const AdminAnalytics: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="text-center p-4 bg-green-50 rounded-lg">
             <div className="text-2xl font-bold text-green-600 mb-2">
-              {Math.round(analytics.capacity_utilization * 100)}%
+              {Math.round((analytics?.capacity_utilization || 0) * 100)}%
             </div>
             <div className="text-sm text-gray-600">Average Capacity Usage</div>
             <div className="text-xs text-gray-500 mt-1">
-              {analytics.capacity_utilization > 0.8 ? 'Excellent' : 
-               analytics.capacity_utilization > 0.6 ? 'Good' : 'Needs Improvement'}
+              {(analytics?.capacity_utilization || 0) > 0.8 ? 'Excellent' : 
+               (analytics?.capacity_utilization || 0) > 0.6 ? 'Good' : 'Needs Improvement'}
             </div>
           </div>
           
           <div className="text-center p-4 bg-blue-50 rounded-lg">
             <div className="text-2xl font-bold text-blue-600 mb-2">
-              {analytics.average_party_size}
+              {analytics?.average_party_size || 0}
             </div>
             <div className="text-sm text-gray-600">Average Party Size</div>
             <div className="text-xs text-gray-500 mt-1">
-              {analytics.average_party_size > 3 ? 'Large groups preferred' : 'Small groups preferred'}
+              {(analytics?.average_party_size || 0) > 3 ? 'Large groups preferred' : 'Small groups preferred'}
             </div>
           </div>
           
           <div className="text-center p-4 bg-purple-50 rounded-lg">
             <div className="text-2xl font-bold text-purple-600 mb-2">
-              {formatCurrency(analytics.monthly_revenue / analytics.total_reservations_30d || 0)}
+              {formatCurrency(
+                (analytics?.total_reservations_30d || 0) > 0 
+                  ? (analytics?.monthly_revenue || 0) / (analytics?.total_reservations_30d || 1)
+                  : 0
+              )}
             </div>
             <div className="text-sm text-gray-600">Revenue per Reservation</div>
             <div className="text-xs text-gray-500 mt-1">Estimated average</div>
