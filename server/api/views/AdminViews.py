@@ -17,7 +17,7 @@ import json
 from api.models import (
     Reservation, Event, GalleryItem, ContactMessage
 )
-from server.api.serializers import (
+from api.serializers import (
   LoginSerializer, CustomUserSerializer,
 )
 

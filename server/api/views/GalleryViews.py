@@ -15,7 +15,7 @@ from datetime import datetime, timedelta, date, time
 import json
 
 from api.models import (GalleryItem)
-from server.api.serializers import (GalleryItemSerializer, PublicGalleryItemSerializer)
+from api.serializers import (GalleryItemSerializer, PublicGalleryItemSerializer)
 class GalleryItemViewSet(viewsets.ModelViewSet):
     queryset = GalleryItem.objects.all()
     serializer_class = GalleryItemSerializer

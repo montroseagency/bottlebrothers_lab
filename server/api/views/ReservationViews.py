@@ -19,7 +19,7 @@ from api.models import (
 )
 
 
-from server.api.serializers import ContactMessageSerializer, ReservationSerializer
+from api.serializers import ContactMessageSerializer, ReservationSerializer
 
 class ContactMessageViewSet(viewsets.ModelViewSet):
     queryset = ContactMessage.objects.all()

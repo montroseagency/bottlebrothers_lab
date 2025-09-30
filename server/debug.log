@@ -1387,3 +1387,14 @@ INFO 2025-09-28 09:03:12,522 autoreload 27248 6716 C:\Users\Perdoruess\bottlebro
 INFO 2025-09-28 09:03:18,766 autoreload 21644 6092 Watching for file changes with StatReloader
 INFO 2025-09-28 09:23:03,904 autoreload 21644 6092 C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\views\__init__.py changed, reloading.
 INFO 2025-09-28 09:23:06,591 autoreload 15692 21520 Watching for file changes with StatReloader
+INFO 2025-09-29 23:12:26,307 autoreload 15692 21520 C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\views\ReservationViews.py changed, reloading.
+INFO 2025-09-29 23:12:44,325 autoreload 23248 3720 Watching for file changes with StatReloader
+INFO 2025-09-29 23:12:47,338 basehttp 23248 9388 "OPTIONS /api/reservations/dashboard/ HTTP/1.1" 200 0
+WARNING 2025-09-29 23:12:47,559 log 23248 9388 Unauthorized: /api/reservations/dashboard/
+WARNING 2025-09-29 23:12:47,561 basehttp 23248 9388 "GET /api/reservations/dashboard/ HTTP/1.1" 401 183
+INFO 2025-09-29 23:12:59,896 basehttp 23248 9388 "OPTIONS /api/auth/login/ HTTP/1.1" 200 0
+INFO 2025-09-29 23:13:01,921 basehttp 23248 9388 "POST /api/auth/login/ HTTP/1.1" 200 640
+WARNING 2025-09-29 23:13:02,024 log 23248 9388 Not Found: /api/reservations/dashboard/
+WARNING 2025-09-29 23:13:02,028 basehttp 23248 9388 "GET /api/reservations/dashboard/ HTTP/1.1" 404 23
+WARNING 2025-09-29 23:13:02,046 log 23248 20528 Not Found: /api/reservations/dashboard/
+WARNING 2025-09-29 23:13:02,052 basehttp 23248 20528 "GET /api/reservations/dashboard/ HTTP/1.1" 404 23

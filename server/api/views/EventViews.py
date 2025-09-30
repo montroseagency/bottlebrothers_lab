@@ -15,7 +15,7 @@ from datetime import datetime, timedelta, date, time
 import json
 
 from api.models import (Event)
-from server.api.serializers import (EventSerializer, PublicEventSerializer)
+from api.serializers import (EventSerializer, PublicEventSerializer)
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
