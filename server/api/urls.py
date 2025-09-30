@@ -1,9 +1,11 @@
-# Updated server/api/urls.py - Add menu routes to existing router
+# Updated server/api/urls.py - Updated imports for modular views
 from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework.routers import DefaultRouter
 from rest_framework_simplejwt.views import TokenRefreshView
+
+# Import all views from the views package
 from .views import (
     ReservationViewSet, 
     ContactMessageViewSet,
@@ -18,6 +20,7 @@ from .views import (
     dashboard_analytics
 )
 
+# Create router and register viewsets
 router = DefaultRouter()
 router.register(r'reservations', ReservationViewSet)
 router.register(r'contact', ContactMessageViewSet)
@@ -28,6 +31,7 @@ router.register(r'menu/items', MenuItemViewSet)
 router.register(r'menu/variants', MenuItemVariantViewSet)
 
 urlpatterns = [
+    # Include all router URLs
     path('', include(router.urls)),
     
     # Authentication endpoints

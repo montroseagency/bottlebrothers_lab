@@ -1385,3 +1385,5 @@ INFO 2025-09-28 07:43:09,406 basehttp 27248 6900 "GET /api/menu/items/by_categor
 INFO 2025-09-28 07:43:09,720 basehttp 27248 6900 "GET /api/menu/items/by_category/ HTTP/1.1" 200 2
 INFO 2025-09-28 09:03:12,522 autoreload 27248 6716 C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\views.py changed, reloading.
 INFO 2025-09-28 09:03:18,766 autoreload 21644 6092 Watching for file changes with StatReloader
+INFO 2025-09-28 09:23:03,904 autoreload 21644 6092 C:\Users\Perdoruess\bottlebrothers_lab-7\server\api\views\__init__.py changed, reloading.
+INFO 2025-09-28 09:23:06,591 autoreload 15692 21520 Watching for file changes with StatReloader
