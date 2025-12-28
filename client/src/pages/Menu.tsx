@@ -1,6 +1,8 @@
 // client/src/pages/Menu.tsx - DYNAMIC VERSION WITH API INTEGRATION
+'use client'
+
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { apiClient } from '../services/api';
 import type { MenuCategory, MenuItem } from '../services/api';
@@ -186,7 +188,7 @@ const Menu: React.FC = () => {
               {t('menu.subtitle')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center px-4 sm:px-0">
-              <Link to="/contact">
+              <Link href="/contact">
                 <button className="w-full sm:w-auto bg-green-800 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-green-900 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-2">
                   {t('menu.reserveTable')}
                 </button>
@@ -396,12 +398,12 @@ const Menu: React.FC = () => {
             {t('ctaDescription')}
           </p>
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
-            <Link to="/contact">
+            <Link href="/contact">
               <button className="w-full sm:w-auto bg-white text-green-800 px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-stone-100 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
                 {t('reserve')}
               </button>
             </Link>
-            <Link to="/events">
+            <Link href="/events">
               <button className="w-full sm:w-auto border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-white hover:text-green-800 transition-all duration-300">
                 {t('privateDining')}
               </button>

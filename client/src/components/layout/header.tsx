@@ -1,6 +1,9 @@
 // client/src/components/layout/header.tsx - CLEAN LOGO VERSION
+'use client'
+
 import React, { useState, useEffect, useRef } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import { MagneticButton } from '../ui/MagneticButton';
 
@@ -9,7 +12,7 @@ export const Header: React.FC = () => {
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const [scrollY, setScrollY] = useState(0);
   const [isScrolled, setIsScrolled] = useState(false);
-  const location = useLocation();
+  const pathname = usePathname();
   const { t, i18n } = useTranslation();
   const languageDropdownRef = useRef<HTMLDivElement>(null);
 
@@ -37,7 +40,7 @@ export const Header: React.FC = () => {
   }, []);
 
   // Helper function to check if current route is active
-  const isActive = (path: string) => location.pathname === path;
+  const isActive = (path: string) => pathname === path;
 
   // Close mobile menu when clicking on a link
   const handleMobileMenuClose = () => {
@@ -63,7 +66,7 @@ export const Header: React.FC = () => {
   };
 
   const Logo = () => (
-    <Link to="/" onClick={handleMobileMenuClose} className="group flex items-center space-x-3">
+    <Link href="/" onClick={handleMobileMenuClose} className="group flex items-center space-x-3">
       {/* Simple Logo Icon */}
       <div className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12">
         <svg 
@@ -94,8 +97,8 @@ export const Header: React.FC = () => {
   );
 
   const NavigationItem = ({ to, children, isMobile = false }: { to: string; children: React.ReactNode; isMobile?: boolean }) => (
-    <Link 
-      to={to} 
+    <Link
+      href={to} 
       className={`relative transition-all duration-300 rounded-lg group ${
         isMobile 
           ? 'block w-full text-left px-3 py-2 text-sm hover:scale-[1.02]' 
@@ -218,7 +221,7 @@ export const Header: React.FC = () => {
     <MagneticButton className={`group relative bg-gradient-to-r from-green-500 to-green-600 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl hover:shadow-green-500/25 transition-all duration-300 overflow-hidden ${
       isMobile ? 'w-full py-2.5 px-4 text-sm' : 'px-6 py-2.5 text-sm'
     }`}>
-      <Link to="/contact" onClick={isMobile ? handleMobileMenuClose : undefined} className="relative z-10 flex items-center justify-center space-x-2">
+      <Link href="/contact" onClick={isMobile ? handleMobileMenuClose : undefined} className="relative z-10 flex items-center justify-center space-x-2">
         <svg className={`${isMobile ? 'w-3 h-3' : 'w-4 h-4'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
         </svg>

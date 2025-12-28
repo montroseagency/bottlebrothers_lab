@@ -1,6 +1,8 @@
 // client/src/components/auth/AdminLogin.tsx - FIXED VERSION V2
+'use client'
+
 import React, { useState, useEffect, useCallback } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { useAuth } from '../../contexts/AuthContext';
 
 const AdminLogin: React.FC = () => {
@@ -8,20 +10,14 @@ const AdminLogin: React.FC = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const { login, isAuthenticated, error } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const router = useRouter();
 
-  // Memoize the redirect path to prevent recreation
-  const from = React.useMemo(() => {
-    return location.state?.from?.pathname || '/auth/dashboard';
-  }, [location.state?.from?.pathname]);
-
-  // Handle navigation - FIXED: Only navigate when authentication state changes
+  // Handle navigation when authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(from, { replace: true });
+      router.push('/auth/dashboard');
     }
-  }, [isAuthenticated, navigate, from]); // Stable dependencies
+  }, [isAuthenticated, router]);
 
   // Memoize the submit handler to prevent recreation
   const handleSubmit = useCallback(async (e: React.FormEvent) => {

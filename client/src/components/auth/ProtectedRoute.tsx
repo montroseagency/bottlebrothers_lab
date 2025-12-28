@@ -1,6 +1,8 @@
 // client/src/components/auth/ProtectedRoute.tsx - FIXED VERSION
-import React from 'react';
-import { Navigate, useLocation } from 'react-router-dom';
+'use client'
+
+import React, { useEffect } from 'react';
+import { useRouter, usePathname } from 'next/navigation';
 import { useAuth } from '../../contexts/AuthContext';
 
 interface ProtectedRouteProps {
@@ -8,12 +10,20 @@ interface ProtectedRouteProps {
   requireAdmin?: boolean;
 }
 
-export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ 
-  children, 
-  requireAdmin = true 
+export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+  children,
+  requireAdmin = true
 }) => {
   const { isAuthenticated, user, loading } = useAuth();
-  const location = useLocation();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  // Redirect to login if not authenticated
+  useEffect(() => {
+    if (!loading && !isAuthenticated) {
+      router.push('/auth');
+    }
+  }, [isAuthenticated, loading, router]);
 
   // Show loading spinner while checking authentication
   if (loading) {
@@ -27,9 +37,8 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     );
   }
 
-  // Redirect to login if not authenticated
   if (!isAuthenticated) {
-    return <Navigate to="/auth" state={{ from: location }} replace />;
+    return null;
   }
 
   // Check if admin access is required
@@ -44,7 +53,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
           </div>
           <h3 className="text-lg font-medium text-gray-900 mb-2">Access Denied</h3>
           <p className="text-sm text-gray-500 mb-6">
-            You don't have permission to access this area. Admin privileges required.
+            You don&apos;t have permission to access this area. Admin privileges required.
           </p>
           <div className="space-y-3">
             <button

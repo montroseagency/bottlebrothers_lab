@@ -1,6 +1,9 @@
 // client/src/components/admin/AdminLayout.tsx - FIXED VERSION
+'use client'
+
 import React, { useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { useAuth } from '../../contexts/AuthContext';
 import { MagneticButton } from '../ui/MagneticButton';
 
@@ -11,8 +14,7 @@ interface AdminLayoutProps {
 export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const { user, logout } = useAuth();
-  const location = useLocation();
-  const navigate = useNavigate();
+  const pathname = usePathname();
 
   const handleLogout = async () => {
     try {
@@ -106,11 +108,11 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           {/* Navigation */}
           <nav className="space-y-2">
             {menuItems.map((item) => {
-              const isActive = location.pathname === item.path;
+              const isActive = pathname === item.path;
               return (
                 <Link
                   key={item.path}
-                  to={item.path}
+                  href={item.path}
                   className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
                     isActive
                       ? 'bg-green-100 text-green-700 border-r-2 border-green-500'
@@ -187,7 +189,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
                 </svg>
               </button>
               <h2 className="text-xl font-semibold text-gray-800">
-                {menuItems.find(item => item.path === location.pathname)?.name || 'Dashboard'}
+                {menuItems.find(item => item.path === pathname)?.name || 'Dashboard'}
               </h2>
             </div>
 

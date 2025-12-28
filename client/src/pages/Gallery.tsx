@@ -1,7 +1,9 @@
 // client/src/pages/Gallery.tsx - WITH TRANSLATIONS
+'use client'
+
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 // Import the GalleryItem type from your API service
 import type { GalleryItem } from '../services/api';
 import { apiClient } from '../services/api';
@@ -116,10 +118,10 @@ export const GalleryPage: React.FC<GalleryPageProps> = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center px-4 sm:px-0">
               <MagneticButton className="w-full sm:w-auto bg-green-800 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-green-900 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-2">
-                <Link to="/contact" className="block w-full text-center">{t('gallery.hero.buttons.bookVisit')}</Link>
+                <Link href="/contact" className="block w-full text-center">{t('gallery.hero.buttons.bookVisit')}</Link>
               </MagneticButton>
               <MagneticButton className="w-full sm:w-auto border-2 border-green-800 text-green-800 px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-green-800 hover:text-white transition-all duration-300">
-                <Link to="/events" className="block w-full text-center">{t('gallery.hero.buttons.privateEvents')}</Link>
+                <Link href="/events" className="block w-full text-center">{t('gallery.hero.buttons.privateEvents')}</Link>
               </MagneticButton>
             </div>
           </div>
@@ -341,10 +343,10 @@ export const GalleryPage: React.FC<GalleryPageProps> = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
               <MagneticButton className="w-full sm:w-auto bg-white text-green-800 px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-stone-100 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
-                <Link to="/contact" className="block text-center">{t('gallery.cta.buttons.makeReservation')}</Link>
+                <Link href="/contact" className="block text-center">{t('gallery.cta.buttons.makeReservation')}</Link>
               </MagneticButton>
               <MagneticButton className="w-full sm:w-auto border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-white hover:text-green-800 transition-all duration-300">
-                <Link to="/menu" className="block text-center">{t('gallery.cta.buttons.viewMenu')}</Link>
+                <Link href="/menu" className="block text-center">{t('gallery.cta.buttons.viewMenu')}</Link>
               </MagneticButton>
             </div>
           </div>

@@ -1,8 +1,10 @@
 // client/src/pages/Events.tsx - FIXED BACKEND INTEGRATION
+'use client'
+
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
-import type { Event } from '../services/api'; 
+import type { Event } from '../services/api';
 import { apiClient } from '../services/api';
 
 const Events: React.FC = () => {
@@ -187,7 +189,7 @@ const Events: React.FC = () => {
               {t('events.hero.description')}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center px-4 sm:px-0">
-              <Link to="/contact">
+              <Link href="/contact">
                 <button className="w-full sm:w-auto bg-green-800 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-green-900 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-2">
                   {t('events.hero.buttons.plan')}
                 </button>
@@ -270,7 +272,7 @@ const Events: React.FC = () => {
                       </div>
                     </div>
                     
-                    <Link to="/contact">
+                    <Link href="/contact">
                       <button className="w-full sm:w-auto bg-white text-green-800 px-6 sm:px-8 py-3 rounded-full font-semibold hover:bg-stone-100 transition-colors self-start">
                         Reserve Your Spot - {featuredEvent.formatted_price}
                       </button>
@@ -319,7 +321,7 @@ const Events: React.FC = () => {
                                 Book Now
                               </a>
                             ) : (
-                              <Link to="/contact">
+                              <Link href="/contact">
                                 <button className="bg-green-800 text-white px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm font-semibold hover:bg-green-900 transition-colors duration-300">
                                   Book Now
                                 </button>
@@ -440,12 +442,12 @@ const Events: React.FC = () => {
             Contact our events team to begin planning your perfect occasion
           </p>
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
-            <Link to="/contact">
+            <Link href="/contact">
               <button className="w-full sm:w-auto bg-white text-green-800 px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-stone-100 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-1">
                 Plan Your Event
               </button>
             </Link>
-            <Link to="/menu">
+            <Link href="/menu">
               <button className="w-full sm:w-auto border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-white hover:text-green-800 transition-all duration-300">
                 View Catering Menu
               </button>

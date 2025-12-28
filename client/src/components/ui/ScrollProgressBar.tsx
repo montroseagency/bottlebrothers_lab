@@ -1,4 +1,6 @@
 // client/src/components/ui/ScrollProgressBar.tsx
+'use client'
+
 import React, { useState, useEffect } from 'react';
 
 interface ScrollProgressBarProps {

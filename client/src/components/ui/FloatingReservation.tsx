@@ -1,6 +1,8 @@
 // client/src/components/ui/FloatingReservation.tsx
+'use client'
+
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { MagneticButton } from './MagneticButton';
 
 interface FloatingReservationProps {
@@ -128,7 +130,7 @@ export const FloatingReservation: React.FC<FloatingReservationProps> = ({
             
             <div className="flex space-x-2">
               <MagneticButton className="flex-1 bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-lg font-medium transition-colors">
-                <Link to="/contact" className="block w-full text-center">Book Now</Link>
+                <Link href="/contact" className="block w-full text-center">Book Now</Link>
               </MagneticButton>
               <button
                 onClick={() => setIsExpanded(false)}
@@ -180,7 +182,7 @@ export const FloatingReservation: React.FC<FloatingReservationProps> = ({
       </div>
       
       <MagneticButton className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-white py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
-        <Link to="/contact" className="flex items-center justify-center space-x-2">
+        <Link href="/contact" className="flex items-center justify-center space-x-2">
           <span>Reserve Now</span>
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />

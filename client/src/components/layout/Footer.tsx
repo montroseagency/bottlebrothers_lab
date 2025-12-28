@@ -1,6 +1,8 @@
 // client/src/components/layout/Footer.tsx - TRANSLATED VERSION
+'use client'
+
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { MagneticButton } from '../ui/MagneticButton';
 import { ParticleField } from '../ui/ParticleField';
@@ -46,7 +48,7 @@ export const Footer: React.FC = () => {
 
   const QuickLink = ({ to, children }: { to: string; children: React.ReactNode }) => (
     <Link
-      to={to}
+      href={to}
       className="group relative text-stone-300 hover:text-white transition-all duration-300 text-sm py-2 block"
     >
       <span className="relative z-10 flex items-center">
@@ -293,7 +295,7 @@ export const Footer: React.FC = () => {
         {/* Reservation CTA */}
         <div className="text-center mt-8">
           <MagneticButton className="bg-gradient-to-r from-green-600 to-green-700 text-white px-10 py-4 rounded-2xl text-lg font-semibold hover:shadow-2xl hover:shadow-green-600/25 transition-all duration-300 group overflow-hidden">
-            <Link to="/contact" className="relative z-10 flex items-center space-x-3">
+            <Link href="/contact" className="relative z-10 flex items-center space-x-3">
               <span>{t('footer.experienceTonight')}</span>
               <svg className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />

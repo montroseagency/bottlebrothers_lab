@@ -1,6 +1,8 @@
 // client/src/components/ui/PremiumHero.tsx
+'use client'
+
 import React, { useState, useEffect, useRef } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { MagneticButton } from './MagneticButton';
 import { ParticleField } from './ParticleField';
 
@@ -180,7 +182,7 @@ export const PremiumHero: React.FC<PremiumHeroProps> = ({
           style={{ transform: `translateY(${scrollY * -0.05}px)` }}
         >
           <MagneticButton className="group relative px-10 py-5 bg-transparent border-2 border-green-400 rounded-full overflow-hidden hover:shadow-2xl hover:shadow-green-400/25 transition-all duration-500">
-            <Link to={primaryButton.link} className="relative z-10 font-semibold text-green-400 group-hover:text-black transition-colors duration-500 text-lg">
+            <Link href={primaryButton.link} className="relative z-10 font-semibold text-green-400 group-hover:text-black transition-colors duration-500 text-lg">
               {primaryButton.text}
             </Link>
             <div className="absolute inset-0 bg-green-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
@@ -189,7 +191,7 @@ export const PremiumHero: React.FC<PremiumHeroProps> = ({
           
           {secondaryButton && (
             <MagneticButton className="group relative px-10 py-5 bg-gradient-to-r from-green-600 to-green-700 rounded-full font-semibold text-white hover:from-green-500 hover:to-green-600 transition-all duration-300 shadow-xl hover:shadow-2xl text-lg overflow-hidden">
-              <Link to={secondaryButton.link} className="relative z-10">
+              <Link href={secondaryButton.link} className="relative z-10">
                 {secondaryButton.text}
               </Link>
               <div className="absolute inset-0 bg-gradient-to-r from-green-400 to-green-500 transform translate-x-full group-hover:translate-x-0 transition-transform duration-500" />

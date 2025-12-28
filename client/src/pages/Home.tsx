@@ -1,6 +1,8 @@
 // client/src/pages/Home.tsx - PROFESSIONAL RESPONSIVE VERSION
+'use client'
+
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { GlassmorphicCard } from '../components/ui/GlassmorphicCard';
 import { MagneticButton } from '../components/ui/MagneticButton';
@@ -82,11 +84,11 @@ const Home: React.FC = () => {
             
             <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center px-4 sm:px-0">
               <MagneticButton className="w-full sm:w-auto bg-green-800 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-green-900 transition-all duration-300 shadow-xl hover:shadow-2xl transform hover:-translate-y-2">
-                <Link to="/contact" className="block w-full text-center">{t('home.hero.reserveExperience')}</Link>
+                <Link href="/contact" className="block w-full text-center">{t('home.hero.reserveExperience')}</Link>
               </MagneticButton>
               
               <MagneticButton className="w-full sm:w-auto border-2 border-green-800 text-green-800 px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-green-800 hover:text-white transition-all duration-300">
-                <Link to="/menu" className="block w-full text-center">{t('home.hero.discoverMenu')}</Link>
+                <Link href="/menu" className="block w-full text-center">{t('home.hero.discoverMenu')}</Link>
               </MagneticButton>
             </div>
           </div>
@@ -123,10 +125,10 @@ const Home: React.FC = () => {
               
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <MagneticButton className="w-full sm:w-auto bg-green-800 text-white px-6 py-3 rounded-full font-semibold hover:bg-green-900 transition-all duration-300 shadow-lg">
-                  <Link to="/gallery" className="block text-center">{t('home.about.viewSpace')}</Link>
+                  <Link href="/gallery" className="block text-center">{t('home.about.viewSpace')}</Link>
                 </MagneticButton>
                 <MagneticButton className="w-full sm:w-auto border border-green-800 text-green-800 px-6 py-3 rounded-full font-semibold hover:bg-green-50 transition-all duration-300">
-                  <Link to="/events" className="block text-center">{t('home.about.privateEvents')}</Link>
+                  <Link href="/events" className="block text-center">{t('home.about.privateEvents')}</Link>
                 </MagneticButton>
               </div>
             </div>
@@ -291,10 +293,10 @@ const Home: React.FC = () => {
           
           <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
             <MagneticButton className="w-full sm:w-auto bg-white text-green-800 px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-stone-100 transition-all duration-300 shadow-xl hover:shadow-2xl">
-              <Link to="/contact" className="block text-center">{t('home.cta.reserveTable')}</Link>
+              <Link href="/contact" className="block text-center">{t('home.cta.reserveTable')}</Link>
             </MagneticButton>
             <MagneticButton className="w-full sm:w-auto border-2 border-white text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg font-semibold hover:bg-white hover:text-green-800 transition-all duration-300">
-              <Link to="/events" className="block text-center">{t('home.cta.exploreEvents')}</Link>
+              <Link href="/events" className="block text-center">{t('home.cta.exploreEvents')}</Link>
             </MagneticButton>
           </div>
         </div>
@@ -303,7 +305,7 @@ const Home: React.FC = () => {
       {/* Floating Reservation Button - Responsive */}
       <div className="fixed bottom-4 right-4 sm:bottom-8 sm:right-8 z-50 group">
         <MagneticButton className="bg-gradient-to-r from-green-600 to-green-700 text-white px-4 py-3 sm:px-6 sm:py-3 rounded-full shadow-2xl hover:shadow-3xl transition-all duration-500 hover:scale-110 hover:from-green-500 hover:to-green-600">
-          <Link to="/contact" className="flex items-center space-x-1 sm:space-x-2">
+          <Link href="/contact" className="flex items-center space-x-1 sm:space-x-2">
             <span className="font-semibold text-sm sm:text-base">{t('home.floating.reserve')}</span>
             <svg className="w-3 h-3 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />

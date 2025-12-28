@@ -1,11 +1,9 @@
 // client/src/pages/ContactReservations.tsx
 import React, { useState } from 'react';
-import { useTranslation } from 'react-i18next';
 import { ReservationForm } from '../reservations/ReservationForm';
 import apiClient from '../../services/api';
 
 const ContactReservations: React.FC = () => {
-  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<'reservation' | 'contact'>('reservation');
   const [contactFormData, setContactFormData] = useState({
     name: '',
