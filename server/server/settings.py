@@ -6,17 +6,23 @@ Django settings for server project.
 from pathlib import Path
 from datetime import timedelta
 import os
+from decouple import config, Csv
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Load environment variables from parent directory .env
+from dotenv import load_dotenv
+load_dotenv(dotenv_path=BASE_DIR.parent / '.env')
+
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-rb2d0oepw(gx8k&t6@a$hs91w-)7k%(yrp+$zuasyfa6ozii!i'
+SECRET_KEY = config('DJANGO_SECRET_KEY', default='django-insecure-rb2d0oepw(gx8k&t6@a$hs91w-)7k%(yrp+$zuasyfa6ozii!i')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DJANGO_DEBUG', default=True, cast=bool)
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
+ALLOWED_HOSTS = config('DJANGO_ALLOWED_HOSTS', default='localhost,127.0.0.1,0.0.0.0', cast=Csv())
 
 # Application definition
 INSTALLED_APPS = [
@@ -69,13 +75,29 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'server.wsgi.application'
 
-# Database
+# Database - PostgreSQL Configuration
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('POSTGRES_DB', default='bottlebrothers'),
+        'USER': config('POSTGRES_USER', default='admin'),
+        'PASSWORD': config('POSTGRES_PASSWORD', default='password'),
+        'HOST': config('POSTGRES_HOST', default='localhost'),
+        'PORT': config('POSTGRES_PORT', default='5432'),
+        'OPTIONS': {
+            'connect_timeout': 10,
+        },
     }
 }
+
+# Fallback to SQLite for development if PostgreSQL not available
+# Uncomment to use SQLite:
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
@@ -217,33 +239,56 @@ SIMPLE_JWT = {
 FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10MB
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024   # 10MB
 FILE_UPLOAD_PERMISSIONS = 0o644
-
-# server/server/settings.py - ADD THESE LINES FOR IMAGE UPLOADS
-
-import os
-
-# Static files (CSS, JavaScript, Images)
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-
-# Media files (User uploads) - ADD THIS SECTION
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
+ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/avif']
+MAX_IMAGE_SIZE = 5 * 1024 * 1024  # 5MB
 
 # Create media directories
 os.makedirs(MEDIA_ROOT / 'gallery', exist_ok=True)
 os.makedirs(MEDIA_ROOT / 'events', exist_ok=True)
 os.makedirs(MEDIA_ROOT / 'venues', exist_ok=True)
+os.makedirs(MEDIA_ROOT / 'processed', exist_ok=True)
+os.makedirs(MEDIA_ROOT / 'menu', exist_ok=True)
 
-# File upload settings
-FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10MB
-DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024   # 10MB
-# Allowed file types for uploads
-ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
-MAX_IMAGE_SIZE = 5 * 1024 * 1024  # 5MB
+# Email Configuration
+EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.console.EmailBackend')
+EMAIL_HOST = config('EMAIL_HOST', default='smtp.gmail.com')
+EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
 
-# Email Configuration (for reservation confirmations)
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# Twilio Configuration (SMS Notifications)
+TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID', default='')
+TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN', default='')
+TWILIO_PHONE_NUMBER = config('TWILIO_PHONE_NUMBER', default='')
+
+# Redis Configuration
+REDIS_URL = config('REDIS_URL', default='redis://localhost:6379/0')
+
+# Celery Configuration
+CELERY_BROKER_URL = REDIS_URL
+CELERY_RESULT_BACKEND = REDIS_URL
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = 'UTC'
+
+# AWS S3 Configuration (Optional - for production image storage)
+USE_S3 = config('USE_S3', default=False, cast=bool)
+
+if USE_S3:
+    AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID', default='')
+    AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY', default='')
+    AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME', default='')
+    AWS_S3_REGION_NAME = config('AWS_S3_REGION_NAME', default='us-east-1')
+    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+    AWS_S3_OBJECT_PARAMETERS = {
+        'CacheControl': 'max-age=86400',
+    }
+    AWS_DEFAULT_ACL = 'public-read'
+    AWS_S3_FILE_OVERWRITE = False
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+    STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Security settings for development
 SECURE_CROSS_ORIGIN_OPENER_POLICY = None

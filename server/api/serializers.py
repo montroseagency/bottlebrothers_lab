@@ -3,7 +3,12 @@ from rest_framework import serializers
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
 from django.utils import timezone
-from .models import Reservation, ContactMessage, GalleryItem, Event, EventType, VenueSpace, MenuCategory, MenuItem, MenuItemVariant
+from .models import (
+    Reservation, ContactMessage, GalleryItem, Event, EventType, VenueSpace,
+    MenuCategory, MenuItem, MenuItemVariant, FloorPlan, Table, TableAssignment,
+    CustomerProfile, VIPMembership, Offer, Waitlist, SMSNotification,
+    OTPVerification, ProcessedImage
+)
 
 class ReservationSerializer(serializers.ModelSerializer):
     full_name = serializers.ReadOnlyField()
@@ -374,11 +379,11 @@ class CustomUserSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
     username = serializers.CharField()
     password = serializers.CharField()
-    
+
     def validate(self, data):
         username = data.get('username')
         password = data.get('password')
-        
+
         if username and password:
             user = authenticate(username=username, password=password)
             if not user:
@@ -388,5 +393,175 @@ class LoginSerializer(serializers.Serializer):
             data['user'] = user
         else:
             raise serializers.ValidationError('Must include username and password')
-        
+
         return data
+
+
+# ============ PHASE 4 MODEL SERIALIZERS ============
+
+class FloorPlanSerializer(serializers.ModelSerializer):
+    tables_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = FloorPlan
+        fields = ['id', 'name', 'description', 'display_order', 'is_active',
+                 'created_at', 'tables_count']
+        read_only_fields = ['id', 'created_at']
+
+    def get_tables_count(self, obj):
+        return obj.tables.count()
+
+
+class TableSerializer(serializers.ModelSerializer):
+    floor_plan_name = serializers.CharField(source='floor_plan.name', read_only=True)
+    is_currently_assigned = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Table
+        fields = [
+            'id', 'floor_plan', 'floor_plan_name', 'table_number', 'capacity',
+            'min_capacity', 'shape', 'position_x', 'position_y', 'is_available',
+            'is_vip', 'notes', 'created_at', 'is_currently_assigned'
+        ]
+        read_only_fields = ['id', 'created_at']
+
+    def get_is_currently_assigned(self, obj):
+        """Check if table is currently assigned to an active reservation"""
+        from django.utils import timezone
+        now = timezone.now()
+        # Check if table has any assignments for reservations happening today
+        return obj.assignments.filter(
+            reservation__date=now.date(),
+            reservation__status__in=['confirmed', 'seated']
+        ).exists()
+
+
+class TableAssignmentSerializer(serializers.ModelSerializer):
+    table_number = serializers.CharField(source='table.table_number', read_only=True)
+    reservation_name = serializers.CharField(source='reservation.full_name', read_only=True)
+
+    class Meta:
+        model = TableAssignment
+        fields = [
+            'id', 'reservation', 'reservation_name', 'table', 'table_number',
+            'assigned_at', 'notes'
+        ]
+        read_only_fields = ['id', 'assigned_at']
+
+
+class CustomerProfileSerializer(serializers.ModelSerializer):
+    favorite_table_number = serializers.CharField(source='favorite_table.table_number', read_only=True)
+    tier_display = serializers.CharField(source='get_tier_display', read_only=True)
+
+    class Meta:
+        model = CustomerProfile
+        fields = [
+            'id', 'email', 'phone', 'first_name', 'last_name', 'tier', 'tier_display',
+            'points', 'lifetime_visits', 'lifetime_spent', 'favorite_table',
+            'favorite_table_number', 'dietary_preferences', 'special_occasions',
+            'sms_notifications', 'email_notifications', 'is_vip', 'is_blacklisted',
+            'created_at', 'updated_at'
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at']
+
+    def validate_email(self, value):
+        return value.lower()
+
+
+class VIPMembershipSerializer(serializers.ModelSerializer):
+    customer_name = serializers.CharField(source='customer.first_name', read_only=True)
+    status_display = serializers.CharField(source='get_status_display', read_only=True)
+
+    class Meta:
+        model = VIPMembership
+        fields = [
+            'id', 'customer', 'customer_name', 'status', 'status_display',
+            'membership_number', 'start_date', 'end_date', 'benefits'
+        ]
+        read_only_fields = ['id']
+
+
+class OfferSerializer(serializers.ModelSerializer):
+    is_valid = serializers.SerializerMethodField()
+    uses_remaining = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Offer
+        fields = [
+            'id', 'title', 'description', 'offer_type', 'discount_percentage',
+            'promo_code', 'start_date', 'end_date', 'is_active', 'max_uses_total',
+            'current_uses', 'is_valid', 'uses_remaining'
+        ]
+        read_only_fields = ['id', 'current_uses']
+
+    def get_is_valid(self, obj):
+        """Check if offer is currently valid"""
+        from django.utils import timezone
+        now = timezone.now().date()
+        return (obj.is_active and
+                obj.start_date <= now <= obj.end_date and
+                (obj.max_uses_total is None or obj.current_uses < obj.max_uses_total))
+
+    def get_uses_remaining(self, obj):
+        """Get remaining uses"""
+        if obj.max_uses_total is None:
+            return None
+        return max(0, obj.max_uses_total - obj.current_uses)
+
+
+class WaitlistSerializer(serializers.ModelSerializer):
+    customer_name = serializers.CharField(source='customer.first_name', read_only=True, allow_null=True)
+    status_display = serializers.CharField(source='get_status_display', read_only=True)
+
+    class Meta:
+        model = Waitlist
+        fields = [
+            'id', 'customer', 'customer_name', 'name', 'phone', 'party_size',
+            'status', 'status_display', 'estimated_wait_minutes', 'position',
+            'created_at'
+        ]
+        read_only_fields = ['id', 'created_at']
+
+
+class SMSNotificationSerializer(serializers.ModelSerializer):
+    notification_type_display = serializers.CharField(source='get_notification_type_display', read_only=True)
+    status_display = serializers.CharField(source='get_status_display', read_only=True)
+
+    class Meta:
+        model = SMSNotification
+        fields = [
+            'id', 'recipient_phone', 'message', 'notification_type',
+            'notification_type_display', 'status', 'status_display', 'twilio_sid',
+            'error_message', 'reservation', 'sent_at', 'created_at'
+        ]
+        read_only_fields = ['id', 'sent_at', 'created_at']
+
+
+class OTPVerificationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OTPVerification
+        fields = ['id', 'phone', 'otp_code', 'is_verified', 'expires_at',
+                 'attempts', 'created_at']
+        read_only_fields = ['id', 'created_at']
+
+
+class ProcessedImageSerializer(serializers.ModelSerializer):
+    image_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = ProcessedImage
+        fields = [
+            'id', 'source_type', 'source_id', 'image', 'image_url', 'format',
+            'size', 'width', 'height', 'file_size', 'blur_hash', 'lqip_data_url',
+            'created_at'
+        ]
+        read_only_fields = ['id', 'created_at']
+
+    def get_image_url(self, obj):
+        """Get the full URL for the processed image"""
+        if obj.image:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.image.url)
+            return obj.image.url
+        return None

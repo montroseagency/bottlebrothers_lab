@@ -122,7 +122,7 @@ export const ReservationSuccess: React.FC<ReservationSuccessProps> = ({
           </button>
           
           <Link
-            to="/menu"
+            href="/menu"
             className="bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors duration-300 inline-block"
           >
             View Our Menu

@@ -14,7 +14,7 @@ i18n
   .use(initReactI18next)
   // init i18next
   .init({
-    debug: import.meta.env?.DEV || false,
+    debug: process.env.NODE_ENV === 'development',
     
     fallbackLng: 'en',
     interpolation: {

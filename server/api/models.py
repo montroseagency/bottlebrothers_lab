@@ -787,3 +787,284 @@ class RestaurantSettings(models.Model):
     def get_settings(cls):
         obj, created = cls.objects.get_or_create(pk=1)
         return obj
+
+
+# Phase 4: Database Schema Extensions - ADD THESE TO models.py
+
+
+# Add these models to the end of your models.py file
+
+class FloorPlan(models.Model):
+    """Model for restaurant floor plans"""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    name = models.CharField(max_length=100, help_text="Floor plan name (e.g., 'Main Dining', 'Patio')")
+    description = models.TextField(blank=True, help_text="Description of this floor plan")
+    display_order = models.IntegerField(default=0, help_text="Display order")
+    is_active = models.BooleanField(default=True, help_text="Is this floor plan active")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['display_order', 'name']
+
+    def __str__(self):
+        return self.name
+
+
+class Table(models.Model):
+    """Model for restaurant tables"""
+    SHAPE_CHOICES = [
+        ('square', 'Square'),
+        ('round', 'Round'),
+        ('rectangular', 'Rectangular'),
+        ('booth', 'Booth'),
+    ]
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    floor_plan = models.ForeignKey(FloorPlan, on_delete=models.CASCADE, related_name='tables')
+    table_number = models.CharField(max_length=20, help_text="Table number (e.g., 'T1', 'VIP-1')")
+    capacity = models.IntegerField(help_text="Maximum capacity")
+    min_capacity = models.IntegerField(default=1, help_text="Minimum capacity")
+    shape = models.CharField(max_length=20, choices=SHAPE_CHOICES, default='square')
+    position_x = models.IntegerField(null=True, blank=True, help_text="X coordinate for visual layout")
+    position_y = models.IntegerField(null=True, blank=True, help_text="Y coordinate for visual layout")
+    is_available = models.BooleanField(default=True, help_text="Is table currently available")
+    is_vip = models.BooleanField(default=False, help_text="Is this a VIP table")
+    notes = models.TextField(blank=True, help_text="Special notes about this table")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['floor_plan', 'table_number']
+        unique_together = ['floor_plan', 'table_number']
+
+    def __str__(self):
+        return f"{self.table_number} ({self.floor_plan.name})"
+
+
+class TableAssignment(models.Model):
+    """Model for table assignments to reservations"""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    reservation = models.ForeignKey('Reservation', on_delete=models.CASCADE, related_name='table_assignments')
+    table = models.ForeignKey(Table, on_delete=models.CASCADE, related_name='assignments')
+    assigned_at = models.DateTimeField(auto_now_add=True)
+    notes = models.TextField(blank=True)
+
+    class Meta:
+        ordering = ['-assigned_at']
+
+    def __str__(self):
+        return f"{self.table.table_number} -> {self.reservation.full_name}"
+
+
+class CustomerProfile(models.Model):
+    """Model for customer profiles and loyalty"""
+    TIER_CHOICES = [
+        ('regular', 'Regular'),
+        ('silver', 'Silver'),
+        ('gold', 'Gold'),
+        ('platinum', 'Platinum'),
+        ('vip', 'VIP'),
+    ]
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    email = models.EmailField(unique=True, db_index=True)
+    phone = models.CharField(max_length=20, unique=True)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
+
+    # Loyalty
+    tier = models.CharField(max_length=20, choices=TIER_CHOICES, default='regular')
+    points = models.IntegerField(default=0)
+    lifetime_visits = models.IntegerField(default=0)
+    lifetime_spent = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+    # Preferences
+    favorite_table = models.ForeignKey(Table, null=True, blank=True, on_delete=models.SET_NULL)
+    dietary_preferences = models.TextField(blank=True)
+    special_occasions = models.JSONField(default=dict, blank=True)
+
+    # Communication
+    sms_notifications = models.BooleanField(default=True)
+    email_notifications = models.BooleanField(default=True)
+
+    # Metadata
+    is_vip = models.BooleanField(default=False)
+    is_blacklisted = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['-lifetime_spent', '-lifetime_visits']
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name} ({self.tier})"
+
+
+class VIPMembership(models.Model):
+    """Model for VIP memberships"""
+    STATUS_CHOICES = [
+        ('active', 'Active'),
+        ('expired', 'Expired'),
+        ('suspended', 'Suspended'),
+    ]
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    customer = models.OneToOneField(CustomerProfile, on_delete=models.CASCADE, related_name='vip_membership')
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='active')
+    membership_number = models.CharField(max_length=20, unique=True)
+    start_date = models.DateField()
+    end_date = models.DateField(null=True, blank=True)
+    benefits = models.JSONField(default=list, blank=True)
+
+    class Meta:
+        ordering = ['-start_date']
+
+    def __str__(self):
+        return f"VIP {self.membership_number} - {self.customer.first_name} {self.customer.last_name}"
+
+
+class Offer(models.Model):
+    """Model for promotional offers"""
+    OFFER_TYPE_CHOICES = [
+        ('discount', 'Discount'),
+        ('freebie', 'Freebie'),
+        ('upgrade', 'Upgrade'),
+    ]
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    offer_type = models.CharField(max_length=20, choices=OFFER_TYPE_CHOICES, default='discount')
+    discount_percentage = models.IntegerField(null=True, blank=True)
+    promo_code = models.CharField(max_length=50, unique=True, null=True, blank=True)
+    start_date = models.DateField()
+    end_date = models.DateField()
+    is_active = models.BooleanField(default=True)
+    max_uses_total = models.IntegerField(null=True, blank=True)
+    current_uses = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['-start_date']
+
+    def __str__(self):
+        return f"{self.title} ({self.promo_code})"
+
+
+class Waitlist(models.Model):
+    """Model for walk-in waitlist"""
+    STATUS_CHOICES = [
+        ('waiting', 'Waiting'),
+        ('seated', 'Seated'),
+        ('cancelled', 'Cancelled'),
+        ('no_show', 'No Show'),
+    ]
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    customer = models.ForeignKey(CustomerProfile, null=True, blank=True, on_delete=models.CASCADE)
+    name = models.CharField(max_length=200)
+    phone = models.CharField(max_length=20)
+    party_size = models.IntegerField()
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='waiting')
+    estimated_wait_minutes = models.IntegerField()
+    position = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['position', 'created_at']
+
+    def __str__(self):
+        return f"{self.name} - Party of {self.party_size} (Position {self.position})"
+
+
+class SMSNotification(models.Model):
+    """Model for SMS notifications"""
+    NOTIFICATION_TYPE_CHOICES = [
+        ('confirmation', 'Reservation Confirmation'),
+        ('reminder', 'Reservation Reminder'),
+        ('otp', 'OTP Verification'),
+        ('marketing', 'Marketing'),
+    ]
+
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('sent', 'Sent'),
+        ('delivered', 'Delivered'),
+        ('failed', 'Failed'),
+    ]
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    recipient_phone = models.CharField(max_length=20)
+    message = models.TextField()
+    notification_type = models.CharField(max_length=30, choices=NOTIFICATION_TYPE_CHOICES)
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    twilio_sid = models.CharField(max_length=100, blank=True)
+    error_message = models.TextField(blank=True)
+    reservation = models.ForeignKey('Reservation', null=True, blank=True, on_delete=models.CASCADE)
+    sent_at = models.DateTimeField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"{self.notification_type} to {self.recipient_phone} - {self.status}"
+
+
+class OTPVerification(models.Model):
+    """Model for OTP verification"""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    phone = models.CharField(max_length=20)
+    otp_code = models.CharField(max_length=6)
+    is_verified = models.BooleanField(default=False)
+    expires_at = models.DateTimeField()
+    attempts = models.IntegerField(default=0)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+
+    def __str__(self):
+        return f"OTP for {self.phone} - {'Verified' if self.is_verified else 'Pending'}"
+
+
+class ProcessedImage(models.Model):
+    """Model for processed/optimized images"""
+    FORMAT_CHOICES = [
+        ('webp', 'WebP'),
+        ('avif', 'AVIF'),
+        ('jpeg', 'JPEG'),
+    ]
+
+    SIZE_CHOICES = [
+        ('thumbnail', 'Thumbnail'),
+        ('small', 'Small'),
+        ('medium', 'Medium'),
+        ('large', 'Large'),
+        ('xlarge', 'XLarge'),
+    ]
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    source_type = models.CharField(max_length=50, help_text="Source model type (e.g., 'menu_item', 'gallery_item')")
+    source_id = models.UUIDField(help_text="Source model UUID")
+    image = models.ImageField(upload_to='processed/')
+    format = models.CharField(max_length=10, choices=FORMAT_CHOICES)
+    size = models.CharField(max_length=20, choices=SIZE_CHOICES)
+    width = models.IntegerField()
+    height = models.IntegerField()
+    file_size = models.IntegerField(help_text="File size in bytes")
+    blur_hash = models.CharField(max_length=100, blank=True)
+    lqip_data_url = models.TextField(blank=True, help_text="Low Quality Image Placeholder (base64)")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['source_type', 'source_id']),
+        ]
+
+    def __str__(self):
+        return f"{self.source_type} {self.format} {self.size}"
+
+    def delete(self, *args, **kwargs):
+        if self.image:
+            self.image.delete(save=False)
+        super().delete(*args, **kwargs)

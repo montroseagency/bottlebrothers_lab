@@ -2,7 +2,22 @@
   "permissions": {
     "allow": [
       "Bash(npm run build:*)",
-      "Bash(find:*)"
+      "Bash(find:*)",
+      "Bash(dir:*)",
+      "Bash(python manage.py:*)",
+      "Bash(tree:*)",
+      "Bash(cat:*)",
+      "Bash(findstr:*)",
+      "Bash(pip install:*)",
+      "Bash(docker-compose up:*)",
+      "Bash(docker ps:*)",
+      "Bash(timeout /t 5)",
+      "Bash(docker logs:*)",
+      "Bash(docker exec:*)",
+      "Bash(tasklist:*)",
+      "Bash(docker-compose down:*)",
+      "Bash(npm install:*)",
+      "Bash(cd:*)"
     ]
   }
 }
