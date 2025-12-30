@@ -1,7 +1,7 @@
 {
   "/(public)/page": "app/(public)/page.js",
-  "/(public)/menu/page": "app/(public)/menu/page.js",
   "/(public)/events/page": "app/(public)/events/page.js",
-  "/(public)/gallery/page": "app/(public)/gallery/page.js",
-  "/(public)/contact/page": "app/(public)/contact/page.js"
+  "/(public)/menu/page": "app/(public)/menu/page.js",
+  "/(public)/contact/page": "app/(public)/contact/page.js",
+  "/(public)/gallery/page": "app/(public)/gallery/page.js"
 }

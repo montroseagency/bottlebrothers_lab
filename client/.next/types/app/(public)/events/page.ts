@@ -1,4 +1,4 @@
-// File: C:\Users\User\Documents\GitHub\bottlebrothers_lab\client\src\app\(public)\events\page.tsx
+// File: C:\Users\Admin\bottlebrothers_lab-2\client\src\app\(public)\events\page.tsx
 import * as entry from '../../../../../src/app/(public)/events/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

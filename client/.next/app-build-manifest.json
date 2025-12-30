@@ -26,15 +26,15 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(public)/events/page.js"
     ],
-    "/(public)/gallery/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/(public)/gallery/page.js"
-    ],
     "/(public)/contact/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/(public)/contact/page.js"
+    ],
+    "/(public)/gallery/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/(public)/gallery/page.js"
     ]
   }
 }
