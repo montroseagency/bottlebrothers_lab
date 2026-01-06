@@ -198,111 +198,111 @@ export const ReservationForm: React.FC<ReservationFormProps> = ({
   const maxDate = new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
 
   return (
-    <div className={`max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-lg ${className}`}>
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">
+    <div className={`max-w-2xl mx-auto ${className}`}>
+      <h2 className="text-2xl font-bold text-white mb-6">
         Reserve Your Table
       </h2>
-      
+
       {success && (
-        <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
+        <div className="mb-6 p-4 bg-green-900/30 border border-green-700 rounded-lg">
           <div className="flex">
             <svg className="w-5 h-5 text-green-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
-            <p className="text-green-700">Your reservation has been submitted successfully!</p>
+            <p className="text-green-400">Your reservation has been submitted successfully!</p>
           </div>
         </div>
       )}
 
       {errors.general && (
-        <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+        <div className="mb-6 p-4 bg-red-900/30 border border-red-700 rounded-lg">
           <div className="flex">
             <svg className="w-5 h-5 text-red-400 mr-2 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
-            <p className="text-red-700">{errors.general}</p>
+            <p className="text-red-400">{errors.general}</p>
           </div>
         </div>
       )}
-      
+
       <form onSubmit={handleSubmit} className="space-y-6">
         {/* Personal Information */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              First Name *
+            <label className="block text-sm font-medium text-neutral-300 mb-2">
+              First Name <span className="text-[#d4af37]">*</span>
             </label>
             <input
               type="text"
               name="first_name"
               value={formData.first_name}
               onChange={handleInputChange}
-              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 ${
-                errors.first_name ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-4 py-2 border rounded-lg bg-[#1a1a1a] text-white placeholder-neutral-500 focus:ring-2 focus:ring-[#d4af37] focus:border-transparent ${
+                errors.first_name ? 'border-red-500' : 'border-neutral-700'
               }`}
               placeholder="Your first name"
             />
             {errors.first_name && (
-              <p className="text-red-500 text-sm mt-1">{errors.first_name}</p>
+              <p className="text-red-400 text-sm mt-1">{errors.first_name}</p>
             )}
           </div>
-          
+
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Last Name *
+            <label className="block text-sm font-medium text-neutral-300 mb-2">
+              Last Name <span className="text-[#d4af37]">*</span>
             </label>
             <input
               type="text"
               name="last_name"
               value={formData.last_name}
               onChange={handleInputChange}
-              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 ${
-                errors.last_name ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-4 py-2 border rounded-lg bg-[#1a1a1a] text-white placeholder-neutral-500 focus:ring-2 focus:ring-[#d4af37] focus:border-transparent ${
+                errors.last_name ? 'border-red-500' : 'border-neutral-700'
               }`}
               placeholder="Your last name"
             />
             {errors.last_name && (
-              <p className="text-red-500 text-sm mt-1">{errors.last_name}</p>
+              <p className="text-red-400 text-sm mt-1">{errors.last_name}</p>
             )}
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Email *
+            <label className="block text-sm font-medium text-neutral-300 mb-2">
+              Email <span className="text-[#d4af37]">*</span>
             </label>
             <input
               type="email"
               name="email"
               value={formData.email}
               onChange={handleInputChange}
-              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 ${
-                errors.email ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-4 py-2 border rounded-lg bg-[#1a1a1a] text-white placeholder-neutral-500 focus:ring-2 focus:ring-[#d4af37] focus:border-transparent ${
+                errors.email ? 'border-red-500' : 'border-neutral-700'
               }`}
               placeholder="your.email@example.com"
             />
             {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+              <p className="text-red-400 text-sm mt-1">{errors.email}</p>
             )}
           </div>
-          
+
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Phone *
+            <label className="block text-sm font-medium text-neutral-300 mb-2">
+              Phone <span className="text-[#d4af37]">*</span>
             </label>
             <input
               type="tel"
               name="phone"
               value={formData.phone}
               onChange={handleInputChange}
-              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 ${
-                errors.phone ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-4 py-2 border rounded-lg bg-[#1a1a1a] text-white placeholder-neutral-500 focus:ring-2 focus:ring-[#d4af37] focus:border-transparent ${
+                errors.phone ? 'border-red-500' : 'border-neutral-700'
               }`}
               placeholder="+1 (555) 123-4567"
             />
             {errors.phone && (
-              <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
+              <p className="text-red-400 text-sm mt-1">{errors.phone}</p>
             )}
           </div>
         </div>
@@ -310,8 +310,8 @@ export const ReservationForm: React.FC<ReservationFormProps> = ({
         {/* Reservation Details */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Date *
+            <label className="block text-sm font-medium text-neutral-300 mb-2">
+              Date <span className="text-[#d4af37]">*</span>
             </label>
             <input
               type="date"
@@ -320,51 +320,51 @@ export const ReservationForm: React.FC<ReservationFormProps> = ({
               onChange={handleInputChange}
               min={minDate}
               max={maxDate}
-              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 ${
-                errors.date ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-4 py-2 border rounded-lg bg-[#1a1a1a] text-white focus:ring-2 focus:ring-[#d4af37] focus:border-transparent [color-scheme:dark] ${
+                errors.date ? 'border-red-500' : 'border-neutral-700'
               }`}
             />
             {errors.date && (
-              <p className="text-red-500 text-sm mt-1">{errors.date}</p>
+              <p className="text-red-400 text-sm mt-1">{errors.date}</p>
             )}
           </div>
-          
+
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Time *
+            <label className="block text-sm font-medium text-neutral-300 mb-2">
+              Time <span className="text-[#d4af37]">*</span>
             </label>
             <select
               name="time"
               value={formData.time}
               onChange={handleInputChange}
-              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 ${
-                errors.time ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-4 py-2 border rounded-lg bg-[#1a1a1a] text-white focus:ring-2 focus:ring-[#d4af37] focus:border-transparent ${
+                errors.time ? 'border-red-500' : 'border-neutral-700'
               }`}
               disabled={!formData.date || availabilityLoading}
             >
-              <option value="">
-                {!formData.date 
-                  ? 'Select date first' 
-                  : availabilityLoading 
-                  ? 'Loading...' 
+              <option value="" className="bg-[#1a1a1a]">
+                {!formData.date
+                  ? 'Select date first'
+                  : availabilityLoading
+                  ? 'Loading...'
                   : 'Select time'
                 }
               </option>
               {getAvailableTimeSlots().map(slot => (
-                <option key={slot.time} value={slot.time}>
-                  {slot.time_display} 
+                <option key={slot.time} value={slot.time} className="bg-[#1a1a1a]">
+                  {slot.time_display}
                   {slot.available_capacity !== undefined && ` (${slot.available_capacity} available)`}
                 </option>
               ))}
             </select>
             {errors.time && (
-              <p className="text-red-500 text-sm mt-1">{errors.time}</p>
+              <p className="text-red-400 text-sm mt-1">{errors.time}</p>
             )}
           </div>
-          
+
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Party Size *
+            <label className="block text-sm font-medium text-neutral-300 mb-2">
+              Party Size <span className="text-[#d4af37]">*</span>
             </label>
             <input
               type="number"
@@ -373,41 +373,41 @@ export const ReservationForm: React.FC<ReservationFormProps> = ({
               onChange={handleInputChange}
               min="1"
               max="20"
-              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 ${
-                errors.party_size ? 'border-red-500' : 'border-gray-300'
+              className={`w-full px-4 py-2 border rounded-lg bg-[#1a1a1a] text-white focus:ring-2 focus:ring-[#d4af37] focus:border-transparent ${
+                errors.party_size ? 'border-red-500' : 'border-neutral-700'
               }`}
             />
             {errors.party_size && (
-              <p className="text-red-500 text-sm mt-1">{errors.party_size}</p>
+              <p className="text-red-400 text-sm mt-1">{errors.party_size}</p>
             )}
           </div>
         </div>
 
         {/* Optional Details */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-neutral-300 mb-2">
             Occasion
           </label>
           <select
             name="occasion"
             value={formData.occasion}
             onChange={handleInputChange}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+            className="w-full px-4 py-2 border border-neutral-700 rounded-lg bg-[#1a1a1a] text-white focus:ring-2 focus:ring-[#d4af37] focus:border-transparent"
           >
-            <option value="">Select occasion</option>
-            <option value="birthday">Birthday Celebration</option>
-            <option value="anniversary">Anniversary</option>
-            <option value="business">Business Meeting</option>
-            <option value="date">Date Night</option>
-            <option value="family">Family Gathering</option>
-            <option value="celebration">Special Celebration</option>
-            <option value="casual">Casual Dining</option>
-            <option value="other">Other</option>
+            <option value="" className="bg-[#1a1a1a]">Select occasion</option>
+            <option value="birthday" className="bg-[#1a1a1a]">Birthday Celebration</option>
+            <option value="anniversary" className="bg-[#1a1a1a]">Anniversary</option>
+            <option value="business" className="bg-[#1a1a1a]">Business Meeting</option>
+            <option value="date" className="bg-[#1a1a1a]">Date Night</option>
+            <option value="family" className="bg-[#1a1a1a]">Family Gathering</option>
+            <option value="celebration" className="bg-[#1a1a1a]">Special Celebration</option>
+            <option value="casual" className="bg-[#1a1a1a]">Casual Dining</option>
+            <option value="other" className="bg-[#1a1a1a]">Other</option>
           </select>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-neutral-300 mb-2">
             Special Requests
           </label>
           <textarea
@@ -415,14 +415,14 @@ export const ReservationForm: React.FC<ReservationFormProps> = ({
             value={formData.special_requests}
             onChange={handleInputChange}
             rows={3}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+            className="w-full px-4 py-2 border border-neutral-700 rounded-lg bg-[#1a1a1a] text-white placeholder-neutral-500 focus:ring-2 focus:ring-[#d4af37] focus:border-transparent"
             placeholder="Any special requests or preferences..."
             maxLength={500}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-2">
+          <label className="block text-sm font-medium text-neutral-300 mb-2">
             Dietary Restrictions
           </label>
           <textarea
@@ -430,7 +430,7 @@ export const ReservationForm: React.FC<ReservationFormProps> = ({
             value={formData.dietary_restrictions}
             onChange={handleInputChange}
             rows={2}
-            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+            className="w-full px-4 py-2 border border-neutral-700 rounded-lg bg-[#1a1a1a] text-white placeholder-neutral-500 focus:ring-2 focus:ring-[#d4af37] focus:border-transparent"
             placeholder="Any allergies or dietary requirements..."
             maxLength={300}
           />
@@ -440,11 +440,11 @@ export const ReservationForm: React.FC<ReservationFormProps> = ({
         <button
           type="submit"
           disabled={loading || availabilityLoading}
-          className="w-full bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-300 flex items-center justify-center space-x-2"
+          className="w-full bg-[#d4af37] hover:bg-[#c9a432] disabled:bg-neutral-600 text-black font-semibold py-3 px-6 rounded-lg transition-colors duration-300 flex items-center justify-center space-x-2"
         >
           {loading ? (
             <>
-              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-black" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>

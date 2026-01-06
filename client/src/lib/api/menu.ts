@@ -65,7 +65,7 @@ export interface CategoriesResponse {
 export async function getMenuCategories(): Promise<MenuCategory[]> {
   try {
     const response = await apiClient.get<CategoriesResponse>('/menu/categories/');
-    return response.results;
+    return response?.results || [];
   } catch (error) {
     console.error('Error fetching menu categories:', error);
     return [];
@@ -94,7 +94,7 @@ export async function getMenuItems(params?: {
 export async function getFeaturedMenuItems(limit: number = 6): Promise<MenuItem[]> {
   try {
     const response = await getMenuItems({ is_featured: true, is_available: true, limit });
-    return response.results;
+    return response?.results || [];
   } catch (error) {
     console.error('Error fetching featured menu items:', error);
     return [];

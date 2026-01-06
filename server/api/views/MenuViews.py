@@ -18,68 +18,102 @@ from api.models import MenuCategory, MenuItem, MenuItemVariant
 from api.serializers import (
     MenuCategorySerializer, PublicMenuCategorySerializer,
     MenuItemSerializer, PublicMenuItemSerializer,
-    MenuItemVariantSerializer
+    MenuItemVariantSerializer, SubcategorySerializer
 )
+
+
 class MenuCategoryViewSet(viewsets.ModelViewSet):
     queryset = MenuCategory.objects.all()
     serializer_class = MenuCategorySerializer
     parser_classes = (MultiPartParser, FormParser, JSONParser)
-    
+
     def get_permissions(self):
         """Public access for list/retrieve, admin only for create/update/delete"""
-        if self.action in ['list', 'retrieve', 'public']:
+        if self.action in ['list', 'retrieve', 'public', 'main_categories', 'subcategories']:
             permission_classes = [AllowAny]
         else:
             permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
-    
+
     def get_queryset(self):
         """Filter queryset based on action and permissions"""
         if self.action in ['list', 'retrieve'] and not self.request.user.is_authenticated:
-            # Public access - only show active categories
             return MenuCategory.objects.filter(is_active=True)
         return MenuCategory.objects.all()
-    
+
     def get_serializer_class(self):
         """Use different serializer for public access"""
         if self.action in ['public'] or not self.request.user.is_authenticated:
             return PublicMenuCategorySerializer
         return MenuCategorySerializer
-    
+
     def list(self, request):
         """List menu categories with optional filtering"""
         queryset = self.get_queryset()
-        
+
+        # Filter by parent (null for top-level, or specific parent_id for subcategories)
+        parent_param = request.query_params.get('parent')
+        if parent_param == 'null' or parent_param == '':
+            # Get only top-level categories (no parent)
+            queryset = queryset.filter(parent__isnull=True)
+        elif parent_param:
+            # Get subcategories of specific parent
+            queryset = queryset.filter(parent__id=parent_param)
+
         # Filter by category type
         category_type = request.query_params.get('category_type')
         if category_type:
             queryset = queryset.filter(category_type=category_type)
-        
-        # Order by display_order
+
         queryset = queryset.order_by('display_order', 'name')
-        
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
-    
+
+    @action(detail=False, methods=['get'])
+    def main_categories(self, request):
+        """Get only top-level categories (for admin dropdown)"""
+        queryset = MenuCategory.objects.filter(parent__isnull=True)
+        if not request.user.is_authenticated:
+            queryset = queryset.filter(is_active=True)
+        queryset = queryset.order_by('display_order', 'name')
+        serializer = MenuCategorySerializer(queryset, many=True, context={'request': request})
+        return Response(serializer.data)
+
+    @action(detail=True, methods=['get'])
+    def subcategories(self, request, pk=None):
+        """Get subcategories of a specific category"""
+        try:
+            category = MenuCategory.objects.get(pk=pk)
+            queryset = category.subcategories.all()
+            if not request.user.is_authenticated:
+                queryset = queryset.filter(is_active=True)
+            queryset = queryset.order_by('display_order', 'name')
+            serializer = SubcategorySerializer(queryset, many=True, context={'request': request})
+            return Response(serializer.data)
+        except MenuCategory.DoesNotExist:
+            return Response({'detail': 'Category not found'}, status=status.HTTP_404_NOT_FOUND)
+
     @action(detail=False, methods=['get'])
     def public(self, request):
-        """Get public menu categories with items"""
-        queryset = MenuCategory.objects.filter(is_active=True).prefetch_related(
-            'menu_items'
+        """Get public menu categories with items (top-level only with nested subcategories)"""
+        queryset = MenuCategory.objects.filter(
+            is_active=True,
+            parent__isnull=True  # Only top-level categories
+        ).prefetch_related(
+            'menu_items', 'subcategories', 'subcategories__menu_items'
         ).order_by('display_order', 'name')
-        
-        # Filter by category type if specified
+
         category_type = request.query_params.get('category_type')
         if category_type:
             queryset = queryset.filter(category_type=category_type)
-        
+
         serializer = PublicMenuCategorySerializer(
-            queryset, 
-            many=True, 
+            queryset,
+            many=True,
             context={'request': request}
         )
         return Response(serializer.data)
-    
+
     @action(detail=True, methods=['patch'], permission_classes=[IsAuthenticated])
     def toggle_active(self, request, pk=None):
         """Toggle active status of menu category"""
@@ -87,10 +121,8 @@ class MenuCategoryViewSet(viewsets.ModelViewSet):
             category = self.get_object()
             category.is_active = not category.is_active
             category.save()
-            
             serializer = self.get_serializer(category)
             return Response(serializer.data)
-            
         except MenuCategory.DoesNotExist:
             return Response(
                 {'detail': 'Menu category not found'},
@@ -208,47 +240,80 @@ class MenuItemViewSet(viewsets.ModelViewSet):
     
     @action(detail=False, methods=['get'])
     def by_category(self, request):
-        """Get menu items grouped by category"""
+        """Get menu items grouped by category (top-level with subcategories)"""
+        # Get top-level categories only
         categories = MenuCategory.objects.filter(
-            is_active=True
+            is_active=True,
+            parent__isnull=True
         ).prefetch_related(
-            'menu_items'
+            'menu_items', 'subcategories', 'subcategories__menu_items'
         ).order_by('display_order', 'name')
-        
-        # Filter by category type if specified
+
         category_type = request.query_params.get('category_type')
         if category_type:
             categories = categories.filter(category_type=category_type)
-        
+
+        dietary = request.query_params.get('dietary')
+        search = request.query_params.get('search')
+
         result = []
         for category in categories:
-            available_items = category.menu_items.filter(is_available=True)
-            
-            # Apply dietary filter if specified
-            dietary = request.query_params.get('dietary')
+            # Get items directly in this category
+            category_items = category.menu_items.filter(is_available=True)
             if dietary:
-                available_items = available_items.filter(dietary_info__contains=[dietary])
-            
-            # Apply search filter if specified
-            search = request.query_params.get('search')
+                category_items = category_items.filter(dietary_info__contains=[dietary])
             if search:
-                available_items = available_items.filter(
+                category_items = category_items.filter(
                     Q(name__icontains=search) |
                     Q(description__icontains=search) |
                     Q(ingredients__icontains=search)
                 )
-            
-            if available_items.exists():
-                category_data = PublicMenuCategorySerializer(
-                    category, context={'request': request}
-                ).data
-                category_data['menu_items'] = PublicMenuItemSerializer(
-                    available_items.order_by('display_order', 'name'),
-                    many=True,
-                    context={'request': request}
-                ).data
+
+            # Build subcategories with their items
+            subcategories_data = []
+            for subcategory in category.subcategories.filter(is_active=True).order_by('display_order', 'name'):
+                sub_items = subcategory.menu_items.filter(is_available=True)
+                if dietary:
+                    sub_items = sub_items.filter(dietary_info__contains=[dietary])
+                if search:
+                    sub_items = sub_items.filter(
+                        Q(name__icontains=search) |
+                        Q(description__icontains=search) |
+                        Q(ingredients__icontains=search)
+                    )
+                if sub_items.exists():
+                    subcategories_data.append({
+                        'id': str(subcategory.id),
+                        'name': subcategory.name,
+                        'description': subcategory.description,
+                        'icon': subcategory.icon,
+                        'items_count': sub_items.count(),
+                        'menu_items': PublicMenuItemSerializer(
+                            sub_items.order_by('display_order', 'name'),
+                            many=True,
+                            context={'request': request}
+                        ).data
+                    })
+
+            # Include category if it has items or subcategories with items
+            if category_items.exists() or subcategories_data:
+                category_data = {
+                    'id': str(category.id),
+                    'name': category.name,
+                    'category_type': category.category_type,
+                    'description': category.description,
+                    'icon': category.icon,
+                    'items_count': category_items.count(),
+                    'subcategory_count': len(subcategories_data),
+                    'subcategories': subcategories_data,
+                    'menu_items': PublicMenuItemSerializer(
+                        category_items.order_by('display_order', 'name'),
+                        many=True,
+                        context={'request': request}
+                    ).data
+                }
                 result.append(category_data)
-        
+
         return Response(result)
     
     @action(detail=True, methods=['patch'], permission_classes=[IsAuthenticated])

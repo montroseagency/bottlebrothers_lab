@@ -42,7 +42,7 @@ export async function getGalleryItems(params?: {
 export async function getFeaturedGalleryItems(limit: number = 8): Promise<GalleryItem[]> {
   try {
     const response = await getGalleryItems({ is_featured: true, is_active: true, limit });
-    return response.results;
+    return response?.results || [];
   } catch (error) {
     console.error('Error fetching featured gallery items:', error);
     return [];

@@ -8,3 +8,6 @@ export { GalleryPreview } from './GalleryPreview';
 export { ReviewsCarousel } from './ReviewsCarousel';
 export { LocationSection } from './LocationSection';
 export { FinalCTA } from './FinalCTA';
+export { SnapScrollWrapper } from './SnapScrollWrapper';
+export { HomeSnapSections } from './HomeSnapSections';
+export { VisitSection } from './VisitSection';

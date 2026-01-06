@@ -2,12 +2,14 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 from django.contrib.auth.models import User
+from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
 from .models import (
     Reservation, ContactMessage, GalleryItem, Event, EventType, VenueSpace,
     MenuCategory, MenuItem, MenuItemVariant, FloorPlan, Table, TableAssignment,
     CustomerProfile, VIPMembership, Offer, Waitlist, SMSNotification,
-    OTPVerification, ProcessedImage
+    OTPVerification, ProcessedImage, Translation, HomeSection, StaticContent,
+    RestaurantInfo
 )
 
 class ReservationSerializer(serializers.ModelSerializer):
@@ -122,23 +124,48 @@ class PublicMenuItemSerializer(serializers.ModelSerializer):
         return None
 
 
+class SubcategorySerializer(serializers.ModelSerializer):
+    """Serializer for subcategories (nested under parent)"""
+    items_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = MenuCategory
+        fields = [
+            'id', 'name', 'description', 'icon', 'display_order',
+            'is_active', 'items_count', 'created_at', 'updated_at'
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at']
+
+    def get_items_count(self, obj):
+        return obj.menu_items.filter(is_available=True).count()
+
+
 class MenuCategorySerializer(serializers.ModelSerializer):
     menu_items = MenuItemSerializer(many=True, read_only=True)
+    subcategories = SubcategorySerializer(many=True, read_only=True)
     items_count = serializers.SerializerMethodField()
-    
+    subcategory_count = serializers.SerializerMethodField()
+    parent_name = serializers.CharField(source='parent.name', read_only=True, allow_null=True)
+    is_subcategory = serializers.ReadOnlyField()
+
     class Meta:
         model = MenuCategory
         fields = [
             'id', 'name', 'category_type', 'description', 'icon',
-            'display_order', 'is_active', 'items_count', 'menu_items',
-            'created_at', 'updated_at'
+            'display_order', 'is_active', 'parent', 'parent_name',
+            'is_subcategory', 'items_count', 'subcategory_count',
+            'subcategories', 'menu_items', 'created_at', 'updated_at'
         ]
         read_only_fields = ['id', 'created_at', 'updated_at']
-    
+
     def get_items_count(self, obj):
         """Get count of available menu items in this category"""
         return obj.menu_items.filter(is_available=True).count()
-    
+
+    def get_subcategory_count(self, obj):
+        """Get count of active subcategories"""
+        return obj.subcategories.filter(is_active=True).count()
+
     def validate_name(self, value):
         """Validate name"""
         if len(value.strip()) < 2:
@@ -146,32 +173,69 @@ class MenuCategorySerializer(serializers.ModelSerializer):
         return value.strip()
 
 
-class PublicMenuCategorySerializer(serializers.ModelSerializer):
-    """Serializer for public menu display (limited fields)"""
+class PublicSubcategorySerializer(serializers.ModelSerializer):
+    """Serializer for subcategories in public view"""
     menu_items = PublicMenuItemSerializer(many=True, read_only=True)
     items_count = serializers.SerializerMethodField()
-    
+
     class Meta:
         model = MenuCategory
         fields = [
-            'id', 'name', 'category_type', 'description', 'icon',
-            'items_count', 'menu_items'
+            'id', 'name', 'description', 'icon', 'items_count', 'menu_items'
         ]
-    
+
     def get_items_count(self, obj):
-        """Get count of available menu items in this category"""
         return obj.menu_items.filter(is_available=True).count()
-    
+
     def to_representation(self, instance):
         """Filter menu items to only show available ones"""
         data = super().to_representation(instance)
         if 'menu_items' in data:
-            # Only include available items in public view
             available_items = [
-                item for item in data['menu_items'] 
-                if instance.menu_items.get(id=item['id']).is_available
+                item for item in data['menu_items']
+                if instance.menu_items.filter(id=item['id'], is_available=True).exists()
             ]
             data['menu_items'] = available_items
+        return data
+
+
+class PublicMenuCategorySerializer(serializers.ModelSerializer):
+    """Serializer for public menu display (limited fields)"""
+    menu_items = PublicMenuItemSerializer(many=True, read_only=True)
+    subcategories = PublicSubcategorySerializer(many=True, read_only=True)
+    items_count = serializers.SerializerMethodField()
+    subcategory_count = serializers.SerializerMethodField()
+
+    class Meta:
+        model = MenuCategory
+        fields = [
+            'id', 'name', 'category_type', 'description', 'icon',
+            'items_count', 'subcategory_count', 'subcategories', 'menu_items'
+        ]
+
+    def get_items_count(self, obj):
+        """Get count of available menu items in this category"""
+        return obj.menu_items.filter(is_available=True).count()
+
+    def get_subcategory_count(self, obj):
+        """Get count of active subcategories"""
+        return obj.subcategories.filter(is_active=True).count()
+
+    def to_representation(self, instance):
+        """Filter menu items and subcategories to only show available ones"""
+        data = super().to_representation(instance)
+        if 'menu_items' in data:
+            available_items = [
+                item for item in data['menu_items']
+                if instance.menu_items.filter(id=item['id'], is_available=True).exists()
+            ]
+            data['menu_items'] = available_items
+        if 'subcategories' in data:
+            active_subcategories = [
+                sub for sub in data['subcategories']
+                if instance.subcategories.filter(id=sub['id'], is_active=True).exists()
+            ]
+            data['subcategories'] = active_subcategories
         return data
     
 class ContactMessageSerializer(serializers.ModelSerializer):
@@ -565,3 +629,294 @@ class ProcessedImageSerializer(serializers.ModelSerializer):
                 return request.build_absolute_uri(obj.image.url)
             return obj.image.url
         return None
+
+
+# ============ TRANSLATION & LOCALIZATION SERIALIZERS ============
+
+class TranslationSerializer(serializers.ModelSerializer):
+    """Serializer for Translation model"""
+    content_type_name = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Translation
+        fields = [
+            'id', 'content_type', 'content_type_name', 'object_id', 'locale',
+            'field_name', 'translated_text', 'status', 'is_auto_translated',
+            'translated_by', 'created_at', 'updated_at'
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at']
+
+    def get_content_type_name(self, obj):
+        return f"{obj.content_type.app_label}.{obj.content_type.model}"
+
+
+class HomeSectionSerializer(serializers.ModelSerializer):
+    """Admin serializer for HomeSection"""
+    image_url = serializers.SerializerMethodField()
+    background_image_url = serializers.SerializerMethodField()
+    translation_status_en = serializers.SerializerMethodField()
+
+    class Meta:
+        model = HomeSection
+        fields = [
+            'id', 'section_type', 'title', 'subtitle', 'description',
+            'button_text', 'button_url', 'secondary_button_text', 'secondary_button_url',
+            'image', 'image_url', 'background_image', 'background_image_url',
+            'video_url', 'extra_data', 'is_active', 'is_published', 'published_at',
+            'display_order', 'translation_status_en', 'created_at', 'updated_at'
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at']
+
+    def get_image_url(self, obj):
+        if obj.image:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.image.url)
+            return obj.image.url
+        return None
+
+    def get_background_image_url(self, obj):
+        if obj.background_image:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.background_image.url)
+            return obj.background_image.url
+        return None
+
+    def get_translation_status_en(self, obj):
+        return obj.translation_status('en')
+
+
+class LocalizedHomeSectionSerializer(serializers.ModelSerializer):
+    """Public serializer for HomeSection with locale support"""
+    image_url = serializers.SerializerMethodField()
+    background_image_url = serializers.SerializerMethodField()
+    title = serializers.SerializerMethodField()
+    subtitle = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    button_text = serializers.SerializerMethodField()
+    secondary_button_text = serializers.SerializerMethodField()
+
+    class Meta:
+        model = HomeSection
+        fields = [
+            'id', 'section_type', 'title', 'subtitle', 'description',
+            'button_text', 'button_url', 'secondary_button_text', 'secondary_button_url',
+            'image_url', 'background_image_url', 'video_url', 'extra_data', 'display_order'
+        ]
+
+    def get_locale(self):
+        return self.context.get('locale', 'sq')
+
+    def get_title(self, obj):
+        return obj.get_translation('title', self.get_locale())
+
+    def get_subtitle(self, obj):
+        return obj.get_translation('subtitle', self.get_locale())
+
+    def get_description(self, obj):
+        return obj.get_translation('description', self.get_locale())
+
+    def get_button_text(self, obj):
+        return obj.get_translation('button_text', self.get_locale())
+
+    def get_secondary_button_text(self, obj):
+        return obj.get_translation('secondary_button_text', self.get_locale())
+
+    def get_image_url(self, obj):
+        if obj.image:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.image.url)
+            return obj.image.url
+        return None
+
+    def get_background_image_url(self, obj):
+        if obj.background_image:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.background_image.url)
+            return obj.background_image.url
+        return None
+
+
+class StaticContentSerializer(serializers.ModelSerializer):
+    """Admin serializer for StaticContent"""
+    translation_status_en = serializers.SerializerMethodField()
+
+    class Meta:
+        model = StaticContent
+        fields = [
+            'id', 'page', 'page_title', 'page_subtitle', 'hero_title',
+            'hero_description', 'content', 'meta_title', 'meta_description',
+            'is_published', 'published_at', 'translation_status_en',
+            'created_at', 'updated_at'
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at']
+
+    def get_translation_status_en(self, obj):
+        return obj.translation_status('en')
+
+
+class RestaurantInfoSerializer(serializers.ModelSerializer):
+    """Admin serializer for RestaurantInfo"""
+
+    class Meta:
+        model = RestaurantInfo
+        fields = [
+            'id', 'name', 'tagline', 'description', 'phone', 'email',
+            'address_line1', 'address_line2', 'city', 'postal_code', 'country',
+            'latitude', 'longitude', 'opening_hours', 'instagram', 'facebook',
+            'tiktok', 'is_published', 'published_at', 'created_at', 'updated_at'
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at']
+
+
+# ============ LOCALIZED PUBLIC SERIALIZERS ============
+
+class LocalizedEventSerializer(serializers.ModelSerializer):
+    """Public event serializer with locale support"""
+    image_url = serializers.SerializerMethodField()
+    price_formatted = serializers.ReadOnlyField()
+    formatted_time = serializers.ReadOnlyField()
+    duration_display = serializers.ReadOnlyField()
+    title = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    location = serializers.SerializerMethodField()
+    special_notes = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Event
+        fields = [
+            'id', 'title', 'description', 'image_url', 'event_type',
+            'start_date', 'end_date', 'start_time', 'end_time',
+            'frequency', 'recurring_day', 'recurring_type', 'recurring_days',
+            'formatted_price', 'price_formatted', 'capacity', 'max_capacity',
+            'location', 'booking_required', 'booking_url', 'is_featured',
+            'formatted_time', 'duration_display', 'special_notes', 'status'
+        ]
+
+    def get_locale(self):
+        return self.context.get('locale', 'sq')
+
+    def get_title(self, obj):
+        return obj.get_translation('title', self.get_locale())
+
+    def get_description(self, obj):
+        return obj.get_translation('description', self.get_locale())
+
+    def get_location(self, obj):
+        return obj.get_translation('location', self.get_locale())
+
+    def get_special_notes(self, obj):
+        return obj.get_translation('special_notes', self.get_locale())
+
+    def get_image_url(self, obj):
+        if obj.image:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.image.url)
+            return obj.image.url
+        return None
+
+
+class LocalizedGalleryItemSerializer(serializers.ModelSerializer):
+    """Public gallery serializer with locale support"""
+    image_url = serializers.SerializerMethodField()
+    title = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+
+    class Meta:
+        model = GalleryItem
+        fields = ['id', 'title', 'description', 'image_url', 'category', 'is_featured']
+
+    def get_locale(self):
+        return self.context.get('locale', 'sq')
+
+    def get_title(self, obj):
+        return obj.get_translation('title', self.get_locale())
+
+    def get_description(self, obj):
+        return obj.get_translation('description', self.get_locale())
+
+    def get_image_url(self, obj):
+        if obj.image:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.image.url)
+            return obj.image.url
+        return None
+
+
+class LocalizedMenuItemSerializer(serializers.ModelSerializer):
+    """Public menu item serializer with locale support"""
+    formatted_price = serializers.ReadOnlyField()
+    image_url = serializers.SerializerMethodField()
+    variants = MenuItemVariantSerializer(many=True, read_only=True)
+    category_name = serializers.SerializerMethodField()
+    category_type = serializers.CharField(source='category.category_type', read_only=True)
+    name = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+    ingredients = serializers.SerializerMethodField()
+
+    class Meta:
+        model = MenuItem
+        fields = [
+            'id', 'category_name', 'category_type', 'name', 'description',
+            'formatted_price', 'image_url', 'dietary_info', 'tags',
+            'ingredients', 'allergens', 'is_featured', 'has_variants', 'variants'
+        ]
+
+    def get_locale(self):
+        return self.context.get('locale', 'sq')
+
+    def get_name(self, obj):
+        return obj.get_translation('name', self.get_locale())
+
+    def get_description(self, obj):
+        return obj.get_translation('description', self.get_locale())
+
+    def get_ingredients(self, obj):
+        return obj.get_translation('ingredients', self.get_locale())
+
+    def get_category_name(self, obj):
+        return obj.category.get_translation('name', self.get_locale())
+
+    def get_image_url(self, obj):
+        if obj.image:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.image.url)
+            return obj.image.url
+        return None
+
+
+class LocalizedMenuCategorySerializer(serializers.ModelSerializer):
+    """Public menu category serializer with locale support"""
+    menu_items = serializers.SerializerMethodField()
+    items_count = serializers.SerializerMethodField()
+    name = serializers.SerializerMethodField()
+    description = serializers.SerializerMethodField()
+
+    class Meta:
+        model = MenuCategory
+        fields = ['id', 'name', 'category_type', 'description', 'icon', 'items_count', 'menu_items']
+
+    def get_locale(self):
+        return self.context.get('locale', 'sq')
+
+    def get_name(self, obj):
+        return obj.get_translation('name', self.get_locale())
+
+    def get_description(self, obj):
+        return obj.get_translation('description', self.get_locale())
+
+    def get_items_count(self, obj):
+        return obj.menu_items.filter(is_available=True).count()
+
+    def get_menu_items(self, obj):
+        available_items = obj.menu_items.filter(is_available=True)
+        return LocalizedMenuItemSerializer(
+            available_items, many=True,
+            context=self.context
+        ).data

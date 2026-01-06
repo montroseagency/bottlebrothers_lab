@@ -7,9 +7,10 @@ import { motion } from 'framer-motion';
 
 interface TonightsVibeProps {
   event: Event | null;
+  fullHeight?: boolean;
 }
 
-export function TonightsVibe({ event }: TonightsVibeProps) {
+export function TonightsVibe({ event, fullHeight = false }: TonightsVibeProps) {
   if (!event) return null;
 
   return (
@@ -18,7 +19,7 @@ export function TonightsVibe({ event }: TonightsVibeProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.6 }}
-      className="relative overflow-hidden bg-gradient-to-r from-primary-900 via-primary-800 to-primary-900 py-6"
+      className={`relative overflow-hidden bg-gradient-to-r from-primary-900 via-primary-800 to-primary-900 ${fullHeight ? 'h-screen flex items-center' : 'py-6'}`}
     >
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">

@@ -4,9 +4,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
 
-export function OurStory() {
+interface OurStoryProps {
+  fullHeight?: boolean;
+}
+
+export function OurStory({ fullHeight = false }: OurStoryProps) {
   return (
-    <section className="relative py-20 lg:py-32 overflow-hidden bg-neutral-50">
+    <section className={`relative overflow-hidden bg-neutral-50 ${fullHeight ? 'h-screen flex items-center' : 'py-20 lg:py-32'}`}>
       {/* Parallax Background Images */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute top-20 right-10 w-64 h-64 rounded-full bg-primary-500 blur-3xl" />

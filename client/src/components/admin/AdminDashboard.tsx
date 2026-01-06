@@ -32,6 +32,18 @@ const AdminDashboard: React.FC = () => {
       setDashboardData(data);
     } catch (error) {
       console.error('Error fetching dashboard data:', error);
+      // Use fallback data when API is not available
+      setDashboardData({
+        todays_reservations: [],
+        tomorrows_reservations: [],
+        week_stats: {
+          total_reservations: 0,
+          total_guests: 0,
+        },
+        status_stats: [],
+        recent_messages: [],
+        unread_messages_count: 0,
+      });
     } finally {
       setLoading(false);
     }

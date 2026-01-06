@@ -1,11 +1,1 @@
-{
-  "version": 4,
-  "routes": {},
-  "dynamicRoutes": {},
-  "notFoundRoutes": [],
-  "preview": {
-    "previewModeId": "ee467d77af95437d3028c02bbaf3c945",
-    "previewModeSigningKey": "042f4a0bab8b2496a7d049ef899f51f5b0ade4504a82217dc29e1c88b7f06690",
-    "previewModeEncryptionKey": "56ff66181706859249869ccc190065ebb5a15f90233582cd5ea4e9d0515aecf4"
-  }
-}
+{"version":4,"routes":{"/sq/gallery":{},"/en/gallery":{},"/sq/menu":{},"/en/menu":{},"/sq":{},"/en":{},"/sq/events":{},"/en/events":{},"/sq/contact":{},"/en/contact":{},"/sq/account":{},"/en/account":{},"/sq/account/login":{},"/en/account/login":{}},"dynamicRoutes":{"/[locale]/gallery":{"dataRoute":null,"dataRouteRegex":null,"fallback":null,"fallbackRevalidate":false,"fallbackSourceRoute":"/[locale]/gallery","routeRegex":"^\\/([^/]+?)\\/gallery(?:\\/)?$","allowHeader":[]},"/[locale]/menu":{"dataRoute":null,"dataRouteRegex":null,"fallback":null,"fallbackRevalidate":false,"fallbackSourceRoute":"/[locale]/menu","routeRegex":"^\\/([^/]+?)\\/menu(?:\\/)?$","allowHeader":[]},"/[locale]":{"dataRoute":null,"dataRouteRegex":null,"fallback":null,"fallbackRevalidate":false,"fallbackSourceRoute":"/[locale]","routeRegex":"^\\/([^/]+?)(?:\\/)?$","allowHeader":[]},"/[locale]/events":{"dataRoute":null,"dataRouteRegex":null,"fallback":null,"fallbackRevalidate":false,"fallbackSourceRoute":"/[locale]/events","routeRegex":"^\\/([^/]+?)\\/events(?:\\/)?$","allowHeader":[]},"/[locale]/contact":{"dataRoute":null,"dataRouteRegex":null,"fallback":null,"fallbackRevalidate":false,"fallbackSourceRoute":"/[locale]/contact","routeRegex":"^\\/([^/]+?)\\/contact(?:\\/)?$","allowHeader":[]},"/[locale]/account":{"dataRoute":null,"dataRouteRegex":null,"fallback":null,"fallbackRevalidate":false,"fallbackSourceRoute":"/[locale]/account","routeRegex":"^\\/([^/]+?)\\/account(?:\\/)?$","allowHeader":[]},"/[locale]/account/login":{"dataRoute":null,"dataRouteRegex":null,"fallback":null,"fallbackRevalidate":false,"fallbackSourceRoute":"/[locale]/account/login","routeRegex":"^\\/([^/]+?)\\/account\\/login(?:\\/)?$","allowHeader":[]}},"notFoundRoutes":[],"preview":{"previewModeId":"0677cecfce35c495ac71e54979d7b75c","previewModeSigningKey":"860e878244152197aa799f259ef9308ebd3fccda2336eff57392bd390508cc25","previewModeEncryptionKey":"7a03bab387d067b78d5044ee085353d4d8ac309f3fc4109f417e5ce6b6970151"}}

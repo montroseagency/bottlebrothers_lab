@@ -15,7 +15,7 @@ const AdminLogin: React.FC = () => {
   // Handle navigation when authenticated
   useEffect(() => {
     if (isAuthenticated) {
-      router.push('/auth/dashboard');
+      router.push('/admin/dashboard');
     }
   }, [isAuthenticated, router]);
 

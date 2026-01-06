@@ -55,10 +55,10 @@ const config: Config = {
         },
       },
       fontFamily: {
-        // Elegant serif for headings
-        display: ['Playfair Display', 'Georgia', 'serif'],
-        // Clean sans for body
-        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+        // Elegant serif for headings (uses CSS variable from Next.js font)
+        display: ['var(--font-display)', 'Playfair Display', 'Georgia', 'serif'],
+        // Clean sans for body (uses CSS variable from Next.js font)
+        sans: ['var(--font-sans)', 'Inter', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
         // Monospace for special elements
         mono: ['JetBrains Mono', 'Menlo', 'Monaco', 'monospace'],
       },

@@ -8,13 +8,14 @@ import Link from 'next/link';
 
 interface GalleryPreviewProps {
   items: GalleryItem[];
+  fullHeight?: boolean;
 }
 
-export function GalleryPreview({ items }: GalleryPreviewProps) {
+export function GalleryPreview({ items, fullHeight = false }: GalleryPreviewProps) {
   if (items.length === 0) return null;
 
   return (
-    <section className="py-20 lg:py-28 bg-neutral-50 overflow-hidden">
+    <section className={`bg-neutral-50 overflow-hidden ${fullHeight ? 'h-screen flex items-center' : 'py-20 lg:py-28'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div

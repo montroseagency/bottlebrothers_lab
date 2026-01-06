@@ -244,6 +244,17 @@ export interface GalleryCategoryResponse {
 }
 
 // MENU TYPES
+export interface MenuSubcategory {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  display_order: number;
+  is_active: boolean;
+  items_count: number;
+  menu_items?: MenuItem[];
+}
+
 export interface MenuCategory {
   id: string;
   name: string;
@@ -253,6 +264,8 @@ export interface MenuCategory {
   display_order: number;
   is_active: boolean;
   items_count: number;
+  subcategory_count?: number;
+  subcategories?: MenuSubcategory[];
   menu_items?: MenuItem[];
   created_at?: string;
   updated_at?: string;
@@ -277,6 +290,7 @@ export interface MenuItem {
   preparation_time: string;
   is_available: boolean;
   is_featured: boolean;
+  is_premium?: boolean;
   display_order: number;
   has_variants: boolean;
   variants?: MenuItemVariant[];

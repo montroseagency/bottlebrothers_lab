@@ -6,6 +6,56 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
+    "/[locale]/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[locale]/layout.js"
+    ],
+    "/[locale]/(public)/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[locale]/(public)/layout.js"
+    ],
+    "/[locale]/(public)/gallery/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[locale]/(public)/gallery/page.js"
+    ],
+    "/[locale]/(public)/menu/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[locale]/(public)/menu/page.js"
+    ],
+    "/[locale]/(public)/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[locale]/(public)/page.js"
+    ],
+    "/[locale]/(public)/events/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[locale]/(public)/events/page.js"
+    ],
+    "/[locale]/(public)/contact/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[locale]/(public)/contact/page.js"
+    ],
+    "/[locale]/(public)/account/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[locale]/(public)/account/layout.js"
+    ],
+    "/[locale]/(public)/account/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[locale]/(public)/account/page.js"
+    ],
+    "/[locale]/(public)/account/login/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[locale]/(public)/account/login/page.js"
+    ],
     "/(public)/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -16,25 +66,40 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(public)/page.js"
     ],
-    "/(public)/menu/page": [
+    "/admin/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(public)/menu/page.js"
+      "static/chunks/app/admin/layout.js"
     ],
-    "/(public)/events/page": [
+    "/admin/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(public)/events/page.js"
+      "static/chunks/app/admin/page.js"
     ],
-    "/(public)/contact/page": [
+    "/admin/dashboard/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(public)/contact/page.js"
+      "static/chunks/app/admin/dashboard/page.js"
     ],
-    "/(public)/gallery/page": [
+    "/admin/menu/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(public)/gallery/page.js"
+      "static/chunks/app/admin/menu/page.js"
+    ],
+    "/[locale]/dashboard/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[locale]/dashboard/layout.js"
+    ],
+    "/[locale]/dashboard/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[locale]/dashboard/page.js"
+    ],
+    "/_not-found/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/_not-found/page.js"
     ]
   }
 }

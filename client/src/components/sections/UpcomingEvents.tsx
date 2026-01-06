@@ -8,13 +8,14 @@ import Link from 'next/link';
 
 interface UpcomingEventsProps {
   events: Event[];
+  fullHeight?: boolean;
 }
 
-export function UpcomingEvents({ events }: UpcomingEventsProps) {
+export function UpcomingEvents({ events, fullHeight = false }: UpcomingEventsProps) {
   if (events.length === 0) return null;
 
   return (
-    <section className="py-20 lg:py-28 bg-neutral-900 text-white overflow-hidden">
+    <section className={`bg-neutral-900 text-white overflow-hidden ${fullHeight ? 'h-screen flex items-center' : 'py-20 lg:py-28'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div

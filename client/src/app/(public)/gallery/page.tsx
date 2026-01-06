@@ -4,7 +4,14 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 
-const GALLERY_CATEGORIES = ['All', 'Interior', 'Food', 'Drinks', 'Events', 'Ambiance'];
+const GALLERY_CATEGORIES = [
+  { id: 'All', label: 'All', icon: 'M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z' },
+  { id: 'Interior', label: 'Interior', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
+  { id: 'Food', label: 'Food', icon: 'M12 6v6m0 0v6m0-6h6m-6 0H6' },
+  { id: 'Drinks', label: 'Drinks', icon: 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
+  { id: 'Events', label: 'Events', icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' },
+  { id: 'Ambiance', label: 'Ambiance', icon: 'M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z' },
+];
 
 const GALLERY_ITEMS = [
   { id: 1, category: 'Interior', image: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=800', title: 'Luxury Lounge Area', tall: false },
@@ -30,6 +37,8 @@ export default function GalleryPage() {
     ? GALLERY_ITEMS
     : GALLERY_ITEMS.filter(item => item.category === selectedCategory);
 
+  const selectedCategoryData = GALLERY_CATEGORIES.find(c => c.id === selectedCategory);
+
   const handleImageError = (id: number) => {
     setImageErrors(prev => ({ ...prev, [id]: true }));
   };
@@ -44,31 +53,46 @@ export default function GalleryPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-neutral-50 to-primary-50/20 py-12">
+    <div className="min-h-screen bg-gradient-to-b from-[#f8f5f0] via-[#f5f1ea] to-[#ebe5db] py-16">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h1 className="font-display text-4xl md:text-6xl font-bold text-neutral-900 mb-4">
+          <h1 className="font-display text-4xl md:text-6xl font-bold text-[#3d3428] mb-4">
             Our Gallery
           </h1>
-          <p className="text-neutral-600 text-lg max-w-2xl mx-auto">
+          <p className="text-[#6b5d4d] text-lg max-w-2xl mx-auto">
             Experience the atmosphere, cuisine, and unforgettable moments at Bottle Brothers
           </p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-3 mb-12">
-          {GALLERY_CATEGORIES.map((category) => (
-            <button
-              key={category}
-              onClick={() => setSelectedCategory(category)}
-              className={`px-6 py-3 rounded-full font-semibold transition-all duration-300 ${
-                selectedCategory === category
-                  ? 'bg-primary-500 text-white shadow-glow-lg scale-105'
-                  : 'bg-white text-neutral-700 hover:bg-primary-100 hover:text-primary-700 shadow-lg'
-              }`}
-            >
-              {category}
-            </button>
-          ))}
+        {/* Premium Filter Navigation */}
+        <div className="flex justify-center mb-14">
+          <nav className="inline-flex items-center gap-1.5 px-2 py-2 bg-[#d4c4b0]/40 backdrop-blur-sm rounded-full border border-[#c9b89d]/30">
+            {GALLERY_CATEGORIES.map((category) => {
+              const isActive = selectedCategory === category.id;
+              return (
+                <button
+                  key={category.id}
+                  onClick={() => setSelectedCategory(category.id)}
+                  className={`relative flex items-center gap-2 px-5 py-2.5 text-sm font-medium tracking-wide rounded-full transition-all duration-250 ease-out ${
+                    isActive
+                      ? 'bg-[#f5f0e8] text-[#5c4d3c] shadow-sm'
+                      : 'text-[#7a6b5a] hover:bg-[#e8dfd2]/50 hover:text-[#5c4d3c]'
+                  }`}
+                >
+                  <svg
+                    className={`w-4 h-4 transition-colors duration-250 ${isActive ? 'text-[#8b7355]' : 'text-[#9a8b7a]'}`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    strokeWidth={1.5}
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" d={category.icon} />
+                  </svg>
+                  <span>{category.label}</span>
+                </button>
+              );
+            })}
+          </nav>
         </div>
 
         <motion.div layout className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">

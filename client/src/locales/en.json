@@ -6,7 +6,8 @@
     "gallery": "Gallery",
     "contact": "Contact",
     "reserveTable": "Reserve Table",
-    "lounge": "Lounge"
+    "lounge": "Lounge",
+    "account": "Account"
   },
   "home": {
     "hero": {
@@ -99,6 +100,8 @@
     "cocktails": "Cocktails",
     "wine": "Wine & Spirits",
     "desserts": "Desserts",
+    "beverages": "Beverages",
+    "specials": "Chef's Specials",
     "appetizersSubtitle": "Artfully crafted starters that awaken your palate",
     "mainsSubtitle": "Masterfully prepared entrées celebrating the finest seasonal ingredients",
     "cocktailsSubtitle": "Handcrafted libations featuring house-infused spirits",
@@ -389,6 +392,112 @@
     "loading": "Loading...",
     "error": "An error occurred",
     "tryAgain": "Try Again",
-    "reserve": "Reserve"
+    "reserve": "Reserve",
+    "save": "Save",
+    "cancel": "Cancel",
+    "yes": "Yes",
+    "no": "No",
+    "submit": "Submit",
+    "back": "Back",
+    "next": "Next",
+    "close": "Close",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "search": "Search",
+    "filter": "Filter",
+    "sort": "Sort",
+    "all": "All",
+    "none": "None",
+    "select": "Select",
+    "required": "Required",
+    "optional": "Optional"
+  },
+  "account": {
+    "login": {
+      "title": "Login",
+      "email": "Email Address",
+      "password": "Password",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "submit": "Sign In",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up",
+      "error": "Invalid email or password",
+      "success": "Login successful"
+    },
+    "register": {
+      "title": "Create Account",
+      "firstName": "First Name",
+      "lastName": "Last Name",
+      "email": "Email Address",
+      "phone": "Phone Number",
+      "password": "Password",
+      "confirmPassword": "Confirm Password",
+      "marketingOptIn": "I want to receive promotional emails and special offers",
+      "termsAgree": "I agree to the Terms of Service and Privacy Policy",
+      "submit": "Create Account",
+      "haveAccount": "Already have an account?",
+      "signIn": "Sign in",
+      "success": "Account created successfully",
+      "error": "Registration failed. Please try again."
+    },
+    "profile": {
+      "title": "My Profile",
+      "personalInfo": "Personal Information",
+      "contactInfo": "Contact Information",
+      "preferences": "Preferences",
+      "changePassword": "Change Password",
+      "currentPassword": "Current Password",
+      "newPassword": "New Password",
+      "confirmNewPassword": "Confirm New Password",
+      "updateProfile": "Update Profile",
+      "logout": "Log Out",
+      "deleteAccount": "Delete Account",
+      "loyaltyPoints": "Loyalty Points",
+      "vipTier": "VIP Tier",
+      "memberSince": "Member Since"
+    }
+  },
+  "reservations": {
+    "title": "Reservations",
+    "myReservations": "My Reservations",
+    "upcoming": "Upcoming",
+    "past": "Past",
+    "noReservations": "No reservations found",
+    "makeReservation": "Make a Reservation",
+    "lookup": {
+      "title": "Look Up Reservation",
+      "description": "Enter your confirmation code and email to find your reservation",
+      "confirmationCode": "Confirmation Code",
+      "email": "Email Address",
+      "submit": "Find Reservation",
+      "notFound": "Reservation not found",
+      "found": "Reservation found"
+    },
+    "fields": {
+      "date": "Date",
+      "time": "Time",
+      "guests": "Number of Guests",
+      "occasion": "Occasion",
+      "specialRequests": "Special Requests",
+      "status": "Status",
+      "confirmationCode": "Confirmation Code"
+    },
+    "status": {
+      "pending": "Pending",
+      "confirmed": "Confirmed",
+      "cancelled": "Cancelled",
+      "completed": "Completed",
+      "noShow": "No Show"
+    },
+    "occasions": {
+      "birthday": "Birthday",
+      "anniversary": "Anniversary",
+      "date": "Date Night",
+      "business": "Business Meal",
+      "celebration": "Celebration",
+      "other": "Other"
+    }
   }
 }

@@ -7,9 +7,10 @@ import Image from 'next/image';
 
 interface SignaturePicksProps {
   items: MenuItem[];
+  fullHeight?: boolean;
 }
 
-export function SignaturePicks({ items }: SignaturePicksProps) {
+export function SignaturePicks({ items, fullHeight = false }: SignaturePicksProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const scroll = (direction: 'left' | 'right') => {
@@ -25,7 +26,7 @@ export function SignaturePicks({ items }: SignaturePicksProps) {
   if (items.length === 0) return null;
 
   return (
-    <section className="py-20 lg:py-28 bg-white overflow-hidden">
+    <section className={`bg-white overflow-hidden ${fullHeight ? 'h-screen flex items-center' : 'py-20 lg:py-28'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div

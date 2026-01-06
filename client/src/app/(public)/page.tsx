@@ -1,15 +1,5 @@
 import React from 'react';
-import {
-  HeroSection,
-  TonightsVibe,
-  OurStory,
-  SignaturePicks,
-  UpcomingEvents,
-  GalleryPreview,
-  ReviewsCarousel,
-  LocationSection,
-  FinalCTA,
-} from '@/components/sections';
+import { HomeSnapSections } from '@/components/sections';
 import { getFeaturedEvent, getUpcomingEvents, getFeaturedMenuItems, getFeaturedGalleryItems, Event, MenuItem, GalleryItem } from '@/lib/api';
 
 // This is a Server Component - data fetching happens on the server
@@ -34,32 +24,13 @@ export default async function HomePage() {
 
   return (
     <main className="min-h-screen bg-white">
-      {/* 1. Hero Section - Full-screen with video/image overlay */}
-      <HeroSection />
-
-      {/* 2. Tonight's Vibe - Dynamic banner for featured event */}
-      {featuredEvent && <TonightsVibe event={featuredEvent} />}
-
-      {/* 3. Our Story - About section with parallax images */}
-      <OurStory />
-
-      {/* 4. Signature Picks - Featured menu carousel */}
-      {featuredMenuItems.length > 0 && <SignaturePicks items={featuredMenuItems} />}
-
-      {/* 5. Upcoming Events - Next 3 events */}
-      {upcomingEvents.length > 0 && <UpcomingEvents events={upcomingEvents} />}
-
-      {/* 6. Gallery Preview - Masonry grid */}
-      {galleryItems.length > 0 && <GalleryPreview items={galleryItems} />}
-
-      {/* 7. Reviews - Customer testimonials carousel */}
-      <ReviewsCarousel />
-
-      {/* 8. Location - Interactive map + contact */}
-      <LocationSection />
-
-      {/* 9. Final CTA - Reservation prompt */}
-      <FinalCTA />
+      {/* All sections with TikTok-style snap scroll */}
+      <HomeSnapSections
+        featuredEvent={featuredEvent}
+        upcomingEvents={upcomingEvents}
+        featuredMenuItems={featuredMenuItems}
+        galleryItems={galleryItems}
+      />
     </main>
   );
 }

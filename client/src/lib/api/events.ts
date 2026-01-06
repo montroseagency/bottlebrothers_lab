@@ -63,7 +63,7 @@ export async function getEvents(params?: {
 export async function getFeaturedEvent(): Promise<Event | null> {
   try {
     const response = await getEvents({ is_featured: true, limit: 1, status: 'upcoming' });
-    return response.results[0] || null;
+    return response?.results?.[0] || null;
   } catch (error) {
     console.error('Error fetching featured event:', error);
     return null;
@@ -73,7 +73,7 @@ export async function getFeaturedEvent(): Promise<Event | null> {
 export async function getUpcomingEvents(limit: number = 3): Promise<Event[]> {
   try {
     const response = await getEvents({ limit, status: 'upcoming' });
-    return response.results;
+    return response?.results || [];
   } catch (error) {
     console.error('Error fetching upcoming events:', error);
     return [];

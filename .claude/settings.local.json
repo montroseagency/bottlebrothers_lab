@@ -17,7 +17,8 @@
       "Bash(tasklist:*)",
       "Bash(docker-compose down:*)",
       "Bash(npm install:*)",
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Bash(ls:*)"
     ]
   }
 }
