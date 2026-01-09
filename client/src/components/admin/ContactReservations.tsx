@@ -126,15 +126,15 @@ const ContactReservations: React.FC = () => {
   );
 
   return (
-    <div className="bg-[#0a0a0a] min-h-screen">
-      {/* HERO - Dark Theme */}
-      <section className="bg-[#0a0a0a] border-b border-neutral-800">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-8">
+    <div className="bg-white min-h-screen">
+      {/* HERO */}
+      <section className="bg-white border-b border-neutral-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 sm:pt-12 pb-8 sm:pb-10">
           <div className="max-w-3xl">
-            <h1 className="text-4xl sm:text-5xl font-extrabold text-white">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-neutral-900">
               Get in Touch
             </h1>
-            <p className="mt-3 text-base sm:text-lg text-neutral-400 leading-relaxed">
+            <p className="mt-3 sm:mt-4 text-sm sm:text-base md:text-lg text-neutral-600 leading-relaxed">
               Have a question or need assistance? Our team is here to help. Reach out to us through any of
               the following channels.
             </p>
@@ -142,27 +142,27 @@ const ContactReservations: React.FC = () => {
         </div>
       </section>
 
-      {/* TABS - Dark Theme */}
-      <section className="bg-[#0a0a0a] border-b border-neutral-800 sticky top-16 sm:top-20 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      {/* TABS */}
+      <section className="bg-white border-b border-neutral-200 sticky top-16 sm:top-20 z-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-6">
           <div className="flex justify-center">
-            <div className="bg-[#161616] border border-neutral-800 rounded-2xl p-1">
+            <div className="flex gap-4 sm:gap-6">
               <button
                 onClick={() => setActiveTab('reservation')}
-                className={`px-6 py-3 rounded-xl font-semibold transition-all ${
+                className={`px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-sm sm:text-base font-semibold transition-all ${
                   activeTab === 'reservation'
-                    ? 'bg-[#d4af37] text-black'
-                    : 'text-neutral-400 hover:text-white hover:bg-neutral-800'
+                    ? 'bg-neutral-900 text-white shadow-lg'
+                    : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
                 }`}
               >
-                Make Reservation
+                Make a Reservation
               </button>
               <button
                 onClick={() => setActiveTab('contact')}
-                className={`px-6 py-3 rounded-xl font-semibold transition-all ${
+                className={`px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-sm sm:text-base font-semibold transition-all ${
                   activeTab === 'contact'
-                    ? 'bg-[#d4af37] text-black'
-                    : 'text-neutral-400 hover:text-white hover:bg-neutral-800'
+                    ? 'bg-neutral-900 text-white shadow-lg'
+                    : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
                 }`}
               >
                 Contact Us
@@ -172,43 +172,43 @@ const ContactReservations: React.FC = () => {
         </div>
       </section>
 
-      {/* CONTENT - Dark Theme */}
-      <section className="bg-[#0a0a0a]">
+      {/* CONTENT */}
+      <section className="bg-neutral-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-12">
           {/* RESERVATION TAB */}
           {activeTab === 'reservation' && (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               <div className="lg:col-span-8">
-                <div className="bg-[#161616] border border-neutral-800 rounded-2xl p-4 sm:p-6">
+                <div className="bg-white border border-neutral-200 rounded-2xl p-4 sm:p-6 shadow-sm">
                   <ReservationForm onSuccess={handleReservationSuccess} onError={handleReservationError} />
                 </div>
               </div>
 
               <div className="lg:col-span-4">
-                <div className="bg-[#161616] border border-neutral-800 rounded-2xl p-6 sm:p-7">
-                  <h3 className="text-xl font-extrabold text-white">Reservation Info</h3>
-                  <p className="mt-2 text-sm text-neutral-400">
+                <div className="bg-white border border-neutral-200 rounded-2xl p-6 sm:p-7 shadow-sm">
+                  <h3 className="text-xl font-extrabold text-neutral-900">Reservation Info</h3>
+                  <p className="mt-2 text-sm text-neutral-500">
                     For large groups or special requests, send us a message.
                   </p>
 
                   <div className="mt-6 space-y-3 text-sm">
-                    <div className="rounded-xl border border-neutral-700 bg-[#1a1a1a] p-4">
-                      <div className="font-semibold text-[#d4af37]">Hours</div>
-                      <div className="mt-2 text-neutral-300">
+                    <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-4">
+                      <div className="font-semibold text-neutral-900">Hours</div>
+                      <div className="mt-2 text-neutral-600">
                         Front Desk: 24/7 <br />
                         Check-in: 3:00 PM <br />
                         Check-out: 11:00 AM
                       </div>
                     </div>
 
-                    <div className="rounded-xl border border-neutral-700 bg-[#1a1a1a] p-4">
-                      <div className="font-semibold text-[#d4af37]">Phone</div>
-                      <div className="mt-2 text-neutral-300">{info.phoneValue}</div>
+                    <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-4">
+                      <div className="font-semibold text-neutral-900">Phone</div>
+                      <div className="mt-2 text-neutral-600">{info.phoneValue}</div>
                     </div>
 
-                    <div className="rounded-xl border border-neutral-700 bg-[#1a1a1a] p-4">
-                      <div className="font-semibold text-[#d4af37]">Email</div>
-                      <div className="mt-2 text-neutral-300 break-all">{info.emailValue}</div>
+                    <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-4">
+                      <div className="font-semibold text-neutral-900">Email</div>
+                      <div className="mt-2 text-neutral-600 break-all">{info.emailValue}</div>
                     </div>
                   </div>
                 </div>
@@ -224,9 +224,9 @@ const ContactReservations: React.FC = () => {
                 {/* Cards grid */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   {/* Address card */}
-                  <div className="bg-[#161616] border border-neutral-800 rounded-2xl p-6 sm:p-7">
-                    <h3 className="text-2xl font-extrabold text-[#d4af37]">{info.addressTitle}</h3>
-                    <div className="mt-4 space-y-1 text-neutral-300">
+                  <div className="bg-white border border-neutral-200 rounded-2xl p-6 sm:p-7 shadow-sm">
+                    <h3 className="text-xl font-bold text-neutral-900">{info.addressTitle}</h3>
+                    <div className="mt-4 space-y-1 text-neutral-600">
                       {info.addressLines.map((line, idx) => (
                         <p key={idx} className="text-base">
                           {line}
@@ -236,21 +236,21 @@ const ContactReservations: React.FC = () => {
                   </div>
 
                   {/* Phone card */}
-                  <div className="bg-[#161616] border border-neutral-800 rounded-2xl p-6 sm:p-7">
-                    <h3 className="text-2xl font-extrabold text-[#d4af37]">{info.phoneTitle}</h3>
-                    <p className="mt-4 text-base text-neutral-300">{info.phoneValue}</p>
+                  <div className="bg-white border border-neutral-200 rounded-2xl p-6 sm:p-7 shadow-sm">
+                    <h3 className="text-xl font-bold text-neutral-900">{info.phoneTitle}</h3>
+                    <p className="mt-4 text-base text-neutral-600">{info.phoneValue}</p>
                   </div>
 
                   {/* Email card */}
-                  <div className="bg-[#161616] border border-neutral-800 rounded-2xl p-6 sm:p-7">
-                    <h3 className="text-2xl font-extrabold text-[#d4af37]">{info.emailTitle}</h3>
-                    <p className="mt-4 text-base text-neutral-300 break-all">{info.emailValue}</p>
+                  <div className="bg-white border border-neutral-200 rounded-2xl p-6 sm:p-7 shadow-sm">
+                    <h3 className="text-xl font-bold text-neutral-900">{info.emailTitle}</h3>
+                    <p className="mt-4 text-base text-neutral-600 break-all">{info.emailValue}</p>
                   </div>
 
                   {/* Hours card */}
-                  <div className="bg-[#161616] border border-neutral-800 rounded-2xl p-6 sm:p-7">
-                    <h3 className="text-2xl font-extrabold text-[#d4af37]">{info.hoursTitle}</h3>
-                    <div className="mt-4 space-y-1 text-neutral-300">
+                  <div className="bg-white border border-neutral-200 rounded-2xl p-6 sm:p-7 shadow-sm">
+                    <h3 className="text-xl font-bold text-neutral-900">{info.hoursTitle}</h3>
+                    <div className="mt-4 space-y-1 text-neutral-600">
                       {info.hoursLines.map((line, idx) => (
                         <p key={idx} className="text-base">
                           {line}
@@ -264,13 +264,13 @@ const ContactReservations: React.FC = () => {
                 <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <a
                     href={info.callHref}
-                    className="inline-flex items-center justify-center rounded-xl bg-[#d4af37] hover:bg-[#c9a432] text-black font-bold py-3 transition"
+                    className="inline-flex items-center justify-center rounded-xl bg-neutral-900 hover:bg-neutral-800 text-white font-semibold py-3.5 transition shadow-sm"
                   >
                     Call Now
                   </a>
                   <a
                     href={info.emailHref}
-                    className="inline-flex items-center justify-center rounded-xl bg-[#d4af37] hover:bg-[#c9a432] text-black font-bold py-3 transition"
+                    className="inline-flex items-center justify-center rounded-xl bg-neutral-900 hover:bg-neutral-800 text-white font-semibold py-3.5 transition shadow-sm"
                   >
                     Email Us
                   </a>
@@ -278,14 +278,14 @@ const ContactReservations: React.FC = () => {
                     href={info.mapsHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-xl bg-[#d4af37] hover:bg-[#c9a432] text-black font-bold py-3 transition"
+                    className="inline-flex items-center justify-center rounded-xl bg-neutral-900 hover:bg-neutral-800 text-white font-semibold py-3.5 transition shadow-sm"
                   >
                     Open in Maps
                   </a>
                 </div>
 
                 {/* Map */}
-                <div className="mt-8 bg-[#161616] border border-neutral-800 rounded-2xl overflow-hidden">
+                <div className="mt-8 bg-white border border-neutral-200 rounded-2xl overflow-hidden shadow-sm">
                   <iframe
                     title="Google Map"
                     src={MAP_EMBED_URL}
@@ -298,29 +298,29 @@ const ContactReservations: React.FC = () => {
 
               {/* RIGHT COLUMN - FORM */}
               <div className="lg:col-span-6">
-                <div className="bg-[#161616] border border-neutral-800 rounded-2xl p-6 sm:p-8">
-                  <h2 className="text-2xl sm:text-3xl font-extrabold text-white">
+                <div className="bg-white border border-neutral-200 rounded-2xl p-6 sm:p-8 shadow-sm">
+                  <h2 className="text-2xl sm:text-3xl font-extrabold text-neutral-900">
                     Send us a Message
                   </h2>
 
                   {contactSuccess && (
-                    <div className="mt-6 p-4 bg-green-900/30 border border-green-700 rounded-xl">
-                      <p className="text-green-400 font-semibold">
+                    <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-xl">
+                      <p className="text-green-700 font-semibold">
                         Thank you! Your message has been sent successfully.
                       </p>
                     </div>
                   )}
 
                   {contactError && (
-                    <div className="mt-6 p-4 bg-red-900/30 border border-red-700 rounded-xl">
-                      <p className="text-red-400 font-semibold">{contactError}</p>
+                    <div className="mt-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+                      <p className="text-red-700 font-semibold">{contactError}</p>
                     </div>
                   )}
 
                   <form onSubmit={handleContactSubmit} className="mt-6 space-y-5">
                     <div>
-                      <label className="block text-sm font-semibold text-neutral-300 mb-2">
-                        Name <span className="text-[#d4af37]">*</span>
+                      <label className="block text-sm font-semibold text-neutral-700 mb-2">
+                        Name <span className="text-red-500">*</span>
                       </label>
                       <input
                         type="text"
@@ -328,15 +328,15 @@ const ContactReservations: React.FC = () => {
                         required
                         value={contactFormData.name}
                         onChange={handleContactInputChange}
-                        className="w-full px-4 py-3 rounded-xl border border-neutral-700 bg-[#1a1a1a] text-white placeholder-neutral-500 focus:ring-2 focus:ring-[#d4af37] focus:border-transparent transition"
+                        className="w-full px-4 py-3 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 focus:ring-2 focus:ring-neutral-900 focus:border-transparent transition"
                         placeholder="Your full name"
                       />
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-semibold text-neutral-300 mb-2">
-                          Email <span className="text-[#d4af37]">*</span>
+                        <label className="block text-sm font-semibold text-neutral-700 mb-2">
+                          Email <span className="text-red-500">*</span>
                         </label>
                         <input
                           type="email"
@@ -344,13 +344,13 @@ const ContactReservations: React.FC = () => {
                           required
                           value={contactFormData.email}
                           onChange={handleContactInputChange}
-                          className="w-full px-4 py-3 rounded-xl border border-neutral-700 bg-[#1a1a1a] text-white placeholder-neutral-500 focus:ring-2 focus:ring-[#d4af37] focus:border-transparent transition"
+                          className="w-full px-4 py-3 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 focus:ring-2 focus:ring-neutral-900 focus:border-transparent transition"
                           placeholder="your@email.com"
                         />
                       </div>
 
                       <div>
-                        <label className="block text-sm font-semibold text-neutral-300 mb-2">
+                        <label className="block text-sm font-semibold text-neutral-700 mb-2">
                           Phone
                         </label>
                         <input
@@ -358,36 +358,36 @@ const ContactReservations: React.FC = () => {
                           name="phone"
                           value={contactFormData.phone}
                           onChange={handleContactInputChange}
-                          className="w-full px-4 py-3 rounded-xl border border-neutral-700 bg-[#1a1a1a] text-white placeholder-neutral-500 focus:ring-2 focus:ring-[#d4af37] focus:border-transparent transition"
+                          className="w-full px-4 py-3 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 focus:ring-2 focus:ring-neutral-900 focus:border-transparent transition"
                           placeholder="+355 ..."
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-neutral-300 mb-2">
-                        Subject <span className="text-[#d4af37]">*</span>
+                      <label className="block text-sm font-semibold text-neutral-700 mb-2">
+                        Subject <span className="text-red-500">*</span>
                       </label>
                       <select
                         name="subject"
                         required
                         value={contactFormData.subject}
                         onChange={handleContactInputChange}
-                        className="w-full px-4 py-3 rounded-xl border border-neutral-700 bg-[#1a1a1a] text-white focus:ring-2 focus:ring-[#d4af37] focus:border-transparent transition"
+                        className="w-full px-4 py-3 rounded-xl border border-neutral-300 bg-white text-neutral-900 focus:ring-2 focus:ring-neutral-900 focus:border-transparent transition"
                       >
-                        <option value="" className="bg-[#1a1a1a]">Select a subject</option>
-                        <option value="reservation" className="bg-[#1a1a1a]">Reservation Inquiry</option>
-                        <option value="private_event" className="bg-[#1a1a1a]">Private Event</option>
-                        <option value="catering" className="bg-[#1a1a1a]">Catering Services</option>
-                        <option value="corporate" className="bg-[#1a1a1a]">Corporate Booking</option>
-                        <option value="feedback" className="bg-[#1a1a1a]">Feedback</option>
-                        <option value="general" className="bg-[#1a1a1a]">General Inquiry</option>
+                        <option value="">Select a subject</option>
+                        <option value="reservation">Reservation Inquiry</option>
+                        <option value="private_event">Private Event</option>
+                        <option value="catering">Catering Services</option>
+                        <option value="corporate">Corporate Booking</option>
+                        <option value="feedback">Feedback</option>
+                        <option value="general">General Inquiry</option>
                       </select>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-neutral-300 mb-2">
-                        Message <span className="text-[#d4af37]">*</span>
+                      <label className="block text-sm font-semibold text-neutral-700 mb-2">
+                        Message <span className="text-red-500">*</span>
                       </label>
                       <textarea
                         name="message"
@@ -395,7 +395,7 @@ const ContactReservations: React.FC = () => {
                         rows={6}
                         value={contactFormData.message}
                         onChange={handleContactInputChange}
-                        className="w-full px-4 py-3 rounded-xl border border-neutral-700 bg-[#1a1a1a] text-white placeholder-neutral-500 focus:ring-2 focus:ring-[#d4af37] focus:border-transparent transition resize-none"
+                        className="w-full px-4 py-3 rounded-xl border border-neutral-300 bg-white text-neutral-900 placeholder-neutral-400 focus:ring-2 focus:ring-neutral-900 focus:border-transparent transition resize-none"
                         placeholder="How can we help you?"
                       />
                     </div>
@@ -403,7 +403,7 @@ const ContactReservations: React.FC = () => {
                     <button
                       type="submit"
                       disabled={contactLoading}
-                      className="w-full bg-[#d4af37] hover:bg-[#c9a432] text-black font-bold py-3 rounded-xl transition disabled:opacity-50"
+                      className="w-full bg-neutral-900 hover:bg-neutral-800 text-white font-semibold py-3.5 rounded-xl transition disabled:opacity-50 shadow-sm"
                     >
                       {contactLoading ? 'Sending...' : 'Send Message'}
                     </button>

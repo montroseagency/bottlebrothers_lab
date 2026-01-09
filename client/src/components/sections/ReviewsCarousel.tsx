@@ -2,6 +2,8 @@
 
 import React, { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import home2Bg from '@/assets/home2.png';
 
 interface Review {
   name: string;
@@ -66,8 +68,7 @@ export function ReviewsCarousel({ fullHeight = false }: ReviewsCarouselProps) {
   const [direction, setDirection] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
 
-  const slidesPerView = 2;
-  const totalSlides = Math.ceil(reviews.length / slidesPerView);
+  const totalSlides = reviews.length;
 
   const nextSlide = useCallback(() => {
     setDirection(1);
@@ -91,15 +92,9 @@ export function ReviewsCarousel({ fullHeight = false }: ReviewsCarouselProps) {
     return () => clearInterval(interval);
   }, [isAutoPlaying, nextSlide]);
 
-  // Get current reviews to display
-  const getCurrentReviews = () => {
-    const start = currentIndex * slidesPerView;
-    return reviews.slice(start, start + slidesPerView);
-  };
-
   const slideVariants = {
     enter: (direction: number) => ({
-      x: direction > 0 ? 1000 : -1000,
+      x: direction > 0 ? 500 : -500,
       opacity: 0,
     }),
     center: {
@@ -107,45 +102,45 @@ export function ReviewsCarousel({ fullHeight = false }: ReviewsCarouselProps) {
       opacity: 1,
     },
     exit: (direction: number) => ({
-      x: direction > 0 ? -1000 : 1000,
+      x: direction > 0 ? -500 : 500,
       opacity: 0,
     }),
   };
 
+  const currentReview = reviews[currentIndex];
+
   return (
-    <section className={`bg-[#0a0a0a] relative overflow-hidden ${fullHeight ? 'h-screen flex items-center' : 'py-20 lg:py-28'}`}>
-      {/* Background decorative elements */}
+    <section data-nav-theme="dark" className={`relative overflow-hidden ${fullHeight ? 'min-h-screen flex items-center py-12 sm:py-0' : 'py-12 sm:py-20 lg:py-28'}`}>
+      {/* Background Image */}
       <div className="absolute inset-0">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-[#d4af37]/5 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-[#d4af37]/5 rounded-full blur-3xl" />
+        <Image
+          src={home2Bg}
+          alt="Background"
+          fill
+          className="object-cover"
+          priority
+        />
+        {/* Dark overlay for readability */}
+        <div className="absolute inset-0 bg-black/60" />
       </div>
 
-      {/* Subtle grid pattern */}
-      <div
-        className="absolute inset-0 opacity-[0.02]"
-        style={{
-          backgroundImage: `linear-gradient(rgba(212,175,55,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(212,175,55,0.3) 1px, transparent 1px)`,
-          backgroundSize: '60px 60px'
-        }}
-      />
-
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+      <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-6 sm:mb-8 md:mb-12"
         >
-          <span className="inline-flex items-center gap-2 bg-[#d4af37]/10 border border-[#d4af37]/30 text-[#d4af37] px-4 py-2 rounded-full text-sm font-medium uppercase tracking-widest mb-4">
-            <span className="w-1.5 h-1.5 bg-[#d4af37] rounded-full" />
+          <span className="inline-flex items-center gap-1.5 sm:gap-2 bg-white/10 border border-white/20 text-white/80 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs sm:text-sm font-medium uppercase tracking-widest mb-3 sm:mb-4">
+            <span className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-white rounded-full" />
             Testimonials
           </span>
-          <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
-            What Our <span className="bg-gradient-to-r from-[#d4af37] via-[#f0d078] to-[#d4af37] bg-clip-text text-transparent">Guests</span> Say
+          <h2 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-2 sm:mb-4">
+            What Our Guests Say
           </h2>
-          <p className="text-neutral-400 text-lg max-w-2xl mx-auto">
+          <p className="text-white/70 text-sm sm:text-base md:text-lg max-w-2xl mx-auto px-4">
             Discover why discerning guests choose Bottle Brothers for their most memorable moments.
           </p>
         </motion.div>
@@ -159,23 +154,23 @@ export function ReviewsCarousel({ fullHeight = false }: ReviewsCarouselProps) {
           {/* Navigation Buttons */}
           <button
             onClick={prevSlide}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 lg:-translate-x-12 z-20 w-12 h-12 bg-[#161616] border border-neutral-800 rounded-full flex items-center justify-center text-white hover:bg-[#d4af37] hover:border-[#d4af37] hover:text-black transition-all duration-300 shadow-lg"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-2 sm:-translate-x-4 lg:-translate-x-16 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white hover:text-neutral-900 transition-all duration-300"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
           </button>
 
           <button
             onClick={nextSlide}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 lg:translate-x-12 z-20 w-12 h-12 bg-[#161616] border border-neutral-800 rounded-full flex items-center justify-center text-white hover:bg-[#d4af37] hover:border-[#d4af37] hover:text-black transition-all duration-300 shadow-lg"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-2 sm:translate-x-4 lg:translate-x-16 z-20 w-10 h-10 sm:w-12 sm:h-12 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center text-white hover:bg-white hover:text-neutral-900 transition-all duration-300"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
           </button>
 
-          {/* Cards Container */}
+          {/* Single Card Container */}
           <div className="overflow-hidden px-4">
             <AnimatePresence mode="wait" custom={direction}>
               <motion.div
@@ -185,79 +180,44 @@ export function ReviewsCarousel({ fullHeight = false }: ReviewsCarouselProps) {
                 initial="enter"
                 animate="center"
                 exit="exit"
-                transition={{ duration: 0.5, ease: [0.32, 0.72, 0, 1] }}
-                className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
+                className="w-full"
               >
-                {getCurrentReviews().map((review, idx) => (
-                  <motion.div
-                    key={review.name}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.4, delay: idx * 0.1 }}
-                    className="group"
-                  >
-                    {/* Wide Card */}
-                    <div className="relative bg-[#161616] border border-neutral-800 rounded-2xl p-6 lg:p-8 hover:border-[#d4af37]/50 transition-all duration-300 hover:shadow-[0_0_30px_rgba(212,175,55,0.1)]">
-                      {/* Quote mark */}
-                      <div className="absolute top-4 right-6 text-6xl lg:text-7xl font-serif text-[#d4af37]/10 select-none pointer-events-none leading-none">
-                        "
-                      </div>
+                {/* Single Review Card */}
+                <div className="relative bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-8 lg:p-10">
+                  {/* Quote mark */}
+                  <div className="absolute top-6 right-8 text-7xl lg:text-8xl font-serif text-white/20 select-none pointer-events-none leading-none">
+                    "
+                  </div>
 
-                      {/* Content Layout - Horizontal */}
-                      <div className="flex flex-col lg:flex-row lg:items-start gap-5">
-                        {/* Left: Avatar & Info */}
-                        <div className="flex items-center lg:items-start gap-4 lg:flex-col lg:min-w-[120px]">
-                          {/* Avatar */}
-                          <div className="w-14 h-14 lg:w-16 lg:h-16 rounded-full bg-gradient-to-br from-[#d4af37] to-[#a6814d] flex items-center justify-center text-black font-bold text-lg lg:text-xl flex-shrink-0">
-                            {review.name.split(' ').map(n => n[0]).join('')}
-                          </div>
-
-                          {/* Stars - Mobile */}
-                          <div className="flex gap-0.5 lg:hidden">
-                            {[...Array(review.rating)].map((_, i) => (
-                              <svg key={i} className="w-4 h-4 text-[#d4af37] fill-current" viewBox="0 0 20 20">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                              </svg>
-                            ))}
-                          </div>
-                        </div>
-
-                        {/* Right: Review Content */}
-                        <div className="flex-1">
-                          {/* Stars - Desktop */}
-                          <div className="hidden lg:flex gap-0.5 mb-3">
-                            {[...Array(review.rating)].map((_, i) => (
-                              <svg key={i} className="w-4 h-4 text-[#d4af37] fill-current" viewBox="0 0 20 20">
-                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                              </svg>
-                            ))}
-                          </div>
-
-                          {/* Review Text */}
-                          <p className="text-neutral-300 text-base lg:text-lg leading-relaxed mb-4 relative z-10">
-                            "{review.text}"
-                          </p>
-
-                          {/* Author Info */}
-                          <div className="flex items-center justify-between pt-4 border-t border-neutral-800">
-                            <div>
-                              <p className="font-semibold text-white text-base">{review.name}</p>
-                              <p className="text-sm text-neutral-500">{review.role} · {review.city}</p>
-                            </div>
-
-                            {/* Verified Badge */}
-                            <div className="flex items-center gap-1.5 bg-[#d4af37]/10 border border-[#d4af37]/30 text-[#d4af37] px-3 py-1 rounded-full text-xs font-medium">
-                              <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 20 20">
-                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                              </svg>
-                              Verified
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                  {/* Content Layout */}
+                  <div className="flex flex-col items-center text-center">
+                    {/* Avatar */}
+                    <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full bg-white flex items-center justify-center text-neutral-900 font-bold text-xl lg:text-2xl mb-4">
+                      {currentReview.name.split(' ').map(n => n[0]).join('')}
                     </div>
-                  </motion.div>
-                ))}
+
+                    {/* Stars */}
+                    <div className="flex gap-1 mb-6">
+                      {[...Array(currentReview.rating)].map((_, i) => (
+                        <svg key={i} className="w-5 h-5 text-yellow-400 fill-current" viewBox="0 0 20 20">
+                          <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+                        </svg>
+                      ))}
+                    </div>
+
+                    {/* Review Text */}
+                    <p className="text-white text-lg lg:text-xl leading-relaxed mb-6 relative z-10 max-w-2xl">
+                      "{currentReview.text}"
+                    </p>
+
+                    {/* Author Info */}
+                    <div>
+                      <p className="font-semibold text-white text-lg">{currentReview.name}</p>
+                      <p className="text-sm text-white/60">{currentReview.role} · {currentReview.city}</p>
+                    </div>
+                  </div>
+                </div>
               </motion.div>
             </AnimatePresence>
           </div>
@@ -270,56 +230,13 @@ export function ReviewsCarousel({ fullHeight = false }: ReviewsCarouselProps) {
                 onClick={() => goToSlide(idx)}
                 className={`transition-all duration-300 rounded-full ${
                   currentIndex === idx
-                    ? 'w-8 h-2 bg-[#d4af37]'
-                    : 'w-2 h-2 bg-neutral-700 hover:bg-neutral-600'
+                    ? 'w-8 h-2 bg-white'
+                    : 'w-2 h-2 bg-white/40 hover:bg-white/60'
                 }`}
               />
             ))}
           </div>
-
-          {/* Progress Bar */}
-          <div className="mt-6 max-w-xs mx-auto">
-            <div className="h-0.5 bg-neutral-800 rounded-full overflow-hidden">
-              <motion.div
-                className="h-full bg-gradient-to-r from-[#d4af37] to-[#f0d078]"
-                initial={{ width: '0%' }}
-                animate={{ width: `${((currentIndex + 1) / totalSlides) * 100}%` }}
-                transition={{ duration: 0.3 }}
-              />
-            </div>
-          </div>
         </div>
-
-        {/* Bottom stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="flex flex-wrap justify-center items-center gap-8 lg:gap-16 mt-12 pt-8 border-t border-neutral-800"
-        >
-          <div className="text-center">
-            <div className="text-3xl font-bold text-[#d4af37]">4.9</div>
-            <div className="flex gap-0.5 justify-center my-1">
-              {[...Array(5)].map((_, i) => (
-                <svg key={i} className="w-4 h-4 text-[#d4af37] fill-current" viewBox="0 0 20 20">
-                  <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
-                </svg>
-              ))}
-            </div>
-            <p className="text-neutral-500 text-sm">Google Rating</p>
-          </div>
-          <div className="h-12 w-px bg-neutral-800 hidden sm:block" />
-          <div className="text-center">
-            <div className="text-3xl font-bold text-[#d4af37]">500+</div>
-            <p className="text-neutral-500 text-sm mt-1">Happy Reviews</p>
-          </div>
-          <div className="h-12 w-px bg-neutral-800 hidden sm:block" />
-          <div className="text-center">
-            <div className="text-3xl font-bold text-[#d4af37]">98%</div>
-            <p className="text-neutral-500 text-sm mt-1">Would Recommend</p>
-          </div>
-        </motion.div>
       </div>
     </section>
   );

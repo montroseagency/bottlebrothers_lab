@@ -1,17 +1,34 @@
 // client/src/components/admin/EventsManagement.tsx - FIXED VERSION
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuthenticatedApi } from '../../contexts/AuthContext';
 import type { Event } from '../../services/api';
 
+// Extended Event type with video fields
+interface EventWithVideo extends Event {
+  video_original_url?: string | null;
+  video_webm_url?: string | null;
+  video_status?: 'none' | 'uploading' | 'processing' | 'completed' | 'failed';
+  video_duration?: number | null;
+  video_error?: string | null;
+  video_task_id?: string | null;
+}
+
 export const EventsManagement: React.FC = () => {
   const { apiCall } = useAuthenticatedApi();
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState<EventWithVideo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [message, setMessage] = useState('');
   const [isFormOpen, setIsFormOpen] = useState(false);
-  const [editingEvent, setEditingEvent] = useState<Event | null>(null);
-  
+  const [editingEvent, setEditingEvent] = useState<EventWithVideo | null>(null);
+
+  // Video upload state
+  const [selectedVideoFile, setSelectedVideoFile] = useState<File | null>(null);
+  const [videoUploadProgress, setVideoUploadProgress] = useState<number>(0);
+  const [isUploadingVideo, setIsUploadingVideo] = useState(false);
+  const [videoStatusPolling, setVideoStatusPolling] = useState<string | null>(null);
+  const videoStatusIntervalRef = useRef<NodeJS.Timeout | null>(null);
+
   // Form state
   const [formData, setFormData] = useState({
     title: '',
@@ -117,6 +134,7 @@ export const EventsManagement: React.FC = () => {
       display_order: 0
     });
     setSelectedFile(null);
+    setSelectedVideoFile(null);
     setEditingEvent(null);
     setIsFormOpen(false);
     setMessage('');
@@ -257,6 +275,163 @@ export const EventsManagement: React.FC = () => {
       fetchEvents();
     } catch (error) {
       console.error('Failed to toggle active:', error);
+    }
+  };
+
+  // Video upload handler
+  const handleVideoSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      // Check file size (100MB max)
+      if (file.size > 100 * 1024 * 1024) {
+        setMessage('Video file size must be less than 100MB');
+        return;
+      }
+      // Check file type
+      if (!file.type.startsWith('video/') || !['video/mp4', 'video/mpeg', 'video/quicktime'].includes(file.type)) {
+        setMessage('Please select an MP4 video file');
+        return;
+      }
+      setSelectedVideoFile(file);
+      setMessage('');
+    }
+  };
+
+  // Upload video for an event
+  const handleVideoUpload = async (eventId: string) => {
+    if (!selectedVideoFile) {
+      setMessage('Please select a video file first');
+      return;
+    }
+
+    setIsUploadingVideo(true);
+    setVideoUploadProgress(0);
+    setError('');
+
+    try {
+      const formData = new FormData();
+      formData.append('video', selectedVideoFile);
+
+      const response = await apiCall(`/events/${eventId}/upload_video/`, {
+        method: 'POST',
+        body: formData
+      });
+
+      setMessage('Video uploaded successfully! Conversion in progress...');
+      setSelectedVideoFile(null);
+      setVideoStatusPolling(eventId);
+
+      // Start polling for video status
+      startVideoStatusPolling(eventId);
+
+      fetchEvents();
+    } catch (error) {
+      console.error('Failed to upload video:', error);
+      setError(`Failed to upload video: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } finally {
+      setIsUploadingVideo(false);
+      setVideoUploadProgress(0);
+    }
+  };
+
+  // Poll video conversion status
+  const startVideoStatusPolling = useCallback((eventId: string) => {
+    // Clear any existing polling
+    if (videoStatusIntervalRef.current) {
+      clearInterval(videoStatusIntervalRef.current);
+    }
+
+    videoStatusIntervalRef.current = setInterval(async () => {
+      try {
+        const statusData = await apiCall(`/events/${eventId}/video_status/`, { method: 'GET' });
+
+        if (statusData.status === 'completed') {
+          setMessage('Video conversion completed successfully!');
+          setVideoStatusPolling(null);
+          if (videoStatusIntervalRef.current) {
+            clearInterval(videoStatusIntervalRef.current);
+          }
+          fetchEvents();
+        } else if (statusData.status === 'failed') {
+          setError(`Video conversion failed: ${statusData.error || 'Unknown error'}`);
+          setVideoStatusPolling(null);
+          if (videoStatusIntervalRef.current) {
+            clearInterval(videoStatusIntervalRef.current);
+          }
+          fetchEvents();
+        }
+      } catch (error) {
+        console.error('Failed to check video status:', error);
+      }
+    }, 3000); // Poll every 3 seconds
+  }, [apiCall]);
+
+  // Cleanup polling on unmount
+  useEffect(() => {
+    return () => {
+      if (videoStatusIntervalRef.current) {
+        clearInterval(videoStatusIntervalRef.current);
+      }
+    };
+  }, []);
+
+  // Delete video
+  const handleDeleteVideo = async (eventId: string) => {
+    if (!confirm('Are you sure you want to delete this video?')) {
+      return;
+    }
+
+    try {
+      await apiCall(`/events/${eventId}/delete_video/`, { method: 'DELETE' });
+      setMessage('Video deleted successfully!');
+      fetchEvents();
+    } catch (error) {
+      console.error('Failed to delete video:', error);
+      setError('Failed to delete video');
+    }
+  };
+
+  // Format video duration
+  const formatDuration = (seconds: number | null | undefined): string => {
+    if (!seconds) return '';
+    const mins = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  // Get video status badge
+  const getVideoStatusBadge = (status: string | undefined) => {
+    switch (status) {
+      case 'processing':
+        return (
+          <span className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-yellow-100 text-yellow-800">
+            <svg className="w-3 h-3 mr-1 animate-spin" fill="none" viewBox="0 0 24 24">
+              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            Processing
+          </span>
+        );
+      case 'completed':
+        return (
+          <span className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-green-100 text-green-800">
+            <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+            </svg>
+            Video Ready
+          </span>
+        );
+      case 'failed':
+        return (
+          <span className="inline-flex items-center px-2 py-1 text-xs font-medium rounded-full bg-red-100 text-red-800">
+            <svg className="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+            </svg>
+            Failed
+          </span>
+        );
+      default:
+        return null;
     }
   };
 
@@ -528,8 +703,8 @@ export const EventsManagement: React.FC = () => {
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
                     required={!editingEvent}
                   />
-                  <p className="text-sm text-gray-500 mt-1">Max 5MB • JPG, PNG, WebP</p>
-                  
+                  <p className="text-sm text-gray-500 mt-1">Max 5MB - JPG, PNG, WebP</p>
+
                   {selectedFile && (
                     <div className="mt-4">
                       <img
@@ -540,6 +715,128 @@ export const EventsManagement: React.FC = () => {
                     </div>
                   )}
                 </div>
+
+                {/* Event Video - Only show when editing */}
+                {editingEvent && (
+                  <div className="border-t border-gray-200 pt-6">
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Event Video (Optional)
+                    </label>
+
+                    {/* Current video status */}
+                    {editingEvent.video_status && editingEvent.video_status !== 'none' && (
+                      <div className="mb-4 p-4 bg-gray-50 rounded-lg">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-medium text-gray-700">Current Video</span>
+                          {getVideoStatusBadge(editingEvent.video_status)}
+                        </div>
+
+                        {editingEvent.video_status === 'completed' && editingEvent.video_webm_url && (
+                          <div className="mt-3">
+                            <video
+                              controls
+                              className="w-full max-w-md rounded-lg border"
+                              preload="metadata"
+                            >
+                              <source src={editingEvent.video_webm_url} type="video/webm" />
+                              <source src={editingEvent.video_original_url || ''} type="video/mp4" />
+                              Your browser does not support video playback.
+                            </video>
+                            {editingEvent.video_duration && (
+                              <p className="text-sm text-gray-500 mt-1">
+                                Duration: {formatDuration(editingEvent.video_duration)}
+                              </p>
+                            )}
+                          </div>
+                        )}
+
+                        {editingEvent.video_status === 'processing' && (
+                          <div className="mt-3">
+                            <div className="flex items-center text-yellow-700">
+                              <svg className="w-5 h-5 mr-2 animate-spin" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                              </svg>
+                              Video is being converted to WebM format...
+                            </div>
+                          </div>
+                        )}
+
+                        {editingEvent.video_status === 'failed' && editingEvent.video_error && (
+                          <div className="mt-3 text-sm text-red-600">
+                            Error: {editingEvent.video_error}
+                          </div>
+                        )}
+
+                        {/* Delete video button */}
+                        {editingEvent.video_status !== 'processing' && (
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteVideo(editingEvent.id)}
+                            className="mt-3 text-sm text-red-600 hover:text-red-800 flex items-center"
+                          >
+                            <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                            Delete Video
+                          </button>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Upload new video */}
+                    {editingEvent.video_status !== 'processing' && (
+                      <div className="space-y-3">
+                        <input
+                          type="file"
+                          accept="video/mp4,video/mpeg,video/quicktime"
+                          onChange={handleVideoSelect}
+                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        />
+                        <p className="text-sm text-gray-500">Max 100MB - MP4 format. Video will be converted to WebM for web playback.</p>
+
+                        {selectedVideoFile && (
+                          <div className="flex items-center justify-between p-3 bg-blue-50 rounded-lg">
+                            <div className="flex items-center">
+                              <svg className="w-8 h-8 text-blue-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                              </svg>
+                              <div>
+                                <p className="text-sm font-medium text-gray-900">{selectedVideoFile.name}</p>
+                                <p className="text-xs text-gray-500">
+                                  {(selectedVideoFile.size / (1024 * 1024)).toFixed(2)} MB
+                                </p>
+                              </div>
+                            </div>
+                            <button
+                              type="button"
+                              onClick={() => handleVideoUpload(editingEvent.id)}
+                              disabled={isUploadingVideo}
+                              className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
+                            >
+                              {isUploadingVideo ? (
+                                <>
+                                  <svg className="w-4 h-4 mr-2 animate-spin" fill="none" viewBox="0 0 24 24">
+                                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                  </svg>
+                                  Uploading...
+                                </>
+                              ) : (
+                                <>
+                                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
+                                  </svg>
+                                  Upload Video
+                                </>
+                              )}
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
 
                 {/* Form Actions */}
                 <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
@@ -584,6 +881,9 @@ export const EventsManagement: React.FC = () => {
                     Price
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                    Video
+                  </th>
+                  <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                     Status
                   </th>
                   <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -594,7 +894,7 @@ export const EventsManagement: React.FC = () => {
               <tbody className="divide-y divide-gray-200">
                 {events.length === 0 ? (
                   <tr>
-                    <td colSpan={7} className="px-6 py-12 text-center text-gray-500">
+                    <td colSpan={8} className="px-6 py-12 text-center text-gray-500">
                       <svg className="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
@@ -635,6 +935,17 @@ export const EventsManagement: React.FC = () => {
                       </td>
                       <td className="px-6 py-4 text-sm text-gray-900">
                         {event.formatted_price || 'Free'}
+                      </td>
+                      <td className="px-6 py-4">
+                        {getVideoStatusBadge(event.video_status)}
+                        {event.video_status === 'completed' && event.video_duration && (
+                          <span className="text-xs text-gray-500 ml-1">
+                            ({formatDuration(event.video_duration)})
+                          </span>
+                        )}
+                        {(!event.video_status || event.video_status === 'none') && (
+                          <span className="text-xs text-gray-400">No video</span>
+                        )}
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center space-x-2">

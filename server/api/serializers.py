@@ -9,7 +9,7 @@ from .models import (
     MenuCategory, MenuItem, MenuItemVariant, FloorPlan, Table, TableAssignment,
     CustomerProfile, VIPMembership, Offer, Waitlist, SMSNotification,
     OTPVerification, ProcessedImage, Translation, HomeSection, StaticContent,
-    RestaurantInfo
+    RestaurantInfo, Moment
 )
 
 class ReservationSerializer(serializers.ModelSerializer):
@@ -312,26 +312,53 @@ class PublicGalleryItemSerializer(serializers.ModelSerializer):
 
 class EventSerializer(serializers.ModelSerializer):
     image_url = serializers.SerializerMethodField()
+    video_original_url = serializers.SerializerMethodField()
+    video_webm_url = serializers.SerializerMethodField()
     is_past_event = serializers.ReadOnlyField()
     price_formatted = serializers.ReadOnlyField()
     formatted_time = serializers.ReadOnlyField()
     duration_display = serializers.ReadOnlyField()
-    
+
     class Meta:
         model = Event
         fields = [
-            'id', 'title', 'description', 'image', 'image_url', 'event_type', 
+            'id', 'title', 'description', 'image', 'image_url', 'event_type',
             'start_date', 'end_date', 'start_time', 'end_time',
             'frequency', 'recurring_day', 'recurring_type', 'recurring_days',
             'recurring_until', 'price', 'price_display', 'formatted_price',
             'price_formatted', 'capacity', 'max_capacity', 'location',
-            'booking_required', 'booking_url', 'is_featured', 'is_active', 
+            'booking_required', 'booking_url', 'is_featured', 'is_active',
             'display_order', 'special_notes', 'special_instructions',
-            'status', 'created_at', 'updated_at', 'is_past_event', 
-            'formatted_time', 'duration_display'
+            'status', 'created_at', 'updated_at', 'is_past_event',
+            'formatted_time', 'duration_display',
+            # Video fields
+            'video_original', 'video_original_url', 'video_webm', 'video_webm_url',
+            'video_status', 'video_task_id', 'video_duration', 'video_error'
         ]
-        read_only_fields = ['id', 'created_at', 'updated_at']
-    
+        read_only_fields = [
+            'id', 'created_at', 'updated_at',
+            'video_status', 'video_task_id', 'video_duration', 'video_error',
+            'video_webm'
+        ]
+
+    def get_video_original_url(self, obj):
+        """Get the full URL for the original video"""
+        if obj.video_original:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.video_original.url)
+            return obj.video_original.url
+        return None
+
+    def get_video_webm_url(self, obj):
+        """Get the full URL for the WebM video"""
+        if obj.video_webm:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.video_webm.url)
+            return obj.video_webm.url
+        return None
+
     def get_image_url(self, obj):
         """Get the full URL for the event image"""
         if obj.image:
@@ -377,21 +404,33 @@ class EventSerializer(serializers.ModelSerializer):
 class PublicEventSerializer(serializers.ModelSerializer):
     """Serializer for public event display (limited fields)"""
     image_url = serializers.SerializerMethodField()
+    video_webm_url = serializers.SerializerMethodField()
     price_formatted = serializers.ReadOnlyField()
     formatted_time = serializers.ReadOnlyField()
     duration_display = serializers.ReadOnlyField()
-    
+
     class Meta:
         model = Event
         fields = [
             'id', 'title', 'description', 'image_url', 'event_type',
             'start_date', 'end_date', 'start_time', 'end_time',
             'frequency', 'recurring_day', 'recurring_type', 'recurring_days',
-            'formatted_price', 'price_formatted', 'capacity', 'max_capacity', 
-            'location', 'booking_required', 'booking_url', 'is_featured', 
-            'formatted_time', 'duration_display', 'special_notes', 'status'
+            'formatted_price', 'price_formatted', 'capacity', 'max_capacity',
+            'location', 'booking_required', 'booking_url', 'is_featured',
+            'formatted_time', 'duration_display', 'special_notes', 'status',
+            # Video fields (only completed WebM for public)
+            'video_webm_url', 'video_status', 'video_duration'
         ]
-    
+
+    def get_video_webm_url(self, obj):
+        """Get the full URL for the WebM video (only if completed)"""
+        if obj.video_status == 'completed' and obj.video_webm:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.video_webm.url)
+            return obj.video_webm.url
+        return None
+
     def get_image_url(self, obj):
         """Get the full URL for the event image"""
         if obj.image:
@@ -920,3 +959,45 @@ class LocalizedMenuCategorySerializer(serializers.ModelSerializer):
             available_items, many=True,
             context=self.context
         ).data
+
+
+# ============ MOMENTS SERIALIZERS ============
+
+class MomentSerializer(serializers.ModelSerializer):
+    """Admin serializer for Moment model"""
+    image_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Moment
+        fields = [
+            'id', 'title', 'description', 'image', 'image_url',
+            'is_active', 'display_order', 'created_at', 'updated_at'
+        ]
+        read_only_fields = ['id', 'created_at', 'updated_at']
+
+    def get_image_url(self, obj):
+        """Get the full URL for the moment image"""
+        if obj.image:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.image.url)
+            return obj.image.url
+        return None
+
+
+class PublicMomentSerializer(serializers.ModelSerializer):
+    """Public serializer for Moment model (limited fields)"""
+    image_url = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Moment
+        fields = ['id', 'title', 'description', 'image_url']
+
+    def get_image_url(self, obj):
+        """Get the full URL for the moment image"""
+        if obj.image:
+            request = self.context.get('request')
+            if request:
+                return request.build_absolute_uri(obj.image.url)
+            return obj.image.url
+        return None

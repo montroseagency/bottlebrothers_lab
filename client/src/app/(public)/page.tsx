@@ -1,6 +1,6 @@
 import React from 'react';
 import { HomeSnapSections } from '@/components/sections';
-import { getFeaturedEvent, getUpcomingEvents, getFeaturedMenuItems, getFeaturedGalleryItems, Event, MenuItem, GalleryItem } from '@/lib/api';
+import { getFeaturedEvent, getUpcomingEvents, getFeaturedMenuItems, getFeaturedGalleryItems, getActiveMoments, Event, MenuItem, GalleryItem, Moment } from '@/lib/api';
 
 // This is a Server Component - data fetching happens on the server
 export default async function HomePage() {
@@ -9,13 +9,15 @@ export default async function HomePage() {
   let upcomingEvents: Event[] = [];
   let featuredMenuItems: MenuItem[] = [];
   let galleryItems: GalleryItem[] = [];
+  let moments: Moment[] = [];
 
   try {
-    [featuredEvent, upcomingEvents, featuredMenuItems, galleryItems] = await Promise.all([
+    [featuredEvent, upcomingEvents, featuredMenuItems, galleryItems, moments] = await Promise.all([
       getFeaturedEvent(),
       getUpcomingEvents(3),
       getFeaturedMenuItems(6),
       getFeaturedGalleryItems(8),
+      getActiveMoments(8),
     ]);
   } catch (error) {
     console.error('Error fetching home page data:', error);
@@ -30,6 +32,7 @@ export default async function HomePage() {
         upcomingEvents={upcomingEvents}
         featuredMenuItems={featuredMenuItems}
         galleryItems={galleryItems}
+        moments={moments}
       />
     </main>
   );

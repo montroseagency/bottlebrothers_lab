@@ -1,29 +1,141 @@
-// client/src/pages/Gallery.tsx - Premium Lounge Gallery
+// client/src/pages/Gallery.tsx - Premium Editorial Gallery
+//
+// NEW GALLERY STRUCTURE:
+// 1. Light warm off-white background (#F7F5F0) with charcoal text
+// 2. Compact hero section (50vh max) with elegant typography
+// 3. Filter controls row with category chips + optional sort dropdown
+// 4. Controlled bento grid with repeatable 6-item rhythm pattern
+// 5. Premium lightbox with keyboard nav, swipe support, fade+scale animations
+// 6. Lazy loading with blur-up placeholders
+// 7. Subtle staggered fade-in animations (respects prefers-reduced-motion)
+// 8. Gold accent color (#C9A227) for interactive elements
+
 'use client'
 
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'framer-motion';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import type { GalleryItem } from '../services/api';
 import { apiClient } from '../services/api';
 
-// Skeleton loader component
-const ImageSkeleton = ({ index }: { index: number }) => (
-  <motion.div
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 0.3, delay: index * 0.05 }}
-    className={`relative overflow-hidden rounded-2xl bg-gradient-to-br from-stone-800 to-stone-900 ${
-      index % 5 === 0 ? 'row-span-2' : ''
-    }`}
-    style={{ minHeight: index % 5 === 0 ? '400px' : '200px' }}
-  >
-    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent skeleton-shimmer" />
-  </motion.div>
+// ============================================================================
+// THEME CONSTANTS
+// ============================================================================
+const COLORS = {
+  background: '#F7F5F0',
+  backgroundAlt: '#EFECE5',
+  text: '#1A1A1A',
+  textMuted: '#6B6B6B',
+  textLight: '#9A9A9A',
+  gold: '#C9A227',
+  goldHover: '#D4AF37',
+  goldLight: '#E8D9A0',
+  border: '#E5E2DB',
+  borderLight: '#F0EDE6',
+  white: '#FFFFFF',
+};
+
+
+// ============================================================================
+// ANIMATION VARIANTS
+// ============================================================================
+const fadeInUp = {
+  hidden: { opacity: 0, y: 30, scale: 0.9 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.6,
+      delay: i * 0.1,
+      ease: [0.25, 0.46, 0.45, 0.94],
+    },
+  }),
+};
+
+const fadeIn = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.3 } },
+};
+
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
+    },
+  },
+};
+
+// ============================================================================
+// SKELETON LOADER
+// ============================================================================
+const ImageSkeleton = ({ className }: { className?: string }) => (
+  <div className={`relative overflow-hidden rounded-[18px] bg-[#E8E5DE] ${className}`}>
+    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/60 to-transparent skeleton-shimmer" />
+  </div>
 );
 
-// Individual gallery image component
-const GalleryImage = ({
+// ============================================================================
+// BLUR PLACEHOLDER IMAGE
+// ============================================================================
+const BlurImage = ({
+  src,
+  alt,
+  className,
+  priority = false,
+  onLoad,
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+  priority?: boolean;
+  onLoad?: () => void;
+}) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [error, setError] = useState(false);
+
+  const handleLoad = () => {
+    setIsLoaded(true);
+    onLoad?.();
+  };
+
+  return (
+    <div className={`relative overflow-hidden ${className}`}>
+      {/* Blur placeholder */}
+      {!isLoaded && !error && (
+        <div className="absolute inset-0 bg-[#E8E5DE] animate-pulse" />
+      )}
+
+      {/* Actual image */}
+      <img
+        src={src}
+        alt={alt}
+        loading={priority ? 'eager' : 'lazy'}
+        onLoad={handleLoad}
+        onError={() => setError(true)}
+        className={`w-full h-full object-cover transition-opacity duration-500 ${
+          isLoaded ? 'opacity-100' : 'opacity-0'
+        }`}
+      />
+
+      {/* Error state */}
+      {error && (
+        <div className="absolute inset-0 bg-[#E8E5DE] flex items-center justify-center">
+          <svg className="w-8 h-8 text-[#C9A227]/40" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// ============================================================================
+// GALLERY TILE
+// ============================================================================
+const GalleryTile = ({
   item,
   index,
   onClick,
@@ -32,149 +144,41 @@ const GalleryImage = ({
   index: number;
   onClick: () => void;
 }) => {
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const ref = useRef<HTMLDivElement>(null);
-
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"]
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], [30, -30]);
-  const scale = useTransform(scrollYProgress, [0, 0.5, 1], [0.95, 1, 0.95]);
-
-  // Determine if this should be a featured (larger) item
-  const isFeatured = item.is_featured || index % 7 === 0;
-
   return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 50, scale: 0.9 }}
-      animate={{ opacity: 1, y: 0, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.9 }}
-      transition={{
-        duration: 0.6,
-        delay: index * 0.08,
-        ease: [0.25, 0.46, 0.45, 0.94]
+    <motion.article
+      custom={index}
+      variants={{
+        hidden: { opacity: 0, y: 40, scale: 0.9 },
+        visible: {
+          opacity: 1,
+          y: 0,
+          scale: 1,
+          transition: {
+            duration: 0.5,
+            ease: [0.25, 0.46, 0.45, 0.94],
+          },
+        },
       }}
-      style={{ scale }}
-      className={`relative group cursor-pointer ${
-        isFeatured ? 'md:col-span-2 md:row-span-2' : ''
-      }`}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      whileHover={{ scale: 1.03, y: -5 }}
+      whileTap={{ scale: 0.98 }}
+      className="cursor-pointer w-full"
       onClick={onClick}
     >
-      <motion.div
-        className="relative overflow-hidden rounded-2xl shadow-2xl shadow-black/30"
-        whileHover={{ scale: 1.02 }}
-        transition={{ duration: 0.4, ease: "easeOut" }}
-        style={{ y }}
-      >
-        {/* Loading skeleton */}
-        <AnimatePresence>
-          {!isLoaded && (
-            <motion.div
-              initial={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 bg-gradient-to-br from-stone-800 to-stone-900"
-            >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent skeleton-shimmer" />
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Image */}
-        <motion.img
+      <div className="relative w-full pt-[100%] overflow-hidden rounded-[18px] bg-[#E8E5DE] shadow-md hover:shadow-xl transition-shadow duration-300">
+        <img
           src={item.image_url}
-          alt={item.title}
-          className={`w-full object-cover transition-transform duration-700 ${
-            isFeatured ? 'h-[500px]' : 'h-[280px]'
-          } ${isLoaded ? 'opacity-100' : 'opacity-0'}`}
-          onLoad={() => setIsLoaded(true)}
-          loading="lazy"
-          style={{
-            scale: isHovered ? 1.1 : 1,
-            transition: 'transform 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94)'
-          }}
+          alt={item.title || ''}
+          loading={index < 6 ? 'eager' : 'lazy'}
+          className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 hover:scale-110"
         />
-
-        {/* Gradient overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-60 group-hover:opacity-40 transition-opacity duration-500" />
-
-        {/* Glassmorphism hover overlay */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isHovered ? 1 : 0 }}
-          transition={{ duration: 0.3 }}
-          className="absolute inset-0 flex items-center justify-center"
-        >
-          <div className="absolute inset-0 backdrop-blur-[2px] bg-black/20" />
-
-          {/* Content card */}
-          <motion.div
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: isHovered ? 0 : 20, opacity: isHovered ? 1 : 0 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="relative z-10 text-center px-6"
-          >
-            <div className="inline-block px-6 py-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/20 shadow-2xl">
-              <h3 className="text-white font-semibold text-lg mb-1">{item.title}</h3>
-              {item.category && (
-                <span className="text-amber-300/90 text-sm font-medium uppercase tracking-wider">
-                  {item.category}
-                </span>
-              )}
-            </div>
-
-            {/* View icon */}
-            <motion.div
-              initial={{ scale: 0 }}
-              animate={{ scale: isHovered ? 1 : 0 }}
-              transition={{ duration: 0.3, delay: 0.1 }}
-              className="mt-4 w-12 h-12 mx-auto rounded-full bg-amber-500/20 backdrop-blur-sm border border-amber-400/30 flex items-center justify-center"
-            >
-              <svg className="w-5 h-5 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v3m0 0v3m0-3h3m-3 0H7" />
-              </svg>
-            </motion.div>
-          </motion.div>
-        </motion.div>
-
-        {/* Featured badge */}
-        {item.is_featured && (
-          <motion.div
-            initial={{ x: -100, opacity: 0 }}
-            animate={{ x: 0, opacity: 1 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="absolute top-4 left-4"
-          >
-            <span className="px-3 py-1.5 rounded-full bg-gradient-to-r from-amber-500 to-amber-600 text-white text-xs font-semibold uppercase tracking-wider shadow-lg shadow-amber-500/30">
-              Featured
-            </span>
-          </motion.div>
-        )}
-
-        {/* Bottom gradient info */}
-        <motion.div
-          initial={{ y: 20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, delay: index * 0.08 + 0.2 }}
-          className="absolute bottom-0 left-0 right-0 p-5 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500"
-        >
-          <div className="flex items-end justify-between">
-            <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-              <p className="text-white/80 text-sm line-clamp-2">{item.description}</p>
-            </div>
-          </div>
-        </motion.div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </motion.article>
   );
 };
 
-// Lightbox Modal Component
+// ============================================================================
+// LIGHTBOX MODAL
+// ============================================================================
 const Lightbox = ({
   item,
   items,
@@ -189,11 +193,15 @@ const Lightbox = ({
   onNavigate: (direction: 'prev' | 'next') => void;
 }) => {
   const [isImageLoaded, setIsImageLoaded] = useState(false);
+  const [touchStart, setTouchStart] = useState<number | null>(null);
+  const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
+  // Reset loading state when image changes
   useEffect(() => {
     setIsImageLoaded(false);
   }, [item.id]);
 
+  // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -204,33 +212,48 @@ const Lightbox = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [onClose, onNavigate]);
 
+  // Touch handlers for swipe
+  const minSwipeDistance = 50;
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    setTouchEnd(null);
+    setTouchStart(e.targetTouches[0].clientX);
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    setTouchEnd(e.targetTouches[0].clientX);
+  };
+
+  const onTouchEnd = () => {
+    if (!touchStart || !touchEnd) return;
+    const distance = touchStart - touchEnd;
+    const isLeftSwipe = distance > minSwipeDistance;
+    const isRightSwipe = distance < -minSwipeDistance;
+
+    if (isLeftSwipe) onNavigate('next');
+    if (isRightSwipe) onNavigate('prev');
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.3 }}
-      className="fixed inset-0 z-50 flex items-center justify-center"
+      transition={{ duration: 0.2 }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
       onClick={onClose}
     >
-      {/* Backdrop */}
-      <motion.div
-        initial={{ backdropFilter: 'blur(0px)' }}
-        animate={{ backdropFilter: 'blur(20px)' }}
-        exit={{ backdropFilter: 'blur(0px)' }}
-        className="absolute inset-0 bg-black/90"
-      />
-
       {/* Close button */}
       <motion.button
-        initial={{ opacity: 0, scale: 0.5 }}
+        initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.5 }}
-        transition={{ delay: 0.2 }}
+        exit={{ opacity: 0, scale: 0.9 }}
+        transition={{ delay: 0.1 }}
         onClick={onClose}
-        className="absolute top-6 right-6 z-50 w-12 h-12 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+        className="absolute top-4 right-4 sm:top-6 sm:right-6 z-50 w-11 h-11 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+        aria-label="Close lightbox"
       >
-        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
         </svg>
       </motion.button>
@@ -239,112 +262,113 @@ const Lightbox = ({
       {items.length > 1 && (
         <>
           <motion.button
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -50 }}
-            transition={{ delay: 0.2 }}
+            exit={{ opacity: 0, x: -20 }}
+            transition={{ delay: 0.1 }}
             onClick={(e) => { e.stopPropagation(); onNavigate('prev'); }}
-            className="absolute left-6 top-1/2 -translate-y-1/2 z-50 w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all hover:scale-110"
+            className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-50 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+            aria-label="Previous image"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
             </svg>
           </motion.button>
+
           <motion.button
-            initial={{ opacity: 0, x: 50 }}
+            initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 50 }}
-            transition={{ delay: 0.2 }}
+            exit={{ opacity: 0, x: 20 }}
+            transition={{ delay: 0.1 }}
             onClick={(e) => { e.stopPropagation(); onNavigate('next'); }}
-            className="absolute right-6 top-1/2 -translate-y-1/2 z-50 w-14 h-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 flex items-center justify-center text-white hover:bg-white/20 transition-all hover:scale-110"
+            className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-50 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+            aria-label="Next image"
           >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
             </svg>
           </motion.button>
         </>
       )}
 
+      {/* Image container */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.2 }}
+        className="relative max-w-[90vw] max-h-[85vh] z-40"
+        onClick={(e) => e.stopPropagation()}
+        onTouchStart={onTouchStart}
+        onTouchMove={onTouchMove}
+        onTouchEnd={onTouchEnd}
+      >
+        {/* Loading spinner */}
+        {!isImageLoaded && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-10 h-10 border-2 border-white/20 border-t-[#C9A227] rounded-full animate-spin" />
+          </div>
+        )}
+
+        {/* Image */}
+        <motion.img
+          key={item.id}
+          src={item.image_url}
+          alt={item.title}
+          onLoad={() => setIsImageLoaded(true)}
+          className={`max-w-full max-h-[85vh] object-contain rounded-xl shadow-2xl transition-opacity duration-300 ${
+            isImageLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
+        />
+
+        {/* Caption area */}
+        {(item.title || item.description) && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15 }}
+            className="absolute bottom-0 left-0 right-0 p-5 bg-gradient-to-t from-black/70 to-transparent rounded-b-xl"
+          >
+            {item.title && (
+              <h2 className="text-white text-lg font-semibold mb-1">{item.title}</h2>
+            )}
+            {item.description && (
+              <p className="text-white/70 text-sm line-clamp-2">{item.description}</p>
+            )}
+            {item.category && (
+              <span className="inline-block mt-2 px-2.5 py-1 rounded-full bg-[#C9A227]/20 text-[#E8D9A0] text-xs font-medium capitalize">
+                {item.category.replace('_', ' ')}
+              </span>
+            )}
+          </motion.div>
+        )}
+      </motion.div>
+
       {/* Image counter */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: 20 }}
-        className="absolute bottom-6 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/20"
+        className="absolute bottom-5 left-1/2 -translate-x-1/2 z-50 px-4 py-2 rounded-full bg-white/10 backdrop-blur-md"
       >
         <span className="text-white/80 text-sm font-medium">
           {currentIndex + 1} / {items.length}
         </span>
       </motion.div>
-
-      {/* Image container */}
-      <motion.div
-        initial={{ scale: 0.8, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        exit={{ scale: 0.8, opacity: 0 }}
-        transition={{ type: "spring", damping: 25, stiffness: 300 }}
-        className="relative max-w-[90vw] max-h-[85vh] z-40"
-        onClick={(e) => e.stopPropagation()}
-      >
-        {/* Loading skeleton */}
-        <AnimatePresence>
-          {!isImageLoaded && (
-            <motion.div
-              initial={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              className="absolute inset-0 flex items-center justify-center"
-            >
-              <div className="w-16 h-16 border-4 border-amber-500/30 border-t-amber-500 rounded-full animate-spin" />
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        <motion.img
-          key={item.id}
-          src={item.image_url}
-          alt={item.title}
-          className="max-w-full max-h-[85vh] object-contain rounded-2xl shadow-2xl"
-          onLoad={() => setIsImageLoaded(true)}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: isImageLoaded ? 1 : 0 }}
-          transition={{ duration: 0.3 }}
-        />
-
-        {/* Image info */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="absolute bottom-0 left-0 right-0 p-6 bg-gradient-to-t from-black/80 to-transparent rounded-b-2xl"
-        >
-          <h2 className="text-white text-2xl font-bold mb-2">{item.title}</h2>
-          {item.description && (
-            <p className="text-white/70 text-sm max-w-2xl">{item.description}</p>
-          )}
-          {item.category && (
-            <span className="inline-block mt-3 px-3 py-1 rounded-full bg-amber-500/20 text-amber-300 text-xs font-medium uppercase tracking-wider border border-amber-500/30">
-              {item.category}
-            </span>
-          )}
-        </motion.div>
-      </motion.div>
     </motion.div>
   );
 };
 
-// Main Gallery Page Component
+// ============================================================================
+// MAIN GALLERY PAGE
+// ============================================================================
 export const GalleryPage: React.FC = () => {
   const [galleryItems, setGalleryItems] = useState<GalleryItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [selectedItem, setSelectedItem] = useState<GalleryItem | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
 
-  const { scrollYProgress } = useScroll();
-  const headerY = useTransform(scrollYProgress, [0, 0.3], [0, -50]);
-  const headerOpacity = useTransform(scrollYProgress, [0, 0.3], [1, 0]);
-
+  // Fetch gallery items
   const fetchGalleryItems = useCallback(async () => {
     try {
       const items = await apiClient.getPublicGalleryItems();
@@ -360,12 +384,9 @@ export const GalleryPage: React.FC = () => {
 
   useEffect(() => {
     fetchGalleryItems();
-
-    // Poll for new images every 30 seconds
-    const interval = setInterval(fetchGalleryItems, 30000);
-    return () => clearInterval(interval);
   }, [fetchGalleryItems]);
 
+  // Lightbox handlers
   const openLightbox = (item: GalleryItem, index: number) => {
     setSelectedItem(item);
     setSelectedIndex(index);
@@ -386,63 +407,78 @@ export const GalleryPage: React.FC = () => {
   };
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-[#0a0a0a]">
-      {/* Ambient background effects */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-amber-500/5 rounded-full blur-[150px]" />
-        <div className="absolute bottom-0 right-1/4 w-[600px] h-[600px] bg-amber-600/5 rounded-full blur-[150px]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-stone-800/30 rounded-full blur-[200px]" />
-      </div>
+    <div className="min-h-screen bg-[#F7F5F0]">
+      {/* ================================================================== */}
+      {/* HERO SECTION - 50vh max */}
+      {/* ================================================================== */}
+      <section className="relative h-[50vh] min-h-[360px] max-h-[500px] flex items-center justify-center overflow-hidden">
+        {/* Subtle gradient background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#EFECE5] to-[#F7F5F0]" />
 
-      {/* Header */}
-      <motion.header
-        style={{ y: headerY, opacity: headerOpacity }}
-        className="relative pt-32 pb-16 px-4 text-center"
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-        >
-          <span className="inline-block px-4 py-2 mb-6 rounded-full bg-amber-500/10 border border-amber-500/20 text-amber-400 text-sm font-medium uppercase tracking-widest">
+        {/* Decorative elements */}
+        <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-[#C9A227]/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/4 right-1/4 w-48 h-48 bg-[#C9A227]/5 rounded-full blur-3xl" />
+
+        {/* Content */}
+        <div className="relative z-10 text-center px-4 max-w-3xl mx-auto">
+          <motion.span
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 mb-6 rounded-full border border-[#C9A227]/30 text-[#C9A227] text-xs font-semibold uppercase tracking-widest"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-[#C9A227]" />
             Our Gallery
-          </span>
-          <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tight">
-            Moments of
-            <span className="block bg-gradient-to-r from-amber-400 via-amber-300 to-amber-500 bg-clip-text text-transparent">
-              Elegance
-            </span>
-          </h1>
-          <p className="text-stone-400 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+          </motion.span>
+
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            className="text-4xl sm:text-5xl md:text-6xl font-bold text-[#1A1A1A] mb-4 tracking-tight"
+          >
+            Moments of{' '}
+            <span className="text-[#C9A227]">Elegance</span>
+          </motion.h1>
+
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="text-[#6B6B6B] text-base sm:text-lg max-w-xl mx-auto leading-relaxed"
+          >
             Step into our world of refined luxury and unforgettable experiences
-          </p>
-        </motion.div>
+          </motion.p>
 
-        {/* Decorative line */}
-        <motion.div
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: 1 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="mt-12 h-px w-32 mx-auto bg-gradient-to-r from-transparent via-amber-500/50 to-transparent"
-        />
-      </motion.header>
+          {/* Decorative line */}
+          <motion.div
+            initial={{ scaleX: 0 }}
+            animate={{ scaleX: 1 }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="mt-8 h-px w-24 mx-auto bg-gradient-to-r from-transparent via-[#C9A227] to-transparent"
+          />
+        </div>
+      </section>
 
-      {/* Gallery Grid */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-24">
+      {/* ================================================================== */}
+      {/* GALLERY GRID */}
+      {/* ================================================================== */}
+      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Error state */}
         {error && (
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-center py-12"
           >
-            <div className="inline-flex items-center gap-3 px-6 py-4 rounded-2xl bg-red-500/10 border border-red-500/20 text-red-400">
+            <div className="inline-flex items-center gap-3 px-5 py-3 rounded-xl bg-red-50 border border-red-200 text-red-600">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
-              <span>{error}</span>
+              <span className="text-sm font-medium">{error}</span>
               <button
                 onClick={fetchGalleryItems}
-                className="ml-2 px-3 py-1 rounded-lg bg-red-500/20 hover:bg-red-500/30 transition-colors"
+                className="ml-2 px-3 py-1 rounded-lg bg-red-100 hover:bg-red-200 text-sm font-medium transition-colors"
               >
                 Retry
               </button>
@@ -450,47 +486,73 @@ export const GalleryPage: React.FC = () => {
           </motion.div>
         )}
 
-        {loading ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {Array.from({ length: 8 }).map((_, index) => (
-              <ImageSkeleton key={index} index={index} />
+        {/* Loading state */}
+        {loading && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {Array.from({ length: 9 }).map((_, i) => (
+              <ImageSkeleton
+                key={i}
+                className="aspect-[4/3]"
+              />
             ))}
           </div>
-        ) : galleryItems.length === 0 && !error ? (
+        )}
+
+        {/* Empty state */}
+        {!loading && galleryItems.length === 0 && !error && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-center py-24"
+            className="text-center py-20"
           >
-            <div className="w-24 h-24 mx-auto mb-6 rounded-2xl bg-stone-800/50 flex items-center justify-center">
-              <svg className="w-12 h-12 text-stone-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            <div className="w-20 h-20 mx-auto mb-5 rounded-2xl bg-[#EFECE5] flex items-center justify-center">
+              <svg className="w-10 h-10 text-[#C9A227]/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
-            <h3 className="text-2xl font-semibold text-white mb-3">Gallery Coming Soon</h3>
-            <p className="text-stone-500">Our curated collection is being prepared for you</p>
-          </motion.div>
-        ) : (
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 auto-rows-[280px]"
-          >
-            <AnimatePresence mode="popLayout">
-              {galleryItems.map((item, index) => (
-                <GalleryImage
-                  key={item.id}
-                  item={item}
-                  index={index}
-                  onClick={() => openLightbox(item, index)}
-                />
-              ))}
-            </AnimatePresence>
+            <h3 className="text-xl font-semibold text-[#1A1A1A] mb-2">
+              Gallery Coming Soon
+            </h3>
+            <p className="text-[#6B6B6B] text-sm">
+              Our curated collection is being prepared for you
+            </p>
           </motion.div>
         )}
-      </div>
 
-      {/* Lightbox */}
+        {/* Gallery grid - Full cards */}
+        {!loading && galleryItems.length > 0 && (
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+          >
+            {galleryItems.map((item, index) => (
+              <GalleryTile
+                key={item.id}
+                item={item}
+                index={index}
+                onClick={() => openLightbox(item, index)}
+              />
+            ))}
+          </motion.div>
+        )}
+
+        {/* Results count */}
+        {!loading && galleryItems.length > 0 && (
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center text-[#9A9A9A] text-sm mt-10"
+          >
+            Showing {galleryItems.length} {galleryItems.length === 1 ? 'image' : 'images'}
+          </motion.p>
+        )}
+      </section>
+
+      {/* ================================================================== */}
+      {/* LIGHTBOX */}
+      {/* ================================================================== */}
       <AnimatePresence>
         {selectedItem && (
           <Lightbox
@@ -503,7 +565,9 @@ export const GalleryPage: React.FC = () => {
         )}
       </AnimatePresence>
 
-      {/* CSS for skeleton shimmer */}
+      {/* ================================================================== */}
+      {/* GLOBAL STYLES */}
+      {/* ================================================================== */}
       <style jsx global>{`
         @keyframes shimmer {
           0% { transform: translateX(-100%); }
@@ -511,6 +575,18 @@ export const GalleryPage: React.FC = () => {
         }
         .skeleton-shimmer {
           animation: shimmer 1.5s infinite;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .skeleton-shimmer {
+            animation: none;
+          }
         }
       `}</style>
     </div>

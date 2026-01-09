@@ -881,11 +881,55 @@ class Event(TranslatableMixin):
         ('monthly', 'Monthly'),
     ]
     
+    VIDEO_STATUS_CHOICES = [
+        ('none', 'No Video'),
+        ('uploading', 'Uploading'),
+        ('processing', 'Processing'),
+        ('completed', 'Completed'),
+        ('failed', 'Failed'),
+    ]
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     title = models.CharField(max_length=200, help_text="Event title")
     description = models.TextField(help_text="Event description")
     image = models.ImageField(upload_to=event_image_path, help_text="Event image")
-    
+
+    # Video fields
+    video_original = models.FileField(
+        upload_to='events/videos/original/',
+        null=True,
+        blank=True,
+        help_text="Original uploaded video (MP4)"
+    )
+    video_webm = models.FileField(
+        upload_to='events/videos/webm/',
+        null=True,
+        blank=True,
+        help_text="Converted WebM video"
+    )
+    video_status = models.CharField(
+        max_length=20,
+        choices=VIDEO_STATUS_CHOICES,
+        default='none',
+        help_text="Video conversion status"
+    )
+    video_task_id = models.CharField(
+        max_length=255,
+        null=True,
+        blank=True,
+        help_text="Celery task ID for video conversion"
+    )
+    video_duration = models.FloatField(
+        null=True,
+        blank=True,
+        help_text="Video duration in seconds"
+    )
+    video_error = models.TextField(
+        null=True,
+        blank=True,
+        help_text="Error message if video conversion failed"
+    )
+
     # Frontend expects these fields
     event_type = models.CharField(
         max_length=20,
@@ -1638,3 +1682,50 @@ class ClientMessage(models.Model):
 
     def __str__(self):
         return f"{self.sender_type}: {self.content[:50]}..."
+
+
+# =============================================================================
+# MOMENTS MODEL (Our Best Moments Section)
+# =============================================================================
+
+def moment_image_path(instance, filename):
+    """Generate file path for moment images"""
+    ext = filename.split('.')[-1]
+    filename = f"{uuid.uuid4().hex}.{ext}"
+    return os.path.join('moments', filename)
+
+
+class Moment(models.Model):
+    """Model for 'Our Best Moments' section photos"""
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=200, blank=True, help_text="Optional title for the moment")
+    description = models.TextField(blank=True, help_text="Optional description")
+    image = models.ImageField(upload_to=moment_image_path, help_text="Moment photo")
+    is_active = models.BooleanField(default=True, help_text="Show this moment publicly")
+    display_order = models.IntegerField(default=0, help_text="Order in which to display (lower numbers first)")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        ordering = ['display_order', '-created_at']
+        verbose_name = 'Moment'
+        verbose_name_plural = 'Moments'
+        indexes = [
+            models.Index(fields=['is_active', 'display_order']),
+        ]
+
+    def __str__(self):
+        return self.title if self.title else f"Moment {self.id}"
+
+    @property
+    def image_url(self):
+        """Get image URL"""
+        if self.image:
+            return self.image.url
+        return None
+
+    def delete(self, *args, **kwargs):
+        # Delete the image file when the model instance is deleted
+        if self.image:
+            self.image.delete(save=False)
+        super().delete(*args, **kwargs)

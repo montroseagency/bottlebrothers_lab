@@ -3,3 +3,4 @@ export * from './client';
 export * from './events';
 export * from './menu';
 export * from './gallery';
+export * from './moments';

@@ -62,6 +62,8 @@ from .ClientPortalViews import (
     get_or_create_support_chat,
     support_chat_messages,
 )
+# Moments Views
+from .MomentViews import MomentViewSet, PublicMomentViewSet
 
 # Make all imports available when importing from views
 __all__ = [
@@ -110,4 +112,7 @@ __all__ = [
     # Direct support chat (WhatsApp-style)
     'get_or_create_support_chat',
     'support_chat_messages',
+    # Moments
+    'MomentViewSet',
+    'PublicMomentViewSet',
 ]

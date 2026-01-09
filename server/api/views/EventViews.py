@@ -1,4 +1,6 @@
 # server/api/views.py - ENHANCED VERSION
+import os
+import logging
 from rest_framework import viewsets, status, permissions
 from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
@@ -11,11 +13,17 @@ from django.contrib.auth.models import User
 from django.utils import timezone
 from django.db.models import Count, Q
 from django.core.exceptions import ValidationError
+from django.conf import settings
 from datetime import datetime, timedelta, date, time
 import json
+import uuid
 
 from api.models import (Event)
 from api.serializers import (EventSerializer, PublicEventSerializer)
+from api.tasks import convert_event_video_to_webm
+from api.services.video_service import validate_video_file, generate_video_filename
+
+logger = logging.getLogger(__name__)
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
@@ -186,12 +194,218 @@ class EventViewSet(viewsets.ModelViewSet):
             event = self.get_object()
             event.is_featured = not event.is_featured
             event.save()
-            
+
             serializer = self.get_serializer(event)
             return Response(serializer.data)
-            
+
         except Event.DoesNotExist:
             return Response(
                 {'detail': 'Event not found'},
                 status=status.HTTP_404_NOT_FOUND
             )
+
+    @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated],
+            parser_classes=[MultiPartParser, FormParser])
+    def upload_video(self, request, pk=None):
+        """
+        Upload a video for an event and trigger MP4 to WebM conversion.
+        Accepts MP4 files up to 100MB.
+        """
+        try:
+            event = self.get_object()
+        except Event.DoesNotExist:
+            return Response(
+                {'detail': 'Event not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Check if there's already a video being processed
+        if event.video_status == 'processing':
+            return Response(
+                {'detail': 'A video is already being processed for this event'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Get the uploaded file
+        video_file = request.FILES.get('video')
+        if not video_file:
+            return Response(
+                {'detail': 'No video file provided'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Validate file type
+        allowed_types = getattr(settings, 'ALLOWED_VIDEO_TYPES', ['video/mp4'])
+        if video_file.content_type not in allowed_types:
+            return Response(
+                {'detail': f'Invalid file type. Allowed types: {", ".join(allowed_types)}'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Validate file size
+        max_size = getattr(settings, 'MAX_VIDEO_SIZE', 100 * 1024 * 1024)
+        if video_file.size > max_size:
+            return Response(
+                {'detail': f'File too large. Maximum size: {max_size // (1024*1024)}MB'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        try:
+            # Delete old video files if they exist
+            if event.video_original:
+                try:
+                    old_path = event.video_original.path
+                    if os.path.exists(old_path):
+                        os.remove(old_path)
+                except Exception as e:
+                    logger.warning(f"Could not delete old original video: {e}")
+
+            if event.video_webm:
+                try:
+                    old_webm_path = event.video_webm.path
+                    if os.path.exists(old_webm_path):
+                        os.remove(old_webm_path)
+                except Exception as e:
+                    logger.warning(f"Could not delete old webm video: {e}")
+
+            # Generate unique filename
+            filename = generate_video_filename(video_file.name, 'mp4')
+
+            # Save the uploaded file
+            video_dir = os.path.join(settings.MEDIA_ROOT, 'events', 'videos', 'original')
+            os.makedirs(video_dir, exist_ok=True)
+            video_path = os.path.join(video_dir, filename)
+
+            # Write file in chunks
+            with open(video_path, 'wb+') as destination:
+                for chunk in video_file.chunks():
+                    destination.write(chunk)
+
+            # Update event with video info
+            event.video_original.name = f'events/videos/original/{filename}'
+            event.video_webm = None
+            event.video_status = 'uploading'
+            event.video_error = None
+            event.video_duration = None
+            event.save(update_fields=[
+                'video_original', 'video_webm', 'video_status',
+                'video_error', 'video_duration'
+            ])
+
+            # Trigger Celery task for conversion
+            task = convert_event_video_to_webm.delay(str(event.id))
+
+            # Update with task ID
+            event.video_task_id = task.id
+            event.video_status = 'processing'
+            event.save(update_fields=['video_task_id', 'video_status'])
+
+            logger.info(f"Video upload started for event {event.id}, task {task.id}")
+
+            serializer = self.get_serializer(event)
+            return Response({
+                'detail': 'Video uploaded successfully. Conversion started.',
+                'task_id': task.id,
+                'event': serializer.data
+            }, status=status.HTTP_202_ACCEPTED)
+
+        except Exception as e:
+            logger.exception(f"Error uploading video for event {pk}")
+            event.video_status = 'failed'
+            event.video_error = str(e)
+            event.save(update_fields=['video_status', 'video_error'])
+            return Response(
+                {'detail': f'Error uploading video: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+    @action(detail=True, methods=['get'], permission_classes=[IsAuthenticated])
+    def video_status(self, request, pk=None):
+        """Get the current video conversion status for an event."""
+        try:
+            event = self.get_object()
+        except Event.DoesNotExist:
+            return Response(
+                {'detail': 'Event not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        response_data = {
+            'status': event.video_status,
+            'task_id': event.video_task_id,
+            'error': event.video_error,
+            'duration': event.video_duration,
+            'video_original_url': None,
+            'video_webm_url': None
+        }
+
+        if event.video_original:
+            response_data['video_original_url'] = request.build_absolute_uri(
+                event.video_original.url
+            )
+
+        if event.video_webm:
+            response_data['video_webm_url'] = request.build_absolute_uri(
+                event.video_webm.url
+            )
+
+        return Response(response_data)
+
+    @action(detail=True, methods=['delete'], permission_classes=[IsAuthenticated])
+    def delete_video(self, request, pk=None):
+        """Delete video files for an event."""
+        try:
+            event = self.get_object()
+        except Event.DoesNotExist:
+            return Response(
+                {'detail': 'Event not found'},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+        # Don't delete while processing
+        if event.video_status == 'processing':
+            return Response(
+                {'detail': 'Cannot delete video while conversion is in progress'},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        deleted_files = []
+
+        # Delete original video
+        if event.video_original:
+            try:
+                original_path = event.video_original.path
+                if os.path.exists(original_path):
+                    os.remove(original_path)
+                    deleted_files.append('original')
+            except Exception as e:
+                logger.warning(f"Could not delete original video: {e}")
+
+        # Delete WebM video
+        if event.video_webm:
+            try:
+                webm_path = event.video_webm.path
+                if os.path.exists(webm_path):
+                    os.remove(webm_path)
+                    deleted_files.append('webm')
+            except Exception as e:
+                logger.warning(f"Could not delete webm video: {e}")
+
+        # Reset video fields
+        event.video_original = None
+        event.video_webm = None
+        event.video_status = 'none'
+        event.video_task_id = None
+        event.video_duration = None
+        event.video_error = None
+        event.save(update_fields=[
+            'video_original', 'video_webm', 'video_status',
+            'video_task_id', 'video_duration', 'video_error'
+        ])
+
+        logger.info(f"Video deleted for event {event.id}")
+
+        return Response({
+            'detail': 'Video deleted successfully',
+            'deleted_files': deleted_files
+        })

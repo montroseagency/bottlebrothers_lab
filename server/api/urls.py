@@ -67,6 +67,9 @@ from .views import (
     # Direct support chat (WhatsApp-style)
     get_or_create_support_chat,
     support_chat_messages,
+    # Moments views
+    MomentViewSet,
+    PublicMomentViewSet,
 )
 
 # Create router and register viewsets
@@ -105,6 +108,10 @@ router.register(r'admin/translations', TranslationViewSet, basename='translation
 router.register(r'admin/home-sections', HomeSectionAdminViewSet, basename='home-sections')
 router.register(r'admin/static-content', StaticContentAdminViewSet, basename='static-content')
 router.register(r'admin/restaurant-info', RestaurantInfoAdminViewSet, basename='restaurant-info')
+router.register(r'admin/moments', MomentViewSet, basename='admin-moments')
+
+# Public Moments endpoint
+router.register(r'public/moments', PublicMomentViewSet, basename='public-moments')
 
 urlpatterns = [
     # Include all router URLs

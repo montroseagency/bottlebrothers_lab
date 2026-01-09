@@ -202,18 +202,6 @@ const Home: React.FC = () => {
           </div>
         </motion.div>
 
-        {/* Scroll Indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 1.2, delay: 0.8 }}
-          viewport={{ once: true }}
-          className="absolute bottom-4 sm:bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce"
-        >
-          <div className="w-5 h-8 sm:w-6 sm:h-10 border-2 border-[#d4af37] rounded-full flex justify-center">
-            <div className="w-1 h-2 sm:h-3 bg-[#d4af37] rounded-full mt-2 animate-pulse" />
-          </div>
-        </motion.div>
       </section>
 
       {/* Shisha Experience Section */}

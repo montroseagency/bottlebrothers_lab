@@ -148,6 +148,10 @@ CORS_ALLOWED_ORIGINS = [
     "http://127.0.0.1:3003",
     "http://localhost:3004",
     "http://127.0.0.1:3004",
+    "http://localhost:3005",
+    "http://127.0.0.1:3005",
+    "http://localhost:3006",
+    "http://127.0.0.1:3006",
     "http://localhost:5173",  # Vite
     "http://localhost:4173",  # Vite preview
     "http://localhost:8080",  # Vue/other frameworks
@@ -242,15 +246,22 @@ SIMPLE_JWT = {
 }
 
 # File Upload Settings
-FILE_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10MB
-DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024   # 10MB
+FILE_UPLOAD_MAX_MEMORY_SIZE = 100 * 1024 * 1024  # 100MB for video uploads
+DATA_UPLOAD_MAX_MEMORY_SIZE = 100 * 1024 * 1024   # 100MB for video uploads
 FILE_UPLOAD_PERMISSIONS = 0o644
 ALLOWED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/avif']
 MAX_IMAGE_SIZE = 5 * 1024 * 1024  # 5MB
 
+# Video Upload Settings
+ALLOWED_VIDEO_TYPES = ['video/mp4', 'video/mpeg', 'video/quicktime']
+MAX_VIDEO_SIZE = 100 * 1024 * 1024  # 100MB
+VIDEO_CONVERSION_TIMEOUT = 1800  # 30 minutes
+
 # Create media directories
 os.makedirs(MEDIA_ROOT / 'gallery', exist_ok=True)
 os.makedirs(MEDIA_ROOT / 'events', exist_ok=True)
+os.makedirs(MEDIA_ROOT / 'events' / 'videos' / 'original', exist_ok=True)
+os.makedirs(MEDIA_ROOT / 'events' / 'videos' / 'webm', exist_ok=True)
 os.makedirs(MEDIA_ROOT / 'venues', exist_ok=True)
 os.makedirs(MEDIA_ROOT / 'processed', exist_ok=True)
 os.makedirs(MEDIA_ROOT / 'menu', exist_ok=True)

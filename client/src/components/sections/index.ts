@@ -2,6 +2,7 @@
 export { HeroSection } from './HeroSection';
 export { TonightsVibe } from './TonightsVibe';
 export { OurStory } from './OurStory';
+export { OurBestMoments } from './OurBestMoments';
 export { SignaturePicks } from './SignaturePicks';
 export { UpcomingEvents } from './UpcomingEvents';
 export { GalleryPreview } from './GalleryPreview';
