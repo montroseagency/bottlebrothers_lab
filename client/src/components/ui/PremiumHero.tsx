@@ -238,8 +238,6 @@ export const PremiumHero: React.FC<PremiumHeroProps> = ({
           <ParticleField particleCount={25} color="bg-green-400" />
           {renderContent()}
         </div>
-        
-        <ScrollIndicator />
       </section>
     );
   }
@@ -279,9 +277,6 @@ export const PremiumHero: React.FC<PremiumHeroProps> = ({
       
       {/* Content */}
       {renderContent()}
-      
-      {/* Scroll Indicator */}
-      <ScrollIndicator />
     </section>
   );
 };
