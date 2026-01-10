@@ -1,4 +1,4 @@
-// client/src/pages/Menu.tsx - Luxury Lounge Menu
+// client/src/pages/Menu.tsx - Luxury Lounge Menu (Mobile Optimized)
 'use client'
 
 import React, { useState, useEffect, useMemo } from 'react';
@@ -17,7 +17,7 @@ interface CategoryWithItems extends MenuCategory {
 }
 
 // ============================================
-// LUXURY LOUNGE MENU ITEM
+// LUXURY LOUNGE MENU ITEM (Mobile Optimized)
 // ============================================
 interface LoungeMenuItemProps {
   name: string;
@@ -28,26 +28,29 @@ interface LoungeMenuItemProps {
 
 const LoungeMenuItem: React.FC<LoungeMenuItemProps> = ({ name, price, description, note }) => {
   return (
-    <div className="group py-3">
-      {/* Name and Price with dotted leader */}
-      <div className="flex items-baseline gap-2">
-        <span className="text-[15px] sm:text-[16px] font-medium text-stone-800 group-hover:text-stone-600 transition-colors duration-300 whitespace-nowrap">
+    <div className="group py-2.5 sm:py-3 active:bg-stone-50/50 -mx-2 px-2 rounded-lg transition-colors">
+      {/* Mobile: Stack name and price, Desktop: Inline with dotted line */}
+      <div className="flex flex-col xs:flex-row xs:items-baseline gap-0.5 xs:gap-2">
+        {/* Name - allows wrapping on mobile */}
+        <span className="text-[14px] xs:text-[15px] sm:text-[16px] font-medium text-stone-800 group-hover:text-stone-600 transition-colors duration-300 leading-snug">
           {name}
         </span>
-        <span className="flex-1 border-b border-dotted border-stone-300 mx-1 mb-1" />
-        <span className="text-[14px] sm:text-[15px] font-normal text-stone-600 tabular-nums whitespace-nowrap">
+        {/* Dotted line - hidden on very small screens */}
+        <span className="hidden xs:block flex-1 border-b border-dotted border-stone-300 min-w-[20px] mb-1" />
+        {/* Price */}
+        <span className="text-[13px] xs:text-[14px] sm:text-[15px] font-normal text-stone-500 tabular-nums">
           {price}
         </span>
       </div>
       {/* Description */}
       {description && (
-        <p className="text-[12px] sm:text-[13px] text-stone-400 mt-1 leading-relaxed">
+        <p className="text-[11px] xs:text-[12px] sm:text-[13px] text-stone-400 mt-1 leading-relaxed">
           {description}
         </p>
       )}
       {/* Note (e.g., for shisha) */}
       {note && (
-        <p className="text-[11px] text-stone-400 mt-1 italic">
+        <p className="text-[10px] xs:text-[11px] text-stone-400 mt-1 italic">
           {note}
         </p>
       )}
@@ -56,7 +59,7 @@ const LoungeMenuItem: React.FC<LoungeMenuItemProps> = ({ name, price, descriptio
 };
 
 // ============================================
-// LUXURY LOUNGE MENU SECTION
+// LUXURY LOUNGE MENU SECTION (Mobile Optimized)
 // ============================================
 interface LoungeMenuSectionProps {
   title: string;
@@ -68,19 +71,19 @@ const LoungeMenuSection: React.FC<LoungeMenuSectionProps> = ({ title, items }) =
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 15 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.6, ease: [0.25, 0.1, 0.25, 1] }}
-      className="mb-12 sm:mb-16"
+      viewport={{ once: true, margin: "-30px" }}
+      transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+      className="mb-8 sm:mb-12 md:mb-16"
     >
       {/* Section Title */}
-      <h2 className="text-[11px] sm:text-[12px] font-medium tracking-[0.2em] text-[#C4A35A] uppercase mb-6 sm:mb-8">
+      <h2 className="text-[10px] xs:text-[11px] sm:text-[12px] font-semibold tracking-[0.15em] sm:tracking-[0.2em] text-[#C4A35A] uppercase mb-4 sm:mb-6 md:mb-8">
         {title}
       </h2>
 
       {/* Items */}
-      <div className="space-y-1">
+      <div className="space-y-0.5">
         {items.map((item) => (
           <LoungeMenuItem
             key={item.id}
@@ -98,9 +101,9 @@ const LoungeMenuSection: React.FC<LoungeMenuSectionProps> = ({ title, items }) =
 // LOADING STATE
 // ============================================
 const LoadingState = () => (
-  <div className="flex flex-col items-center justify-center py-32">
-    <div className="w-8 h-8 border-2 border-stone-200 border-t-[#C4A35A] rounded-full animate-spin" />
-    <p className="text-[13px] text-stone-400 mt-4">Loading menu...</p>
+  <div className="flex flex-col items-center justify-center py-20 sm:py-32">
+    <div className="w-6 h-6 sm:w-8 sm:h-8 border-2 border-stone-200 border-t-[#C4A35A] rounded-full animate-spin" />
+    <p className="text-[12px] sm:text-[13px] text-stone-400 mt-3 sm:mt-4">Loading menu...</p>
   </div>
 );
 
@@ -111,16 +114,16 @@ const EmptyState = () => (
   <motion.div
     initial={{ opacity: 0 }}
     animate={{ opacity: 1 }}
-    className="flex flex-col items-center justify-center py-32"
+    className="flex flex-col items-center justify-center py-20 sm:py-32"
   >
-    <p className="text-[14px] text-stone-400">
+    <p className="text-[13px] sm:text-[14px] text-stone-400">
       No menu items available
     </p>
   </motion.div>
 );
 
 // ============================================
-// MAIN LUXURY LOUNGE MENU
+// MAIN LUXURY LOUNGE MENU (Mobile Optimized)
 // ============================================
 const Menu: React.FC = () => {
   const { t } = useTranslation();
@@ -205,32 +208,32 @@ const Menu: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen bg-[#FEFCF9]">
-      {/* Header */}
-      <header className="pt-28 sm:pt-32 md:pt-40 pb-12 sm:pb-16 md:pb-20 px-4">
+    <div className="min-h-screen bg-[#FEFCF9]" data-nav-theme="light">
+      {/* Header - Compact on mobile */}
+      <header className="pt-20 xs:pt-24 sm:pt-32 md:pt-40 pb-8 xs:pb-10 sm:pb-16 md:pb-20 px-4">
         <motion.div
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.25, 0.1, 0.25, 1] }}
           className="max-w-5xl mx-auto text-center"
         >
-          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-light text-stone-800 tracking-tight">
+          <h1 className="font-serif text-3xl xs:text-4xl sm:text-5xl md:text-6xl font-light text-stone-800 tracking-tight">
             {t('menu.title', 'Menu')}
           </h1>
-          <div className="w-12 h-px bg-[#C4A35A] mx-auto mt-6" />
+          <div className="w-8 xs:w-10 sm:w-12 h-px bg-[#C4A35A] mx-auto mt-4 sm:mt-6" />
         </motion.div>
       </header>
 
-      {/* Main Content */}
-      <main className="max-w-5xl mx-auto px-6 sm:px-8 md:px-12 pb-24 sm:pb-32">
+      {/* Main Content - Tighter padding on mobile */}
+      <main className="max-w-5xl mx-auto px-4 xs:px-5 sm:px-8 md:px-12 pb-16 sm:pb-24 md:pb-32">
         {loading && <LoadingState />}
 
         {error && (
-          <div className="flex flex-col items-center py-20">
-            <p className="text-[14px] text-stone-400 mb-4">{error}</p>
+          <div className="flex flex-col items-center py-16 sm:py-20">
+            <p className="text-[13px] sm:text-[14px] text-stone-400 mb-3 sm:mb-4">{error}</p>
             <button
               onClick={fetchMenuData}
-              className="text-[13px] text-stone-500 hover:text-stone-700 transition-colors duration-300 underline underline-offset-4 decoration-stone-300"
+              className="text-[12px] sm:text-[13px] text-stone-500 hover:text-stone-700 active:text-stone-900 transition-colors duration-300 underline underline-offset-4 decoration-stone-300 py-2 px-4"
             >
               Try again
             </button>
@@ -247,9 +250,9 @@ const Menu: React.FC = () => {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.5 }}
               >
-                {/* Two-column layout when both columns have items */}
+                {/* Two-column layout when both columns have items (desktop only) */}
                 {leftColumn.length > 0 && rightColumn.length > 0 ? (
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-16">
                     {/* Left Column */}
                     <div className="lg:pr-8 lg:border-r lg:border-stone-200/60">
                       {leftColumn.map((category) => (
@@ -293,8 +296,8 @@ const Menu: React.FC = () => {
       </main>
 
       {/* Subtle footer decoration */}
-      <div className="flex justify-center pb-16">
-        <div className="w-8 h-px bg-[#C4A35A]/40" />
+      <div className="flex justify-center pb-10 sm:pb-16">
+        <div className="w-6 sm:w-8 h-px bg-[#C4A35A]/40" />
       </div>
     </div>
   );

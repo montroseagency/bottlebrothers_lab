@@ -1,7 +1,7 @@
 {
-  "/(public)/page": "app/(public)/page.js",
   "/(public)/reservations/page": "app/(public)/reservations/page.js",
-  "/[locale]/(public)/events/page": "app/[locale]/(public)/events/page.js",
-  "/[locale]/(public)/menu/page": "app/[locale]/(public)/menu/page.js",
-  "/[locale]/(public)/page": "app/[locale]/(public)/page.js"
+  "/[locale]/(public)/page": "app/[locale]/(public)/page.js",
+  "/[locale]/(public)/gallery/page": "app/[locale]/(public)/gallery/page.js",
+  "/[locale]/(public)/contact/page": "app/[locale]/(public)/contact/page.js",
+  "/[locale]/(public)/events/page": "app/[locale]/(public)/events/page.js"
 }

@@ -25,7 +25,7 @@ import logoImage from '@/assets/logo.png';
 export const Header: React.FC = () => {
   const pathname = usePathname();
   const router = useRouter();
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
 
   // Get current locale from URL
   const currentLocale = extractLocale(pathname) || 'sq';
@@ -33,10 +33,10 @@ export const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isDarkSection, setIsDarkSection] = useState(true); // Start with dark (hero)
 
   const languageDropdownRef = useRef<HTMLDivElement>(null);
 
+  // Scroll detection
   useEffect(() => {
     const onScroll = () => setIsScrolled(window.scrollY > 12);
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -44,32 +44,7 @@ export const Header: React.FC = () => {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Detect section theme based on data-nav-theme attribute
-  useEffect(() => {
-    const sections = document.querySelectorAll('[data-nav-theme]');
-    if (sections.length === 0) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        // Find the section that is most visible at the top of viewport
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            const theme = entry.target.getAttribute('data-nav-theme');
-            setIsDarkSection(theme === 'dark');
-          }
-        }
-      },
-      {
-        rootMargin: '-80px 0px -80% 0px', // Trigger when section is near the top
-        threshold: 0,
-      }
-    );
-
-    sections.forEach((section) => observer.observe(section));
-
-    return () => observer.disconnect();
-  }, [pathname]);
-
+  // Close language dropdown on outside click
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -83,6 +58,17 @@ export const Header: React.FC = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  // ===========================================
+  // NAVBAR THEME LOGIC
+  // ===========================================
+  // Determine if page has light background based on pathname
+  // Menu page has light background, most other pages are dark
+  const isLightPage = pathname.includes('/menu');
+
+  // isDarkNavbar = true when navbar needs white text
+  // White text: always, except when scrolled on light pages
+  const isDarkNavbar = !(isScrolled && isLightPage);
+
   // Build locale-prefixed paths
   const localePath = (path: string) => `/${currentLocale}${path === '/' ? '' : path}`;
 
@@ -95,23 +81,26 @@ export const Header: React.FC = () => {
 
   const changeLanguage = (lng: string) => {
     if (lng === currentLocale) return;
-
-    // Set cookie for persistence
     setLocaleCookie(lng as Locale);
-
-    // Navigate to new locale URL
     const newPath = buildLocalePath(pathname, lng as Locale);
     router.push(newPath);
-
     setIsLanguageDropdownOpen(false);
     if (isMenuOpen) handleMobileMenuClose();
   };
+
+  // ===========================================
+  // COMPONENTS
+  // ===========================================
 
   const Logo = () => (
     <Link
       href={localePath('/')}
       onClick={handleMobileMenuClose}
-      className="group flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent rounded-lg"
+      className={[
+        'group flex items-center rounded-lg',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]',
+        'focus-visible:ring-offset-2 focus-visible:ring-offset-transparent',
+      ].join(' ')}
     >
       <div className="relative">
         <Image
@@ -119,14 +108,18 @@ export const Header: React.FC = () => {
           alt="Bottle Brothers"
           width={180}
           height={60}
-          className="h-14 w-auto object-contain transition-all duration-300 group-hover:scale-105"
+          className={[
+            'h-14 w-auto object-contain transition-all duration-300 group-hover:scale-105',
+            // Invert logo on light backgrounds for visibility
+            !isDarkNavbar ? 'brightness-0' : '',
+          ].join(' ')}
           priority
         />
       </div>
     </Link>
   );
 
-  // Premium pill nav item - white text with elegant hover/active states
+  // Navigation Item Component
   const NavigationItem = ({
     to,
     label,
@@ -138,6 +131,7 @@ export const Header: React.FC = () => {
   }) => {
     const active = isActive(to);
 
+    // Mobile menu is always dark background
     if (isMobile) {
       return (
         <Link
@@ -161,17 +155,25 @@ export const Header: React.FC = () => {
       );
     }
 
+    // Desktop navigation
     return (
       <Link
         href={to}
         className={[
           'group relative px-5 py-2.5 rounded-full transition-all duration-300',
-          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent',
-          active
-            ? 'bg-white/20 text-white'
-            : 'text-white hover:bg-white/10',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]',
+          'focus-visible:ring-offset-2 focus-visible:ring-offset-transparent',
+          isDarkNavbar
+            ? [
+                // Dark navbar - white text
+                active ? 'bg-white/20 text-white' : 'text-white/90 hover:text-white hover:bg-white/10',
+              ].join(' ')
+            : [
+                // Light navbar - dark text
+                active ? 'bg-neutral-900/10 text-neutral-900' : 'text-neutral-700 hover:text-neutral-900 hover:bg-neutral-900/5',
+              ].join(' '),
         ].join(' ')}
-        style={{ textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}
+        style={isDarkNavbar ? { textShadow: '0 1px 2px rgba(0,0,0,0.3)' } : undefined}
       >
         <span className={`text-[15px] tracking-wide ${active ? 'font-bold' : 'font-semibold'}`}>
           {label}
@@ -179,16 +181,16 @@ export const Header: React.FC = () => {
         {/* Underline indicator */}
         <span
           className={[
-            'absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 bg-[#d4af37] rounded-full transition-all duration-300',
-            active
-              ? 'w-8 opacity-100'
-              : 'w-0 opacity-0 group-hover:w-6 group-hover:opacity-80',
+            'absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 rounded-full transition-all duration-300',
+            isDarkNavbar ? 'bg-[#d4af37]' : 'bg-[#d4af37]',
+            active ? 'w-8 opacity-100' : 'w-0 opacity-0 group-hover:w-6 group-hover:opacity-80',
           ].join(' ')}
         />
       </Link>
     );
   };
 
+  // Language Selector Component
   const LanguageSelector = ({ isMobile = false }: { isMobile?: boolean }) => {
     const languages = [
       { code: 'en', name: 'English', Icon: IconLanguageEN },
@@ -225,17 +227,21 @@ export const Header: React.FC = () => {
       );
     }
 
+    // Desktop language selector
     return (
       <div className="relative" ref={languageDropdownRef}>
         <button
           onClick={() => setIsLanguageDropdownOpen((s) => !s)}
           className={[
             'inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full',
-            'transition-all duration-300',
-            'bg-black/30 backdrop-blur-sm border border-white/20 text-white hover:bg-black/50',
-            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent',
+            'transition-all duration-300 backdrop-blur-sm border',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]',
+            'focus-visible:ring-offset-2 focus-visible:ring-offset-transparent',
+            isDarkNavbar
+              ? 'bg-black/30 border-white/20 text-white hover:bg-black/50'
+              : 'bg-white/80 border-neutral-200 text-neutral-700 hover:bg-white hover:border-neutral-300',
           ].join(' ')}
-          style={{ textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}
+          style={isDarkNavbar ? { textShadow: '0 1px 2px rgba(0,0,0,0.3)' } : undefined}
           aria-label="Language"
         >
           <span className="text-sm font-semibold uppercase">
@@ -278,6 +284,7 @@ export const Header: React.FC = () => {
     );
   };
 
+  // Reservation Button Component
   const ReservationButton = ({ isMobile = false }: { isMobile?: boolean }) => (
     <Link
       href={localePath('/reservations')}
@@ -285,7 +292,8 @@ export const Header: React.FC = () => {
       className={[
         'inline-flex items-center justify-center gap-2 rounded-full',
         'transition-all duration-300 shadow-lg',
-        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]',
+        'focus-visible:ring-offset-2 focus-visible:ring-offset-transparent',
         isMobile
           ? 'w-full py-3.5 px-4 text-sm font-bold bg-[#d4af37] text-black hover:bg-[#e5c349]'
           : 'px-6 py-2.5 text-sm font-bold bg-[#d4af37] text-black hover:bg-[#e5c349]',
@@ -298,21 +306,27 @@ export const Header: React.FC = () => {
     </Link>
   );
 
+  // ===========================================
+  // RENDER
+  // ===========================================
   return (
     <>
       {/* Premium floating header */}
-      <header className="fixed top-0 left-0 right-0 z-50">
+      <header
+        className="fixed top-0 left-0 right-0 z-50"
+        data-navbar-theme={isDarkNavbar ? 'dark' : 'light'}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+          {/* Main navbar container */}
           <div
             className={[
               'flex items-center justify-between',
               'h-16 lg:h-[68px] px-4 lg:px-6',
-              'rounded-full',
-              'border transition-all duration-500',
+              'rounded-full border transition-all duration-500',
               isScrolled
-                ? isDarkSection
-                  ? 'bg-black/80 border-white/10 backdrop-blur-xl shadow-lg'
-                  : 'bg-white/90 border-neutral-200 backdrop-blur-xl shadow-lg'
+                ? isDarkNavbar
+                  ? 'bg-black/85 border-white/10 backdrop-blur-xl shadow-lg'
+                  : 'bg-white/95 border-neutral-200 backdrop-blur-xl shadow-lg'
                 : 'bg-transparent border-transparent',
             ].join(' ')}
           >
@@ -323,31 +337,20 @@ export const Header: React.FC = () => {
 
             {/* Center: Premium Pill Navigation */}
             <nav className="hidden lg:flex items-center">
-              <div className="flex items-center gap-1 px-3 py-2 rounded-full bg-black/30 backdrop-blur-sm border border-white/10">
-                <NavigationItem
-                  to={localePath('/')}
-                  label={t('nav.home')}
-                />
-                <NavigationItem
-                  to={localePath('/menu')}
-                  label={t('nav.menu')}
-                />
-                <NavigationItem
-                  to={localePath('/events')}
-                  label={t('nav.events')}
-                />
-                <NavigationItem
-                  to={localePath('/gallery')}
-                  label={t('nav.gallery')}
-                />
-                <NavigationItem
-                  to={localePath('/contact')}
-                  label={t('nav.contact')}
-                />
-                <NavigationItem
-                  to={localePath('/account')}
-                  label={t('nav.account', 'Account')}
-                />
+              <div
+                className={[
+                  'flex items-center gap-1 px-3 py-2 rounded-full backdrop-blur-sm border transition-all duration-300',
+                  isDarkNavbar
+                    ? 'bg-black/30 border-white/10'
+                    : 'bg-neutral-100/80 border-neutral-200 shadow-sm',
+                ].join(' ')}
+              >
+                <NavigationItem to={localePath('/')} label={t('nav.home')} />
+                <NavigationItem to={localePath('/menu')} label={t('nav.menu')} />
+                <NavigationItem to={localePath('/events')} label={t('nav.events')} />
+                <NavigationItem to={localePath('/gallery')} label={t('nav.gallery')} />
+                <NavigationItem to={localePath('/contact')} label={t('nav.contact')} />
+                <NavigationItem to={localePath('/account')} label={t('nav.account', 'Account')} />
               </div>
             </nav>
 
@@ -360,9 +363,17 @@ export const Header: React.FC = () => {
                 <ReservationButton />
               </div>
 
+              {/* Mobile menu toggle */}
               <button
                 onClick={() => setIsMenuOpen((s) => !s)}
-                className="lg:hidden p-3 rounded-full transition-all duration-300 bg-black/30 backdrop-blur-sm border border-white/20 text-white hover:bg-black/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+                className={[
+                  'lg:hidden p-3 rounded-full transition-all duration-300 backdrop-blur-sm border',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37]',
+                  'focus-visible:ring-offset-2 focus-visible:ring-offset-transparent',
+                  isDarkNavbar
+                    ? 'bg-black/30 border-white/20 text-white hover:bg-black/50'
+                    : 'bg-white/80 border-neutral-200 text-neutral-700 hover:bg-white',
+                ].join(' ')}
                 aria-label="Toggle menu"
               >
                 {isMenuOpen ? (
@@ -374,7 +385,7 @@ export const Header: React.FC = () => {
             </div>
           </div>
 
-          {/* Mobile Menu - Premium Panel */}
+          {/* Mobile Menu - Premium Panel (always dark) */}
           <div
             className={[
               'lg:hidden mt-2 rounded-2xl overflow-hidden',
@@ -389,36 +400,12 @@ export const Header: React.FC = () => {
             <div className="p-5">
               {/* Nav Links */}
               <div className="space-y-1">
-                <NavigationItem
-                  to={localePath('/')}
-                  label={t('nav.home')}
-                  isMobile
-                />
-                <NavigationItem
-                  to={localePath('/menu')}
-                  label={t('nav.menu')}
-                  isMobile
-                />
-                <NavigationItem
-                  to={localePath('/events')}
-                  label={t('nav.events')}
-                  isMobile
-                />
-                <NavigationItem
-                  to={localePath('/gallery')}
-                  label={t('nav.gallery')}
-                  isMobile
-                />
-                <NavigationItem
-                  to={localePath('/contact')}
-                  label={t('nav.contact')}
-                  isMobile
-                />
-                <NavigationItem
-                  to={localePath('/account')}
-                  label={t('nav.account', 'Account')}
-                  isMobile
-                />
+                <NavigationItem to={localePath('/')} label={t('nav.home')} isMobile />
+                <NavigationItem to={localePath('/menu')} label={t('nav.menu')} isMobile />
+                <NavigationItem to={localePath('/events')} label={t('nav.events')} isMobile />
+                <NavigationItem to={localePath('/gallery')} label={t('nav.gallery')} isMobile />
+                <NavigationItem to={localePath('/contact')} label={t('nav.contact')} isMobile />
+                <NavigationItem to={localePath('/account')} label={t('nav.account', 'Account')} isMobile />
               </div>
 
               {/* Language Section */}
@@ -438,7 +425,7 @@ export const Header: React.FC = () => {
         </div>
       </header>
 
-      {/* Backdrop for mobile */}
+      {/* Backdrop for mobile menu */}
       {isMenuOpen && (
         <div
           className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden"

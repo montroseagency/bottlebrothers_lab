@@ -202,18 +202,6 @@ export const PremiumHero: React.FC<PremiumHeroProps> = ({
     </div>
   );
 
-  const ScrollIndicator = () => (
-    <div 
-      className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce"
-      style={{ opacity: Math.max(0, 1 - scrollY * 0.01) }}
-    >
-      <div className="w-6 h-12 border-2 border-green-400 rounded-full flex justify-center cursor-pointer hover:border-green-300 transition-colors">
-        <div className="w-1 h-4 bg-green-400 rounded-full mt-2 animate-pulse" />
-      </div>
-      <p className="text-green-300 text-sm mt-2 font-medium">Scroll</p>
-    </div>
-  );
-
   if (style === 'split') {
     return (
       <section ref={heroRef} className="relative h-screen flex overflow-hidden">
