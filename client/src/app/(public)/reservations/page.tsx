@@ -3,6 +3,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { apiClient, ReservationFormData } from '@/services/api';
 
 interface ReservationData {
   // Step 1: Date & Time
@@ -54,8 +56,10 @@ const SEATING_PREFERENCES = [
 ];
 
 export default function ReservationsPage() {
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [reservationData, setReservationData] = useState<ReservationData>({
     date: '',
     time: '',
@@ -90,16 +94,45 @@ export default function ReservationsPage() {
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    try {
-      // TODO: Implement API call
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log('Reservation Data:', reservationData);
+    setError(null);
 
-      // Redirect to confirmation page
-      window.location.href = '/reservations/confirmation';
-    } catch (error) {
-      console.error('Error submitting reservation:', error);
-      alert('Failed to submit reservation. Please try again.');
+    try {
+      // Convert time from "7:00 PM" format to "19:00" format for API
+      const convertTime = (timeStr: string): string => {
+        const match = timeStr.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i);
+        if (!match) return timeStr;
+        let hours = parseInt(match[1]);
+        const minutes = match[2];
+        const period = match[3].toUpperCase();
+        if (period === 'PM' && hours !== 12) hours += 12;
+        if (period === 'AM' && hours === 12) hours = 0;
+        return `${hours.toString().padStart(2, '0')}:${minutes}`;
+      };
+
+      // Prepare API data
+      const apiData: ReservationFormData = {
+        first_name: reservationData.firstName,
+        last_name: reservationData.lastName,
+        email: reservationData.email,
+        phone: reservationData.phone,
+        date: reservationData.date,
+        time: convertTime(reservationData.time),
+        party_size: reservationData.partySize,
+        occasion: reservationData.occasion || undefined,
+        special_requests: reservationData.specialRequests || undefined,
+        dietary_restrictions: reservationData.dietaryRestrictions.length > 0
+          ? reservationData.dietaryRestrictions.join(', ')
+          : undefined,
+      };
+
+      // Call the API
+      const result = await apiClient.createReservation(apiData);
+
+      // Redirect to confirmation page with reservation ID
+      router.push(`/reservations/confirmation?id=${result.id}`);
+    } catch (err: any) {
+      console.error('Error submitting reservation:', err);
+      setError(err.message || 'Failed to submit reservation. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -551,6 +584,13 @@ export default function ReservationsPage() {
                 </motion.div>
               )}
             </AnimatePresence>
+
+            {/* Error Display */}
+            {error && (
+              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+                <p className="text-red-700 text-sm font-medium">{error}</p>
+              </div>
+            )}
 
             {/* Navigation Buttons */}
             <div className="flex gap-4 mt-8">

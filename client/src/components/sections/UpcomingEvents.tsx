@@ -14,117 +14,155 @@ interface UpcomingEventsProps {
 export function UpcomingEvents({ events, fullHeight = false }: UpcomingEventsProps) {
   if (events.length === 0) return null;
 
+  const displayEvents = events.slice(0, 6);
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return {
+      day: date.getDate(),
+      month: date.toLocaleDateString('en-US', { month: 'short' }).toUpperCase(),
+    };
+  };
+
   return (
-    <section className={`bg-neutral-900 text-white overflow-hidden ${fullHeight ? 'h-screen flex items-center' : 'py-20 lg:py-28'}`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section
+      data-nav-theme="light"
+      className={`relative overflow-hidden ${fullHeight ? 'min-h-screen flex items-center' : 'py-20 lg:py-28'}`}
+      style={{ background: 'linear-gradient(to bottom, #ffffff 0%, #fef9f3 50%, #fdf6ed 100%)' }}
+    >
+
+      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ duration: 0.4, ease: "easeOut" }}
+          className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10 lg:mb-14"
         >
-          <span className="inline-block bg-primary-500/20 text-primary-400 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wide mb-4">
-            What's Coming
-          </span>
-          <h2 className="font-display text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            Upcoming{' '}
-            <span className="text-primary-400">Events</span>
-          </h2>
-          <p className="text-xl text-neutral-300 max-w-3xl mx-auto">
-            Experience unforgettable nights with live music, themed parties, and exclusive gatherings
-          </p>
+          {/* Left side */}
+          <div>
+            <p className="text-xs font-semibold text-amber-600 uppercase tracking-[0.2em] mb-2">
+              What's On
+            </p>
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-neutral-900 mb-1">
+              Upcoming Events
+            </h2>
+            <p className="text-neutral-500 text-sm md:text-base">
+              Experience unforgettable nights at Bottle Brothers
+            </p>
+          </div>
+
+          {/* Right side - View all link */}
+          <Link
+            href="/events"
+            className="group inline-flex items-center gap-2 text-sm font-medium text-neutral-600 hover:text-neutral-900 transition-colors duration-200"
+          >
+            <span>View all events</span>
+            <svg
+              className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+            </svg>
+          </Link>
         </motion.div>
 
         {/* Events Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {events.map((event, index) => (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+          {displayEvents.map((event, index) => (
             <motion.div
               key={event.id}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
+              viewport={{ once: true, margin: "-50px" }}
+              transition={{ duration: 0.4, delay: index * 0.05, ease: "easeOut" }}
             >
-              <Link
-                href={`/events/${event.id}`}
-                className="block group"
-              >
-                <div className="bg-neutral-800 rounded-2xl overflow-hidden shadow-luxury hover:shadow-luxury-lg transition-all duration-500 hover:-translate-y-2">
-                  {/* Image */}
-                  <div className="relative h-56 overflow-hidden">
+              <Link href={`/events/${event.id}`} className="group block h-full">
+                <article className="h-full bg-white rounded-2xl border border-neutral-100 shadow-sm overflow-hidden transition-all duration-200 hover:shadow-lg hover:border-neutral-200 hover:-translate-y-1">
+                  {/* Image Container */}
+                  <div className="relative aspect-[16/10] overflow-hidden bg-neutral-100">
                     <Image
-                      src={event.image || 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80'}
+                      src={event.image || event.image_url || 'https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=800&q=80'}
                       alt={event.title}
                       fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-700"
+                      className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-neutral-900/80 to-transparent" />
 
-                    {/* Badge */}
+                    {/* Subtle gradient for legibility */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+
+                    {/* Date Badge */}
+                    <div className="absolute top-3 left-3">
+                      <div className="bg-white/95 backdrop-blur-sm rounded-lg px-2.5 py-1.5 shadow-sm">
+                        <p className="text-base font-bold text-neutral-900 leading-none">
+                          {formatDate(event.start_date).day}
+                        </p>
+                        <p className="text-[10px] font-semibold text-neutral-500 tracking-wide mt-0.5">
+                          {formatDate(event.start_date).month}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Featured Badge */}
                     {event.event_type === 'featured' && (
-                      <div className="absolute top-4 right-4">
-                        <span className="px-3 py-1 bg-primary-500 text-white rounded-full text-xs font-bold">
-                          FEATURED
+                      <div className="absolute top-3 right-3">
+                        <span className="px-2 py-1 bg-amber-500 text-white text-[10px] font-bold uppercase tracking-wide rounded-md">
+                          Featured
                         </span>
                       </div>
                     )}
                   </div>
 
                   {/* Content */}
-                  <div className="p-6">
-                    <div className="flex items-center gap-2 text-primary-400 text-sm mb-3">
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clipRule="evenodd" />
-                      </svg>
-                      <span>{new Date(event.start_date).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}</span>
-                    </div>
-
-                    <h3 className="font-display text-2xl font-bold mb-2 line-clamp-2 group-hover:text-primary-400 transition-colors">
+                  <div className="p-5">
+                    {/* Title */}
+                    <h3 className="font-semibold text-neutral-900 text-base leading-snug mb-2 line-clamp-1 group-hover:text-amber-600 transition-colors duration-200">
                       {event.title}
                     </h3>
 
-                    <p className="text-neutral-400 mb-4 line-clamp-2 text-sm">
+                    {/* Description */}
+                    <p className="text-neutral-500 text-sm leading-relaxed line-clamp-2 mb-4">
                       {event.description}
                     </p>
 
-                    <div className="flex items-center justify-between pt-4 border-t border-neutral-700">
-                      <div className="flex items-center gap-2 text-sm text-neutral-400">
-                        <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                        </svg>
-                        <span>{event.formatted_time || `${event.start_time} - ${event.end_time}`}</span>
+                    {/* Meta + CTA Row */}
+                    <div className="flex items-center justify-between pt-3 border-t border-neutral-100">
+                      {/* Time & Location */}
+                      <div className="flex items-center gap-3 text-xs text-neutral-400">
+                        <span className="flex items-center gap-1">
+                          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                          </svg>
+                          {event.formatted_time || event.start_time}
+                        </span>
+                        {event.location && (
+                          <span className="flex items-center gap-1 truncate max-w-[100px]">
+                            <svg className="w-3.5 h-3.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <span className="truncate">{event.location}</span>
+                          </span>
+                        )}
                       </div>
-                      <span className="text-primary-400 font-semibold">
-                        {event.price_formatted || event.formatted_price || event.price_display || (event.price === '0.00' ? 'Free' : `$${event.price}`)}
+
+                      {/* Details CTA */}
+                      <span className="inline-flex items-center gap-1 text-xs font-medium text-amber-600 group-hover:gap-1.5 transition-all duration-200">
+                        Details
+                        <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
                       </span>
                     </div>
                   </div>
-                </div>
+                </article>
               </Link>
             </motion.div>
           ))}
         </div>
-
-        {/* View All Link */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="text-center mt-12"
-        >
-          <Link
-            href="/events"
-            className="inline-flex items-center gap-2 px-8 py-4 bg-primary-500 text-white rounded-full font-semibold hover:bg-primary-600 transition-all duration-300 shadow-glow hover:shadow-glow-lg"
-          >
-            View All Events
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </Link>
-        </motion.div>
       </div>
     </section>
   );

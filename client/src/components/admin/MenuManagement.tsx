@@ -1,5 +1,5 @@
 // client/src/components/admin/MenuManagement.tsx
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuthenticatedApi } from '../../contexts/AuthContext';
 
 interface MenuCategory {
@@ -68,7 +68,6 @@ const TAG_OPTIONS = [
 
 const MenuManagement: React.FC = () => {
   const { apiCall } = useAuthenticatedApi();
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Tab state
   const [activeTab, setActiveTab] = useState<'categories' | 'subcategories' | 'items'>('items');
@@ -91,9 +90,6 @@ const MenuManagement: React.FC = () => {
   const [editingCategory, setEditingCategory] = useState<MenuCategory | null>(null);
   const [editingSubcategory, setEditingSubcategory] = useState<MenuCategory | null>(null);
   const [editingItem, setEditingItem] = useState<MenuItem | null>(null);
-
-  // Image preview
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   // Form states
   const [categoryForm, setCategoryForm] = useState({
@@ -119,7 +115,6 @@ const MenuManagement: React.FC = () => {
     name: '',
     description: '',
     price: 0,
-    image: null as File | null,
     dietary_info: [] as string[],
     tags: [] as string[],
     ingredients: '',
@@ -345,7 +340,6 @@ const MenuManagement: React.FC = () => {
       name: item.name,
       description: item.description,
       price: item.price,
-      image: null,
       dietary_info: item.dietary_info || [],
       tags: item.tags || [],
       ingredients: item.ingredients || '',
@@ -356,28 +350,7 @@ const MenuManagement: React.FC = () => {
       is_featured: item.is_featured,
       display_order: item.display_order,
     });
-    setImagePreview(item.image_url || null);
     setShowItemModal(true);
-  };
-
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setItemForm({ ...itemForm, image: file });
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImagePreview(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleRemoveImage = () => {
-    setItemForm({ ...itemForm, image: null });
-    setImagePreview(null);
-    if (fileInputRef.current) {
-      fileInputRef.current.value = '';
-    }
   };
 
   const handleSaveItem = async () => {
@@ -396,7 +369,6 @@ const MenuManagement: React.FC = () => {
       formData.append('is_available', String(itemForm.is_available));
       formData.append('is_featured', String(itemForm.is_featured));
       formData.append('display_order', String(itemForm.display_order));
-      if (itemForm.image) formData.append('image', itemForm.image);
 
       if (editingItem) {
         await apiCall(`/menu/items/${editingItem.id}/`, {
@@ -1007,47 +979,6 @@ const MenuManagement: React.FC = () => {
                       </button>
                     </div>
                   )}
-
-                  {/* Image Upload */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">Image</label>
-                    <div className="flex items-start space-x-4">
-                      {imagePreview ? (
-                        <div className="relative">
-                          <img
-                            src={imagePreview}
-                            alt="Preview"
-                            className="w-32 h-32 rounded-lg object-cover"
-                          />
-                          <button
-                            onClick={handleRemoveImage}
-                            className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full text-xs hover:bg-red-600"
-                          >
-                            ×
-                          </button>
-                        </div>
-                      ) : (
-                        <div
-                          onClick={() => fileInputRef.current?.click()}
-                          className="w-32 h-32 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-green-500"
-                        >
-                          <span className="text-3xl text-gray-400">📷</span>
-                          <span className="text-sm text-gray-500 mt-1">Add image</span>
-                        </div>
-                      )}
-                      <input
-                        ref={fileInputRef}
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageChange}
-                        className="hidden"
-                      />
-                      <div className="text-sm text-gray-500">
-                        <p>Recommended: 800x600px</p>
-                        <p>Max size: 5MB</p>
-                      </div>
-                    </div>
-                  </div>
 
                   {/* Basic Info */}
                   <div className="grid grid-cols-2 gap-4">

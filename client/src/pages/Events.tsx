@@ -3,11 +3,16 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useTranslation } from 'react-i18next';
 import type { Event } from '../services/api';
 import { apiClient } from '../services/api';
 import { motion, type Variants } from 'framer-motion';
-import eventsImage from '../assets/events.png';
+import eventImage from '../assets/event.png';
+import event1Image from '../assets/event1.png';
+import e1Image from '../assets/e1.png';
+import e2Image from '../assets/e2.png';
+import e3Image from '../assets/e3.png';
 
 const Events: React.FC = () => {
   const { t } = useTranslation();
@@ -18,6 +23,19 @@ const Events: React.FC = () => {
 
   // Smooth-scroll anchor
   const upcomingRef = useRef<HTMLDivElement | null>(null);
+
+  // Night vibes scroll section
+  const [activeNight, setActiveNight] = useState<'fri' | 'sat' | 'sun'>('fri');
+  const nightSectionRef = useRef<HTMLDivElement | null>(null);
+  const friRef = useRef<HTMLDivElement | null>(null);
+  const satRef = useRef<HTMLDivElement | null>(null);
+  const sunRef = useRef<HTMLDivElement | null>(null);
+
+  const nightImages = {
+    fri: e1Image,
+    sat: e2Image,
+    sun: e3Image,
+  };
 
   // -----------------------------------
   // Animations (premium, subtle)
@@ -46,6 +64,35 @@ const Events: React.FC = () => {
     hidden: { opacity: 0, y: 18, scale: 0.99 },
     show: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.75, ease: 'easeOut' } },
   };
+
+  // -----------------------------------
+  // Night vibes scroll observer
+  // -----------------------------------
+  useEffect(() => {
+    const options = {
+      root: null,
+      rootMargin: '-40% 0px -40% 0px',
+      threshold: 0,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          const id = entry.target.getAttribute('data-night');
+          if (id === 'fri' || id === 'sat' || id === 'sun') {
+            setActiveNight(id);
+          }
+        }
+      });
+    }, options);
+
+    const refs = [friRef.current, satRef.current, sunRef.current];
+    refs.forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   // -----------------------------------
   // Fetch events
@@ -270,7 +317,7 @@ const Events: React.FC = () => {
       <section
         className="relative min-h-[90vh] flex items-center justify-center text-white overflow-hidden"
         style={{
-          backgroundImage: `url(${eventsImage.src})`,
+          backgroundImage: `url(${eventImage.src})`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
           backgroundAttachment: 'fixed',
@@ -550,123 +597,302 @@ const Events: React.FC = () => {
         </div>
       </section>
 
-      {/* Perfect for Every Occasion */}
-      <section
-        className="relative py-20 sm:py-24 lg:py-32 text-white overflow-hidden"
-        style={{
-          backgroundImage: `url(${eventsImage.src})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
-          backgroundAttachment: 'fixed',
-        }}
-      >
-        {/* Dark overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/75 to-black/85" />
+      {/* The Experience Section */}
+      <section className="bg-white py-20 sm:py-28 lg:py-32">
+        <div className="max-w-[1180px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            {/* Left - Images */}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              className="relative"
+            >
+              {/* Main Image */}
+              <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+                <Image
+                  src={event1Image}
+                  alt="Luxury lounge experience"
+                  className="w-full h-auto object-cover"
+                  priority
+                />
+              </div>
 
-        {/* Subtle ambient glow */}
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-white/10 rounded-full blur-3xl" />
-        <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-white/10 rounded-full blur-3xl" />
+              {/* Secondary Image - Overlapping */}
+              <div className="absolute -bottom-8 -right-4 lg:-right-8 w-2/5 rounded-2xl overflow-hidden shadow-xl border-4 border-white">
+                <Image
+                  src={eventImage}
+                  alt="Premium ambiance"
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+            </motion.div>
 
-        {/* Subtle grid pattern */}
-        <div
-          className="absolute inset-0 opacity-[0.03]"
-          style={{
-            backgroundImage: `linear-gradient(rgba(255,255,255,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.4) 1px, transparent 1px)`,
-            backgroundSize: '50px 50px'
-          }}
-        />
+            {/* Right - Text Content */}
+            <motion.div
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.1 }}
+              className="lg:pl-4"
+            >
+              {/* Label */}
+              <p className="text-xs font-semibold text-amber-600 uppercase tracking-[0.25em] mb-4">
+                The Experience
+              </p>
 
-        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-center max-w-4xl mx-auto mb-14"
-          >
-            <span className="inline-flex items-center gap-2 bg-white/10 border border-white/30 text-white px-5 py-2.5 rounded-full text-sm font-semibold uppercase tracking-widest mb-6">
-              <span className="w-2 h-2 rounded-full bg-white" />
-              Event Services
-            </span>
+              {/* Headline */}
+              <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl font-bold text-neutral-900 leading-tight mb-6">
+                Where Elegance Meets{' '}
+                <span className="text-neutral-600">Unforgettable Nights</span>
+              </h2>
 
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
-              <span className="text-white">Perfect for Every</span>
-              <br />
-              <span className="bg-gradient-to-r from-white via-neutral-200 to-white bg-clip-text text-transparent">
-                Occasion
-              </span>
-            </h2>
+              {/* Description */}
+              <p className="text-neutral-500 text-base sm:text-lg leading-relaxed mb-8 max-w-md">
+                Step into a world of refined taste — handcrafted cocktails, warm ambiance, and moments designed to be remembered.
+              </p>
 
-            <p className="text-lg sm:text-xl text-neutral-400 leading-relaxed max-w-2xl mx-auto">
-              We transform your vision into reality — with curated entertainment, premium service,
-              and a setting designed for unforgettable nights.
-            </p>
-          </motion.div>
-
-          {/* Cards Grid - No hover animations */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {occasionItems.map((item, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="group"
+              {/* CTA Link */}
+              <Link
+                href="/reservations"
+                className="group inline-flex items-center gap-2 text-neutral-900 font-medium hover:text-amber-600 transition-colors duration-200"
               >
-                {/* Card */}
-                <div className="relative bg-[#161616] border border-neutral-800 rounded-2xl p-6 sm:p-8 h-full hover:border-white/40 transition-colors duration-300">
-                  {/* Top accent line */}
-                  <div className="absolute top-0 left-6 right-6 h-px bg-gradient-to-r from-transparent via-white/50 to-transparent" />
+                <span>Reserve a table</span>
+                <svg
+                  className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+            </motion.div>
+          </div>
+        </div>
+      </section>
 
-                  {/* Title */}
-                  <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 group-hover:text-white transition-colors duration-300">
-                    {item.title}
-                  </h3>
+      {/* Night Vibes - Dark Immersive Section */}
+      <section ref={nightSectionRef} className="relative bg-[#0a0a0a] py-20 lg:py-0 overflow-hidden">
+        {/* Ambient Background Effects */}
+        <div className="absolute inset-0 pointer-events-none">
+          {/* Gradient orbs */}
+          <div className="absolute top-1/4 -left-32 w-96 h-96 bg-amber-500/10 rounded-full blur-[120px]" />
+          <div className="absolute bottom-1/4 -right-32 w-80 h-80 bg-purple-500/10 rounded-full blur-[100px]" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-amber-600/5 rounded-full blur-[150px]" />
+        </div>
 
-                  {/* Description */}
-                  <p className="text-neutral-400 text-sm sm:text-base leading-relaxed mb-5">
-                    {item.description}
-                  </p>
+        <div className="relative max-w-[1140px] mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Mobile Layout */}
+          <div className="lg:hidden">
+            {/* Mobile Day Selector */}
+            <div className="flex items-center justify-center gap-6 mb-8">
+              {(['fri', 'sat', 'sun'] as const).map((day, idx) => (
+                <React.Fragment key={day}>
+                  <button
+                    onClick={() => setActiveNight(day)}
+                    className={`text-sm font-semibold uppercase tracking-wider transition-all duration-300 ${
+                      activeNight === day
+                        ? 'text-amber-400'
+                        : 'text-neutral-500 hover:text-neutral-300'
+                    }`}
+                  >
+                    {day === 'fri' ? 'Friday' : day === 'sat' ? 'Saturday' : 'Sunday'}
+                  </button>
+                  {idx < 2 && <span className="text-neutral-700">·</span>}
+                </React.Fragment>
+              ))}
+            </div>
 
-                  {/* Features */}
-                  <ul className="space-y-2.5">
-                    {item.features.map((f, i) => (
-                      <li
-                        key={i}
-                        className="flex items-center gap-3 text-sm text-neutral-400"
-                      >
-                        <span className="w-1.5 h-1.5 rounded-full bg-white flex-shrink-0" />
-                        <span>{f}</span>
-                      </li>
-                    ))}
-                  </ul>
+            {/* Mobile Image */}
+            <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl mb-8 ring-1 ring-white/10">
+              {(['fri', 'sat', 'sun'] as const).map((day) => (
+                <div
+                  key={day}
+                  className={`absolute inset-0 transition-all duration-500 ease-out ${
+                    activeNight === day ? 'opacity-100 scale-100' : 'opacity-0 scale-[1.03]'
+                  }`}
+                >
+                  <Image
+                    src={nightImages[day]}
+                    alt={`${day} night`}
+                    fill
+                    className="object-cover"
+                  />
+                  {/* Cinematic overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-60" />
                 </div>
-              </motion.div>
-            ))}
+              ))}
+            </div>
+
+            {/* Mobile Text */}
+            <div className="text-center">
+              <p className="text-[10px] font-semibold text-amber-400 uppercase tracking-[0.25em] mb-3">
+                Night Vibes
+              </p>
+              <h2 className="font-display text-2xl font-bold text-white leading-tight mb-3">
+                Every Night Has Its Own Story
+              </h2>
+              <p className="text-neutral-400 text-sm leading-relaxed mb-6 max-w-xs mx-auto">
+                From electric Fridays to soulful Sundays — discover the rhythm that moves you.
+              </p>
+              <Link
+                href="/reservations"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-amber-500 hover:bg-amber-400 text-black font-semibold text-sm rounded-full transition-all duration-300 shadow-lg shadow-amber-500/20"
+              >
+                <span>Reserve your night</span>
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                </svg>
+              </Link>
+            </div>
           </div>
 
-          {/* Bottom actions */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mt-14 sm:mt-16 flex flex-col sm:flex-row justify-center items-center gap-4"
-          >
-            <Link href="/contact">
-              <button className="w-full sm:w-auto bg-white text-black px-10 py-4 rounded-full text-lg font-semibold shadow-xl hover:bg-neutral-100 transition-all duration-300">
-                Plan Your Celebration
-                <span className="ml-2 inline-block">→</span>
-              </button>
-            </Link>
-            <Link href="/menu">
-              <button className="w-full sm:w-auto border-2 border-white/40 text-white px-10 py-4 rounded-full text-lg font-semibold bg-white/5 backdrop-blur-xl hover:bg-white/10 hover:border-white/60 transition-all duration-300">
-                View Event Menu
-              </button>
-            </Link>
-          </motion.div>
+          {/* Desktop Layout - Scroll-based */}
+          <div className="hidden lg:flex lg:gap-20 relative">
+            {/* Left Column - Sticky Text + Timeline */}
+            <div className="w-[400px] flex-shrink-0">
+              <div className="sticky top-32">
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
+                >
+                  {/* Label */}
+                  <p className="text-xs font-semibold text-amber-400 uppercase tracking-[0.25em] mb-5">
+                    Night Vibes
+                  </p>
+
+                  {/* Headline */}
+                  <h2 className="font-display text-4xl xl:text-5xl font-bold text-white leading-[1.1] mb-5">
+                    Every Night Has<br />
+                    <span className="text-neutral-500">Its Own Story</span>
+                  </h2>
+
+                  {/* Description */}
+                  <p className="text-neutral-400 text-base leading-relaxed mb-10 max-w-[340px]">
+                    From electric Fridays to soulful Sundays — discover the rhythm that moves you.
+                  </p>
+
+                  {/* Vertical Timeline */}
+                  <div className="relative pl-5 mb-12">
+                    {/* Vertical Line */}
+                    <div className="absolute left-0 top-2 bottom-2 w-px bg-neutral-800" />
+
+                    {/* Day Items */}
+                    {(['fri', 'sat', 'sun'] as const).map((day) => (
+                      <button
+                        key={day}
+                        onClick={() => setActiveNight(day)}
+                        className="relative flex items-center py-4 group w-full text-left"
+                      >
+                        {/* Dot with glow */}
+                        <span
+                          className={`absolute -left-[6px] w-3 h-3 rounded-full transition-all duration-300 ${
+                            activeNight === day
+                              ? 'bg-amber-400 shadow-lg shadow-amber-400/50'
+                              : 'bg-neutral-700 group-hover:bg-neutral-600'
+                          }`}
+                        />
+                        {/* Label */}
+                        <span
+                          className={`ml-6 text-sm font-semibold uppercase tracking-[0.15em] transition-all duration-300 ${
+                            activeNight === day
+                              ? 'text-white'
+                              : 'text-neutral-600 group-hover:text-neutral-400'
+                          }`}
+                        >
+                          {day === 'fri' ? 'Friday' : day === 'sat' ? 'Saturday' : 'Sunday'}
+                        </span>
+                        {/* Active indicator */}
+                        {activeNight === day && (
+                          <span className="ml-3 text-xs text-amber-400/80 font-medium">
+                            {day === 'fri' ? 'Electric Energy' : day === 'sat' ? 'Peak Nights' : 'Smooth Sessions'}
+                          </span>
+                        )}
+                      </button>
+                    ))}
+                  </div>
+
+                  {/* CTA Button */}
+                  <Link
+                    href="/reservations"
+                    className="group inline-flex items-center gap-3 px-7 py-3.5 bg-amber-500 hover:bg-amber-400 text-black font-semibold rounded-full transition-all duration-300 shadow-lg shadow-amber-500/25 hover:shadow-amber-400/30"
+                  >
+                    <span>Reserve your night</span>
+                    <svg
+                      className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </Link>
+                </motion.div>
+              </div>
+            </div>
+
+            {/* Right Column - Scroll Content with Sticky Image */}
+            <div className="flex-1 relative">
+              {/* Sticky Image Container */}
+              <div className="sticky top-32 z-10 pointer-events-none">
+                <div className="relative w-full max-w-[480px] aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl ring-1 ring-white/10 ml-auto">
+                  {/* All Images - Crossfade */}
+                  {(['fri', 'sat', 'sun'] as const).map((day) => (
+                    <div
+                      key={day}
+                      className={`absolute inset-0 transition-all duration-500 ease-out ${
+                        activeNight === day
+                          ? 'opacity-100 scale-100'
+                          : 'opacity-0 scale-[1.03]'
+                      }`}
+                    >
+                      <Image
+                        src={nightImages[day]}
+                        alt={`${day === 'fri' ? 'Friday' : day === 'sat' ? 'Saturday' : 'Sunday'} night atmosphere`}
+                        fill
+                        className="object-cover"
+                        priority={day === 'fri'}
+                      />
+                    </div>
+                  ))}
+
+                  {/* Cinematic gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-50" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#0a0a0a]/30 via-transparent to-transparent" />
+
+                  {/* Day label on image */}
+                  <div className="absolute bottom-5 left-5">
+                    <span className="text-white text-xs font-medium uppercase tracking-wider drop-shadow-md">
+                      {activeNight === 'fri' ? 'Friday Nights' : activeNight === 'sat' ? 'Saturday Nights' : 'Sunday Sessions'}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Scroll Trigger Zones - These create the scrollable height */}
+              <div className="relative -mt-[60vh]">
+                <div
+                  ref={friRef}
+                  data-night="fri"
+                  className="h-[70vh] flex items-center justify-center"
+                />
+                <div
+                  ref={satRef}
+                  data-night="sat"
+                  className="h-[70vh] flex items-center justify-center"
+                />
+                <div
+                  ref={sunRef}
+                  data-night="sun"
+                  className="h-[70vh] flex items-center justify-center"
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

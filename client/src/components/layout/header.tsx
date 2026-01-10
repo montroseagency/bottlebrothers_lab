@@ -165,24 +165,24 @@ export const Header: React.FC = () => {
       <Link
         href={to}
         className={[
-          'group relative px-4 py-2 rounded-full transition-all duration-300',
-          'text-white',
+          'group relative px-5 py-2.5 rounded-full transition-all duration-300',
           'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent',
           active
-            ? 'bg-white/15'
-            : 'hover:text-white/85 hover:bg-white/5',
+            ? 'bg-white/20 text-white'
+            : 'text-white hover:bg-white/10',
         ].join(' ')}
+        style={{ textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}
       >
-        <span className={`text-[13px] tracking-[0.02em] ${active ? 'font-semibold' : 'font-medium'}`}>
+        <span className={`text-[15px] tracking-wide ${active ? 'font-bold' : 'font-semibold'}`}>
           {label}
         </span>
         {/* Underline indicator */}
         <span
           className={[
-            'absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[#d4af37] rounded-full transition-all duration-300',
+            'absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 bg-[#d4af37] rounded-full transition-all duration-300',
             active
-              ? 'w-6 opacity-100'
-              : 'w-0 opacity-0 group-hover:w-4 group-hover:opacity-70',
+              ? 'w-8 opacity-100'
+              : 'w-0 opacity-0 group-hover:w-6 group-hover:opacity-80',
           ].join(' ')}
         />
       </Link>
@@ -230,14 +230,15 @@ export const Header: React.FC = () => {
         <button
           onClick={() => setIsLanguageDropdownOpen((s) => !s)}
           className={[
-            'inline-flex items-center gap-1.5 px-3 py-2 rounded-full',
+            'inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full',
             'transition-all duration-300',
-            'bg-white/5 border border-white/10 text-white hover:text-white/85 hover:bg-white/10',
+            'bg-black/30 backdrop-blur-sm border border-white/20 text-white hover:bg-black/50',
             'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent',
           ].join(' ')}
+          style={{ textShadow: '0 1px 3px rgba(0,0,0,0.5)' }}
           aria-label="Language"
         >
-          <span className="text-[13px] font-medium uppercase">
+          <span className="text-sm font-semibold uppercase">
             {currentLocale}
           </span>
           <IconChevronDown
@@ -283,14 +284,14 @@ export const Header: React.FC = () => {
       onClick={isMobile ? handleMobileMenuClose : undefined}
       className={[
         'inline-flex items-center justify-center gap-2 rounded-full',
-        'transition-all duration-300',
+        'transition-all duration-300 shadow-lg',
         'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent',
         isMobile
-          ? 'w-full py-3.5 px-4 text-sm font-semibold bg-white text-neutral-900 hover:bg-neutral-100'
-          : 'px-5 py-2.5 text-[13px] font-semibold bg-white text-neutral-900 hover:bg-neutral-100',
+          ? 'w-full py-3.5 px-4 text-sm font-bold bg-[#d4af37] text-black hover:bg-[#e5c349]'
+          : 'px-6 py-2.5 text-sm font-bold bg-[#d4af37] text-black hover:bg-[#e5c349]',
       ].join(' ')}
     >
-      <IconCalendar className="w-4 h-4" strokeWidth={1.5} />
+      <IconCalendar className="w-4 h-4" strokeWidth={2} />
       <span className="tracking-wide">
         {t('nav.reserveTable')}
       </span>
@@ -322,7 +323,7 @@ export const Header: React.FC = () => {
 
             {/* Center: Premium Pill Navigation */}
             <nav className="hidden lg:flex items-center">
-              <div className="flex items-center gap-1 px-2 py-1.5 rounded-full bg-transparent border border-transparent">
+              <div className="flex items-center gap-1 px-3 py-2 rounded-full bg-black/30 backdrop-blur-sm border border-white/10">
                 <NavigationItem
                   to={localePath('/')}
                   label={t('nav.home')}
@@ -361,7 +362,7 @@ export const Header: React.FC = () => {
 
               <button
                 onClick={() => setIsMenuOpen((s) => !s)}
-                className="lg:hidden p-2.5 rounded-full transition-all duration-300 bg-white/5 border border-white/10 text-white hover:text-white/85 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+                className="lg:hidden p-3 rounded-full transition-all duration-300 bg-black/30 backdrop-blur-sm border border-white/20 text-white hover:bg-black/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
                 aria-label="Toggle menu"
               >
                 {isMenuOpen ? (

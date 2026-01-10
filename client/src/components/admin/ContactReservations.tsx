@@ -151,8 +151,8 @@ const ContactReservations: React.FC = () => {
                 onClick={() => setActiveTab('reservation')}
                 className={`px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-sm sm:text-base font-semibold transition-all ${
                   activeTab === 'reservation'
-                    ? 'bg-neutral-900 text-white shadow-lg'
-                    : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
+                    ? 'bg-white text-neutral-900 shadow-lg border border-neutral-200'
+                    : 'bg-neutral-100 text-neutral-600 hover:bg-white hover:border-neutral-200 border border-transparent'
                 }`}
               >
                 Make a Reservation
@@ -161,8 +161,8 @@ const ContactReservations: React.FC = () => {
                 onClick={() => setActiveTab('contact')}
                 className={`px-6 sm:px-8 py-3 sm:py-4 rounded-xl text-sm sm:text-base font-semibold transition-all ${
                   activeTab === 'contact'
-                    ? 'bg-neutral-900 text-white shadow-lg'
-                    : 'bg-neutral-100 text-neutral-600 hover:bg-neutral-200'
+                    ? 'bg-white text-neutral-900 shadow-lg border border-neutral-200'
+                    : 'bg-neutral-100 text-neutral-600 hover:bg-white hover:border-neutral-200 border border-transparent'
                 }`}
               >
                 Contact Us
@@ -264,13 +264,13 @@ const ContactReservations: React.FC = () => {
                 <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-4">
                   <a
                     href={info.callHref}
-                    className="inline-flex items-center justify-center rounded-xl bg-neutral-900 hover:bg-neutral-800 text-white font-semibold py-3.5 transition shadow-sm"
+                    className="inline-flex items-center justify-center rounded-xl bg-white hover:bg-neutral-100 text-neutral-900 border border-neutral-200 font-semibold py-3.5 transition shadow-md hover:shadow-lg"
                   >
                     Call Now
                   </a>
                   <a
                     href={info.emailHref}
-                    className="inline-flex items-center justify-center rounded-xl bg-neutral-900 hover:bg-neutral-800 text-white font-semibold py-3.5 transition shadow-sm"
+                    className="inline-flex items-center justify-center rounded-xl bg-white hover:bg-neutral-100 text-neutral-900 border border-neutral-200 font-semibold py-3.5 transition shadow-md hover:shadow-lg"
                   >
                     Email Us
                   </a>
@@ -278,7 +278,7 @@ const ContactReservations: React.FC = () => {
                     href={info.mapsHref}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-xl bg-neutral-900 hover:bg-neutral-800 text-white font-semibold py-3.5 transition shadow-sm"
+                    className="inline-flex items-center justify-center rounded-xl bg-white hover:bg-neutral-100 text-neutral-900 border border-neutral-200 font-semibold py-3.5 transition shadow-md hover:shadow-lg"
                   >
                     Open in Maps
                   </a>
@@ -403,7 +403,7 @@ const ContactReservations: React.FC = () => {
                     <button
                       type="submit"
                       disabled={contactLoading}
-                      className="w-full bg-neutral-900 hover:bg-neutral-800 text-white font-semibold py-3.5 rounded-xl transition disabled:opacity-50 shadow-sm"
+                      className="w-full bg-white hover:bg-neutral-100 text-neutral-900 border border-neutral-200 font-semibold py-3.5 rounded-xl transition disabled:opacity-50 shadow-md hover:shadow-lg"
                     >
                       {contactLoading ? 'Sending...' : 'Send Message'}
                     </button>

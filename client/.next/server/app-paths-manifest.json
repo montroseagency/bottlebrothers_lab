@@ -1,8 +1,7 @@
 {
-  "/admin/gallery/page": "app/admin/gallery/page.js",
-  "/admin/dashboard/page": "app/admin/dashboard/page.js",
   "/(public)/page": "app/(public)/page.js",
-  "/[locale]/(public)/menu/page": "app/[locale]/(public)/menu/page.js",
+  "/(public)/reservations/page": "app/(public)/reservations/page.js",
   "/[locale]/(public)/events/page": "app/[locale]/(public)/events/page.js",
+  "/[locale]/(public)/menu/page": "app/[locale]/(public)/menu/page.js",
   "/[locale]/(public)/page": "app/[locale]/(public)/page.js"
 }
