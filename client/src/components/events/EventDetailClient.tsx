@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Event } from '@/lib/api';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -26,6 +26,8 @@ export function EventDetailClient({ event, similarEvents }: EventDetailClientPro
   const [isRSVPModalOpen, setIsRSVPModalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
+  const [isVideoMuted, setIsVideoMuted] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [formData, setFormData] = useState<RSVPFormData>({
     firstName: '',
     lastName: '',
@@ -34,6 +36,17 @@ export function EventDetailClient({ event, similarEvents }: EventDetailClientPro
     numberOfGuests: 1,
     specialRequests: '',
   });
+
+  // Check if event has a completed video
+  const hasVideo = event.video_status === 'completed' && event.video_webm_url;
+  const imageUrl = event.image_url || event.image;
+
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setIsVideoMuted(!isVideoMuted);
+    }
+  };
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -94,9 +107,39 @@ export function EventDetailClient({ event, similarEvents }: EventDetailClientPro
     <div className="min-h-screen bg-neutral-50">
       {/* Hero Section */}
       <div className="relative h-[60vh] md:h-[70vh] overflow-hidden">
-        {event.image && !imageError ? (
+        {/* Video background if available */}
+        {hasVideo ? (
+          <>
+            <video
+              ref={videoRef}
+              src={event.video_webm_url}
+              className="absolute inset-0 w-full h-full object-cover"
+              autoPlay
+              muted
+              loop
+              playsInline
+            />
+            {/* Mute/Unmute button */}
+            <button
+              onClick={toggleMute}
+              className="absolute top-4 right-4 z-20 bg-black/50 hover:bg-black/70 text-white p-3 rounded-full transition-colors"
+              aria-label={isVideoMuted ? 'Unmute video' : 'Mute video'}
+            >
+              {isVideoMuted ? (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2" />
+                </svg>
+              ) : (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" />
+                </svg>
+              )}
+            </button>
+          </>
+        ) : imageUrl && !imageError ? (
           <Image
-            src={event.image}
+            src={imageUrl}
             alt={event.title}
             fill
             className="object-cover"

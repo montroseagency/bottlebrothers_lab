@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Event } from '@/lib/api';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
@@ -13,6 +13,8 @@ interface EventCardProps {
 
 export function EventCard({ event, index = 0 }: EventCardProps) {
   const [imageError, setImageError] = useState(false);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -24,6 +26,25 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
     });
   };
 
+  // Check if event has a completed video
+  const hasVideo = event.video_status === 'completed' && event.video_webm_url;
+  const imageUrl = event.image_url || event.image;
+
+  const handleMouseEnter = () => {
+    if (hasVideo && videoRef.current) {
+      videoRef.current.play();
+      setIsVideoPlaying(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (hasVideo && videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+      setIsVideoPlaying(false);
+    }
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -31,23 +52,56 @@ export function EventCard({ event, index = 0 }: EventCardProps) {
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
       <Link href={`/events/${event.id}`} className="block group">
-        <div className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-luxury transition-all duration-500 hover:-translate-y-2">
-          {/* Image */}
+        <div
+          className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-luxury transition-all duration-500 hover:-translate-y-2"
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          {/* Image/Video */}
           <div className="relative h-64 overflow-hidden">
-            {event.image && !imageError ? (
+            {/* Video layer - shown on hover if available */}
+            {hasVideo && (
+              <video
+                ref={videoRef}
+                src={event.video_webm_url}
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-300 ${
+                  isVideoPlaying ? 'opacity-100' : 'opacity-0'
+                }`}
+                muted
+                loop
+                playsInline
+              />
+            )}
+
+            {/* Image layer */}
+            {imageUrl && !imageError ? (
               <Image
-                src={event.image}
+                src={imageUrl}
                 alt={event.title}
                 fill
-                className="object-cover group-hover:scale-110 transition-transform duration-700"
+                className={`object-cover group-hover:scale-110 transition-transform duration-700 ${
+                  isVideoPlaying ? 'opacity-0' : 'opacity-100'
+                }`}
                 onError={() => setImageError(true)}
               />
             ) : (
-              <div className="w-full h-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center">
+              <div className={`w-full h-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center ${
+                isVideoPlaying ? 'opacity-0' : 'opacity-100'
+              }`}>
                 <span className="text-8xl">🎉</span>
               </div>
             )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+
+            {/* Video indicator badge */}
+            {hasVideo && (
+              <div className="absolute bottom-4 right-4 bg-black/70 text-white px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                </svg>
+                Video
+              </div>
+            )}
 
             {/* Event Type Badge */}
             {event.event_type === 'featured' && (

@@ -3,13 +3,13 @@
 
 import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useTranslation } from 'react-i18next';
 import {
   IconMenu,
   IconClose,
   IconChevronDown,
-  IconBrand,
   IconCalendar,
   IconLanguageEN,
   IconLanguageSQ,
@@ -20,6 +20,7 @@ import {
   setLocaleCookie,
   type Locale,
 } from '@/lib/locale';
+import logoImage from '@/assets/logo.png';
 
 export const Header: React.FC = () => {
   const pathname = usePathname();
@@ -110,35 +111,22 @@ export const Header: React.FC = () => {
     <Link
       href={localePath('/')}
       onClick={handleMobileMenuClose}
-      className="group flex items-center gap-3"
+      className="group flex items-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent rounded-lg"
     >
       <div className="relative">
-        <IconBrand
-          className={`w-9 h-9 transition-all duration-500 group-hover:scale-110 ${
-            isDarkSection ? 'text-[#d4af37]' : 'text-neutral-900'
-          }`}
-          strokeWidth={1.2}
+        <Image
+          src={logoImage}
+          alt="Bottle Brothers"
+          width={180}
+          height={60}
+          className="h-14 w-auto object-contain transition-all duration-300 group-hover:scale-105"
+          priority
         />
-        <div className={`absolute inset-0 blur-md opacity-0 group-hover:opacity-30 transition-opacity duration-500 ${
-          isDarkSection ? 'bg-[#d4af37]' : 'bg-neutral-900'
-        }`} />
-      </div>
-      <div className="flex flex-col leading-tight">
-        <h1 className={`text-lg font-display font-semibold tracking-tight transition-colors duration-500 ${
-          isDarkSection ? 'text-white' : 'text-neutral-900'
-        }`}>
-          Bottle Brothers
-        </h1>
-        <p className={`text-[10px] font-sans uppercase tracking-[0.15em] transition-colors duration-500 ${
-          isDarkSection ? 'text-[#d4af37]/80' : 'text-neutral-500'
-        }`}>
-          Luxury Lounge
-        </p>
       </div>
     </Link>
   );
 
-  // Premium pill nav item - text only, clean
+  // Premium pill nav item - white text with elegant hover/active states
   const NavigationItem = ({
     to,
     label,
@@ -157,14 +145,18 @@ export const Header: React.FC = () => {
           onClick={handleMobileMenuClose}
           className={[
             'block px-4 py-3 rounded-xl transition-all duration-300',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] focus-visible:ring-inset',
             active
-              ? 'bg-white/15 text-white'
-              : 'text-white hover:bg-white/10',
+              ? 'bg-white/15 text-white font-semibold'
+              : 'text-white hover:bg-white/10 hover:text-white/90',
           ].join(' ')}
         >
-          <span className="text-sm font-medium tracking-wide">
+          <span className={`text-sm tracking-wide ${active ? 'font-semibold' : 'font-medium'}`}>
             {label}
           </span>
+          {active && (
+            <span className="block h-0.5 w-8 bg-[#d4af37] mt-1 rounded-full" />
+          )}
         </Link>
       );
     }
@@ -173,19 +165,26 @@ export const Header: React.FC = () => {
       <Link
         href={to}
         className={[
-          'relative px-4 py-2 rounded-full transition-all duration-300',
+          'group relative px-4 py-2 rounded-full transition-all duration-300',
+          'text-white',
+          'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent',
           active
-            ? isDarkSection
-              ? 'bg-white/15 text-white'
-              : 'bg-neutral-900 text-white'
-            : isDarkSection
-              ? 'text-white hover:text-white hover:bg-white/10'
-              : 'text-neutral-700 hover:text-neutral-900 hover:bg-neutral-100',
+            ? 'bg-white/15'
+            : 'hover:text-white/85 hover:bg-white/5',
         ].join(' ')}
       >
-        <span className="text-[13px] font-medium tracking-[0.02em]">
+        <span className={`text-[13px] tracking-[0.02em] ${active ? 'font-semibold' : 'font-medium'}`}>
           {label}
         </span>
+        {/* Underline indicator */}
+        <span
+          className={[
+            'absolute bottom-0 left-1/2 -translate-x-1/2 h-0.5 bg-[#d4af37] rounded-full transition-all duration-300',
+            active
+              ? 'w-6 opacity-100'
+              : 'w-0 opacity-0 group-hover:w-4 group-hover:opacity-70',
+          ].join(' ')}
+        />
       </Link>
     );
   };
@@ -209,8 +208,9 @@ export const Header: React.FC = () => {
                 onClick={() => changeLanguage(lang.code)}
                 className={[
                   'flex items-center justify-center gap-2 px-4 py-3 rounded-xl border transition-all duration-300',
+                  'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] focus-visible:ring-inset',
                   active
-                    ? 'bg-white text-neutral-900 border-white'
+                    ? 'bg-white text-neutral-900 border-white font-semibold'
                     : 'bg-white/10 text-white border-white/20 hover:bg-white/15',
                 ].join(' ')}
               >
@@ -232,9 +232,8 @@ export const Header: React.FC = () => {
           className={[
             'inline-flex items-center gap-1.5 px-3 py-2 rounded-full',
             'transition-all duration-300',
-            isDarkSection
-              ? 'bg-white/5 border border-white/10 text-white hover:text-white hover:bg-white/10'
-              : 'bg-neutral-100 border border-neutral-200 text-neutral-700 hover:text-neutral-900 hover:bg-neutral-200',
+            'bg-white/5 border border-white/10 text-white hover:text-white/85 hover:bg-white/10',
+            'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent',
           ].join(' ')}
           aria-label="Language"
         >
@@ -250,11 +249,7 @@ export const Header: React.FC = () => {
         </button>
 
         {isLanguageDropdownOpen && (
-          <div className={`absolute right-0 top-full mt-2 rounded-xl overflow-hidden backdrop-blur-xl shadow-xl min-w-[140px] ${
-            isDarkSection
-              ? 'bg-[#1a1a1a]/95 border border-white/10'
-              : 'bg-white border border-neutral-200'
-          }`}>
+          <div className="absolute right-0 top-full mt-2 rounded-xl overflow-hidden backdrop-blur-xl shadow-xl min-w-[140px] bg-[#1a1a1a]/95 border border-white/10">
             {languages.map((lang) => {
               const Icon = lang.Icon;
               const active = currentLocale === lang.code;
@@ -265,11 +260,10 @@ export const Header: React.FC = () => {
                   onClick={() => changeLanguage(lang.code)}
                   className={[
                     'w-full flex items-center gap-3 px-4 py-2.5 text-sm transition-all duration-200',
+                    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] focus-visible:ring-inset',
                     active
-                      ? 'bg-neutral-900 text-white'
-                      : isDarkSection
-                        ? 'text-neutral-300 hover:bg-white/5 hover:text-white'
-                        : 'text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900',
+                      ? 'bg-[#d4af37] text-neutral-900 font-semibold'
+                      : 'text-white hover:bg-white/10 hover:text-white/90',
                   ].join(' ')}
                 >
                   <Icon className="w-4 h-4" />
@@ -290,11 +284,10 @@ export const Header: React.FC = () => {
       className={[
         'inline-flex items-center justify-center gap-2 rounded-full',
         'transition-all duration-300',
+        'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent',
         isMobile
           ? 'w-full py-3.5 px-4 text-sm font-semibold bg-white text-neutral-900 hover:bg-neutral-100'
-          : isDarkSection
-            ? 'px-5 py-2.5 text-[13px] font-semibold bg-white text-neutral-900 hover:bg-neutral-100'
-            : 'px-5 py-2.5 text-[13px] font-semibold bg-neutral-900 text-white hover:bg-neutral-800',
+          : 'px-5 py-2.5 text-[13px] font-semibold bg-white text-neutral-900 hover:bg-neutral-100',
       ].join(' ')}
     >
       <IconCalendar className="w-4 h-4" strokeWidth={1.5} />
@@ -368,11 +361,7 @@ export const Header: React.FC = () => {
 
               <button
                 onClick={() => setIsMenuOpen((s) => !s)}
-                className={`lg:hidden p-2.5 rounded-full transition-all duration-300 ${
-                  isDarkSection
-                    ? 'bg-white/5 border border-white/10 text-white hover:text-white hover:bg-white/10'
-                    : 'bg-neutral-100 border border-neutral-200 text-neutral-700 hover:text-neutral-900 hover:bg-neutral-200'
-                }`}
+                className="lg:hidden p-2.5 rounded-full transition-all duration-300 bg-white/5 border border-white/10 text-white hover:text-white/85 hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#d4af37] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
                 aria-label="Toggle menu"
               >
                 {isMenuOpen ? (

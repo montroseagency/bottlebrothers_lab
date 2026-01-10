@@ -445,22 +445,44 @@ const Events: React.FC = () => {
                 variants={stagger}
                 className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6 sm:gap-8"
               >
-                {events.map((event) => (
+                {events.map((event) => {
+                  const hasVideo = event.video_status === 'completed' && event.video_webm_url;
+                  return (
                   <motion.article
                     key={event.id}
                     variants={softCard}
                     className="group bg-[#161616] rounded-2xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-neutral-800"
                   >
                     <div className="relative">
-                      <img
-                        src={getImage(
-                          event,
-                          'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'
-                        )}
-                        alt={event.title}
-                        className="w-full h-44 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
+                      {hasVideo ? (
+                        <video
+                          src={event.video_webm_url}
+                          className="w-full h-44 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+                          autoPlay
+                          muted
+                          loop
+                          playsInline
+                        />
+                      ) : (
+                        <img
+                          src={getImage(
+                            event,
+                            'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'
+                          )}
+                          alt={event.title}
+                          className="w-full h-44 sm:h-48 object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-black/0 to-transparent opacity-90" />
+                      {/* Video badge */}
+                      {hasVideo && (
+                        <div className="absolute top-3 right-3 bg-black/70 text-white px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+                          <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z" />
+                          </svg>
+                          Video
+                        </div>
+                      )}
                     </div>
 
                     <div className="p-5 sm:p-6 space-y-4">
@@ -521,7 +543,7 @@ const Events: React.FC = () => {
                       </div>
                     </div>
                   </motion.article>
-                ))}
+                );})}
               </motion.div>
             )}
           </div>

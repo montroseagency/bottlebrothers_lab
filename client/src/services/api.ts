@@ -57,6 +57,10 @@ export interface Event {
   created_at?: string;
   updated_at?: string;
   is_past_event?: boolean;
+  // Video fields
+  video_webm_url?: string;
+  video_status?: 'none' | 'uploading' | 'processing' | 'completed' | 'failed';
+  video_duration?: number;
 }
 
 export interface GalleryItem {

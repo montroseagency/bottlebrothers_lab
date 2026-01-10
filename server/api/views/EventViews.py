@@ -14,16 +14,55 @@ from django.utils import timezone
 from django.db.models import Count, Q
 from django.core.exceptions import ValidationError
 from django.conf import settings
+from django.db import connection
 from datetime import datetime, timedelta, date, time
 import json
 import uuid
 
 from api.models import (Event)
 from api.serializers import (EventSerializer, PublicEventSerializer)
-from api.tasks import convert_event_video_to_webm
-from api.services.video_service import validate_video_file, generate_video_filename
 
 logger = logging.getLogger(__name__)
+
+# Check if video columns exist in database
+def check_video_columns_exist():
+    """Check if video columns exist in the api_event table"""
+    try:
+        with connection.cursor() as cursor:
+            # Get table columns
+            cursor.execute("""
+                SELECT column_name FROM information_schema.columns
+                WHERE table_name = 'api_event' AND column_name = 'video_original'
+            """)
+            result = cursor.fetchone()
+            return result is not None
+    except Exception as e:
+        logger.warning(f"Could not check video columns: {e}")
+        # Try SQLite syntax
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("PRAGMA table_info(api_event)")
+                columns = [row[1] for row in cursor.fetchall()]
+                return 'video_original' in columns
+        except Exception:
+            return False
+
+VIDEO_COLUMNS_EXIST = check_video_columns_exist()
+
+# Video-related imports - optional, may fail if Celery/Redis not configured
+try:
+    from api.tasks import convert_event_video_to_webm
+    from api.services.video_service import validate_video_file, generate_video_filename
+    VIDEO_FEATURES_AVAILABLE = VIDEO_COLUMNS_EXIST  # Only available if columns exist too
+except ImportError as e:
+    logger.warning(f"Video features unavailable: {e}")
+    VIDEO_FEATURES_AVAILABLE = False
+    convert_event_video_to_webm = None
+    validate_video_file = None
+    generate_video_filename = None
+
+if not VIDEO_COLUMNS_EXIST:
+    logger.warning("Video columns not found in database. Run 'python manage.py migrate' to enable video features.")
 class EventViewSet(viewsets.ModelViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
@@ -37,12 +76,34 @@ class EventViewSet(viewsets.ModelViewSet):
             permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
     
+    # Video fields that may not exist in database if migration hasn't run
+    VIDEO_FIELDS = {'video_original', 'video_webm', 'video_status', 'video_task_id', 'video_duration', 'video_error'}
+
+    # Non-video fields that should always exist
+    CORE_FIELDS = [
+        'id', 'title', 'description', 'image', 'event_type', 'status',
+        'start_date', 'end_date', 'start_time', 'end_time',
+        'recurring_type', 'recurring_days', 'recurring_until',
+        'frequency', 'recurring_day', 'price', 'formatted_price', 'price_display',
+        'capacity', 'max_capacity', 'location', 'booking_required', 'booking_url',
+        'is_featured', 'is_active', 'display_order', 'special_notes', 'special_instructions',
+        'created_at', 'updated_at'
+    ]
+
     def get_queryset(self):
         """Filter queryset based on action and permissions"""
         if self.action in ['list', 'retrieve'] and not self.request.user.is_authenticated:
             # Public access - only show active events
-            return Event.objects.filter(is_active=True)
-        return Event.objects.all()
+            queryset = Event.objects.filter(is_active=True)
+        else:
+            queryset = Event.objects.all()
+
+        # Use only() to specify exact fields when video columns don't exist
+        # This prevents Django from trying to SELECT non-existent columns
+        if not VIDEO_COLUMNS_EXIST:
+            queryset = queryset.only(*self.CORE_FIELDS)
+
+        return queryset
     
     def get_serializer_class(self):
         """Use different serializer for public access"""
@@ -52,39 +113,71 @@ class EventViewSet(viewsets.ModelViewSet):
     
     def list(self, request):
         """List events with filtering options"""
-        queryset = self.get_queryset()
-        
-        # Filter by event type
-        event_type = request.query_params.get('event_type')
-        if event_type:
-            queryset = queryset.filter(event_type=event_type)
-        
-        # Filter by featured status
-        featured = request.query_params.get('featured')
-        if featured == 'true':
-            queryset = queryset.filter(is_featured=True)
-        
-        # Filter by date range
-        start_date = request.query_params.get('start_date')
-        end_date = request.query_params.get('end_date')
-        if start_date:
-            try:
-                start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
-                queryset = queryset.filter(start_date__gte=start_date)
-            except ValueError:
-                pass
-        if end_date:
-            try:
-                end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
-                queryset = queryset.filter(start_date__lte=end_date)
-            except ValueError:
-                pass
-        
-        # Order by display_order and start_date
-        queryset = queryset.order_by('display_order', 'start_date', 'start_time')
-        
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data)
+        try:
+            queryset = self.get_queryset()
+
+            # Filter by event type
+            event_type = request.query_params.get('event_type')
+            if event_type:
+                queryset = queryset.filter(event_type=event_type)
+
+            # Filter by featured status
+            featured = request.query_params.get('featured')
+            is_featured = request.query_params.get('is_featured')
+            if featured == 'true' or is_featured == 'true':
+                queryset = queryset.filter(is_featured=True)
+
+            # Filter by status (upcoming, active, completed, cancelled)
+            event_status = request.query_params.get('status')
+            if event_status:
+                if event_status == 'upcoming':
+                    # Upcoming events: start_date >= today
+                    today = timezone.now().date()
+                    queryset = queryset.filter(start_date__gte=today)
+                else:
+                    queryset = queryset.filter(status=event_status)
+
+            # Filter by date range
+            start_date = request.query_params.get('start_date')
+            end_date = request.query_params.get('end_date')
+            if start_date:
+                try:
+                    start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+                    queryset = queryset.filter(start_date__gte=start_date)
+                except ValueError:
+                    pass
+            if end_date:
+                try:
+                    end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
+                    queryset = queryset.filter(start_date__lte=end_date)
+                except ValueError:
+                    pass
+
+            # Order by display_order and start_date
+            queryset = queryset.order_by('display_order', 'start_date', 'start_time')
+
+            # Apply limit if specified
+            limit = request.query_params.get('limit')
+            if limit:
+                try:
+                    limit = int(limit)
+                    queryset = queryset[:limit]
+                except (ValueError, TypeError):
+                    pass
+
+            serializer = self.get_serializer(queryset, many=True, context={'request': request})
+
+            # Return paginated response format expected by client
+            return Response({
+                'results': serializer.data,
+                'count': len(serializer.data)
+            })
+        except Exception as e:
+            logger.exception(f"Error listing events: {e}")
+            return Response(
+                {'detail': f'Error fetching events: {str(e)}'},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
     
     @action(detail=False, methods=['get'])
     def upcoming(self, request):
@@ -211,6 +304,13 @@ class EventViewSet(viewsets.ModelViewSet):
         Upload a video for an event and trigger MP4 to WebM conversion.
         Accepts MP4 files up to 100MB.
         """
+        # Check if video features are available
+        if not VIDEO_FEATURES_AVAILABLE:
+            return Response(
+                {'detail': 'Video features are not available. Please ensure Celery and Redis are configured.'},
+                status=status.HTTP_503_SERVICE_UNAVAILABLE
+            )
+
         try:
             event = self.get_object()
         except Event.DoesNotExist:

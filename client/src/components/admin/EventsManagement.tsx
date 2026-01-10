@@ -63,7 +63,9 @@ export const EventsManagement: React.FC = () => {
     setError('');
     try {
       const data = await apiCall('/events/', { method: 'GET' });
-      setEvents(data || []);
+      // Handle both array and paginated response formats
+      const eventsList = Array.isArray(data) ? data : (data?.results || []);
+      setEvents(eventsList);
     } catch (error) {
       console.error('Failed to fetch events:', error);
       setError('Failed to load events. Please try again.');

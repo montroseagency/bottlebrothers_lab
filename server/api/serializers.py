@@ -314,6 +314,12 @@ class EventSerializer(serializers.ModelSerializer):
     image_url = serializers.SerializerMethodField()
     video_original_url = serializers.SerializerMethodField()
     video_webm_url = serializers.SerializerMethodField()
+    video_original = serializers.SerializerMethodField()
+    video_webm = serializers.SerializerMethodField()
+    video_status = serializers.SerializerMethodField()
+    video_task_id = serializers.SerializerMethodField()
+    video_duration = serializers.SerializerMethodField()
+    video_error = serializers.SerializerMethodField()
     is_past_event = serializers.ReadOnlyField()
     price_formatted = serializers.ReadOnlyField()
     formatted_time = serializers.ReadOnlyField()
@@ -337,26 +343,76 @@ class EventSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = [
             'id', 'created_at', 'updated_at',
-            'video_status', 'video_task_id', 'video_duration', 'video_error',
-            'video_webm'
         ]
+
+    def get_video_original(self, obj):
+        """Get video_original field, handling case where it may not exist"""
+        try:
+            video_original = getattr(obj, 'video_original', None)
+            return str(video_original) if video_original else None
+        except AttributeError:
+            return None
+
+    def get_video_webm(self, obj):
+        """Get video_webm field, handling case where it may not exist"""
+        try:
+            video_webm = getattr(obj, 'video_webm', None)
+            return str(video_webm) if video_webm else None
+        except AttributeError:
+            return None
+
+    def get_video_status(self, obj):
+        """Get video status, handling case where field may not exist"""
+        try:
+            return getattr(obj, 'video_status', 'none')
+        except AttributeError:
+            return 'none'
+
+    def get_video_task_id(self, obj):
+        """Get video task ID, handling case where field may not exist"""
+        try:
+            return getattr(obj, 'video_task_id', None)
+        except AttributeError:
+            return None
+
+    def get_video_duration(self, obj):
+        """Get video duration, handling case where field may not exist"""
+        try:
+            return getattr(obj, 'video_duration', None)
+        except AttributeError:
+            return None
+
+    def get_video_error(self, obj):
+        """Get video error, handling case where field may not exist"""
+        try:
+            return getattr(obj, 'video_error', None)
+        except AttributeError:
+            return None
 
     def get_video_original_url(self, obj):
         """Get the full URL for the original video"""
-        if obj.video_original:
-            request = self.context.get('request')
-            if request:
-                return request.build_absolute_uri(obj.video_original.url)
-            return obj.video_original.url
+        try:
+            video_original = getattr(obj, 'video_original', None)
+            if video_original:
+                request = self.context.get('request')
+                if request:
+                    return request.build_absolute_uri(video_original.url)
+                return video_original.url
+        except AttributeError:
+            pass
         return None
 
     def get_video_webm_url(self, obj):
         """Get the full URL for the WebM video"""
-        if obj.video_webm:
-            request = self.context.get('request')
-            if request:
-                return request.build_absolute_uri(obj.video_webm.url)
-            return obj.video_webm.url
+        try:
+            video_webm = getattr(obj, 'video_webm', None)
+            if video_webm:
+                request = self.context.get('request')
+                if request:
+                    return request.build_absolute_uri(video_webm.url)
+                return video_webm.url
+        except AttributeError:
+            pass
         return None
 
     def get_image_url(self, obj):
@@ -405,6 +461,8 @@ class PublicEventSerializer(serializers.ModelSerializer):
     """Serializer for public event display (limited fields)"""
     image_url = serializers.SerializerMethodField()
     video_webm_url = serializers.SerializerMethodField()
+    video_status = serializers.SerializerMethodField()
+    video_duration = serializers.SerializerMethodField()
     price_formatted = serializers.ReadOnlyField()
     formatted_time = serializers.ReadOnlyField()
     duration_display = serializers.ReadOnlyField()
@@ -422,13 +480,32 @@ class PublicEventSerializer(serializers.ModelSerializer):
             'video_webm_url', 'video_status', 'video_duration'
         ]
 
+    def get_video_status(self, obj):
+        """Get video status, handling case where field may not exist"""
+        try:
+            return getattr(obj, 'video_status', 'none')
+        except AttributeError:
+            return 'none'
+
+    def get_video_duration(self, obj):
+        """Get video duration, handling case where field may not exist"""
+        try:
+            return getattr(obj, 'video_duration', None)
+        except AttributeError:
+            return None
+
     def get_video_webm_url(self, obj):
         """Get the full URL for the WebM video (only if completed)"""
-        if obj.video_status == 'completed' and obj.video_webm:
-            request = self.context.get('request')
-            if request:
-                return request.build_absolute_uri(obj.video_webm.url)
-            return obj.video_webm.url
+        try:
+            video_status = getattr(obj, 'video_status', 'none')
+            video_webm = getattr(obj, 'video_webm', None)
+            if video_status == 'completed' and video_webm:
+                request = self.context.get('request')
+                if request:
+                    return request.build_absolute_uri(video_webm.url)
+                return video_webm.url
+        except AttributeError:
+            pass
         return None
 
     def get_image_url(self, obj):

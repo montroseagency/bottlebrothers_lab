@@ -5,6 +5,7 @@ export interface Event {
   title: string;
   description: string;
   image: string;
+  image_url?: string;
   event_type: 'featured' | 'regular' | 'recurring';
   status: 'upcoming' | 'active' | 'completed' | 'cancelled';
   start_date: string;
@@ -32,6 +33,10 @@ export interface Event {
   formatted_time?: string;
   duration_display?: string;
   price_formatted?: string;
+  // Video fields
+  video_webm_url?: string;
+  video_status?: 'none' | 'uploading' | 'processing' | 'completed' | 'failed';
+  video_duration?: number;
 }
 
 export interface EventsResponse {

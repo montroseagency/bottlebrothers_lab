@@ -4642,3 +4642,847 @@ django.db.utils.OperationalError: no such column: api_event.video_original
 ERROR 2026-01-09 14:31:29,053 basehttp 25672 7860 "GET /api/events/public/ HTTP/1.1" 500 207576
 INFO 2026-01-09 14:33:22,243 basehttp 25672 7860 "GET /api/menu/items/by_category/ HTTP/1.1" 200 5151
 INFO 2026-01-09 14:33:22,308 basehttp 25672 10560 "GET /api/menu/items/by_category/ HTTP/1.1" 200 5151
+INFO 2026-01-10 06:21:01,432 basehttp 25672 30904 "GET /api/gallery/?limit=8&is_featured=true&is_active=true HTTP/1.1" 200 3296
+INFO 2026-01-10 06:21:01,435 basehttp 25672 24312 "GET /api/public/moments/ HTTP/1.1" 200 1823
+INFO 2026-01-10 06:21:01,449 basehttp 25672 26796 "GET /api/menu/items/?limit=6&is_featured=true&is_available=true HTTP/1.1" 200 3602
+ERROR 2026-01-10 06:21:01,504 log 25672 24000 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: api_event.video_original
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Admin\bottlebrothers_lab-3\server\api\views\EventViews.py", line 87, in list
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+                                                   ^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 384, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: api_event.video_original
+ERROR 2026-01-10 06:21:01,529 log 25672 11940 Internal Server Error: /api/events/
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: api_event.video_original
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\Admin\bottlebrothers_lab-3\server\api\views\EventViews.py", line 87, in list
+    return Response(serializer.data)
+                    ^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+                                                   ^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 384, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: api_event.video_original
+ERROR 2026-01-10 06:21:01,533 basehttp 25672 24000 "GET /api/events/?limit=3&status=upcoming HTTP/1.1" 500 205627
+ERROR 2026-01-10 06:21:01,537 basehttp 25672 11940 "GET /api/events/?limit=1&is_featured=true&status=upcoming HTTP/1.1" 500 206014
+INFO 2026-01-10 06:21:02,294 basehttp 25672 11940 "GET /media/moments/62a1fa2569dd453e9ec8a13950eb8b0c.png HTTP/1.1" 200 1943274
+INFO 2026-01-10 06:21:02,380 basehttp 25672 11940 "GET /media/moments/5d3d9c7137ba41178723541f2d9d9841.png HTTP/1.1" 200 2108686
+INFO 2026-01-10 06:21:02,423 basehttp 25672 11940 "GET /media/moments/b3d0f94b74374abba22c0ccfd9f57980.png HTTP/1.1" 200 2108686
+INFO 2026-01-10 06:21:02,446 basehttp 25672 11940 "GET /media/moments/e5ce3d8659af442ea4fae9779d7b0c61.png HTTP/1.1" 200 2108686
+INFO 2026-01-10 06:21:02,449 basehttp 25672 24000 "GET /media/moments/b5799d5731c1450b9354709d00d904db.png HTTP/1.1" 200 2261276
+INFO 2026-01-10 06:26:17,552 autoreload 25672 24140 C:\Users\Admin\bottlebrothers_lab-3\server\api\views\EventViews.py changed, reloading.
+INFO 2026-01-10 06:36:50,562 autoreload 21808 14288 Watching for file changes with StatReloader
+INFO 2026-01-10 06:37:07,684 basehttp 21808 20132 "OPTIONS /api/menu/items/by_category/ HTTP/1.1" 200 0
+INFO 2026-01-10 06:37:07,794 basehttp 21808 20132 "GET /api/menu/items/by_category/ HTTP/1.1" 200 5151
+INFO 2026-01-10 06:37:08,151 basehttp 21808 26564 "GET /media/menu/efcd97fc8e1849f0a4b958e2196595b4.png HTTP/1.1" 304 0
+INFO 2026-01-10 06:37:08,151 basehttp 21808 24980 "GET /media/menu/d319e714959b4659824c5e7d850553f3.PNG HTTP/1.1" 304 0
+INFO 2026-01-10 06:37:08,153 basehttp 21808 29908 "GET /media/menu/bbb9f71b66404f488f576f0d933b527a.PNG HTTP/1.1" 304 0
+INFO 2026-01-10 06:37:08,154 basehttp 21808 29016 "GET /media/menu/4a761ceae93f41dcadc319bd6808a478.PNG HTTP/1.1" 304 0
+INFO 2026-01-10 06:37:08,155 basehttp 21808 9608 "GET /media/menu/4b5608734ce8414d90857ace473e249f.PNG HTTP/1.1" 304 0
+INFO 2026-01-10 06:37:08,155 basehttp 21808 24668 "GET /media/menu/da7bad27c8fd4a33915a33c83669a7bb.png HTTP/1.1" 304 0
+INFO 2026-01-10 06:37:08,166 basehttp 21808 24668 "GET /media/menu/8a83e39d239441ca8348368496e56ed7.PNG HTTP/1.1" 304 0
+INFO 2026-01-10 06:37:08,192 basehttp 21808 24668 "GET /media/menu/59bbddf87e684532a11198b6456ee796.PNG HTTP/1.1" 304 0
+INFO 2026-01-10 06:37:42,930 basehttp 21808 20132 "OPTIONS /api/gallery/public/ HTTP/1.1" 200 0
+INFO 2026-01-10 06:37:42,934 basehttp 21808 30848 "OPTIONS /api/gallery/public/ HTTP/1.1" 200 0
+INFO 2026-01-10 06:37:42,956 basehttp 21808 30848 "GET /api/gallery/public/ HTTP/1.1" 200 3296
+INFO 2026-01-10 06:37:42,975 basehttp 21808 30848 "GET /api/gallery/public/ HTTP/1.1" 200 3296
+INFO 2026-01-10 06:37:43,331 basehttp 21808 9608 "GET /media/gallery/d5eb617e02474a348fa5684496817804.png HTTP/1.1" 200 2694536
+INFO 2026-01-10 06:37:43,385 basehttp 21808 9608 "GET /media/gallery/f105711449b846cd9c0593e048c5bfb8.png HTTP/1.1" 200 1859394
+INFO 2026-01-10 06:37:43,386 basehttp 21808 29016 "GET /media/gallery/ed75e3e7fdd54e48be0bdcfe96e73348.png HTTP/1.1" 200 2694536
+INFO 2026-01-10 06:37:43,388 basehttp 21808 24668 "GET /media/gallery/4c6adbba6867467abcba360867c6671e.png HTTP/1.1" 200 2694536
+INFO 2026-01-10 06:37:43,391 basehttp 21808 29908 "GET /media/gallery/bd6ef003e61a4c4788903ff79cf6421e.png HTTP/1.1" 200 2002140
+INFO 2026-01-10 06:37:43,393 basehttp 21808 24980 "GET /media/gallery/7fcf61ecf57e4732aed9ddceea7fbc30.png HTTP/1.1" 200 2108686
+INFO 2026-01-10 06:37:43,396 basehttp 21808 26564 "GET /media/gallery/81776b12702240aab5b6ef4302106284.png HTTP/1.1" 200 2108686
+INFO 2026-01-10 06:37:43,416 basehttp 21808 24668 "GET /media/gallery/b805f26ee2b14b60ad6b9ad38c448abd.PNG HTTP/1.1" 304 0
+INFO 2026-01-10 06:37:43,416 basehttp 21808 9608 "GET /media/gallery/2281ac92b811467fb69cab2537f3d52f.PNG HTTP/1.1" 304 0
+INFO 2026-01-10 06:37:43,417 basehttp 21808 29016 "GET /media/gallery/2b197b42a7504d4c997a0c59f768346f.PNG HTTP/1.1" 304 0
+INFO 2026-01-10 06:37:43,445 basehttp 21808 29016 "GET /media/gallery/9ecbf902119e444aa966c5557c8d934b.PNG HTTP/1.1" 304 0
+INFO 2026-01-10 06:37:43,449 basehttp 21808 9608 "GET /media/gallery/cfece93bbea14930ae2086012fc3457f.PNG HTTP/1.1" 304 0
+INFO 2026-01-10 06:37:44,160 basehttp 21808 9608 "GET /media/gallery/e8212237683a4b758d860332bea9935e.PNG HTTP/1.1" 304 0
+INFO 2026-01-10 06:37:44,161 basehttp 21808 29016 "GET /media/gallery/83039cf260364ba983da8e8b4ce48a2d.png HTTP/1.1" 304 0
+INFO 2026-01-10 06:37:59,683 basehttp 21808 30848 "OPTIONS /api/auth/login/ HTTP/1.1" 200 0
+INFO 2026-01-10 06:38:01,390 basehttp 21808 30848 "POST /api/auth/login/ HTTP/1.1" 200 646
+INFO 2026-01-10 06:38:03,241 basehttp 21808 30848 "OPTIONS /api/reservations/dashboard/ HTTP/1.1" 200 0
+INFO 2026-01-10 06:38:03,245 basehttp 21808 20132 "OPTIONS /api/reservations/dashboard/ HTTP/1.1" 200 0
+WARNING 2026-01-10 06:38:03,252 log 21808 30848 Not Found: /api/reservations/dashboard/
+WARNING 2026-01-10 06:38:03,254 basehttp 21808 30848 "GET /api/reservations/dashboard/ HTTP/1.1" 404 23
+WARNING 2026-01-10 06:38:03,262 log 21808 30848 Not Found: /api/reservations/dashboard/
+WARNING 2026-01-10 06:38:03,263 basehttp 21808 30848 "GET /api/reservations/dashboard/ HTTP/1.1" 404 23
+WARNING 2026-01-10 06:38:29,202 log 21808 30848 Not Found: /api/reservations/dashboard/
+WARNING 2026-01-10 06:38:29,205 basehttp 21808 30848 "GET /api/reservations/dashboard/ HTTP/1.1" 404 23
+WARNING 2026-01-10 06:38:29,233 log 21808 30848 Not Found: /api/reservations/dashboard/
+WARNING 2026-01-10 06:38:29,237 basehttp 21808 30848 "GET /api/reservations/dashboard/ HTTP/1.1" 404 23
+INFO 2026-01-10 06:38:36,094 basehttp 21808 30848 "OPTIONS /api/events/ HTTP/1.1" 200 0
+INFO 2026-01-10 06:38:36,096 basehttp 21808 20132 "OPTIONS /api/events/ HTTP/1.1" 200 0
+ERROR 2026-01-10 06:38:36,125 EventViews 21808 30848 Error listing events: no such column: api_event.video_original
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: api_event.video_original
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Admin\bottlebrothers_lab-3\server\api\views\EventViews.py", line 121, in list
+    'results': serializer.data,
+               ^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+                                                   ^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 384, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: api_event.video_original
+ERROR 2026-01-10 06:38:36,468 log 21808 30848 Internal Server Error: /api/events/
+ERROR 2026-01-10 06:38:36,469 basehttp 21808 30848 "GET /api/events/ HTTP/1.1" 500 76
+ERROR 2026-01-10 06:38:36,478 EventViews 21808 30848 Error listing events: no such column: api_event.video_original
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: api_event.video_original
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Admin\bottlebrothers_lab-3\server\api\views\EventViews.py", line 121, in list
+    'results': serializer.data,
+               ^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+                                                   ^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 384, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: api_event.video_original
+ERROR 2026-01-10 06:38:36,522 log 21808 30848 Internal Server Error: /api/events/
+ERROR 2026-01-10 06:38:36,523 basehttp 21808 30848 "GET /api/events/ HTTP/1.1" 500 76
+INFO 2026-01-10 06:38:56,511 basehttp 21808 30848 "OPTIONS /api/menu/categories/?parent=null HTTP/1.1" 200 0
+INFO 2026-01-10 06:38:56,512 basehttp 21808 20132 "OPTIONS /api/menu/items/ HTTP/1.1" 200 0
+INFO 2026-01-10 06:38:56,519 basehttp 21808 30848 "OPTIONS /api/menu/categories/?parent=null HTTP/1.1" 200 0
+INFO 2026-01-10 06:38:56,520 basehttp 21808 20132 "OPTIONS /api/menu/items/ HTTP/1.1" 200 0
+INFO 2026-01-10 06:38:56,742 basehttp 21808 30848 "GET /api/menu/items/ HTTP/1.1" 200 6308
+INFO 2026-01-10 06:38:56,948 basehttp 21808 30848 "GET /api/menu/items/ HTTP/1.1" 200 6308
+INFO 2026-01-10 06:38:56,993 basehttp 21808 20132 "GET /api/menu/categories/?parent=null HTTP/1.1" 200 5829
+INFO 2026-01-10 06:38:57,279 basehttp 21808 20132 "GET /api/menu/categories/?parent=null HTTP/1.1" 200 5829
+INFO 2026-01-10 06:39:06,477 basehttp 21808 30848 "GET /api/menu/items/ HTTP/1.1" 200 6308
+INFO 2026-01-10 06:39:06,684 basehttp 21808 30848 "GET /api/menu/items/ HTTP/1.1" 200 6308
+INFO 2026-01-10 06:39:06,735 basehttp 21808 20132 "GET /api/menu/categories/?parent=null HTTP/1.1" 200 5829
+INFO 2026-01-10 06:39:06,912 basehttp 21808 20132 "GET /api/menu/categories/?parent=null HTTP/1.1" 200 5829
+INFO 2026-01-10 06:39:24,125 basehttp 21808 20132 "OPTIONS /api/menu/items/1c849eed-194b-4036-b426-9234a4131a28/ HTTP/1.1" 200 0
+INFO 2026-01-10 06:39:24,214 basehttp 21808 20132 "PATCH /api/menu/items/1c849eed-194b-4036-b426-9234a4131a28/ HTTP/1.1" 200 698
+INFO 2026-01-10 06:39:24,381 basehttp 21808 30848 "GET /api/menu/items/ HTTP/1.1" 200 6302
+INFO 2026-01-10 06:39:24,522 basehttp 21808 20132 "GET /api/menu/categories/?parent=null HTTP/1.1" 200 5829
+ERROR 2026-01-10 06:39:35,696 EventViews 21808 20132 Error listing events: no such column: api_event.video_original
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: api_event.video_original
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Admin\bottlebrothers_lab-3\server\api\views\EventViews.py", line 121, in list
+    'results': serializer.data,
+               ^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+                                                   ^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 384, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: api_event.video_original
+ERROR 2026-01-10 06:39:35,719 log 21808 20132 Internal Server Error: /api/events/
+ERROR 2026-01-10 06:39:35,720 basehttp 21808 20132 "GET /api/events/ HTTP/1.1" 500 76
+ERROR 2026-01-10 06:39:35,739 EventViews 21808 20132 Error listing events: no such column: api_event.video_original
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: api_event.video_original
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Admin\bottlebrothers_lab-3\server\api\views\EventViews.py", line 121, in list
+    'results': serializer.data,
+               ^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+                                                   ^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 384, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: api_event.video_original
+ERROR 2026-01-10 06:39:35,783 log 21808 20132 Internal Server Error: /api/events/
+ERROR 2026-01-10 06:39:35,784 basehttp 21808 20132 "GET /api/events/ HTTP/1.1" 500 76
+ERROR 2026-01-10 06:39:45,952 EventViews 21808 29612 Error listing events: no such column: api_event.video_original
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: api_event.video_original
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Admin\bottlebrothers_lab-3\server\api\views\EventViews.py", line 121, in list
+    'results': serializer.data,
+               ^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+                                                   ^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 384, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: api_event.video_original
+ERROR 2026-01-10 06:39:45,966 log 21808 29612 Internal Server Error: /api/events/
+ERROR 2026-01-10 06:39:45,967 basehttp 21808 29612 "GET /api/events/?limit=1&is_featured=true&status=upcoming HTTP/1.1" 500 76
+ERROR 2026-01-10 06:39:45,981 EventViews 21808 7672 Error listing events: no such column: api_event.video_original
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: api_event.video_original
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Admin\bottlebrothers_lab-3\server\api\views\EventViews.py", line 121, in list
+    'results': serializer.data,
+               ^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+                                                   ^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 384, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: api_event.video_original
+INFO 2026-01-10 06:39:46,011 basehttp 21808 28816 "GET /api/menu/items/?limit=6&is_featured=true&is_available=true HTTP/1.1" 200 3596
+INFO 2026-01-10 06:39:46,018 basehttp 21808 16920 "GET /api/gallery/?limit=8&is_featured=true&is_active=true HTTP/1.1" 200 3296
+INFO 2026-01-10 06:39:46,022 basehttp 21808 25548 "GET /api/public/moments/ HTTP/1.1" 200 1823
+ERROR 2026-01-10 06:39:46,024 log 21808 7672 Internal Server Error: /api/events/
+ERROR 2026-01-10 06:39:46,029 basehttp 21808 7672 "GET /api/events/?limit=3&status=upcoming HTTP/1.1" 500 76
+INFO 2026-01-10 06:39:46,876 basehttp 21808 29612 "GET /media/moments/62a1fa2569dd453e9ec8a13950eb8b0c.png HTTP/1.1" 200 1943274
+INFO 2026-01-10 06:39:46,889 basehttp 21808 28816 "GET /media/moments/b3d0f94b74374abba22c0ccfd9f57980.png HTTP/1.1" 200 2108686
+INFO 2026-01-10 06:39:46,891 basehttp 21808 16920 "GET /media/moments/e5ce3d8659af442ea4fae9779d7b0c61.png HTTP/1.1" 200 2108686
+INFO 2026-01-10 06:39:46,895 basehttp 21808 7672 "GET /media/moments/5d3d9c7137ba41178723541f2d9d9841.png HTTP/1.1" 200 2108686
+INFO 2026-01-10 06:39:47,094 basehttp 21808 29612 "GET /media/moments/b5799d5731c1450b9354709d00d904db.png HTTP/1.1" 200 2261276
+INFO 2026-01-10 06:39:52,636 basehttp 21808 20132 "GET /api/menu/items/by_category/ HTTP/1.1" 200 5145
+INFO 2026-01-10 06:39:52,909 basehttp 21808 20132 "GET /api/menu/items/by_category/ HTTP/1.1" 200 5145
+INFO 2026-01-10 06:46:15,339 autoreload 21808 14288 C:\Users\Admin\bottlebrothers_lab-3\server\api\views\EventViews.py changed, reloading.
+INFO 2026-01-10 06:46:16,463 autoreload 20188 1208 Watching for file changes with StatReloader
+INFO 2026-01-10 06:46:57,002 autoreload 20188 1208 C:\Users\Admin\bottlebrothers_lab-3\server\api\views\EventViews.py changed, reloading.
+INFO 2026-01-10 06:46:58,002 autoreload 17680 13092 Watching for file changes with StatReloader
+WARNING 2026-01-10 06:46:58,208 EventViews 17680 13092 Could not check video columns: no such table: information_schema.columns
+WARNING 2026-01-10 06:46:58,211 EventViews 17680 13092 Video columns not found in database. Run 'python manage.py migrate' to enable video features.
+INFO 2026-01-10 06:47:24,836 autoreload 17680 13092 C:\Users\Admin\bottlebrothers_lab-3\server\api\views\EventViews.py changed, reloading.
+INFO 2026-01-10 06:47:25,886 autoreload 7124 24828 Watching for file changes with StatReloader
+WARNING 2026-01-10 06:47:26,151 EventViews 7124 24828 Could not check video columns: no such table: information_schema.columns
+WARNING 2026-01-10 06:47:26,154 EventViews 7124 24828 Video columns not found in database. Run 'python manage.py migrate' to enable video features.
+INFO 2026-01-10 06:48:52,301 basehttp 7124 8904 "GET /api/menu/items/by_category/ HTTP/1.1" 200 5145
+WARNING 2026-01-10 06:49:06,539 log 7124 8904 Not Found: /api/reservations/dashboard/
+WARNING 2026-01-10 06:49:06,540 basehttp 7124 8904 "GET /api/reservations/dashboard/ HTTP/1.1" 404 23
+WARNING 2026-01-10 06:49:06,562 log 7124 8904 Not Found: /api/reservations/dashboard/
+WARNING 2026-01-10 06:49:06,566 basehttp 7124 8904 "GET /api/reservations/dashboard/ HTTP/1.1" 404 23
+ERROR 2026-01-10 06:49:16,269 EventViews 7124 8904 Error listing events: no such column: api_event.video_original
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: api_event.video_original
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Admin\bottlebrothers_lab-3\server\api\views\EventViews.py", line 172, in list
+    'results': serializer.data,
+               ^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 540, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\fields.py", line 1870, in to_representation
+    return method(value)
+  File "C:\Users\Admin\bottlebrothers_lab-3\server\api\serializers.py", line 351, in get_video_original
+    video_original = getattr(obj, 'video_original', None)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\fields\files.py", line 188, in __get__
+    file = super().__get__(instance, cls)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query_utils.py", line 266, in __get__
+    instance.refresh_from_db(fields=[field_name])
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\base.py", line 737, in refresh_from_db
+    db_instance = db_instance_qs.get()
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: api_event.video_original
+ERROR 2026-01-10 06:49:16,471 log 7124 8904 Internal Server Error: /api/events/
+ERROR 2026-01-10 06:49:16,473 basehttp 7124 8904 "GET /api/events/ HTTP/1.1" 500 76
+ERROR 2026-01-10 06:49:16,520 EventViews 7124 8904 Error listing events: no such column: api_event.video_original
+Traceback (most recent call last):
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+sqlite3.OperationalError: no such column: api_event.video_original
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\Admin\bottlebrothers_lab-3\server\api\views\EventViews.py", line 172, in list
+    'results': serializer.data,
+               ^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 797, in data
+    ret = super().data
+          ^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 251, in data
+    self._data = self.to_representation(self.instance)
+                 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 716, in to_representation
+    self.child.to_representation(item) for item in iterable
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\serializers.py", line 540, in to_representation
+    ret[field.field_name] = field.to_representation(attribute)
+                            ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\rest_framework\fields.py", line 1870, in to_representation
+    return method(value)
+  File "C:\Users\Admin\bottlebrothers_lab-3\server\api\serializers.py", line 351, in get_video_original
+    video_original = getattr(obj, 'video_original', None)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\fields\files.py", line 188, in __get__
+    file = super().__get__(instance, cls)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query_utils.py", line 266, in __get__
+    instance.refresh_from_db(fields=[field_name])
+    ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\base.py", line 737, in refresh_from_db
+    db_instance = db_instance_qs.get()
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 629, in get
+    num = len(clone)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 366, in __len__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\Admin\AppData\Local\Programs\Python\Python313\Lib\site-packages\django\db\backends\sqlite3\base.py", line 360, in execute
+    return super().execute(query, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^
+django.db.utils.OperationalError: no such column: api_event.video_original
+ERROR 2026-01-10 06:49:16,589 log 7124 8904 Internal Server Error: /api/events/
+ERROR 2026-01-10 06:49:16,591 basehttp 7124 8904 "GET /api/events/ HTTP/1.1" 500 76
+INFO 2026-01-10 06:49:30,323 autoreload 25696 4220 Watching for file changes with StatReloader
+WARNING 2026-01-10 06:49:30,554 EventViews 25696 4220 Could not check video columns: no such table: information_schema.columns
+INFO 2026-01-10 06:49:53,762 basehttp 7124 29504 "GET /api/events/ HTTP/1.1" 200 812
+INFO 2026-01-10 06:49:53,808 basehttp 7124 29504 - Broken pipe from ('127.0.0.1', 63078)
+INFO 2026-01-10 06:50:29,310 basehttp 7124 13076 "GET /api/events/ HTTP/1.1" 200 1230
+INFO 2026-01-10 06:50:29,324 basehttp 7124 13076 "GET /api/events/ HTTP/1.1" 200 1230
+INFO 2026-01-10 06:51:54,933 basehttp 7124 13076 "GET /api/events/ HTTP/1.1" 200 1230
+INFO 2026-01-10 06:51:54,948 basehttp 7124 13076 "GET /api/events/ HTTP/1.1" 200 1230
+INFO 2026-01-10 06:53:10,841 basehttp 7124 21332 "GET /api/events/?limit=1&is_featured=true&status=upcoming HTTP/1.1" 200 24
+INFO 2026-01-10 06:53:10,887 basehttp 7124 23192 "GET /api/events/?limit=3&status=upcoming HTTP/1.1" 200 812
+INFO 2026-01-10 06:53:10,941 basehttp 7124 15508 "GET /api/menu/items/?limit=6&is_featured=true&is_available=true HTTP/1.1" 200 3596
+INFO 2026-01-10 06:53:11,001 basehttp 7124 15380 "GET /api/gallery/?limit=8&is_featured=true&is_active=true HTTP/1.1" 200 3296
+INFO 2026-01-10 06:53:11,007 basehttp 7124 31472 "GET /api/public/moments/ HTTP/1.1" 200 1823
+INFO 2026-01-10 06:53:11,939 basehttp 7124 23192 "GET /media/moments/5d3d9c7137ba41178723541f2d9d9841.png HTTP/1.1" 200 2108686
+INFO 2026-01-10 06:53:11,944 basehttp 7124 31472 "GET /media/moments/b5799d5731c1450b9354709d00d904db.png HTTP/1.1" 200 2261276
+INFO 2026-01-10 06:53:11,952 basehttp 7124 21332 "GET /media/moments/62a1fa2569dd453e9ec8a13950eb8b0c.png HTTP/1.1" 200 1943274
+INFO 2026-01-10 06:53:11,955 basehttp 7124 15380 "GET /media/moments/e5ce3d8659af442ea4fae9779d7b0c61.png HTTP/1.1" 200 2108686
+INFO 2026-01-10 06:53:11,964 basehttp 7124 15508 "GET /media/moments/b3d0f94b74374abba22c0ccfd9f57980.png HTTP/1.1" 200 2108686
+INFO 2026-01-10 06:53:17,590 basehttp 7124 29736 "GET /api/events/?limit=1&is_featured=true&status=upcoming HTTP/1.1" 200 24
+INFO 2026-01-10 06:53:17,650 basehttp 7124 23400 "GET /api/gallery/?limit=8&is_featured=true&is_active=true HTTP/1.1" 200 3296
+INFO 2026-01-10 06:53:17,654 basehttp 7124 4832 "GET /api/public/moments/ HTTP/1.1" 200 1823
+INFO 2026-01-10 06:53:17,663 basehttp 7124 31220 "GET /api/events/?limit=3&status=upcoming HTTP/1.1" 200 812
+INFO 2026-01-10 06:53:17,699 basehttp 7124 13740 "GET /api/menu/items/?limit=6&is_featured=true&is_available=true HTTP/1.1" 200 3596
+INFO 2026-01-10 06:53:23,489 basehttp 7124 13076 "OPTIONS /api/events/public/ HTTP/1.1" 200 0
+INFO 2026-01-10 06:53:23,495 basehttp 7124 13076 "OPTIONS /api/events/public/ HTTP/1.1" 200 0
+INFO 2026-01-10 06:53:23,525 basehttp 7124 13076 "GET /api/events/public/ HTTP/1.1" 200 790
+INFO 2026-01-10 06:53:23,567 basehttp 7124 13076 "GET /api/events/public/ HTTP/1.1" 200 790
+INFO 2026-01-10 06:53:23,858 basehttp 7124 16388 "GET /media/events/dcd3c7cf54004514b13fe4ac0e5ccbbd.PNG HTTP/1.1" 304 0
+INFO 2026-01-10 06:54:16,815 basehttp 7124 24980 "GET /api/events/ HTTP/1.1" 200 812
+INFO 2026-01-10 06:54:16,859 basehttp 7124 24980 - Broken pipe from ('127.0.0.1', 63463)
+INFO 2026-01-10 06:59:19,297 basehttp 7124 31108 "GET /api/events/public/ HTTP/1.1" 200 790
+INFO 2026-01-10 06:59:19,355 basehttp 7124 31108 - Broken pipe from ('127.0.0.1', 63999)
+INFO 2026-01-10 07:09:19,316 basehttp 7124 22624 "GET /api/events/public/ HTTP/1.1" 200 790
+INFO 2026-01-10 07:11:19,013 basehttp 7124 22624 "GET /api/events/public/ HTTP/1.1" 200 790
+INFO 2026-01-10 07:12:42,096 basehttp 7124 22624 "GET /api/events/public/ HTTP/1.1" 200 790
+INFO 2026-01-10 07:12:50,700 basehttp 7124 28316 "GET /api/events/?limit=1&is_featured=true&status=upcoming HTTP/1.1" 200 24
+INFO 2026-01-10 07:12:50,726 basehttp 7124 7264 "GET /api/gallery/?limit=8&is_featured=true&is_active=true HTTP/1.1" 200 3296
+INFO 2026-01-10 07:12:50,735 basehttp 7124 2992 "GET /api/events/?limit=3&status=upcoming HTTP/1.1" 200 812
+INFO 2026-01-10 07:12:50,761 basehttp 7124 8812 "GET /api/public/moments/ HTTP/1.1" 200 1823
+INFO 2026-01-10 07:12:50,769 basehttp 7124 25524 "GET /api/menu/items/?limit=6&is_featured=true&is_available=true HTTP/1.1" 200 3596
+INFO 2026-01-10 07:12:51,228 basehttp 7124 25524 "GET /media/moments/b3d0f94b74374abba22c0ccfd9f57980.png HTTP/1.1" 200 2108686
+INFO 2026-01-10 07:12:51,231 basehttp 7124 7264 "GET /media/moments/e5ce3d8659af442ea4fae9779d7b0c61.png HTTP/1.1" 200 2108686
+INFO 2026-01-10 07:12:51,232 basehttp 7124 2992 "GET /media/moments/5d3d9c7137ba41178723541f2d9d9841.png HTTP/1.1" 200 2108686
+INFO 2026-01-10 07:12:51,235 basehttp 7124 28316 "GET /media/moments/62a1fa2569dd453e9ec8a13950eb8b0c.png HTTP/1.1" 200 1943274
+INFO 2026-01-10 07:12:51,237 basehttp 7124 8812 "GET /media/moments/b5799d5731c1450b9354709d00d904db.png HTTP/1.1" 200 2261276
