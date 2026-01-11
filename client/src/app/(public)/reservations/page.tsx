@@ -76,12 +76,23 @@ export default function ReservationsPage() {
   });
 
   // Pre-fill form from URL query parameters (from Quick Reservation)
+  // and auto-skip to step 3 (personal info) if all data is provided
   useEffect(() => {
     const dateParam = searchParams.get('date');
     const timeParam = searchParams.get('time');
     const guestsParam = searchParams.get('guests');
 
-    if (dateParam || timeParam || guestsParam) {
+    if (dateParam && timeParam && guestsParam) {
+      // All data provided - pre-fill and skip to step 3 (personal info)
+      setReservationData(prev => ({
+        ...prev,
+        date: dateParam,
+        time: convertTimeToDisplay(timeParam),
+        partySize: parseInt(guestsParam)
+      }));
+      setCurrentStep(3); // Skip to personal info step
+    } else if (dateParam || timeParam || guestsParam) {
+      // Partial data - just pre-fill
       setReservationData(prev => ({
         ...prev,
         date: dateParam || prev.date,

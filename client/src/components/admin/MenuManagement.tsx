@@ -90,6 +90,7 @@ const MenuManagement: React.FC = () => {
   const [editingCategory, setEditingCategory] = useState<MenuCategory | null>(null);
   const [editingSubcategory, setEditingSubcategory] = useState<MenuCategory | null>(null);
   const [editingItem, setEditingItem] = useState<MenuItem | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   // Form states
   const [categoryForm, setCategoryForm] = useState({

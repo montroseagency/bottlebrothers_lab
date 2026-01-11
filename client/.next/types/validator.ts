@@ -144,42 +144,6 @@ type LayoutConfig<Route extends LayoutRoutes = LayoutRoutes> = {
   type __Unused = __Check
 }
 
-// Validate ../../src/app/[locale]/(public)/account/login/page.tsx
-{
-  type __IsExpected<Specific extends AppPageConfig<"/[locale]/account/login">> = Specific
-  const handler = {} as typeof import("../../src/app/[locale]/(public)/account/login/page.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
-
-// Validate ../../src/app/[locale]/(public)/account/page.tsx
-{
-  type __IsExpected<Specific extends AppPageConfig<"/[locale]/account">> = Specific
-  const handler = {} as typeof import("../../src/app/[locale]/(public)/account/page.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
-
-// Validate ../../src/app/[locale]/(public)/account/profile/page.tsx
-{
-  type __IsExpected<Specific extends AppPageConfig<"/[locale]/account/profile">> = Specific
-  const handler = {} as typeof import("../../src/app/[locale]/(public)/account/profile/page.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
-
-// Validate ../../src/app/[locale]/(public)/account/register/page.tsx
-{
-  type __IsExpected<Specific extends AppPageConfig<"/[locale]/account/register">> = Specific
-  const handler = {} as typeof import("../../src/app/[locale]/(public)/account/register/page.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
-
 // Validate ../../src/app/[locale]/(public)/contact/page.tsx
 {
   type __IsExpected<Specific extends AppPageConfig<"/[locale]/contact">> = Specific
@@ -422,15 +386,6 @@ type LayoutConfig<Route extends LayoutRoutes = LayoutRoutes> = {
 {
   type __IsExpected<Specific extends LayoutConfig<"/">> = Specific
   const handler = {} as typeof import("../../src/app/(public)/layout.js")
-  type __Check = __IsExpected<typeof handler>
-  // @ts-ignore
-  type __Unused = __Check
-}
-
-// Validate ../../src/app/[locale]/(public)/account/layout.tsx
-{
-  type __IsExpected<Specific extends LayoutConfig<"/[locale]/account">> = Specific
-  const handler = {} as typeof import("../../src/app/[locale]/(public)/account/layout.js")
   type __Check = __IsExpected<typeof handler>
   // @ts-ignore
   type __Unused = __Check

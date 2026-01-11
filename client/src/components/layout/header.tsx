@@ -350,7 +350,6 @@ export const Header: React.FC = () => {
                 <NavigationItem to={localePath('/events')} label={t('nav.events')} />
                 <NavigationItem to={localePath('/gallery')} label={t('nav.gallery')} />
                 <NavigationItem to={localePath('/contact')} label={t('nav.contact')} />
-                <NavigationItem to={localePath('/account')} label={t('nav.account', 'Account')} />
               </div>
             </nav>
 
@@ -405,7 +404,6 @@ export const Header: React.FC = () => {
                 <NavigationItem to={localePath('/events')} label={t('nav.events')} isMobile />
                 <NavigationItem to={localePath('/gallery')} label={t('nav.gallery')} isMobile />
                 <NavigationItem to={localePath('/contact')} label={t('nav.contact')} isMobile />
-                <NavigationItem to={localePath('/account')} label={t('nav.account', 'Account')} isMobile />
               </div>
 
               {/* Language Section */}

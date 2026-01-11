@@ -104,6 +104,7 @@ export const FloatingReservation: React.FC<FloatingReservationProps> = ({
                 <input
                   type="date"
                   value={quickReservation.date}
+                  min={new Date().toISOString().split('T')[0]}
                   onChange={(e) => setQuickReservation({...quickReservation, date: e.target.value})}
                   className="w-full bg-gray-100 border border-gray-300 rounded-lg px-3 py-2 text-black placeholder-gray-500 focus:border-green-400 focus:ring-1 focus:ring-green-400 transition-colors"
                 />
