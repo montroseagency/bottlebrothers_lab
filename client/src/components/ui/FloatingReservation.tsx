@@ -3,6 +3,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { MagneticButton } from './MagneticButton';
 
 interface FloatingReservationProps {
@@ -16,6 +17,7 @@ export const FloatingReservation: React.FC<FloatingReservationProps> = ({
   showAfterScroll = 300,
   style = 'compact'
 }) => {
+  const pathname = usePathname();
   const [isVisible, setIsVisible] = useState(false);
   const [isExpanded, setIsExpanded] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
@@ -25,14 +27,22 @@ export const FloatingReservation: React.FC<FloatingReservationProps> = ({
     guests: '2'
   });
 
+  // Hide on contact page
+  const isContactPage = pathname?.includes('/contact');
+
   useEffect(() => {
     const handleScroll = () => {
       setIsVisible(window.scrollY > showAfterScroll);
     };
-    
+
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [showAfterScroll]);
+
+  // Don't render on contact page
+  if (isContactPage) {
+    return null;
+  }
 
   const getPositionClasses = () => {
     switch (position) {
@@ -81,29 +91,29 @@ export const FloatingReservation: React.FC<FloatingReservationProps> = ({
       <div className={`absolute ${position.includes('bottom') ? 'bottom-16' : 'top-16'} ${position.includes('right') ? 'right-0' : 'left-0'} transition-all duration-500 transform ${
         isExpanded ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-4 opacity-0 scale-95 pointer-events-none'
       }`}>
-        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-2xl min-w-80">
-          <h3 className="text-white font-semibold mb-4 flex items-center">
+        <div className="bg-white backdrop-blur-md border border-gray-300 rounded-2xl p-6 shadow-2xl min-w-80">
+          <h3 className="text-black font-semibold mb-4 flex items-center">
             <span className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
             Quick Reservation
           </h3>
-          
+
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-white/80 text-sm mb-1">Date</label>
+                <label className="block text-black/80 text-sm mb-1">Date</label>
                 <input
                   type="date"
                   value={quickReservation.date}
                   onChange={(e) => setQuickReservation({...quickReservation, date: e.target.value})}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-white/50 focus:border-green-400 focus:ring-1 focus:ring-green-400 transition-colors"
+                  className="w-full bg-gray-100 border border-gray-300 rounded-lg px-3 py-2 text-black placeholder-gray-500 focus:border-green-400 focus:ring-1 focus:ring-green-400 transition-colors"
                 />
               </div>
               <div>
-                <label className="block text-white/80 text-sm mb-1">Time</label>
-                <select 
+                <label className="block text-black/80 text-sm mb-1">Time</label>
+                <select
                   value={quickReservation.time}
                   onChange={(e) => setQuickReservation({...quickReservation, time: e.target.value})}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white focus:border-green-400 focus:ring-1 focus:ring-green-400 transition-colors"
+                  className="w-full bg-gray-100 border border-gray-300 rounded-lg px-3 py-2 text-black focus:border-green-400 focus:ring-1 focus:ring-green-400 transition-colors"
                 >
                   <option value="">Time</option>
                   <option value="17:00">5:00 PM</option>
@@ -114,27 +124,42 @@ export const FloatingReservation: React.FC<FloatingReservationProps> = ({
                 </select>
               </div>
             </div>
-            
+
             <div>
-              <label className="block text-white/80 text-sm mb-1">Guests</label>
-              <select 
+              <label className="block text-black/80 text-sm mb-1">Guests</label>
+              <select
                 value={quickReservation.guests}
                 onChange={(e) => setQuickReservation({...quickReservation, guests: e.target.value})}
-                className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white focus:border-green-400 focus:ring-1 focus:ring-green-400 transition-colors"
+                className="w-full bg-gray-100 border border-gray-300 rounded-lg px-3 py-2 text-black focus:border-green-400 focus:ring-1 focus:ring-green-400 transition-colors"
               >
                 {[...Array(8)].map((_, i) => (
                   <option key={i + 1} value={i + 1}>{i + 1} {i === 0 ? 'Guest' : 'Guests'}</option>
                 ))}
               </select>
             </div>
-            
+
             <div className="flex space-x-2">
-              <MagneticButton className="flex-1 bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-lg font-medium transition-colors">
-                <Link href="/contact" className="block w-full text-center">Book Now</Link>
-              </MagneticButton>
+              {quickReservation.date && quickReservation.time ? (
+                <MagneticButton className="flex-1 bg-black hover:bg-neutral-800 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+                  <Link
+                    href={`/reservations?date=${quickReservation.date}&time=${quickReservation.time}&guests=${quickReservation.guests}`}
+                    className="block w-full text-center"
+                  >
+                    Book Now
+                  </Link>
+                </MagneticButton>
+              ) : (
+                <button
+                  type="button"
+                  disabled
+                  className="flex-1 bg-gray-400 text-white px-4 py-2 rounded-lg font-medium cursor-not-allowed opacity-60"
+                >
+                  Select Date & Time
+                </button>
+              )}
               <button
                 onClick={() => setIsExpanded(false)}
-                className="px-4 py-2 border border-white/20 text-white/80 rounded-lg hover:bg-white/10 transition-colors"
+                className="px-4 py-2 border border-gray-300 text-black/80 rounded-lg hover:bg-gray-100 transition-colors"
               >
                 ✕
               </button>

@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { apiClient, ReservationFormData } from '@/services/api';
 
 interface ReservationData {
@@ -57,6 +57,7 @@ const SEATING_PREFERENCES = [
 
 export default function ReservationsPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -73,6 +74,31 @@ export default function ReservationsPage() {
     dietaryRestrictions: [],
     seatingPreference: 'No Preference'
   });
+
+  // Pre-fill form from URL query parameters (from Quick Reservation)
+  useEffect(() => {
+    const dateParam = searchParams.get('date');
+    const timeParam = searchParams.get('time');
+    const guestsParam = searchParams.get('guests');
+
+    if (dateParam || timeParam || guestsParam) {
+      setReservationData(prev => ({
+        ...prev,
+        date: dateParam || prev.date,
+        time: timeParam ? convertTimeToDisplay(timeParam) : prev.time,
+        partySize: guestsParam ? parseInt(guestsParam) : prev.partySize
+      }));
+    }
+  }, [searchParams]);
+
+  // Convert 24h time format (17:00) to display format (5:00 PM)
+  const convertTimeToDisplay = (time24: string): string => {
+    const [hours, minutes] = time24.split(':').map(Number);
+    if (isNaN(hours)) return time24;
+    const period = hours >= 12 ? 'PM' : 'AM';
+    const displayHours = hours % 12 || 12;
+    return `${displayHours}:${minutes.toString().padStart(2, '0')} ${period}`;
+  };
 
   const totalSteps = 5;
 

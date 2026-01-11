@@ -210,7 +210,7 @@ class ReservationViewSet(viewsets.ModelViewSet):
     def stats(self, request):
         """Get reservation statistics for dashboard"""
         today = timezone.now().date()
-        
+
         stats = {
             'total_reservations': Reservation.objects.count(),
             'confirmed_reservations': Reservation.objects.filter(status='confirmed').count(),
@@ -221,9 +221,53 @@ class ReservationViewSet(viewsets.ModelViewSet):
             'no_show_reservations': Reservation.objects.filter(status='no_show').count(),
             'today_reservations': Reservation.objects.filter(date=today).count(),
         }
-        
+
         return Response(stats)
-    
+
+    @action(detail=False, methods=['get'], permission_classes=[IsAuthenticated])
+    def dashboard(self, request):
+        """Get dashboard data for admin panel"""
+        today = timezone.now().date()
+        tomorrow = today + timedelta(days=1)
+        week_start = today - timedelta(days=7)
+
+        # Today's reservations
+        todays_reservations = Reservation.objects.filter(date=today).order_by('time')
+
+        # Tomorrow's reservations
+        tomorrows_reservations = Reservation.objects.filter(date=tomorrow).order_by('time')
+
+        # Week stats
+        week_reservations = Reservation.objects.filter(date__gte=week_start, date__lte=today)
+        total_guests = week_reservations.aggregate(total=Count('party_size'))['total'] or 0
+
+        # Status stats
+        status_stats = list(
+            Reservation.objects.values('status').annotate(count=Count('id'))
+        )
+
+        # Recent messages
+        recent_messages = list(
+            ContactMessage.objects.order_by('-created_at')[:5].values(
+                'id', 'name', 'email', 'subject', 'message', 'is_read', 'created_at'
+            )
+        )
+
+        # Unread messages count
+        unread_messages_count = ContactMessage.objects.filter(is_read=False).count()
+
+        return Response({
+            'todays_reservations': ReservationSerializer(todays_reservations, many=True).data,
+            'tomorrows_reservations': ReservationSerializer(tomorrows_reservations, many=True).data,
+            'week_stats': {
+                'total_reservations': week_reservations.count(),
+                'total_guests': total_guests,
+            },
+            'status_stats': status_stats,
+            'recent_messages': recent_messages,
+            'unread_messages_count': unread_messages_count,
+        })
+
     @action(detail=True, methods=['post'])
     def cancel(self, request, pk=None):
         """Cancel a reservation"""
