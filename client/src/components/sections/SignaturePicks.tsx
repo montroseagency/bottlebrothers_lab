@@ -4,6 +4,7 @@ import React, { useRef } from 'react';
 import { MenuItem } from '@/lib/api';
 import { motion } from 'framer-motion';
 import Image from 'next/image';
+import Link from 'next/link';
 
 interface SignaturePicksProps {
   items: MenuItem[];
@@ -163,7 +164,7 @@ export function SignaturePicks({ items, fullHeight = false }: SignaturePicksProp
           transition={{ duration: 0.6, delay: 0.3 }}
           className="text-center mt-6 sm:mt-8 md:mt-12"
         >
-          <a
+          <Link
             href="/menu"
             className="inline-flex items-center gap-2 px-5 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-4 border-2 border-primary-500 text-primary-700 rounded-full text-sm sm:text-base font-semibold hover:bg-primary-500 hover:text-white transition-all duration-300"
           >
@@ -171,7 +172,7 @@ export function SignaturePicks({ items, fullHeight = false }: SignaturePicksProp
             <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
             </svg>
-          </a>
+          </Link>
         </motion.div>
       </div>
 

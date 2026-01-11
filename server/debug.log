@@ -5860,3 +5860,323 @@ INFO 2026-01-10 21:47:51,403 basehttp 7124 26068 "GET /media/moments/b5799d5731c
 INFO 2026-01-10 21:47:51,422 basehttp 7124 32600 "GET /media/moments/e5ce3d8659af442ea4fae9779d7b0c61.png HTTP/1.1" 200 2108686
 INFO 2026-01-10 21:47:51,704 basehttp 7124 26068 "GET /media/moments/21871f0cb710493096bed6f651b3b5c5.png HTTP/1.1" 200 1895591
 INFO 2026-01-10 21:48:08,141 basehttp 7124 5908 "GET /media/events/dcd3c7cf54004514b13fe4ac0e5ccbbd.PNG HTTP/1.1" 200 3519229
+WARNING 2026-01-11 00:23:50,092 EventViews 90938 140709173563392 Could not check video columns: no such table: information_schema.columns
+ERROR 2026-01-11 00:25:34,077 exception 91775 139621171621888 Invalid HTTP_HOST header: 'demo1.montrose.agency'. You may need to add 'demo1.montrose.agency' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'demo1.montrose.agency'. You may need to add 'demo1.montrose.agency' to ALLOWED_HOSTS.
+WARNING 2026-01-11 00:25:34,141 EventViews 91775 139621171621888 Could not check video columns: no such table: information_schema.columns
+WARNING 2026-01-11 00:25:34,187 log 91775 139621171621888 Bad Request: /admin/dashboard
+ERROR 2026-01-11 00:25:41,085 exception 91778 139621171621888 Invalid HTTP_HOST header: 'demo1.montrose.agency'. You may need to add 'demo1.montrose.agency' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'demo1.montrose.agency'. You may need to add 'demo1.montrose.agency' to ALLOWED_HOSTS.
+WARNING 2026-01-11 00:25:41,143 EventViews 91778 139621171621888 Could not check video columns: no such table: information_schema.columns
+WARNING 2026-01-11 00:25:41,200 log 91778 139621171621888 Bad Request: /api/menu/categories/
+ERROR 2026-01-11 00:25:51,760 exception 91776 139621171621888 Invalid HTTP_HOST header: 'demo1.montrose.agency'. You may need to add 'demo1.montrose.agency' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'demo1.montrose.agency'. You may need to add 'demo1.montrose.agency' to ALLOWED_HOSTS.
+WARNING 2026-01-11 00:25:51,812 EventViews 91776 139621171621888 Could not check video columns: no such table: information_schema.columns
+WARNING 2026-01-11 00:25:51,852 log 91776 139621171621888 Bad Request: /api/events/
+ERROR 2026-01-11 00:26:30,761 exception 93413 139799067635712 Invalid HTTP_HOST header: 'demo1.montrose.agency'. You may need to add 'demo1.montrose.agency' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'demo1.montrose.agency'. You may need to add 'demo1.montrose.agency' to ALLOWED_HOSTS.
+WARNING 2026-01-11 00:26:30,809 EventViews 93413 139799067635712 Could not check video columns: no such table: information_schema.columns
+WARNING 2026-01-11 00:26:30,850 log 93413 139799067635712 Bad Request: /api/events/
+WARNING 2026-01-11 00:26:51,297 EventViews 93736 140426823077888 Could not check video columns: no such table: information_schema.columns
+WARNING 2026-01-11 00:28:23,074 EventViews 93737 140426823077888 Could not check video columns: no such table: information_schema.columns
+WARNING 2026-01-11 00:28:23,087 EventViews 93735 140426823077888 Could not check video columns: no such table: information_schema.columns
+ERROR 2026-01-11 00:40:53,692 exception 93737 140426823077888 Invalid HTTP_HOST header: 'vps-3b45a9fd.vps.ovh.net'. You may need to add 'vps-3b45a9fd.vps.ovh.net' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'vps-3b45a9fd.vps.ovh.net'. You may need to add 'vps-3b45a9fd.vps.ovh.net' to ALLOWED_HOSTS.
+WARNING 2026-01-11 00:40:53,725 log 93737 140426823077888 Bad Request: /api/v2/about
+ERROR 2026-01-11 00:40:55,164 exception 93737 140426823077888 Invalid HTTP_HOST header: 'vps-3b45a9fd.vps.ovh.net'. You may need to add 'vps-3b45a9fd.vps.ovh.net' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'vps-3b45a9fd.vps.ovh.net'. You may need to add 'vps-3b45a9fd.vps.ovh.net' to ALLOWED_HOSTS.
+WARNING 2026-01-11 00:40:55,165 log 93737 140426823077888 Bad Request: /api/server/version
+ERROR 2026-01-11 00:40:58,663 exception 93735 140426823077888 Invalid HTTP_HOST header: 'vps-3b45a9fd.vps.ovh.net'. You may need to add 'vps-3b45a9fd.vps.ovh.net' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: 'vps-3b45a9fd.vps.ovh.net'. You may need to add 'vps-3b45a9fd.vps.ovh.net' to ALLOWED_HOSTS.
+WARNING 2026-01-11 00:40:58,687 log 93735 140426823077888 Bad Request: /api/version
+ERROR 2026-01-11 00:59:52,486 exception 93735 140426823077888 Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+WARNING 2026-01-11 00:59:52,492 log 93735 140426823077888 Bad Request: /api/route
+ERROR 2026-01-11 01:44:10,648 exception 93736 140426823077888 Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+WARNING 2026-01-11 01:44:10,665 log 93736 140426823077888 Bad Request: /api/route
+ERROR 2026-01-11 02:26:32,658 exception 93735 140426823077888 Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+WARNING 2026-01-11 02:26:32,663 log 93735 140426823077888 Bad Request: /api/route
+ERROR 2026-01-11 03:12:53,351 exception 93737 140426823077888 Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+WARNING 2026-01-11 03:12:53,356 log 93737 140426823077888 Bad Request: /api/route
+ERROR 2026-01-11 03:56:44,651 exception 93736 140426823077888 Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+WARNING 2026-01-11 03:56:44,654 log 93736 140426823077888 Bad Request: /api/route
+ERROR 2026-01-11 04:38:04,284 exception 93735 140426823077888 Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+WARNING 2026-01-11 04:38:04,290 log 93735 140426823077888 Bad Request: /api/route
+ERROR 2026-01-11 05:21:18,379 exception 93737 140426823077888 Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+WARNING 2026-01-11 05:21:18,381 log 93737 140426823077888 Bad Request: /api/route
+ERROR 2026-01-11 06:03:50,750 exception 93737 140426823077888 Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+WARNING 2026-01-11 06:03:50,758 log 93737 140426823077888 Bad Request: /api/route
+ERROR 2026-01-11 06:48:01,010 exception 93737 140426823077888 Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+WARNING 2026-01-11 06:48:01,012 log 93737 140426823077888 Bad Request: /api/route
+ERROR 2026-01-11 07:23:14,867 exception 93737 140426823077888 Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+WARNING 2026-01-11 07:23:14,873 log 93737 140426823077888 Bad Request: /api/route
+ERROR 2026-01-11 08:08:18,646 exception 93736 140426823077888 Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+WARNING 2026-01-11 08:08:18,650 log 93736 140426823077888 Bad Request: /api/route
+ERROR 2026-01-11 08:50:29,251 exception 93735 140426823077888 Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+WARNING 2026-01-11 08:50:29,253 log 93735 140426823077888 Bad Request: /api/route
+ERROR 2026-01-11 09:33:49,011 exception 93736 140426823077888 Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+WARNING 2026-01-11 09:33:49,016 log 93736 140426823077888 Bad Request: /api/route
+ERROR 2026-01-11 10:20:06,098 exception 93736 140426823077888 Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+WARNING 2026-01-11 10:20:06,100 log 93736 140426823077888 Bad Request: /api/route
+ERROR 2026-01-11 11:06:16,296 exception 93736 140426823077888 Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+WARNING 2026-01-11 11:06:16,299 log 93736 140426823077888 Bad Request: /api/route
+ERROR 2026-01-11 11:49:13,258 exception 93735 140426823077888 Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+WARNING 2026-01-11 11:49:13,263 log 93735 140426823077888 Bad Request: /api/route
+ERROR 2026-01-11 12:33:21,295 exception 93735 140426823077888 Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+WARNING 2026-01-11 12:33:21,298 log 93735 140426823077888 Bad Request: /api/route
+ERROR 2026-01-11 13:17:52,143 exception 93737 140426823077888 Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+WARNING 2026-01-11 13:17:52,146 log 93737 140426823077888 Bad Request: /api/route
+ERROR 2026-01-11 14:03:16,803 exception 93736 140426823077888 Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+Traceback (most recent call last):
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/core/handlers/exception.py", line 55, in inner
+    response = get_response(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/utils/deprecation.py", line 133, in __call__
+    response = self.process_request(request)
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/middleware/common.py", line 48, in process_request
+    host = request.get_host()
+  File "/home/ubuntu/bottlebrothers_lab/venv/lib/python3.10/site-packages/django/http/request.py", line 151, in get_host
+    raise DisallowedHost(msg)
+django.core.exceptions.DisallowedHost: Invalid HTTP_HOST header: '51.210.180.71'. You may need to add '51.210.180.71' to ALLOWED_HOSTS.
+WARNING 2026-01-11 14:03:16,808 log 93736 140426823077888 Bad Request: /api/route

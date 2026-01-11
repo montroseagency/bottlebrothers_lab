@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import React, { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
@@ -10,7 +12,7 @@ export default function LoginPage() {
   const { t } = useTranslation();
   const router = useRouter();
   const params = useParams();
-  const locale = params.locale as string;
+  const locale = params?.locale as string;
   const { login, isAuthenticated, isLoading: authLoading } = useClientAuth();
 
   const [email, setEmail] = useState('');

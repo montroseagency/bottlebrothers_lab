@@ -3,14 +3,11 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useAuthenticatedApi } from '../../contexts/AuthContext';
 import type { Event } from '../../services/api';
 
-// Extended Event type with video fields
+// Extended Event type with additional video fields
 interface EventWithVideo extends Event {
-  video_original_url?: string | null;
-  video_webm_url?: string | null;
-  video_status?: 'none' | 'uploading' | 'processing' | 'completed' | 'failed';
-  video_duration?: number | null;
-  video_error?: string | null;
-  video_task_id?: string | null;
+  video_original_url?: string;
+  video_error?: string;
+  video_task_id?: string;
 }
 
 export const EventsManagement: React.FC = () => {

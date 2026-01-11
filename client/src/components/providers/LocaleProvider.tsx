@@ -19,7 +19,7 @@ export function LocaleProvider({ children, initialLocale }: LocaleProviderProps)
   const pathname = usePathname();
 
   // Extract locale from URL path
-  const urlLocale = extractLocale(pathname);
+  const urlLocale = extractLocale(pathname || '/');
   const currentLocale: SupportedLocale = urlLocale && supportedLocales.includes(urlLocale as SupportedLocale)
     ? (urlLocale as SupportedLocale)
     : (initialLocale || defaultLocale);

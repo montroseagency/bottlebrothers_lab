@@ -19,7 +19,7 @@ interface LanguageSwitcherProps {
 export function LanguageSwitcher({ className = '', variant = 'default' }: LanguageSwitcherProps) {
   const pathname = usePathname();
   const router = useRouter();
-  const currentLocale = extractLocale(pathname) || 'sq';
+  const currentLocale = extractLocale(pathname || '/') || 'sq';
 
   const handleLocaleChange = (newLocale: Locale) => {
     if (newLocale === currentLocale) return;
@@ -28,7 +28,7 @@ export function LanguageSwitcher({ className = '', variant = 'default' }: Langua
     setLocaleCookie(newLocale);
 
     // Navigate to new locale path
-    const newPath = buildLocalePath(pathname, newLocale);
+    const newPath = buildLocalePath(pathname || '/', newLocale);
     router.push(newPath);
   };
 
@@ -97,7 +97,7 @@ export function LanguageSwitcher({ className = '', variant = 'default' }: Langua
 // Hook to get current locale
 export function useLocale(): Locale {
   const pathname = usePathname();
-  return extractLocale(pathname) || 'sq';
+  return extractLocale(pathname || '/') || 'sq';
 }
 
 export default LanguageSwitcher;

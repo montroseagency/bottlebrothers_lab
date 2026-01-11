@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import React, { useEffect, useState, useRef } from 'react';
 import { useClientAuth } from '@/contexts/ClientAuthContext';
 import { getStoredTokens } from '@/lib/api/clientAuth';

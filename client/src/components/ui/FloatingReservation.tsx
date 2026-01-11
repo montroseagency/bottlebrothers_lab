@@ -81,29 +81,29 @@ export const FloatingReservation: React.FC<FloatingReservationProps> = ({
       <div className={`absolute ${position.includes('bottom') ? 'bottom-16' : 'top-16'} ${position.includes('right') ? 'right-0' : 'left-0'} transition-all duration-500 transform ${
         isExpanded ? 'translate-y-0 opacity-100 scale-100' : 'translate-y-4 opacity-0 scale-95 pointer-events-none'
       }`}>
-        <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-2xl min-w-80">
+        <div className="bg-black border border-gray-700 rounded-2xl p-6 shadow-2xl min-w-80">
           <h3 className="text-white font-semibold mb-4 flex items-center">
             <span className="w-2 h-2 bg-green-400 rounded-full mr-2 animate-pulse"></span>
             Quick Reservation
           </h3>
-          
+
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="block text-white/80 text-sm mb-1">Date</label>
+                <label className="block text-gray-300 text-sm mb-1">Date</label>
                 <input
                   type="date"
                   value={quickReservation.date}
                   onChange={(e) => setQuickReservation({...quickReservation, date: e.target.value})}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white placeholder-white/50 focus:border-green-400 focus:ring-1 focus:ring-green-400 transition-colors"
+                  className="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-white placeholder-gray-400 focus:border-green-400 focus:ring-1 focus:ring-green-400 transition-colors"
                 />
               </div>
               <div>
-                <label className="block text-white/80 text-sm mb-1">Time</label>
-                <select 
+                <label className="block text-gray-300 text-sm mb-1">Time</label>
+                <select
                   value={quickReservation.time}
                   onChange={(e) => setQuickReservation({...quickReservation, time: e.target.value})}
-                  className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white focus:border-green-400 focus:ring-1 focus:ring-green-400 transition-colors"
+                  className="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-white focus:border-green-400 focus:ring-1 focus:ring-green-400 transition-colors"
                 >
                   <option value="">Time</option>
                   <option value="17:00">5:00 PM</option>
@@ -114,27 +114,27 @@ export const FloatingReservation: React.FC<FloatingReservationProps> = ({
                 </select>
               </div>
             </div>
-            
+
             <div>
-              <label className="block text-white/80 text-sm mb-1">Guests</label>
-              <select 
+              <label className="block text-gray-300 text-sm mb-1">Guests</label>
+              <select
                 value={quickReservation.guests}
                 onChange={(e) => setQuickReservation({...quickReservation, guests: e.target.value})}
-                className="w-full bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white focus:border-green-400 focus:ring-1 focus:ring-green-400 transition-colors"
+                className="w-full bg-gray-900 border border-gray-600 rounded-lg px-3 py-2 text-white focus:border-green-400 focus:ring-1 focus:ring-green-400 transition-colors"
               >
                 {[...Array(8)].map((_, i) => (
                   <option key={i + 1} value={i + 1}>{i + 1} {i === 0 ? 'Guest' : 'Guests'}</option>
                 ))}
               </select>
             </div>
-            
+
             <div className="flex space-x-2">
               <MagneticButton className="flex-1 bg-green-600 hover:bg-green-500 text-white px-4 py-2 rounded-lg font-medium transition-colors">
                 <Link href="/contact" className="block w-full text-center">Book Now</Link>
               </MagneticButton>
               <button
                 onClick={() => setIsExpanded(false)}
-                className="px-4 py-2 border border-white/20 text-white/80 rounded-lg hover:bg-white/10 transition-colors"
+                className="px-4 py-2 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-800 transition-colors"
               >
                 ✕
               </button>
@@ -146,7 +146,7 @@ export const FloatingReservation: React.FC<FloatingReservationProps> = ({
   );
 
   const WidgetReservation = () => (
-    <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 shadow-2xl max-w-sm">
+    <div className="bg-black border border-gray-700 rounded-2xl p-6 shadow-2xl max-w-sm">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-white font-semibold flex items-center">
           <span className="w-3 h-3 bg-green-400 rounded-full mr-2 animate-pulse"></span>
@@ -157,30 +157,30 @@ export const FloatingReservation: React.FC<FloatingReservationProps> = ({
           <span className="text-green-400 text-sm font-medium">Available</span>
         </div>
       </div>
-      
+
       <div className="space-y-4 mb-6">
         <div>
           <input
             type="date"
             placeholder="Select Date"
-            className="w-full bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white placeholder-white/50 focus:border-green-400 focus:ring-2 focus:ring-green-400/20 transition-all"
+            className="w-full bg-gray-900 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:border-green-400 focus:ring-2 focus:ring-green-400/20 transition-all"
           />
         </div>
         <div className="grid grid-cols-2 gap-3">
-          <select className="bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:border-green-400 focus:ring-2 focus:ring-green-400/20 transition-all">
+          <select className="bg-gray-900 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-green-400 focus:ring-2 focus:ring-green-400/20 transition-all">
             <option value="">Time</option>
             <option value="17:00">5:00 PM</option>
             <option value="19:00">7:00 PM</option>
             <option value="21:00">9:00 PM</option>
           </select>
-          <select className="bg-white/10 border border-white/20 rounded-lg px-4 py-3 text-white focus:border-green-400 focus:ring-2 focus:ring-green-400/20 transition-all">
+          <select className="bg-gray-900 border border-gray-600 rounded-lg px-4 py-3 text-white focus:border-green-400 focus:ring-2 focus:ring-green-400/20 transition-all">
             <option value="2">2 Guests</option>
             <option value="4">4 Guests</option>
             <option value="6">6 Guests</option>
           </select>
         </div>
       </div>
-      
+
       <MagneticButton className="w-full bg-gradient-to-r from-green-600 to-green-700 hover:from-green-500 hover:to-green-600 text-white py-3 rounded-lg font-semibold transition-all duration-300 shadow-lg hover:shadow-xl">
         <Link href="/contact" className="flex items-center justify-center space-x-2">
           <span>Reserve Now</span>
@@ -189,8 +189,8 @@ export const FloatingReservation: React.FC<FloatingReservationProps> = ({
           </svg>
         </Link>
       </MagneticButton>
-      
-      <div className="flex items-center justify-center mt-4 text-white/60 text-sm">
+
+      <div className="flex items-center justify-center mt-4 text-gray-400 text-sm">
         <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
         </svg>

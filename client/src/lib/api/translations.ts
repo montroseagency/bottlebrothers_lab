@@ -1,5 +1,5 @@
 // client/src/lib/api/translations.ts
-import api from './index';
+import { apiClient } from './client';
 
 export interface Translation {
   id: string;
@@ -41,30 +41,27 @@ export async function getTranslations(
   if (locale) {
     params.append('locale', locale);
   }
-  const response = await api.get(`/admin/translations/?${params}`);
-  return response.data.results || response.data;
+  const response = await apiClient.get<{ results?: Translation[] } | Translation[]>(`/admin/translations/?${params}`);
+  return (response as { results?: Translation[] }).results || (response as Translation[]);
 }
 
 // Bulk create/update translations
 export async function saveTranslations(payload: TranslationCreatePayload): Promise<{
   created: Array<{ id: string; field_name: string; was_created: boolean }>;
 }> {
-  const response = await api.post('/admin/translations/bulk_create/', payload);
-  return response.data;
+  return apiClient.post<{ created: Array<{ id: string; field_name: string; was_created: boolean }> }>('/admin/translations/bulk_create/', payload);
 }
 
 // Publish translations for an object
 export async function publishTranslations(payload: TranslationPublishPayload): Promise<{
   updated_count: number;
 }> {
-  const response = await api.post('/admin/translations/publish/', payload);
-  return response.data;
+  return apiClient.post<{ updated_count: number }>('/admin/translations/publish/', payload);
 }
 
 // Get a single translation
 export async function getTranslation(id: string): Promise<Translation> {
-  const response = await api.get(`/admin/translations/${id}/`);
-  return response.data;
+  return apiClient.get<Translation>(`/admin/translations/${id}/`);
 }
 
 // Update a single translation
@@ -72,13 +69,12 @@ export async function updateTranslation(
   id: string,
   data: Partial<Translation>
 ): Promise<Translation> {
-  const response = await api.patch(`/admin/translations/${id}/`, data);
-  return response.data;
+  return apiClient.patch<Translation>(`/admin/translations/${id}/`, data);
 }
 
 // Delete a translation
 export async function deleteTranslation(id: string): Promise<void> {
-  await api.delete(`/admin/translations/${id}/`);
+  await apiClient.delete(`/admin/translations/${id}/`);
 }
 
 // Helper to convert translations array to a record

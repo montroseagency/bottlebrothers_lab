@@ -1,5 +1,5 @@
 // client/src/lib/api/homeSections.ts
-import api from './index';
+import { apiClient } from './client';
 
 export interface HomeSection {
   id: string;
@@ -43,22 +43,20 @@ export interface HomeSectionCreatePayload {
 
 // Get all home sections
 export async function getHomeSections(): Promise<HomeSection[]> {
-  const response = await api.get('/admin/home-sections/');
-  return response.data.results || response.data;
+  const response = await apiClient.get<{ results?: HomeSection[] } | HomeSection[]>('/admin/home-sections/');
+  return (response as { results?: HomeSection[] }).results || (response as HomeSection[]);
 }
 
 // Get a single home section
 export async function getHomeSection(id: string): Promise<HomeSection> {
-  const response = await api.get(`/admin/home-sections/${id}/`);
-  return response.data;
+  return apiClient.get<HomeSection>(`/admin/home-sections/${id}/`);
 }
 
 // Create a home section
 export async function createHomeSection(
   data: HomeSectionCreatePayload
 ): Promise<HomeSection> {
-  const response = await api.post('/admin/home-sections/', data);
-  return response.data;
+  return apiClient.post<HomeSection>('/admin/home-sections/', data);
 }
 
 // Update a home section
@@ -66,8 +64,7 @@ export async function updateHomeSection(
   id: string,
   data: Partial<HomeSectionCreatePayload>
 ): Promise<HomeSection> {
-  const response = await api.patch(`/admin/home-sections/${id}/`, data);
-  return response.data;
+  return apiClient.patch<HomeSection>(`/admin/home-sections/${id}/`, data);
 }
 
 // Update with image (FormData)
@@ -75,27 +72,24 @@ export async function updateHomeSectionWithImage(
   id: string,
   formData: FormData
 ): Promise<HomeSection> {
-  const response = await api.patch(`/admin/home-sections/${id}/`, formData, {
+  return apiClient.patch<HomeSection>(`/admin/home-sections/${id}/`, formData, {
     headers: { 'Content-Type': 'multipart/form-data' },
   });
-  return response.data;
 }
 
 // Delete a home section
 export async function deleteHomeSection(id: string): Promise<void> {
-  await api.delete(`/admin/home-sections/${id}/`);
+  await apiClient.delete(`/admin/home-sections/${id}/`);
 }
 
 // Publish a home section
 export async function publishHomeSection(id: string): Promise<{ status: string }> {
-  const response = await api.post(`/admin/home-sections/${id}/publish/`);
-  return response.data;
+  return apiClient.post<{ status: string }>(`/admin/home-sections/${id}/publish/`);
 }
 
 // Unpublish a home section
 export async function unpublishHomeSection(id: string): Promise<{ status: string }> {
-  const response = await api.post(`/admin/home-sections/${id}/unpublish/`);
-  return response.data;
+  return apiClient.post<{ status: string }>(`/admin/home-sections/${id}/unpublish/`);
 }
 
 // Section type labels

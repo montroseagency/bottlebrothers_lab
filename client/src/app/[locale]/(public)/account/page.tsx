@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import { useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useClientAuth } from '@/contexts/ClientAuthContext';
@@ -7,7 +9,7 @@ import { useClientAuth } from '@/contexts/ClientAuthContext';
 export default function AccountPage() {
   const router = useRouter();
   const params = useParams();
-  const locale = params.locale as string;
+  const locale = params?.locale as string;
   const { isAuthenticated, isLoading } = useClientAuth();
 
   useEffect(() => {

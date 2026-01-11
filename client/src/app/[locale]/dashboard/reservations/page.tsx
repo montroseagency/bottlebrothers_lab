@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import React, { useEffect, useState, useCallback } from 'react';
 import { useParams, useSearchParams } from 'next/navigation';
 import { useClientAuth } from '@/contexts/ClientAuthContext';
@@ -22,13 +24,13 @@ type FilterType = 'upcoming' | 'past' | 'cancelled' | 'all';
 export default function ReservationsPage() {
   const params = useParams();
   const searchParams = useSearchParams();
-  const locale = params.locale as string;
+  const locale = params?.locale as string;
   const { user } = useClientAuth();
 
   const [reservations, setReservations] = useState<Reservation[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<FilterType>('upcoming');
-  const [showCreateModal, setShowCreateModal] = useState(searchParams.get('action') === 'new');
+  const [showCreateModal, setShowCreateModal] = useState(searchParams?.get('action') === 'new');
   const [selectedReservation, setSelectedReservation] = useState<Reservation | null>(null);
   const [showDetailDrawer, setShowDetailDrawer] = useState(false);
 

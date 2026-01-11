@@ -1,4 +1,4 @@
-// File: C:\Users\Admin\bottlebrothers_lab-3\client\src\app\[locale]\(public)\page.tsx
+// File: /home/ubuntu/bottlebrothers_lab/client/src/app/[locale]/(public)/page.tsx
 import * as entry from '../../../../../src/app/[locale]/(public)/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

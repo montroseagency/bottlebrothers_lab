@@ -28,7 +28,7 @@ export const Header: React.FC = () => {
   const { t } = useTranslation();
 
   // Get current locale from URL
-  const currentLocale = extractLocale(pathname) || 'sq';
+  const currentLocale = extractLocale(pathname || '/') || 'sq';
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isLanguageDropdownOpen, setIsLanguageDropdownOpen] = useState(false);
@@ -63,7 +63,7 @@ export const Header: React.FC = () => {
   // ===========================================
   // Determine if page has light background based on pathname
   // Menu page has light background, most other pages are dark
-  const isLightPage = pathname.includes('/menu');
+  const isLightPage = pathname?.includes('/menu');
 
   // isDarkNavbar = true when navbar needs white text
   // White text: always, except when scrolled on light pages
@@ -82,7 +82,7 @@ export const Header: React.FC = () => {
   const changeLanguage = (lng: string) => {
     if (lng === currentLocale) return;
     setLocaleCookie(lng as Locale);
-    const newPath = buildLocalePath(pathname, lng as Locale);
+    const newPath = buildLocalePath(pathname || '/', lng as Locale);
     router.push(newPath);
     setIsLanguageDropdownOpen(false);
     if (isMenuOpen) handleMobileMenuClose();

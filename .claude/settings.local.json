@@ -18,7 +18,20 @@
       "Bash(docker-compose down:*)",
       "Bash(npm install:*)",
       "Bash(cd:*)",
-      "Bash(ls:*)"
+      "Bash(ls:*)",
+      "Bash(pm2 list:*)",
+      "Bash(while read f)",
+      "Bash(do sed -i \"s/params\\\\.locale as string/params?.locale as string/g\" \"$f\")",
+      "Bash(done)",
+      "Bash(perl -i -pe:*)",
+      "Bash(grep:*)",
+      "Bash(head:*)",
+      "Bash(sudo systemctl status:*)",
+      "Bash(source:*)",
+      "Bash(sudo systemctl restart:*)",
+      "Bash(sudo systemctl reload:*)",
+      "Bash(pm2 status:*)",
+      "Bash(curl:*)"
     ]
   }
 }

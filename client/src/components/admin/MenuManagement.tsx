@@ -310,7 +310,6 @@ const MenuManagement: React.FC = () => {
       name: '',
       description: '',
       price: 0,
-      image: null,
       dietary_info: [],
       tags: [],
       ingredients: '',
@@ -321,7 +320,6 @@ const MenuManagement: React.FC = () => {
       is_featured: false,
       display_order: items.length,
     });
-    setImagePreview(null);
     setShowItemModal(true);
   };
 

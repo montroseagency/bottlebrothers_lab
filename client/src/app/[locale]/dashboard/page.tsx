@@ -1,5 +1,7 @@
 'use client';
 
+export const dynamic = 'force-dynamic';
+
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -25,7 +27,7 @@ interface DashboardStats {
 
 export default function DashboardOverview() {
   const params = useParams();
-  const locale = params.locale as string;
+  const locale = params?.locale as string;
   const { user } = useClientAuth();
   const [loading, setLoading] = useState(true);
   const [nextReservation, setNextReservation] = useState<Reservation | null>(null);
