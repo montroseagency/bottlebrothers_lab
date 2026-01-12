@@ -169,9 +169,9 @@ export default function ConfirmationPage() {
             </div>
 
             <div className="bg-gradient-to-r from-primary-50 to-primary-100/50 rounded-xl p-6 mb-6 text-center">
-              <p className="text-neutral-600 mb-2">Your Confirmation Number</p>
+              <p className="text-neutral-600 mb-2">Your Confirmation Code</p>
               <p className="font-mono text-2xl md:text-3xl font-bold text-primary-600 tracking-wider">
-                {reservation.id}
+                {reservation.verification_code}
               </p>
             </div>
 
