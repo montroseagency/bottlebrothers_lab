@@ -57,17 +57,17 @@ class ReservationViewSet(viewsets.ModelViewSet):
         """Allow creation without authentication, but require auth for other operations"""
         if self.action == 'create':
             permission_classes = [AllowAny]
-        elif self.action in ['lookup']:
+        elif self.action in ['lookup', 'retrieve']:
             permission_classes = [AllowAny]
         else:
             permission_classes = [IsAuthenticated]
         return [permission() for permission in permission_classes]
-    
+
     def get_queryset(self):
         """Filter reservations based on query parameters"""
         queryset = Reservation.objects.all()
-        
-        if not self.request.user.is_authenticated and self.action not in ['create', 'lookup']:
+
+        if not self.request.user.is_authenticated and self.action not in ['create', 'lookup', 'retrieve']:
             return queryset.none()
         
         # Apply filters
