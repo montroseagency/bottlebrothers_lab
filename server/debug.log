@@ -6051,3 +6051,89 @@ INFO 2026-01-11 16:23:36,599 basehttp 8876 4200 "GET /media/moments/b5799d5731c1
 INFO 2026-01-11 16:23:40,012 basehttp 8876 21924 "GET /api/events/public/ HTTP/1.1" 200 1553
 INFO 2026-01-11 16:23:40,022 basehttp 8876 21924 "GET /api/events/public/ HTTP/1.1" 200 1553
 INFO 2026-01-11 16:23:40,066 basehttp 8876 23672 "GET /media/events/33a2653893f64c0888482e652a870318.PNG HTTP/1.1" 200 510424
+INFO 2026-01-12 16:14:44,609 basehttp 8876 26636 "GET /api/events/?limit=1&is_featured=true&status=upcoming HTTP/1.1" 200 786
+INFO 2026-01-12 16:14:44,616 basehttp 8876 26632 "GET /api/events/?limit=3&status=upcoming HTTP/1.1" 200 1575
+INFO 2026-01-12 16:14:44,634 basehttp 8876 26664 "GET /api/gallery/?limit=8&is_featured=true&is_active=true HTTP/1.1" 200 3296
+INFO 2026-01-12 16:14:44,638 basehttp 8876 26668 "GET /api/public/moments/ HTTP/1.1" 200 1823
+INFO 2026-01-12 16:14:44,647 basehttp 8876 26652 "GET /api/menu/items/?limit=6&is_featured=true&is_available=true HTTP/1.1" 200 4002
+INFO 2026-01-12 16:14:44,960 basehttp 8876 26636 "GET /media/moments/62a1fa2569dd453e9ec8a13950eb8b0c.png HTTP/1.1" 200 1943274
+INFO 2026-01-12 16:14:44,973 basehttp 8876 26664 "GET /media/moments/e5ce3d8659af442ea4fae9779d7b0c61.png HTTP/1.1" 200 2108686
+INFO 2026-01-12 16:14:44,974 basehttp 8876 26632 "GET /media/moments/5d3d9c7137ba41178723541f2d9d9841.png HTTP/1.1" 200 2108686
+INFO 2026-01-12 16:14:44,974 basehttp 8876 26652 "GET /media/moments/b3d0f94b74374abba22c0ccfd9f57980.png HTTP/1.1" 200 2108686
+INFO 2026-01-12 16:14:44,977 basehttp 8876 26668 "GET /media/moments/b5799d5731c1450b9354709d00d904db.png HTTP/1.1" 200 2261276
+INFO 2026-01-12 16:14:45,880 basehttp 8876 26636 "GET /media/moments/21871f0cb710493096bed6f651b3b5c5.png HTTP/1.1" 200 1895591
+INFO 2026-01-12 16:17:58,017 autoreload 8876 3268 C:\Users\Admin\bottlebrothers_lab-3\server\api\views\ReservationViews.py changed, reloading.
+INFO 2026-01-12 16:17:59,526 autoreload 8184 7028 Watching for file changes with StatReloader
+WARNING 2026-01-12 16:17:59,819 EventViews 8184 7028 Could not check video columns: no such table: information_schema.columns
+INFO 2026-01-12 16:18:30,647 autoreload 8184 7028 C:\Users\Admin\bottlebrothers_lab-3\server\api\views\ReservationViews.py changed, reloading.
+INFO 2026-01-12 16:18:32,065 autoreload 5780 28016 Watching for file changes with StatReloader
+WARNING 2026-01-12 16:18:32,304 EventViews 5780 28016 Could not check video columns: no such table: information_schema.columns
+ERROR 2026-01-12 16:20:23,659 ReservationViews 5780 10452 Failed to send confirmation email to testemail@example.com: 'charmap' codec can't encode characters in position 554-593: character maps to <undefined>
+INFO 2026-01-12 16:20:23,666 basehttp 5780 10452 "POST /api/reservations/ HTTP/1.1" 201 413
+INFO 2026-01-12 16:21:01,675 autoreload 5780 28016 C:\Users\Admin\bottlebrothers_lab-3\server\api\views\ReservationViews.py changed, reloading.
+INFO 2026-01-12 16:21:02,936 autoreload 26412 12248 Watching for file changes with StatReloader
+WARNING 2026-01-12 16:21:03,174 EventViews 26412 12248 Could not check video columns: no such table: information_schema.columns
+INFO 2026-01-12 16:21:23,522 ReservationViews 26412 27704 Confirmation email sent to test2@example.com for reservation 5GRFKW3K
+INFO 2026-01-12 16:21:23,527 basehttp 26412 27704 "POST /api/reservations/ HTTP/1.1" 201 411
+INFO 2026-01-12 16:21:53,211 autoreload 26412 12248 C:\Users\Admin\bottlebrothers_lab-3\server\api\views\ReservationViews.py changed, reloading.
+INFO 2026-01-12 16:21:54,564 autoreload 27204 9580 Watching for file changes with StatReloader
+WARNING 2026-01-12 16:21:54,846 EventViews 27204 9580 Could not check video columns: no such table: information_schema.columns
+WARNING 2026-01-12 16:21:59,607 log 27204 17092 Bad Request: /api/reservations/
+WARNING 2026-01-12 16:21:59,608 basehttp 27204 17092 "POST /api/reservations/ HTTP/1.1" 400 58
+INFO 2026-01-12 16:22:05,820 ReservationViews 27204 25848 Confirmation email sent to maria@example.com for reservation X9V9VBXP
+INFO 2026-01-12 16:22:05,825 basehttp 27204 25848 "POST /api/reservations/ HTTP/1.1" 201 415
+INFO 2026-01-12 16:23:45,379 autoreload 13416 24868 Watching for file changes with StatReloader
+WARNING 2026-01-12 16:23:45,636 EventViews 13416 24868 Could not check video columns: no such table: information_schema.columns
+INFO 2026-01-12 16:23:55,103 basehttp 27204 18124 "GET /api/ HTTP/1.1" 200 1470
+INFO 2026-01-12 16:30:50,345 ReservationViews 27204 19588 Confirmation email sent to rizvaniendi@gmail.com for reservation KU3CTLQH
+INFO 2026-01-12 16:30:50,346 basehttp 27204 19588 "POST /api/reservations/ HTTP/1.1" 201 413
+INFO 2026-01-12 16:31:25,518 autoreload 22080 24636 Watching for file changes with StatReloader
+WARNING 2026-01-12 16:31:26,389 EventViews 22080 24636 Could not check video columns: no such table: information_schema.columns
+INFO 2026-01-12 16:31:38,130 ReservationViews 27204 5464 Confirmation email sent to rizvaniendi@gmail.com for reservation UUMCN9A4
+INFO 2026-01-12 16:31:38,131 basehttp 27204 5464 "POST /api/reservations/ HTTP/1.1" 201 411
+INFO 2026-01-12 16:33:25,636 basehttp 27204 25584 "GET /api/ HTTP/1.1" 200 1470
+INFO 2026-01-12 16:34:18,625 basehttp 27204 15096 "OPTIONS /api/reservations/ HTTP/1.1" 200 0
+INFO 2026-01-12 16:34:18,649 ReservationViews 27204 15096 Confirmation email sent to agjoka216@gmail.com for reservation AS85KUM8
+INFO 2026-01-12 16:34:18,650 basehttp 27204 15096 "POST /api/reservations/ HTTP/1.1" 201 454
+WARNING 2026-01-12 16:34:20,272 log 27204 15096 Unauthorized: /api/reservations/27b0bd3e-9575-4bf2-8885-d5e4e78b4f3e/
+WARNING 2026-01-12 16:34:20,273 basehttp 27204 15096 "GET /api/reservations/27b0bd3e-9575-4bf2-8885-d5e4e78b4f3e/ HTTP/1.1" 401 58
+WARNING 2026-01-12 16:34:20,275 log 27204 15096 Unauthorized: /api/reservations/27b0bd3e-9575-4bf2-8885-d5e4e78b4f3e/
+WARNING 2026-01-12 16:34:20,277 basehttp 27204 15096 "GET /api/reservations/27b0bd3e-9575-4bf2-8885-d5e4e78b4f3e/ HTTP/1.1" 401 58
+INFO 2026-01-12 16:35:02,888 autoreload 27204 9580 C:\Users\Admin\bottlebrothers_lab-3\server\api\views\ReservationViews.py changed, reloading.
+INFO 2026-01-12 16:35:03,162 autoreload 22080 24636 C:\Users\Admin\bottlebrothers_lab-3\server\api\views\ReservationViews.py changed, reloading.
+INFO 2026-01-12 16:35:04,926 autoreload 21008 26792 Watching for file changes with StatReloader
+INFO 2026-01-12 16:35:05,049 autoreload 13804 22712 Watching for file changes with StatReloader
+WARNING 2026-01-12 16:35:05,294 EventViews 21008 26792 Could not check video columns: no such table: information_schema.columns
+WARNING 2026-01-12 16:35:05,363 EventViews 13804 22712 Could not check video columns: no such table: information_schema.columns
+INFO 2026-01-12 16:35:19,002 basehttp 21008 20816 "GET /api/reservations/27b0bd3e-9575-4bf2-8885-d5e4e78b4f3e/ HTTP/1.1" 200 454
+INFO 2026-01-12 16:35:30,559 basehttp 21008 20816 "OPTIONS /api/menu/categories/ HTTP/1.1" 200 0
+INFO 2026-01-12 16:35:30,560 basehttp 21008 6940 "OPTIONS /api/menu/items/?is_available=true HTTP/1.1" 200 0
+INFO 2026-01-12 16:35:30,570 basehttp 21008 20816 "OPTIONS /api/menu/categories/ HTTP/1.1" 200 0
+INFO 2026-01-12 16:35:30,648 basehttp 21008 20816 "GET /api/menu/items/?is_available=true HTTP/1.1" 200 4002
+INFO 2026-01-12 16:35:30,696 basehttp 21008 20816 "GET /api/menu/items/?is_available=true HTTP/1.1" 200 4002
+INFO 2026-01-12 16:35:31,008 basehttp 21008 6940 "GET /api/menu/categories/ HTTP/1.1" 200 14380
+INFO 2026-01-12 16:35:31,434 basehttp 21008 20816 "GET /api/menu/categories/ HTTP/1.1" 200 14380
+INFO 2026-01-12 16:35:40,751 basehttp 21008 20816 "GET /api/reservations/27b0bd3e-9575-4bf2-8885-d5e4e78b4f3e/ HTTP/1.1" 200 454
+INFO 2026-01-12 16:42:54,554 autoreload 13240 22600 Watching for file changes with StatReloader
+WARNING 2026-01-12 16:42:54,893 EventViews 13240 22600 Could not check video columns: no such table: information_schema.columns
+ERROR 2026-01-12 16:43:10,706 ReservationViews 21008 25484 Failed to send confirmation email to agjoka216@gmail.com: (530, b'5.7.0 Authentication Required. For more information, go to\n5.7.0  https://support.google.com/accounts/troubleshooter/2402620. a640c23a62f3a-b842a27c0casm1954836166b.19 - gsmtp', 'noreply@sunlakevilla.com')
+INFO 2026-01-12 16:43:10,709 basehttp 21008 25484 "POST /api/reservations/ HTTP/1.1" 201 411
+ERROR 2026-01-12 16:44:52,342 ReservationViews 21008 25212 Failed to send confirmation email to agjoka216@gmail.com: (530, b'5.7.0 Authentication Required. For more information, go to\n5.7.0  https://support.google.com/accounts/troubleshooter/2402620. a640c23a62f3a-b86f9a9103bsm662212366b.30 - gsmtp', 'noreply@sunlakevilla.com')
+INFO 2026-01-12 16:44:52,344 basehttp 21008 25212 "POST /api/reservations/ HTTP/1.1" 201 428
+INFO 2026-01-12 16:44:52,883 basehttp 21008 25212 "GET /api/reservations/709e3080-7f31-4f1f-9c80-21af2e490e6b/ HTTP/1.1" 200 428
+INFO 2026-01-12 16:44:52,940 basehttp 21008 25212 "GET /api/reservations/709e3080-7f31-4f1f-9c80-21af2e490e6b/ HTTP/1.1" 200 428
+INFO 2026-01-12 16:45:11,686 autoreload 21096 20472 Watching for file changes with StatReloader
+WARNING 2026-01-12 16:45:12,082 EventViews 21096 20472 Could not check video columns: no such table: information_schema.columns
+ERROR 2026-01-12 16:45:25,130 ReservationViews 21008 26116 Failed to send confirmation email to agjoka216@gmail.com: (530, b'5.7.0 Authentication Required. For more information, go to\n5.7.0  https://support.google.com/accounts/troubleshooter/2402620. a640c23a62f3a-b8720e090dasm251500666b.9 - gsmtp', 'noreply@sunlakevilla.com')
+INFO 2026-01-12 16:45:25,133 basehttp 21008 26116 "POST /api/reservations/ HTTP/1.1" 201 411
+INFO 2026-01-12 16:46:36,931 autoreload 26548 26376 Watching for file changes with StatReloader
+WARNING 2026-01-12 16:46:37,619 EventViews 26548 26376 Could not check video columns: no such table: information_schema.columns
+INFO 2026-01-12 16:47:04,633 ReservationViews 26548 21392 Confirmation email sent to agjoka216@gmail.com for reservation GFGMCV3B
+INFO 2026-01-12 16:47:04,647 basehttp 26548 21392 "POST /api/reservations/ HTTP/1.1" 201 411
+INFO 2026-01-12 16:47:33,877 basehttp 26548 23092 "GET /api/menu/items/?is_available=true HTTP/1.1" 200 4002
+INFO 2026-01-12 16:47:33,909 basehttp 26548 23092 "GET /api/menu/items/?is_available=true HTTP/1.1" 200 4002
+INFO 2026-01-12 16:47:34,022 basehttp 26548 19172 "GET /api/menu/categories/ HTTP/1.1" 200 14380
+INFO 2026-01-12 16:47:34,195 basehttp 26548 19172 "GET /api/menu/categories/ HTTP/1.1" 200 14380
+INFO 2026-01-12 16:49:06,185 autoreload 26548 26376 C:\Users\Admin\bottlebrothers_lab-3\server\api\views\ReservationViews.py changed, reloading.
+INFO 2026-01-12 16:49:09,647 autoreload 27528 2444 Watching for file changes with StatReloader
+WARNING 2026-01-12 16:49:10,375 EventViews 27528 2444 Could not check video columns: no such table: information_schema.columns
