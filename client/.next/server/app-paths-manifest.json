@@ -1,10 +1,7 @@
 {
-  "/admin/dashboard/page": "app/admin/dashboard/page.js",
-  "/(public)/page": "app/(public)/page.js",
-  "/admin/events/page": "app/admin/events/page.js",
   "/admin/reservations/page": "app/admin/reservations/page.js",
-  "/admin/page": "app/admin/page.js",
-  "/admin/menu/page": "app/admin/menu/page.js",
-  "/[locale]/(public)/events/page": "app/[locale]/(public)/events/page.js",
-  "/[locale]/(public)/menu/page": "app/[locale]/(public)/menu/page.js"
+  "/(public)/reservations/page": "app/(public)/reservations/page.js",
+  "/(public)/reservations/confirmation/page": "app/(public)/reservations/confirmation/page.js",
+  "/(public)/menu/page": "app/(public)/menu/page.js",
+  "/[locale]/(public)/page": "app/[locale]/(public)/page.js"
 }

@@ -4,7 +4,6 @@ import React from 'react';
 import { HeroSection } from './HeroSection';
 import { OurStory } from './OurStory';
 import { OurBestMoments } from './OurBestMoments';
-import { TonightsVibe } from './TonightsVibe';
 import { SignaturePicks } from './SignaturePicks';
 import { UpcomingEvents } from './UpcomingEvents';
 import { GalleryPreview } from './GalleryPreview';
@@ -37,10 +36,6 @@ export function HomeSnapSections({
   // Add Our Best Moments section right after OurStory
   if (moments.length > 0) {
     sections.push(<OurBestMoments key="moments" moments={moments} fullHeight />);
-  }
-
-  if (featuredEvent) {
-    sections.push(<TonightsVibe key="vibe" event={featuredEvent} fullHeight />);
   }
 
   if (featuredMenuItems.length > 0) {

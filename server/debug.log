@@ -6137,3 +6137,326 @@ INFO 2026-01-12 16:47:34,195 basehttp 26548 19172 "GET /api/menu/categories/ HTT
 INFO 2026-01-12 16:49:06,185 autoreload 26548 26376 C:\Users\Admin\bottlebrothers_lab-3\server\api\views\ReservationViews.py changed, reloading.
 INFO 2026-01-12 16:49:09,647 autoreload 27528 2444 Watching for file changes with StatReloader
 WARNING 2026-01-12 16:49:10,375 EventViews 27528 2444 Could not check video columns: no such table: information_schema.columns
+INFO 2026-01-12 16:55:43,427 basehttp 27528 24700 "GET /api/events/?limit=3&status=upcoming HTTP/1.1" 200 1575
+INFO 2026-01-12 16:55:43,436 basehttp 27528 27128 "GET /api/gallery/?limit=8&is_featured=true&is_active=true HTTP/1.1" 200 3296
+INFO 2026-01-12 16:55:43,437 basehttp 27528 25128 "GET /api/events/?limit=1&is_featured=true&status=upcoming HTTP/1.1" 200 786
+INFO 2026-01-12 16:55:43,468 basehttp 27528 25404 "GET /api/menu/items/?limit=6&is_featured=true&is_available=true HTTP/1.1" 200 4002
+INFO 2026-01-12 16:55:43,516 basehttp 27528 15400 "GET /api/public/moments/ HTTP/1.1" 200 1823
+INFO 2026-01-12 16:55:44,765 basehttp 27528 27128 "GET /media/moments/e5ce3d8659af442ea4fae9779d7b0c61.png HTTP/1.1" 200 2108686
+INFO 2026-01-12 16:55:44,772 basehttp 27528 15400 "GET /media/moments/b5799d5731c1450b9354709d00d904db.png HTTP/1.1" 200 2261276
+INFO 2026-01-12 16:55:44,776 basehttp 27528 25128 "GET /media/moments/62a1fa2569dd453e9ec8a13950eb8b0c.png HTTP/1.1" 200 1943274
+INFO 2026-01-12 16:55:44,784 basehttp 27528 25404 "GET /media/moments/b3d0f94b74374abba22c0ccfd9f57980.png HTTP/1.1" 200 2108686
+INFO 2026-01-12 16:55:44,795 basehttp 27528 24700 "GET /media/moments/5d3d9c7137ba41178723541f2d9d9841.png HTTP/1.1" 200 2108686
+INFO 2026-01-12 16:55:45,940 basehttp 27528 25128 "GET /media/moments/21871f0cb710493096bed6f651b3b5c5.png HTTP/1.1" 200 1895591
+INFO 2026-01-12 16:56:44,155 basehttp 27528 27768 "POST /api/reservations/ HTTP/1.1" 201 416
+WARNING 2026-01-12 16:56:44,774 log 27528 27768 Unauthorized: /api/reservations/1dc9fb1d-30d9-4548-a4c6-cea825059788/
+WARNING 2026-01-12 16:56:44,774 basehttp 27528 27768 "GET /api/reservations/1dc9fb1d-30d9-4548-a4c6-cea825059788/ HTTP/1.1" 401 58
+WARNING 2026-01-12 16:56:44,777 log 27528 27768 Unauthorized: /api/reservations/1dc9fb1d-30d9-4548-a4c6-cea825059788/
+WARNING 2026-01-12 16:56:44,778 basehttp 27528 27768 "GET /api/reservations/1dc9fb1d-30d9-4548-a4c6-cea825059788/ HTTP/1.1" 401 58
+INFO 2026-01-12 16:57:27,004 basehttp 27528 21440 "GET /api/ HTTP/1.1" 200 1470
+WARNING 2026-01-12 16:57:34,118 log 27528 25928 Unauthorized: /api/reservations/2a1389cf-f3ff-45eb-b265-36f4a6718275/
+WARNING 2026-01-12 16:57:34,118 basehttp 27528 25928 "GET /api/reservations/2a1389cf-f3ff-45eb-b265-36f4a6718275/ HTTP/1.1" 401 58
+INFO 2026-01-12 16:57:59,319 autoreload 27528 2444 C:\Users\Admin\bottlebrothers_lab-3\server\api\views\ReservationViews.py changed, reloading.
+INFO 2026-01-12 16:58:01,179 autoreload 9924 27908 Watching for file changes with StatReloader
+WARNING 2026-01-12 16:58:01,448 EventViews 9924 27908 Could not check video columns: no such table: information_schema.columns
+INFO 2026-01-12 16:58:06,118 basehttp 9924 22580 "GET /api/reservations/2a1389cf-f3ff-45eb-b265-36f4a6718275/ HTTP/1.1" 200 411
+INFO 2026-01-12 16:59:34,075 basehttp 9924 6124 "GET /api/reservations/1dc9fb1d-30d9-4548-a4c6-cea825059788/ HTTP/1.1" 200 416
+INFO 2026-01-12 16:59:34,081 basehttp 9924 6124 "GET /api/reservations/1dc9fb1d-30d9-4548-a4c6-cea825059788/ HTTP/1.1" 200 416
+INFO 2026-01-12 17:00:14,711 basehttp 9924 6124 "GET /api/reservations/1dc9fb1d-30d9-4548-a4c6-cea825059788/ HTTP/1.1" 200 416
+INFO 2026-01-12 17:00:19,242 basehttp 9924 7228 "GET /api/menu/items/?is_available=true HTTP/1.1" 200 4002
+INFO 2026-01-12 17:00:19,272 basehttp 9924 7228 "GET /api/menu/items/?is_available=true HTTP/1.1" 200 4002
+INFO 2026-01-12 17:00:19,399 basehttp 9924 6124 "GET /api/menu/categories/ HTTP/1.1" 200 14380
+INFO 2026-01-12 17:00:19,574 basehttp 9924 7228 "GET /api/menu/categories/ HTTP/1.1" 200 14380
+INFO 2026-01-12 17:00:25,953 basehttp 9924 7228 "GET /api/reservations/1dc9fb1d-30d9-4548-a4c6-cea825059788/ HTTP/1.1" 200 416
+INFO 2026-01-12 17:00:30,640 basehttp 9924 28080 "GET /api/events/?limit=1&is_featured=true&status=upcoming HTTP/1.1" 200 786
+INFO 2026-01-12 17:00:30,647 basehttp 9924 21308 "GET /api/events/?limit=3&status=upcoming HTTP/1.1" 200 1575
+INFO 2026-01-12 17:00:30,650 basehttp 9924 24712 "GET /api/gallery/?limit=8&is_featured=true&is_active=true HTTP/1.1" 200 3296
+INFO 2026-01-12 17:00:30,655 basehttp 9924 24432 "GET /api/public/moments/ HTTP/1.1" 200 1823
+INFO 2026-01-12 17:00:30,662 basehttp 9924 25612 "GET /api/menu/items/?limit=6&is_featured=true&is_available=true HTTP/1.1" 200 4002
+INFO 2026-01-12 17:00:31,246 basehttp 9924 28080 "GET /media/moments/62a1fa2569dd453e9ec8a13950eb8b0c.png HTTP/1.1" 200 1943274
+INFO 2026-01-12 17:00:31,272 basehttp 9924 28080 "GET /media/events/33a2653893f64c0888482e652a870318.PNG HTTP/1.1" 200 510424
+INFO 2026-01-12 17:00:31,331 basehttp 9924 21308 "GET /media/moments/5d3d9c7137ba41178723541f2d9d9841.png HTTP/1.1" 200 2108686
+INFO 2026-01-12 17:00:31,397 basehttp 9924 25612 "GET /media/moments/b3d0f94b74374abba22c0ccfd9f57980.png HTTP/1.1" 200 2108686
+INFO 2026-01-12 17:00:31,428 basehttp 9924 24712 "GET /media/moments/e5ce3d8659af442ea4fae9779d7b0c61.png HTTP/1.1" 200 2108686
+INFO 2026-01-12 17:00:31,459 basehttp 9924 24432 "GET /media/moments/b5799d5731c1450b9354709d00d904db.png HTTP/1.1" 200 2261276
+INFO 2026-01-12 17:00:31,460 basehttp 9924 27620 "GET /media/moments/21871f0cb710493096bed6f651b3b5c5.png HTTP/1.1" 200 1895591
+INFO 2026-01-12 17:00:31,490 basehttp 9924 23788 "GET /media/events/dcd3c7cf54004514b13fe4ac0e5ccbbd.PNG HTTP/1.1" 200 3519229
+INFO 2026-01-12 17:01:46,582 basehttp 9924 7228 "POST /api/reservations/ HTTP/1.1" 201 452
+INFO 2026-01-12 17:01:46,831 basehttp 9924 7228 "GET /api/reservations/689289e0-493a-489c-8623-2ffd1bfb2090/ HTTP/1.1" 200 452
+INFO 2026-01-12 17:01:46,837 basehttp 9924 7228 "GET /api/reservations/689289e0-493a-489c-8623-2ffd1bfb2090/ HTTP/1.1" 200 452
+INFO 2026-01-12 17:01:52,148 basehttp 9924 6124 "GET /api/menu/items/?is_available=true HTTP/1.1" 200 4002
+INFO 2026-01-12 17:01:52,185 basehttp 9924 6124 "GET /api/menu/items/?is_available=true HTTP/1.1" 200 4002
+INFO 2026-01-12 17:01:52,290 basehttp 9924 7228 "GET /api/menu/categories/ HTTP/1.1" 200 14380
+INFO 2026-01-12 17:01:52,439 basehttp 9924 6124 "GET /api/menu/categories/ HTTP/1.1" 200 14380
+INFO 2026-01-12 17:03:44,850 autoreload 9924 27908 C:\Users\Admin\bottlebrothers_lab-3\server\api\views\ReservationViews.py changed, reloading.
+INFO 2026-01-12 17:03:46,517 autoreload 24080 26200 Watching for file changes with StatReloader
+WARNING 2026-01-12 17:03:46,828 EventViews 24080 26200 Could not check video columns: no such table: information_schema.columns
+INFO 2026-01-12 17:04:03,331 autoreload 24080 26200 C:\Users\Admin\bottlebrothers_lab-3\server\api\views\ReservationViews.py changed, reloading.
+INFO 2026-01-12 17:04:04,749 autoreload 20908 28612 Watching for file changes with StatReloader
+WARNING 2026-01-12 17:04:05,013 EventViews 20908 28612 Could not check video columns: no such table: information_schema.columns
+INFO 2026-01-12 17:04:30,758 ReservationViews 20908 19820 Confirmation email sent to agjoka216@gmail.com for reservation B68PXXH7
+INFO 2026-01-12 17:04:30,761 basehttp 20908 19820 "POST /api/reservations/ HTTP/1.1" 201 411
+INFO 2026-01-13 07:47:37,217 autoreload 3332 6948 Watching for file changes with StatReloader
+INFO 2026-01-13 07:48:28,809 autoreload 6756 22056 Watching for file changes with StatReloader
+WARNING 2026-01-13 07:48:28,885 EventViews 6756 22056 Could not check video columns: no such table: information_schema.columns
+INFO 2026-01-13 07:48:44,532 basehttp 6756 7432 "GET /api/ HTTP/1.1" 200 1470
+INFO 2026-01-13 07:48:57,142 basehttp 6756 2416 "OPTIONS /api/menu/items/by_category/ HTTP/1.1" 200 0
+INFO 2026-01-13 07:48:57,193 basehttp 6756 2416 "GET /api/menu/items/by_category/ HTTP/1.1" 200 5551
+INFO 2026-01-13 07:49:02,547 basehttp 6756 2416 "OPTIONS /api/events/public/ HTTP/1.1" 200 0
+INFO 2026-01-13 07:49:02,552 basehttp 6756 3768 "OPTIONS /api/events/public/ HTTP/1.1" 200 0
+INFO 2026-01-13 07:49:02,554 basehttp 6756 2416 "GET /api/events/public/ HTTP/1.1" 200 1553
+INFO 2026-01-13 07:49:02,560 basehttp 6756 2416 "GET /api/events/public/ HTTP/1.1" 200 1553
+INFO 2026-01-13 07:49:02,945 basehttp 6756 17952 "GET /media/events/dcd3c7cf54004514b13fe4ac0e5ccbbd.PNG HTTP/1.1" 200 3519229
+INFO 2026-01-13 07:49:02,948 basehttp 6756 6700 "GET /media/events/33a2653893f64c0888482e652a870318.PNG HTTP/1.1" 200 510424
+INFO 2026-01-13 07:50:27,054 basehttp 6756 2416 "OPTIONS /api/gallery/public/ HTTP/1.1" 200 0
+INFO 2026-01-13 07:50:27,059 basehttp 6756 2416 "GET /api/gallery/public/ HTTP/1.1" 200 3296
+INFO 2026-01-13 07:50:27,064 basehttp 6756 2416 "GET /api/gallery/public/ HTTP/1.1" 200 3296
+INFO 2026-01-13 07:50:27,113 basehttp 6756 17952 "GET /media/gallery/4c6adbba6867467abcba360867c6671e.png HTTP/1.1" 200 2694536
+INFO 2026-01-13 07:50:27,114 basehttp 6756 6700 "GET /media/gallery/d5eb617e02474a348fa5684496817804.png HTTP/1.1" 200 2694536
+INFO 2026-01-13 07:50:27,142 basehttp 6756 17952 "GET /media/gallery/bd6ef003e61a4c4788903ff79cf6421e.png HTTP/1.1" 200 2002140
+INFO 2026-01-13 07:50:27,145 basehttp 6756 6700 "GET /media/gallery/ed75e3e7fdd54e48be0bdcfe96e73348.png HTTP/1.1" 200 2694536
+INFO 2026-01-13 07:50:27,168 basehttp 6756 17952 "GET /media/gallery/7fcf61ecf57e4732aed9ddceea7fbc30.png HTTP/1.1" 200 2108686
+INFO 2026-01-13 07:50:27,172 basehttp 6756 6700 "GET /media/gallery/81776b12702240aab5b6ef4302106284.png HTTP/1.1" 200 2108686
+INFO 2026-01-13 07:50:27,192 basehttp 6756 17952 "GET /media/gallery/f105711449b846cd9c0593e048c5bfb8.png HTTP/1.1" 200 1859394
+INFO 2026-01-13 07:50:27,199 basehttp 6756 6700 "GET /media/gallery/b805f26ee2b14b60ad6b9ad38c448abd.PNG HTTP/1.1" 200 1415412
+INFO 2026-01-13 07:50:27,201 basehttp 6756 17952 "GET /media/gallery/2b197b42a7504d4c997a0c59f768346f.PNG HTTP/1.1" 200 470866
+INFO 2026-01-13 07:50:27,211 basehttp 6756 17952 "GET /media/gallery/9ecbf902119e444aa966c5557c8d934b.PNG HTTP/1.1" 200 138051
+INFO 2026-01-13 07:50:27,214 basehttp 6756 6700 "GET /media/gallery/2281ac92b811467fb69cab2537f3d52f.PNG HTTP/1.1" 200 510424
+INFO 2026-01-13 07:50:27,231 basehttp 6756 17952 "GET /media/gallery/cfece93bbea14930ae2086012fc3457f.PNG HTTP/1.1" 200 3519229
+INFO 2026-01-13 07:50:28,384 basehttp 6756 6700 "GET /media/gallery/83039cf260364ba983da8e8b4ce48a2d.png HTTP/1.1" 200 40309
+INFO 2026-01-13 07:50:28,386 basehttp 6756 17952 "GET /media/gallery/e8212237683a4b758d860332bea9935e.PNG HTTP/1.1" 200 159934
+INFO 2026-01-13 07:50:32,650 basehttp 6756 9568 "GET /api/events/?limit=3&status=upcoming HTTP/1.1" 200 1575
+INFO 2026-01-13 07:50:32,653 basehttp 6756 10436 "GET /api/events/?limit=1&is_featured=true&status=upcoming HTTP/1.1" 200 786
+INFO 2026-01-13 07:50:32,661 basehttp 6756 2932 "GET /api/gallery/?limit=8&is_featured=true&is_active=true HTTP/1.1" 200 3296
+INFO 2026-01-13 07:50:32,667 basehttp 6756 13984 "GET /api/menu/items/?limit=6&is_featured=true&is_available=true HTTP/1.1" 200 4002
+INFO 2026-01-13 07:50:32,668 basehttp 6756 21600 "GET /api/public/moments/ HTTP/1.1" 200 1823
+INFO 2026-01-13 07:50:32,921 basehttp 6756 10436 "GET /media/moments/62a1fa2569dd453e9ec8a13950eb8b0c.png HTTP/1.1" 200 1943274
+INFO 2026-01-13 07:50:32,922 basehttp 6756 13984 "GET /media/moments/e5ce3d8659af442ea4fae9779d7b0c61.png HTTP/1.1" 200 2108686
+INFO 2026-01-13 07:50:32,924 basehttp 6756 9568 "GET /media/moments/5d3d9c7137ba41178723541f2d9d9841.png HTTP/1.1" 200 2108686
+INFO 2026-01-13 07:50:32,927 basehttp 6756 2932 "GET /media/moments/b3d0f94b74374abba22c0ccfd9f57980.png HTTP/1.1" 200 2108686
+INFO 2026-01-13 07:50:32,932 basehttp 6756 21600 "GET /media/moments/b5799d5731c1450b9354709d00d904db.png HTTP/1.1" 200 2261276
+INFO 2026-01-13 07:50:33,809 basehttp 6756 10436 "GET /media/moments/21871f0cb710493096bed6f651b3b5c5.png HTTP/1.1" 200 1895591
+INFO 2026-01-13 07:50:35,040 basehttp 6756 10436 "GET /media/events/33a2653893f64c0888482e652a870318.PNG HTTP/1.1" 200 510424
+INFO 2026-01-13 07:50:35,065 basehttp 6756 10436 "GET /media/events/dcd3c7cf54004514b13fe4ac0e5ccbbd.PNG HTTP/1.1" 200 3519229
+INFO 2026-01-13 07:51:35,560 basehttp 6756 3768 "OPTIONS /api/reservations/dashboard/ HTTP/1.1" 200 0
+INFO 2026-01-13 07:51:35,560 basehttp 6756 2416 "OPTIONS /api/reservations/dashboard/ HTTP/1.1" 200 0
+WARNING 2026-01-13 07:51:35,574 log 6756 2416 Unauthorized: /api/reservations/dashboard/
+WARNING 2026-01-13 07:51:35,575 basehttp 6756 2416 "GET /api/reservations/dashboard/ HTTP/1.1" 401 183
+WARNING 2026-01-13 07:51:35,576 log 6756 2416 Unauthorized: /api/reservations/dashboard/
+WARNING 2026-01-13 07:51:35,577 basehttp 6756 2416 "GET /api/reservations/dashboard/ HTTP/1.1" 401 183
+INFO 2026-01-13 07:51:35,818 basehttp 6756 22088 "GET /api/events/?limit=1&is_featured=true&status=upcoming HTTP/1.1" 200 786
+INFO 2026-01-13 07:51:35,828 basehttp 6756 16868 "GET /api/events/?limit=3&status=upcoming HTTP/1.1" 200 1575
+INFO 2026-01-13 07:51:35,828 basehttp 6756 2596 "GET /api/public/moments/ HTTP/1.1" 200 1823
+INFO 2026-01-13 07:51:35,832 basehttp 6756 21912 "GET /api/gallery/?limit=8&is_featured=true&is_active=true HTTP/1.1" 200 3296
+INFO 2026-01-13 07:51:35,835 basehttp 6756 8780 "GET /api/menu/items/?limit=6&is_featured=true&is_available=true HTTP/1.1" 200 4002
+INFO 2026-01-13 07:51:42,237 basehttp 6756 2416 "OPTIONS /api/auth/login/ HTTP/1.1" 200 0
+INFO 2026-01-13 07:51:42,901 basehttp 6756 2416 "POST /api/auth/login/ HTTP/1.1" 200 640
+INFO 2026-01-13 07:51:42,992 basehttp 6756 2416 "GET /api/reservations/dashboard/ HTTP/1.1" 200 205
+INFO 2026-01-13 07:51:43,001 basehttp 6756 2416 "GET /api/reservations/dashboard/ HTTP/1.1" 200 205
+INFO 2026-01-13 07:51:47,253 basehttp 6756 2416 "OPTIONS /api/reservations/ HTTP/1.1" 200 0
+INFO 2026-01-13 07:51:47,255 basehttp 6756 3768 "OPTIONS /api/reservations/ HTTP/1.1" 200 0
+INFO 2026-01-13 07:51:47,275 basehttp 6756 2416 "GET /api/reservations/ HTTP/1.1" 200 7650
+INFO 2026-01-13 07:51:47,281 basehttp 6756 3768 "GET /api/reservations/ HTTP/1.1" 200 7650
+INFO 2026-01-13 07:51:48,668 basehttp 6756 2416 "OPTIONS /api/events/ HTTP/1.1" 200 0
+INFO 2026-01-13 07:51:48,668 basehttp 6756 3768 "OPTIONS /api/events/ HTTP/1.1" 200 0
+INFO 2026-01-13 07:51:48,674 basehttp 6756 3768 "GET /api/events/ HTTP/1.1" 200 2411
+INFO 2026-01-13 07:51:48,680 basehttp 6756 3768 "GET /api/events/ HTTP/1.1" 200 2411
+INFO 2026-01-13 07:51:51,906 basehttp 6756 3768 "OPTIONS /api/menu/categories/?parent=null HTTP/1.1" 200 0
+INFO 2026-01-13 07:51:51,909 basehttp 6756 3768 "OPTIONS /api/menu/items/ HTTP/1.1" 200 0
+INFO 2026-01-13 07:51:51,911 basehttp 6756 3768 "OPTIONS /api/menu/items/ HTTP/1.1" 200 0
+INFO 2026-01-13 07:51:51,939 basehttp 6756 3768 "GET /api/menu/items/ HTTP/1.1" 200 6951
+INFO 2026-01-13 07:51:51,960 basehttp 6756 3768 "GET /api/menu/items/ HTTP/1.1" 200 6951
+INFO 2026-01-13 07:51:51,963 basehttp 6756 2416 "GET /api/menu/categories/?parent=null HTTP/1.1" 200 5829
+INFO 2026-01-13 07:51:51,985 basehttp 6756 6700 "GET /media/menu/59bbddf87e684532a11198b6456ee796.PNG HTTP/1.1" 200 138051
+INFO 2026-01-13 07:51:52,010 basehttp 6756 3768 "GET /api/menu/categories/?parent=null HTTP/1.1" 200 5829
+INFO 2026-01-13 07:51:52,012 basehttp 6756 17952 "GET /media/menu/bbb9f71b66404f488f576f0d933b527a.PNG HTTP/1.1" 200 1168040
+INFO 2026-01-13 07:51:52,020 basehttp 6756 6700 "GET /media/menu/4a761ceae93f41dcadc319bd6808a478.PNG HTTP/1.1" 200 2568525
+INFO 2026-01-13 07:51:52,036 basehttp 6756 17952 "GET /media/menu/d319e714959b4659824c5e7d850553f3.PNG HTTP/1.1" 200 3519229
+INFO 2026-01-13 07:51:52,041 basehttp 6756 6700 "GET /media/menu/8a83e39d239441ca8348368496e56ed7.PNG HTTP/1.1" 200 2525680
+INFO 2026-01-13 07:51:52,062 basehttp 6756 6700 "GET /media/menu/da7bad27c8fd4a33915a33c83669a7bb.png HTTP/1.1" 200 2108686
+INFO 2026-01-13 07:51:52,063 basehttp 6756 17952 "GET /media/menu/efcd97fc8e1849f0a4b958e2196595b4.png HTTP/1.1" 200 2261276
+INFO 2026-01-13 07:51:52,071 basehttp 6756 17952 "GET /media/menu/4b5608734ce8414d90857ace473e249f.PNG HTTP/1.1" 200 159934
+INFO 2026-01-13 07:51:57,219 basehttp 6756 2416 "GET /api/menu/items/ HTTP/1.1" 200 6951
+INFO 2026-01-13 07:51:57,248 basehttp 6756 20016 "GET /api/menu/items/ HTTP/1.1" 200 6951
+INFO 2026-01-13 07:51:57,249 basehttp 6756 3768 "GET /api/menu/categories/?parent=null HTTP/1.1" 200 5829
+INFO 2026-01-13 07:51:57,278 basehttp 6756 20016 "GET /api/menu/categories/?parent=null HTTP/1.1" 200 5829
+INFO 2026-01-13 07:52:00,133 basehttp 6756 3768 "GET /api/menu/items/ HTTP/1.1" 200 6951
+INFO 2026-01-13 07:52:00,155 basehttp 6756 2416 "GET /api/menu/items/ HTTP/1.1" 200 6951
+INFO 2026-01-13 07:52:00,165 basehttp 6756 20016 "GET /api/menu/categories/?parent=null HTTP/1.1" 200 5829
+INFO 2026-01-13 07:52:00,198 basehttp 6756 2416 "GET /api/menu/categories/?parent=null HTTP/1.1" 200 5829
+INFO 2026-01-13 07:52:08,228 basehttp 6756 2416 "OPTIONS /api/admin/moments/ HTTP/1.1" 200 0
+INFO 2026-01-13 07:52:08,228 basehttp 6756 20016 "OPTIONS /api/admin/moments/ HTTP/1.1" 200 0
+INFO 2026-01-13 07:52:08,239 basehttp 6756 2416 "GET /api/admin/moments/ HTTP/1.1" 200 4067
+INFO 2026-01-13 07:52:08,246 basehttp 6756 20016 "GET /api/admin/moments/ HTTP/1.1" 200 4067
+INFO 2026-01-13 07:52:08,285 basehttp 6756 17952 "GET /media/moments/62a1fa2569dd453e9ec8a13950eb8b0c.png HTTP/1.1" 200 1943274
+INFO 2026-01-13 07:52:08,285 basehttp 6756 10332 "GET /media/moments/e5ce3d8659af442ea4fae9779d7b0c61.png HTTP/1.1" 200 2108686
+INFO 2026-01-13 07:52:08,286 basehttp 6756 6460 "GET /media/moments/21871f0cb710493096bed6f651b3b5c5.png HTTP/1.1" 200 1895591
+INFO 2026-01-13 07:52:08,288 basehttp 6756 22308 "GET /media/moments/b3d0f94b74374abba22c0ccfd9f57980.png HTTP/1.1" 200 2108686
+INFO 2026-01-13 07:52:08,288 basehttp 6756 6700 "GET /media/moments/5d3d9c7137ba41178723541f2d9d9841.png HTTP/1.1" 200 2108686
+INFO 2026-01-13 07:52:08,290 basehttp 6756 20080 "GET /media/moments/b5799d5731c1450b9354709d00d904db.png HTTP/1.1" 200 2261276
+INFO 2026-01-13 07:52:08,321 basehttp 6756 10332 "GET /media/moments/3b9d0fcb532a4e0ea28d5c07e9a306b2.png HTTP/1.1" 200 1754905
+INFO 2026-01-13 07:52:08,321 basehttp 6756 17952 "GET /media/moments/a5e5fb24b7ba4b99bc99872c4c9d85b5.png HTTP/1.1" 200 1895591
+INFO 2026-01-13 07:52:08,322 basehttp 6756 6700 "GET /media/moments/dfddf679aa9541319c8b8897b36cc912.png HTTP/1.1" 200 1859394
+INFO 2026-01-13 07:52:08,324 basehttp 6756 6460 "GET /media/moments/122007876c61437ba256f296f6c73157.png HTTP/1.1" 200 1943274
+INFO 2026-01-13 07:52:08,328 basehttp 6756 22308 "GET /media/moments/18bc555468f0491a95f4aa22af098532.PNG HTTP/1.1" 200 2568525
+INFO 2026-01-13 07:52:14,672 basehttp 6756 14012 "GET /api/events/?limit=1&is_featured=true&status=upcoming HTTP/1.1" 200 786
+INFO 2026-01-13 07:52:14,674 basehttp 6756 7972 "GET /api/events/?limit=3&status=upcoming HTTP/1.1" 200 1575
+INFO 2026-01-13 07:52:14,675 basehttp 6756 15456 "GET /api/public/moments/ HTTP/1.1" 200 1823
+INFO 2026-01-13 07:52:14,675 basehttp 6756 18732 "GET /api/menu/items/?limit=6&is_featured=true&is_available=true HTTP/1.1" 200 4002
+INFO 2026-01-13 07:52:14,676 basehttp 6756 10640 "GET /api/gallery/?limit=8&is_featured=true&is_active=true HTTP/1.1" 200 3296
+INFO 2026-01-13 07:52:14,974 basehttp 6756 14012 "GET /media/moments/62a1fa2569dd453e9ec8a13950eb8b0c.png HTTP/1.1" 200 1943274
+INFO 2026-01-13 07:52:14,985 basehttp 6756 14012 "GET /media/moments/5d3d9c7137ba41178723541f2d9d9841.png HTTP/1.1" 200 2108686
+INFO 2026-01-13 07:52:14,998 basehttp 6756 14012 "GET /media/moments/b3d0f94b74374abba22c0ccfd9f57980.png HTTP/1.1" 200 2108686
+INFO 2026-01-13 07:52:15,013 basehttp 6756 14012 "GET /media/moments/e5ce3d8659af442ea4fae9779d7b0c61.png HTTP/1.1" 200 2108686
+INFO 2026-01-13 07:52:15,026 basehttp 6756 14012 "GET /media/moments/b5799d5731c1450b9354709d00d904db.png HTTP/1.1" 200 2261276
+INFO 2026-01-13 07:52:15,036 basehttp 6756 14012 "GET /media/moments/21871f0cb710493096bed6f651b3b5c5.png HTTP/1.1" 200 1895591
+INFO 2026-01-13 07:52:15,049 basehttp 6756 14012 "GET /media/events/dcd3c7cf54004514b13fe4ac0e5ccbbd.PNG HTTP/1.1" 200 3519229
+INFO 2026-01-13 07:52:15,065 basehttp 6756 14012 "GET /media/events/33a2653893f64c0888482e652a870318.PNG HTTP/1.1" 200 510424
+INFO 2026-01-13 07:54:14,914 basehttp 6756 20016 "GET /api/events/public/ HTTP/1.1" 200 1553
+INFO 2026-01-13 07:54:14,920 basehttp 6756 20016 "GET /api/events/public/ HTTP/1.1" 200 1553
+INFO 2026-01-13 08:03:41,096 basehttp 6756 3196 "GET /api/gallery/public/ HTTP/1.1" 200 3296
+INFO 2026-01-13 08:03:41,104 basehttp 6756 3196 "GET /api/gallery/public/ HTTP/1.1" 200 3296
+INFO 2026-01-13 08:03:58,488 basehttp 6756 3196 "GET /api/reservations/dashboard/ HTTP/1.1" 200 205
+INFO 2026-01-13 08:03:58,493 basehttp 6756 3196 "GET /api/reservations/dashboard/ HTTP/1.1" 200 205
+INFO 2026-01-13 08:04:03,425 basehttp 6756 3196 "GET /api/reservations/ HTTP/1.1" 200 7650
+INFO 2026-01-13 08:04:03,432 basehttp 6756 2716 "GET /api/reservations/ HTTP/1.1" 200 7650
+INFO 2026-01-13 08:04:22,520 basehttp 6756 5072 "GET /api/events/?limit=3&status=upcoming HTTP/1.1" 200 1575
+INFO 2026-01-13 08:04:22,521 basehttp 6756 2492 "GET /api/events/?limit=1&is_featured=true&status=upcoming HTTP/1.1" 200 786
+INFO 2026-01-13 08:04:22,526 basehttp 6756 8696 "GET /api/gallery/?limit=8&is_featured=true&is_active=true HTTP/1.1" 200 3296
+INFO 2026-01-13 08:04:22,528 basehttp 6756 17276 "GET /api/public/moments/ HTTP/1.1" 200 1823
+INFO 2026-01-13 08:04:22,531 basehttp 6756 2088 "GET /api/menu/items/?limit=6&is_featured=true&is_available=true HTTP/1.1" 200 4002
+INFO 2026-01-13 08:04:22,825 basehttp 6756 2492 "GET /media/moments/62a1fa2569dd453e9ec8a13950eb8b0c.png HTTP/1.1" 200 1943274
+INFO 2026-01-13 08:04:22,837 basehttp 6756 2492 "GET /media/moments/5d3d9c7137ba41178723541f2d9d9841.png HTTP/1.1" 200 2108686
+INFO 2026-01-13 08:04:22,847 basehttp 6756 2492 "GET /media/moments/b3d0f94b74374abba22c0ccfd9f57980.png HTTP/1.1" 200 2108686
+INFO 2026-01-13 08:04:22,862 basehttp 6756 2492 "GET /media/moments/e5ce3d8659af442ea4fae9779d7b0c61.png HTTP/1.1" 200 2108686
+INFO 2026-01-13 08:04:22,881 basehttp 6756 2492 "GET /media/moments/b5799d5731c1450b9354709d00d904db.png HTTP/1.1" 200 2261276
+INFO 2026-01-13 08:04:22,901 basehttp 6756 2492 "GET /media/moments/21871f0cb710493096bed6f651b3b5c5.png HTTP/1.1" 200 1895591
+INFO 2026-01-13 08:04:22,918 basehttp 6756 2492 "GET /media/events/dcd3c7cf54004514b13fe4ac0e5ccbbd.PNG HTTP/1.1" 200 3519229
+INFO 2026-01-13 08:04:22,947 basehttp 6756 2492 "GET /media/events/33a2653893f64c0888482e652a870318.PNG HTTP/1.1" 200 510424
+INFO 2026-01-13 08:05:29,630 basehttp 6756 2716 "GET /api/events/public/ HTTP/1.1" 200 1553
+INFO 2026-01-13 08:05:29,637 basehttp 6756 2716 "GET /api/events/public/ HTTP/1.1" 200 1553
+INFO 2026-01-13 08:05:34,875 basehttp 6756 2716 "GET /api/events/public/ HTTP/1.1" 200 1553
+INFO 2026-01-13 08:06:20,759 basehttp 6756 20632 "GET /api/events/?limit=1&is_featured=true&status=upcoming HTTP/1.1" 200 786
+INFO 2026-01-13 08:06:20,762 basehttp 6756 22364 "GET /api/events/?limit=3&status=upcoming HTTP/1.1" 200 1575
+INFO 2026-01-13 08:06:20,764 basehttp 6756 19528 "GET /api/gallery/?limit=8&is_featured=true&is_active=true HTTP/1.1" 200 3296
+INFO 2026-01-13 08:06:20,769 basehttp 6756 3496 "GET /api/public/moments/ HTTP/1.1" 200 1823
+INFO 2026-01-13 08:06:20,774 basehttp 6756 6300 "GET /api/menu/items/?limit=6&is_featured=true&is_available=true HTTP/1.1" 200 4002
+INFO 2026-01-13 08:06:20,979 basehttp 6756 20632 "GET /media/moments/62a1fa2569dd453e9ec8a13950eb8b0c.png HTTP/1.1" 200 1943274
+INFO 2026-01-13 08:06:20,983 basehttp 6756 6300 "GET /media/moments/b3d0f94b74374abba22c0ccfd9f57980.png HTTP/1.1" 200 2108686
+INFO 2026-01-13 08:06:20,983 basehttp 6756 22364 "GET /media/moments/5d3d9c7137ba41178723541f2d9d9841.png HTTP/1.1" 200 2108686
+INFO 2026-01-13 08:06:20,995 basehttp 6756 20632 "GET /media/moments/e5ce3d8659af442ea4fae9779d7b0c61.png HTTP/1.1" 200 2108686
+INFO 2026-01-13 08:06:20,998 basehttp 6756 19528 "GET /media/moments/b5799d5731c1450b9354709d00d904db.png HTTP/1.1" 200 2261276
+INFO 2026-01-13 08:06:21,646 basehttp 6756 20632 "GET /media/moments/21871f0cb710493096bed6f651b3b5c5.png HTTP/1.1" 200 1895591
+INFO 2026-01-13 08:06:22,498 basehttp 6756 22364 "GET /media/events/33a2653893f64c0888482e652a870318.PNG HTTP/1.1" 200 510424
+INFO 2026-01-13 08:06:22,505 basehttp 6756 20632 "GET /media/events/dcd3c7cf54004514b13fe4ac0e5ccbbd.PNG HTTP/1.1" 200 3519229
+INFO 2026-01-13 08:07:39,597 ReservationViews 6756 20304 Confirmation email sent to agjoka216@gmail.com for reservation J5VQM2LN
+INFO 2026-01-13 08:07:39,598 basehttp 6756 20304 "POST /api/reservations/ HTTP/1.1" 201 450
+INFO 2026-01-13 08:07:40,330 basehttp 6756 20304 "GET /api/reservations/c9415148-1c47-42fe-acad-1ee2896c0415/ HTTP/1.1" 200 450
+INFO 2026-01-13 08:07:40,335 basehttp 6756 20304 "GET /api/reservations/c9415148-1c47-42fe-acad-1ee2896c0415/ HTTP/1.1" 200 450
+INFO 2026-01-13 08:07:44,106 basehttp 6756 2716 "OPTIONS /api/menu/items/?is_available=true HTTP/1.1" 200 0
+INFO 2026-01-13 08:07:44,106 basehttp 6756 20304 "OPTIONS /api/menu/categories/ HTTP/1.1" 200 0
+INFO 2026-01-13 08:07:44,107 basehttp 6756 20304 "OPTIONS /api/menu/items/?is_available=true HTTP/1.1" 200 0
+INFO 2026-01-13 08:07:44,107 basehttp 6756 2716 "OPTIONS /api/menu/categories/ HTTP/1.1" 200 0
+INFO 2026-01-13 08:07:44,138 basehttp 6756 20304 "GET /api/menu/items/?is_available=true HTTP/1.1" 200 4002
+INFO 2026-01-13 08:07:44,185 basehttp 6756 20304 "GET /api/menu/items/?is_available=true HTTP/1.1" 200 4002
+INFO 2026-01-13 08:07:44,373 basehttp 6756 2716 "GET /api/menu/categories/ HTTP/1.1" 200 14380
+INFO 2026-01-13 08:07:44,545 basehttp 6756 20304 "GET /api/menu/categories/ HTTP/1.1" 200 14380
+INFO 2026-01-13 08:08:44,761 basehttp 6756 3524 "GET /api/events/?limit=1&is_featured=true&status=upcoming HTTP/1.1" 200 786
+INFO 2026-01-13 08:08:44,763 basehttp 6756 1900 "GET /api/events/?limit=3&status=upcoming HTTP/1.1" 200 1575
+INFO 2026-01-13 08:08:44,765 basehttp 6756 21676 "GET /api/gallery/?limit=8&is_featured=true&is_active=true HTTP/1.1" 200 3296
+INFO 2026-01-13 08:08:44,768 basehttp 6756 7436 "GET /api/public/moments/ HTTP/1.1" 200 1823
+INFO 2026-01-13 08:08:44,773 basehttp 6756 21384 "GET /api/menu/items/?limit=6&is_featured=true&is_available=true HTTP/1.1" 200 4002
+INFO 2026-01-13 08:08:45,017 basehttp 6756 3524 "GET /media/moments/62a1fa2569dd453e9ec8a13950eb8b0c.png HTTP/1.1" 200 1943274
+INFO 2026-01-13 08:08:45,020 basehttp 6756 1900 "GET /media/moments/5d3d9c7137ba41178723541f2d9d9841.png HTTP/1.1" 200 2108686
+INFO 2026-01-13 08:08:45,021 basehttp 6756 21676 "GET /media/moments/e5ce3d8659af442ea4fae9779d7b0c61.png HTTP/1.1" 200 2108686
+INFO 2026-01-13 08:08:45,021 basehttp 6756 21384 "GET /media/moments/b3d0f94b74374abba22c0ccfd9f57980.png HTTP/1.1" 200 2108686
+INFO 2026-01-13 08:08:45,067 basehttp 6756 3524 "GET /media/moments/b5799d5731c1450b9354709d00d904db.png HTTP/1.1" 200 2261276
+INFO 2026-01-13 08:08:46,932 basehttp 6756 3524 "GET /media/moments/21871f0cb710493096bed6f651b3b5c5.png HTTP/1.1" 200 1895591
+INFO 2026-01-13 08:10:16,686 basehttp 6756 21996 "GET /media/moments/62a1fa2569dd453e9ec8a13950eb8b0c.png HTTP/1.1" 200 1943274
+INFO 2026-01-13 08:10:16,688 basehttp 6756 16284 "GET /media/moments/5d3d9c7137ba41178723541f2d9d9841.png HTTP/1.1" 200 2108686
+INFO 2026-01-13 08:10:16,691 basehttp 6756 19124 "GET /media/moments/e5ce3d8659af442ea4fae9779d7b0c61.png HTTP/1.1" 200 2108686
+INFO 2026-01-13 08:10:16,692 basehttp 6756 1480 "GET /media/moments/b3d0f94b74374abba22c0ccfd9f57980.png HTTP/1.1" 200 2108686
+INFO 2026-01-13 08:10:16,693 basehttp 6756 22324 "GET /media/moments/b5799d5731c1450b9354709d00d904db.png HTTP/1.1" 200 2261276
+INFO 2026-01-13 08:10:16,782 basehttp 6756 21996 "GET /media/moments/21871f0cb710493096bed6f651b3b5c5.png HTTP/1.1" 200 1895591
+INFO 2026-01-13 08:10:20,788 basehttp 6756 21996 "GET /media/events/dcd3c7cf54004514b13fe4ac0e5ccbbd.PNG HTTP/1.1" 200 3519229
+INFO 2026-01-13 08:10:20,818 basehttp 6756 9256 "GET /media/events/33a2653893f64c0888482e652a870318.PNG HTTP/1.1" 200 510424
+INFO 2026-01-13 08:14:42,188 ReservationViews 6756 6160 Confirmation email sent to bjorni.brahja@gmail.com for reservation KN59TQJ2
+INFO 2026-01-13 08:14:42,189 basehttp 6756 6160 "POST /api/reservations/ HTTP/1.1" 201 443
+INFO 2026-01-13 08:14:42,304 basehttp 6756 6160 "GET /api/reservations/65c14f74-f912-4af3-a294-16a933be2da8/ HTTP/1.1" 200 443
+INFO 2026-01-13 08:14:42,309 basehttp 6756 6160 "GET /api/reservations/65c14f74-f912-4af3-a294-16a933be2da8/ HTTP/1.1" 200 443
+INFO 2026-01-13 08:15:26,624 ReservationViews 6756 6160 Confirmation email sent to bjorni.brahja7@gmail.com for reservation ZPZL7MYD
+INFO 2026-01-13 08:15:26,624 basehttp 6756 6160 "POST /api/reservations/ HTTP/1.1" 201 436
+INFO 2026-01-13 08:15:26,677 basehttp 6756 6160 "GET /api/reservations/5b85b127-7c66-49ac-b882-ee3d8772869f/ HTTP/1.1" 200 436
+INFO 2026-01-13 08:15:26,680 basehttp 6756 6160 "GET /api/reservations/5b85b127-7c66-49ac-b882-ee3d8772869f/ HTTP/1.1" 200 436
+INFO 2026-01-13 08:15:29,062 basehttp 6756 16888 "GET /api/menu/items/?is_available=true HTTP/1.1" 200 4002
+INFO 2026-01-13 08:15:29,084 basehttp 6756 16888 "GET /api/menu/items/?is_available=true HTTP/1.1" 200 4002
+INFO 2026-01-13 08:15:29,178 basehttp 6756 6160 "GET /api/menu/categories/ HTTP/1.1" 200 14380
+INFO 2026-01-13 08:15:29,294 basehttp 6756 16888 "GET /api/menu/categories/ HTTP/1.1" 200 14380
+INFO 2026-01-13 08:15:31,702 basehttp 6756 16888 "GET /api/reservations/5b85b127-7c66-49ac-b882-ee3d8772869f/ HTTP/1.1" 200 436
+INFO 2026-01-13 08:15:31,708 basehttp 6756 16888 "GET /api/reservations/5b85b127-7c66-49ac-b882-ee3d8772869f/ HTTP/1.1" 200 436
+INFO 2026-01-13 08:27:02,426 autoreload 14852 12864 Watching for file changes with StatReloader
+WARNING 2026-01-13 08:27:02,491 EventViews 14852 12864 Could not check video columns: no such table: information_schema.columns
+WARNING 2026-01-13 08:27:15,170 log 14852 14480 Bad Request: /api/reservations/
+WARNING 2026-01-13 08:27:15,170 basehttp 14852 14480 "POST /api/reservations/ HTTP/1.1" 400 54
+ERROR 2026-01-13 08:27:22,386 ReservationViews 14852 15808 Failed to send confirmation email to rizvaniendi@gmail.com: (530, b'5.7.0 Authentication Required. For more information, go to\n5.7.0  https://support.google.com/accounts/troubleshooter/2402620. a640c23a62f3a-b8706c2604bsm711042666b.16 - gsmtp', 'webmaster@localhost')
+INFO 2026-01-13 08:27:22,389 basehttp 14852 15808 "POST /api/reservations/ HTTP/1.1" 201 411
+INFO 2026-01-13 08:27:54,724 autoreload 9856 10736 Watching for file changes with StatReloader
+WARNING 2026-01-13 08:27:54,797 EventViews 9856 10736 Could not check video columns: no such table: information_schema.columns
+ERROR 2026-01-13 08:28:03,430 ReservationViews 9856 14480 Failed to send confirmation email to rizvaniendi@gmail.com: (530, b'5.7.0 Authentication Required. For more information, go to\n5.7.0  https://support.google.com/accounts/troubleshooter/2402620. 4fb4d7f45d1cf-6507bf66214sm19208230a12.27 - gsmtp', 'webmaster@localhost')
+INFO 2026-01-13 08:28:03,435 basehttp 9856 14480 "POST /api/reservations/ HTTP/1.1" 201 413
+INFO 2026-01-13 08:28:36,432 autoreload 3332 6948 C:\Users\Admin\bottlebrothers_lab-3\server\server\settings.py changed, reloading.
+INFO 2026-01-13 08:28:36,832 autoreload 9856 10736 C:\Users\Admin\bottlebrothers_lab-3\server\server\settings.py changed, reloading.
+INFO 2026-01-13 08:28:37,120 autoreload 22416 17492 Watching for file changes with StatReloader
+WARNING 2026-01-13 08:28:37,198 EventViews 22416 17492 Could not check video columns: no such table: information_schema.columns
+INFO 2026-01-13 08:28:37,635 autoreload 3196 22184 Watching for file changes with StatReloader
+WARNING 2026-01-13 08:28:37,706 EventViews 3196 22184 Could not check video columns: no such table: information_schema.columns
+ERROR 2026-01-13 08:28:49,104 ReservationViews 22416 15364 Failed to send confirmation email to rizvaniendi@gmail.com: Invalid address ""
+INFO 2026-01-13 08:28:49,109 basehttp 22416 15364 "POST /api/reservations/ HTTP/1.1" 201 413
+INFO 2026-01-13 08:29:35,200 autoreload 20576 19124 Watching for file changes with StatReloader
+WARNING 2026-01-13 08:29:35,274 EventViews 20576 19124 Could not check video columns: no such table: information_schema.columns
+ERROR 2026-01-13 08:29:44,801 ReservationViews 22416 17076 Failed to send confirmation email to rizvaniendi@gmail.com: Invalid address ""
+INFO 2026-01-13 08:29:44,803 basehttp 22416 17076 "POST /api/reservations/ HTTP/1.1" 201 421
+INFO 2026-01-13 08:30:16,087 autoreload 6036 16556 Watching for file changes with StatReloader
+WARNING 2026-01-13 08:30:16,163 EventViews 6036 16556 Could not check video columns: no such table: information_schema.columns
+ERROR 2026-01-13 08:30:26,574 ReservationViews 22416 22256 Failed to send confirmation email to rizvaniendi@gmail.com: Invalid address ""
+INFO 2026-01-13 08:30:26,575 basehttp 22416 22256 "POST /api/reservations/ HTTP/1.1" 201 413
+INFO 2026-01-13 08:31:06,508 autoreload 4812 6424 Watching for file changes with StatReloader
+WARNING 2026-01-13 08:31:06,581 EventViews 4812 6424 Could not check video columns: no such table: information_schema.columns
+ERROR 2026-01-13 08:31:17,966 ReservationViews 22416 22256 Failed to send confirmation email to rizvaniendi@gmail.com: Invalid address ""
+INFO 2026-01-13 08:31:17,967 basehttp 22416 22256 "POST /api/reservations/ HTTP/1.1" 201 423
+INFO 2026-01-13 08:32:03,393 autoreload 7588 18340 Watching for file changes with StatReloader
+WARNING 2026-01-13 08:32:03,460 EventViews 7588 18340 Could not check video columns: no such table: information_schema.columns
+ERROR 2026-01-13 08:32:16,781 ReservationViews 22416 21844 Failed to send confirmation email to rizvaniendi@gmail.com: Invalid address ""
+INFO 2026-01-13 08:32:16,782 basehttp 22416 21844 "POST /api/reservations/ HTTP/1.1" 201 435
+INFO 2026-01-13 08:33:12,795 autoreload 12932 4308 Watching for file changes with StatReloader
+WARNING 2026-01-13 08:33:12,867 EventViews 12932 4308 Could not check video columns: no such table: information_schema.columns
+ERROR 2026-01-13 08:33:26,350 ReservationViews 12932 2236 Failed to send confirmation email to rizvaniendi@gmail.com: Invalid address ""
+INFO 2026-01-13 08:33:26,353 basehttp 12932 2236 "POST /api/reservations/ HTTP/1.1" 201 419
+INFO 2026-01-13 08:34:52,666 autoreload 7588 18340 C:\Users\Admin\bottlebrothers_lab-3\server\server\settings.py changed, reloading.
+INFO 2026-01-13 08:34:52,707 autoreload 12932 4308 C:\Users\Admin\bottlebrothers_lab-3\server\server\settings.py changed, reloading.
+INFO 2026-01-13 08:34:52,725 autoreload 22416 17492 C:\Users\Admin\bottlebrothers_lab-3\server\server\settings.py changed, reloading.
+INFO 2026-01-13 08:34:52,737 autoreload 20576 19124 C:\Users\Admin\bottlebrothers_lab-3\server\server\settings.py changed, reloading.
+INFO 2026-01-13 08:34:52,739 autoreload 4812 6424 C:\Users\Admin\bottlebrothers_lab-3\server\server\settings.py changed, reloading.
+INFO 2026-01-13 08:34:52,756 autoreload 6036 16556 C:\Users\Admin\bottlebrothers_lab-3\server\server\settings.py changed, reloading.
+INFO 2026-01-13 08:34:53,963 autoreload 15104 12636 Watching for file changes with StatReloader
+INFO 2026-01-13 08:34:53,974 autoreload 22192 12920 Watching for file changes with StatReloader
+INFO 2026-01-13 08:34:53,987 autoreload 8312 2620 Watching for file changes with StatReloader
+INFO 2026-01-13 08:34:53,989 autoreload 5388 7256 Watching for file changes with StatReloader
+INFO 2026-01-13 08:34:54,000 autoreload 8144 9156 Watching for file changes with StatReloader
+INFO 2026-01-13 08:34:54,001 autoreload 21800 12824 Watching for file changes with StatReloader
+WARNING 2026-01-13 08:34:54,080 EventViews 15104 12636 Could not check video columns: no such table: information_schema.columns
+WARNING 2026-01-13 08:34:54,085 EventViews 22192 12920 Could not check video columns: no such table: information_schema.columns
+WARNING 2026-01-13 08:34:54,100 EventViews 8312 2620 Could not check video columns: no such table: information_schema.columns
+WARNING 2026-01-13 08:34:54,103 EventViews 5388 7256 Could not check video columns: no such table: information_schema.columns
+WARNING 2026-01-13 08:34:54,111 EventViews 8144 9156 Could not check video columns: no such table: information_schema.columns
+WARNING 2026-01-13 08:34:54,111 EventViews 21800 12824 Could not check video columns: no such table: information_schema.columns
+INFO 2026-01-13 08:35:05,871 ReservationViews 15104 17152 Confirmation email sent to rizvaniendi@gmail.com for reservation 3MES8P22
+INFO 2026-01-13 08:35:05,875 basehttp 15104 17152 "POST /api/reservations/ HTTP/1.1" 201 431
+INFO 2026-01-13 08:36:45,393 ReservationViews 22192 6940 Confirmation email sent to bjorni.brahja7@gmail.com for reservation 8GD5QXNQ
+INFO 2026-01-13 08:36:45,399 basehttp 22192 6940 "POST /api/reservations/ HTTP/1.1" 201 441
+INFO 2026-01-13 08:36:45,476 basehttp 22192 6940 "GET /api/reservations/6f2b2713-e1b0-4204-b65c-eb7c9fcd5d7a/ HTTP/1.1" 200 441
+INFO 2026-01-13 08:36:45,480 basehttp 22192 6940 "GET /api/reservations/6f2b2713-e1b0-4204-b65c-eb7c9fcd5d7a/ HTTP/1.1" 200 441
+INFO 2026-01-13 08:37:56,140 ReservationViews 22192 6940 Confirmation email sent to besoliko88@gmail.com for reservation B2XDSX39
+INFO 2026-01-13 08:37:56,141 basehttp 22192 6940 "POST /api/reservations/ HTTP/1.1" 201 422
+INFO 2026-01-13 08:37:56,255 basehttp 22192 6940 "GET /api/reservations/2aecc6a4-75ec-4008-b4b1-7bfc4f59b6e7/ HTTP/1.1" 200 422
+INFO 2026-01-13 08:37:56,260 basehttp 22192 6940 "GET /api/reservations/2aecc6a4-75ec-4008-b4b1-7bfc4f59b6e7/ HTTP/1.1" 200 422

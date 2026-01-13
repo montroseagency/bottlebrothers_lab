@@ -29,9 +29,9 @@ export default function MenuPage() {
           getMenuCategories(),
           getMenuItems({ is_available: true }),
         ]);
-        setCategories(categoriesData);
-        setAllItems(itemsData.results);
-        setFilteredItems(itemsData.results);
+        setCategories(categoriesData || []);
+        const items = itemsData?.results || itemsData || []; setAllItems(items);
+        setFilteredItems(items);
       } catch (error) {
         console.error('Error fetching menu data:', error);
       } finally {

@@ -417,22 +417,22 @@ const Events: React.FC = () => {
                 className="relative rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border border-neutral-800"
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-[#161616] via-[#1a1a1a] to-[#161616]" />
-                <div className="relative flex flex-col lg:flex-row">
-                  <div className="lg:w-1/2 order-2 lg:order-1">
-                    <div className="relative">
+                <div className="relative flex flex-col lg:flex-row lg:min-h-[420px]">
+                  <div className="lg:w-1/2 order-2 lg:order-1 lg:absolute lg:inset-y-0 lg:left-0">
+                    <div className="relative h-64 sm:h-80 lg:h-full">
                       <img
                         src={getImage(
                           featuredEvent,
                           'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
                         )}
                         alt={featuredEvent.title}
-                        className="w-full h-56 sm:h-72 lg:h-full object-cover"
+                        className="w-full h-full object-cover"
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
                     </div>
                   </div>
 
-                  <div className="lg:w-1/2 p-6 sm:p-8 lg:p-12 text-white flex flex-col justify-center order-1 lg:order-2">
+                  <div className="lg:w-1/2 lg:ml-auto p-6 sm:p-8 lg:p-12 text-white flex flex-col justify-center order-1 lg:order-2">
                     <div className="inline-flex items-center gap-2 bg-white/20 border border-white/40 backdrop-blur-xl px-3 sm:px-4 py-2 rounded-full text-sm font-semibold mb-5 self-start text-white">
                       <span className="w-2 h-2 rounded-full bg-white" />
                       Featured Event
@@ -463,7 +463,7 @@ const Events: React.FC = () => {
 
                     <div className="flex flex-col sm:flex-row gap-3 items-start">
                       <Link href="/contact">
-                        <button className="w-full sm:w-auto bg-white text-black px-6 sm:px-8 py-3 rounded-full font-semibold hover:bg-neutral-100 transition-colors shadow-lg">
+                        <button className="w-full sm:w-auto bg-white text-black px-8 sm:px-10 py-4 rounded-full font-bold text-lg hover:bg-neutral-100 transition-colors shadow-xl">
                           Reserve Your Spot {featuredEvent.formatted_price ? `- ${featuredEvent.formatted_price}` : ''}
                         </button>
                       </Link>
@@ -500,7 +500,7 @@ const Events: React.FC = () => {
                     variants={softCard}
                     className="group bg-[#161616] rounded-2xl hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden border border-neutral-800"
                   >
-                    <div className="relative">
+                    <div className="relative h-64 sm:h-80 lg:h-full">
                       {hasVideo ? (
                         <video
                           src={event.video_webm_url}
