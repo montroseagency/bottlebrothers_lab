@@ -153,7 +153,7 @@ export const FloatingReservation: React.FC<FloatingReservationProps> = ({
                 <button
                   type="button"
                   disabled
-                  className="flex-1 bg-gray-400 text-white px-4 py-2 rounded-lg font-medium cursor-not-allowed opacity-60"
+                  className="flex-1 bg-gray-400 text-black px-4 py-2 rounded-lg font-medium cursor-not-allowed opacity-60"
                 >
                   Select Date & Time
                 </button>

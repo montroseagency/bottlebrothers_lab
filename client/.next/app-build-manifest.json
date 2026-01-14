@@ -16,81 +16,6 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(public)/page.js"
     ],
-    "/[locale]/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/[locale]/layout.js"
-    ],
-    "/[locale]/(public)/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/[locale]/(public)/layout.js"
-    ],
-    "/[locale]/(public)/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/[locale]/(public)/page.js"
-    ],
-    "/[locale]/(public)/menu/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/[locale]/(public)/menu/page.js"
-    ],
-    "/[locale]/(public)/events/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/[locale]/(public)/events/page.js"
-    ],
-    "/[locale]/(public)/gallery/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/[locale]/(public)/gallery/page.js"
-    ],
-    "/admin/layout": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/layout.js"
-    ],
-    "/admin/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/page.js"
-    ],
-    "/admin/dashboard/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/dashboard/page.js"
-    ],
-    "/admin/reservations/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/reservations/page.js"
-    ],
-    "/admin/events/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/events/page.js"
-    ],
-    "/admin/menu/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/menu/page.js"
-    ],
-    "/admin/home-sections/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/home-sections/page.js"
-    ],
-    "/admin/gallery/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/gallery/page.js"
-    ],
-    "/admin/moments/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/admin/moments/page.js"
-    ],
     "/(public)/reservations/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -101,10 +26,20 @@
       "static/chunks/main-app.js",
       "static/chunks/app/(public)/reservations/confirmation/page.js"
     ],
-    "/(public)/menu/page": [
+    "/[locale]/layout": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/(public)/menu/page.js"
+      "static/chunks/app/[locale]/layout.js"
+    ],
+    "/[locale]/(public)/layout": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[locale]/(public)/layout.js"
+    ],
+    "/[locale]/(public)/menu/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/[locale]/(public)/menu/page.js"
     ]
   }
 }

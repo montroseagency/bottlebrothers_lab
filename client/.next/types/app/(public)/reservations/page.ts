@@ -1,4 +1,4 @@
-// File: C:\Users\Admin\bottlebrothers_lab-3\client\src\app\(public)\reservations\page.tsx
+// File: C:\Users\Admin\bottlebrothers_lab-4\client\src\app\(public)\reservations\page.tsx
 import * as entry from '../../../../../src/app/(public)/reservations/page.js'
 import type { ResolvingMetadata, ResolvingViewport } from 'next/dist/lib/metadata/types/metadata-interface.js'
 

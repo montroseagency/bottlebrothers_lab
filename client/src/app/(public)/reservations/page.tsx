@@ -644,7 +644,7 @@ export default function ReservationsPage() {
                 <button
                   onClick={handleNext}
                   disabled={!isStepValid()}
-                  className="flex-1 px-6 py-4 bg-primary-500 hover:bg-primary-600 text-white rounded-xl font-bold shadow-lg hover:shadow-glow transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 px-6 py-4 bg-primary-500 hover:bg-primary-600 text-black rounded-xl font-bold shadow-lg hover:shadow-glow transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Continue
                 </button>
