@@ -17,9 +17,9 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Bottle Brothers - Premium Lounge & Restaurant in Tirana',
-  description: 'Experience luxury dining, cocktails, and events at Bottle Brothers.',
-  keywords: ['restaurant', 'lounge', 'cocktails', 'fine dining', 'tirana', 'events'],
+  title: 'Sarajet Restaurant - Premium Restaurant in Kelcyrës, Gjirokastër',
+  description: 'Experience luxury dining and events at Sarajet Restaurant, SH75, Kelcyrës, Gjirokastër.',
+  keywords: ['restaurant', 'dining', 'kelcyre', 'gjirokaster', 'albania', 'events'],
 }
 
 export default function RootLayout({

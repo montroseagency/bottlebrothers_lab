@@ -1,6 +1,8 @@
 // client/src/contexts/AuthContext.tsx - FIXED VERSION
 import React, { createContext, useContext, useState, useEffect, useCallback, type ReactNode } from 'react';
 
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
+
 interface User {
   id: number;
   username: string;
@@ -75,7 +77,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:8000/api/auth/login/', {
+      const response = await fetch(`${API_BASE}/auth/login/`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -102,7 +104,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           return false;
         }
       } else {
-        const errorMessage = data.detail || data.error || 'Login failed';
+        const errorMessage = data.detail || data.error
+          || (data.non_field_errors && data.non_field_errors.join(', '))
+          || 'Login failed';
         setError(errorMessage);
         return false;
       }
@@ -121,13 +125,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       const refreshToken = localStorage.getItem('adminRefreshToken');
       
       if (token && refreshToken) {
-        await fetch('http://localhost:8000/api/auth/logout/', {
+        await fetch(`${API_BASE}/auth/logout/`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`,
           },
-          body: JSON.stringify({ refresh: refreshToken }),
+          body: JSON.stringify({ refresh_token: refreshToken }),
         });
       }
     } catch (error) {
@@ -190,7 +194,7 @@ export const useAuthenticatedApi = () => {
       ...(options.headers as Record<string, string>),
     };
 
-    const response = await fetch(`http://localhost:8000/api${endpoint}`, {
+    const response = await fetch(`${API_BASE}${endpoint}`, {
       ...options,
       headers,
     });

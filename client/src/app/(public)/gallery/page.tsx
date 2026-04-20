@@ -1,192 +1,254 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
 
-const GALLERY_CATEGORIES = [
-  { id: 'All', label: 'All', icon: 'M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z' },
-  { id: 'Interior', label: 'Interior', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
-  { id: 'Food', label: 'Food', icon: 'M12 6v6m0 0v6m0-6h6m-6 0H6' },
-  { id: 'Drinks', label: 'Drinks', icon: 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
-  { id: 'Events', label: 'Events', icon: 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z' },
-  { id: 'Ambiance', label: 'Ambiance', icon: 'M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z' },
-];
+const GOLD = '#C4A35A';
 
-const GALLERY_ITEMS = [
-  { id: 1, category: 'Interior', image: 'https://images.unsplash.com/photo-1514933651103-005eec06c04b?w=800', title: 'Luxury Lounge Area', tall: false },
-  { id: 2, category: 'Drinks', image: 'https://images.unsplash.com/photo-1470337458703-46ad1756a187?w=800', title: 'Signature Cocktails', tall: true },
-  { id: 3, category: 'Food', image: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=800', title: 'Gourmet Dishes', tall: false },
-  { id: 4, category: 'Events', image: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800', title: 'Live DJ Performance', tall: true },
-  { id: 5, category: 'Interior', image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=800', title: 'VIP Section', tall: false },
-  { id: 6, category: 'Drinks', image: 'https://images.unsplash.com/photo-1536935338788-846bb9981813?w=800', title: 'Premium Cocktails', tall: false },
-  { id: 7, category: 'Food', image: 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=800', title: 'Fine Dining', tall: true },
-  { id: 8, category: 'Ambiance', image: 'https://images.unsplash.com/photo-1566417713940-fe7c737a9ef2?w=800', title: 'Evening Atmosphere', tall: false },
-  { id: 9, category: 'Events', image: 'https://images.unsplash.com/photo-1429962714451-bb934ecdc4ec?w=800', title: 'Special Celebrations', tall: false },
-  { id: 10, category: 'Interior', image: 'https://images.unsplash.com/photo-1559329007-40df8a9345d8?w=800', title: 'Bar Counter', tall: true },
-  { id: 11, category: 'Drinks', image: 'https://images.unsplash.com/photo-1514361892635-6b07e31e75f9?w=800', title: 'Wine Selection', tall: false },
-  { id: 12, category: 'Food', image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=800', title: 'Appetizers', tall: false },
-];
+const CATEGORIES = ['All', 'Interior', 'Food', 'Drinks', 'Events', 'Ambiance'] as const;
+type Category = typeof CATEGORIES[number];
+
+const GALLERY_ITEMS: { id: number; category: string; image: string; title: string; tall: boolean }[] = [];
+
+const reduced = typeof window !== 'undefined'
+  ? window.matchMedia('(prefers-reduced-motion: reduce)').matches
+  : false;
 
 export default function GalleryPage() {
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [lightboxImage, setLightboxImage] = useState<typeof GALLERY_ITEMS[0] | null>(null);
-  const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({});
+  const [activeCategory, setActiveCategory] = useState<Category>('All');
+  const [lightbox, setLightbox] = useState<typeof GALLERY_ITEMS[0] | null>(null);
+  const [imgErrors, setImgErrors] = useState<Record<number, boolean>>({});
 
-  const filteredImages = selectedCategory === 'All'
+  const filtered = activeCategory === 'All'
     ? GALLERY_ITEMS
-    : GALLERY_ITEMS.filter(item => item.category === selectedCategory);
+    : GALLERY_ITEMS.filter(i => i.category === activeCategory);
 
-  const selectedCategoryData = GALLERY_CATEGORIES.find(c => c.id === selectedCategory);
+  const closeLightbox = useCallback(() => setLightbox(null), []);
 
-  const handleImageError = (id: number) => {
-    setImageErrors(prev => ({ ...prev, [id]: true }));
-  };
+  const navigate = useCallback((dir: 'prev' | 'next') => {
+    setLightbox(prev => {
+      if (!prev) return prev;
+      const idx = filtered.findIndex(i => i.id === prev.id);
+      const next = dir === 'prev'
+        ? (idx - 1 + filtered.length) % filtered.length
+        : (idx + 1) % filtered.length;
+      return filtered[next];
+    });
+  }, [filtered]);
 
-  const navigateLightbox = (direction: 'prev' | 'next') => {
-    if (!lightboxImage) return;
-    const currentIndex = filteredImages.findIndex(img => img.id === lightboxImage.id);
-    const newIndex = direction === 'prev'
-      ? currentIndex > 0 ? currentIndex - 1 : filteredImages.length - 1
-      : currentIndex < filteredImages.length - 1 ? currentIndex + 1 : 0;
-    setLightboxImage(filteredImages[newIndex]);
-  };
+  // Keyboard navigation for lightbox
+  useEffect(() => {
+    if (!lightbox) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowLeft') navigate('prev');
+      if (e.key === 'ArrowRight') navigate('next');
+    };
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
+  }, [lightbox, navigate, closeLightbox]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#f8f5f0] via-[#f5f1ea] to-[#ebe5db] py-16">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h1 className="font-display text-4xl md:text-6xl font-bold text-[#3d3428] mb-4">
+    <div className="min-h-screen bg-[#0a0a0a]" data-nav-theme="dark">
+
+      {/* ── Page header ─────────────────────────────────── */}
+      <header className="pt-28 sm:pt-36 pb-12 px-4 text-center">
+        <motion.div
+          initial={reduced ? false : { opacity: 0, y: 14 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+        >
+          <p className="text-[10px] tracking-[0.3em] uppercase text-neutral-500 mb-4 font-medium">
+            Sarajet Restaurant
+          </p>
+          <h1 className="font-serif text-4xl sm:text-5xl md:text-6xl font-light text-white tracking-tight"
+              style={{ textWrap: 'balance' } as React.CSSProperties}>
             Our Gallery
           </h1>
-          <p className="text-[#6b5d4d] text-lg max-w-2xl mx-auto">
-            Experience the atmosphere, cuisine, and unforgettable moments at Bottle Brothers
+          <div className="w-10 h-px mx-auto mt-5" style={{ backgroundColor: GOLD }} />
+          <p className="mt-6 text-sm text-neutral-400 max-w-md mx-auto leading-relaxed">
+            Experience the atmosphere, cuisine, and unforgettable moments at Sarajet Restaurant
           </p>
-        </div>
+        </motion.div>
+      </header>
 
-        {/* Premium Filter Navigation */}
-        <div className="flex justify-center mb-14">
-          <nav className="inline-flex items-center gap-1.5 px-2 py-2 bg-[#d4c4b0]/40 backdrop-blur-sm rounded-full border border-[#c9b89d]/30">
-            {GALLERY_CATEGORIES.map((category) => {
-              const isActive = selectedCategory === category.id;
-              return (
+      {/* ── Filter tabs ─────────────────────────────────── */}
+      <div className="flex justify-center px-4 mb-14">
+        <nav
+          aria-label="Gallery categories"
+          className="flex items-center gap-0 overflow-x-auto scrollbar-hide"
+        >
+          {CATEGORIES.map((cat, i) => {
+            const isActive = activeCategory === cat;
+            return (
+              <React.Fragment key={cat}>
+                {i > 0 && (
+                  <span className="w-px h-3 bg-neutral-700 flex-shrink-0 mx-1" aria-hidden="true" />
+                )}
                 <button
-                  key={category.id}
-                  onClick={() => setSelectedCategory(category.id)}
-                  className={`relative flex items-center gap-2 px-5 py-2.5 text-sm font-medium tracking-wide rounded-full transition-all duration-250 ease-out ${
-                    isActive
-                      ? 'bg-[#f5f0e8] text-[#5c4d3c] shadow-sm'
-                      : 'text-[#7a6b5a] hover:bg-[#e8dfd2]/50 hover:text-[#5c4d3c]'
-                  }`}
+                  onClick={() => setActiveCategory(cat)}
+                  className="relative flex-shrink-0 px-4 py-3 text-xs font-semibold tracking-[0.18em] uppercase transition-colors duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a] rounded-sm whitespace-nowrap"
+                  style={{
+                    color: isActive ? GOLD : '#737373',
+                    focusVisibleRingColor: GOLD,
+                  } as React.CSSProperties}
+                  aria-pressed={isActive}
                 >
-                  <svg
-                    className={`w-4 h-4 transition-colors duration-250 ${isActive ? 'text-[#8b7355]' : 'text-[#9a8b7a]'}`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    strokeWidth={1.5}
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d={category.icon} />
-                  </svg>
-                  <span>{category.label}</span>
+                  {cat}
+                  {/* Gold underline */}
+                  <span
+                    className="absolute bottom-1.5 left-4 right-4 h-px transition-opacity duration-200"
+                    style={{
+                      backgroundColor: GOLD,
+                      opacity: isActive ? 1 : 0,
+                    }}
+                    aria-hidden="true"
+                  />
                 </button>
-              );
-            })}
-          </nav>
-        </div>
+              </React.Fragment>
+            );
+          })}
+        </nav>
+      </div>
 
-        <motion.div layout className="columns-1 md:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
+      {/* ── Masonry grid ────────────────────────────────── */}
+      <main id="main-content" className="max-w-7xl mx-auto px-4 pb-24">
+        <motion.div
+          layout={!reduced}
+          className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-3 space-y-3"
+        >
           <AnimatePresence>
-            {filteredImages.map((item, index) => (
+            {filtered.map((item, index) => (
               <motion.div
                 key={item.id}
-                layout
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.8 }}
-                transition={{ duration: 0.3, delay: index * 0.05 }}
-                className={`break-inside-avoid group cursor-pointer ${item.tall ? 'h-96' : 'h-64'}`}
-                onClick={() => setLightboxImage(item)}
+                layout={!reduced}
+                initial={reduced ? false : { opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={reduced ? undefined : { opacity: 0, scale: 0.96 }}
+                transition={{ duration: 0.35, delay: Math.min(index * 0.04, 0.3) }}
+                className={`break-inside-avoid ${item.tall ? 'h-[420px]' : 'h-[260px]'}`}
               >
-                <div className="relative w-full h-full rounded-2xl overflow-hidden shadow-lg hover:shadow-luxury transition-all duration-500 hover:-translate-y-2">
-                  {!imageErrors[item.id] ? (
+                <button
+                  className="relative w-full h-full rounded-xl overflow-hidden group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0a0a0a] block"
+                  style={{ ['--tw-ring-color' as string]: GOLD }}
+                  onClick={() => setLightbox(item)}
+                  aria-label={`View ${item.title}`}
+                >
+                  {!imgErrors[item.id] ? (
                     <Image
                       src={item.image}
                       alt={item.title}
                       fill
-                      className="object-cover group-hover:scale-110 transition-transform duration-700"
-                      onError={() => handleImageError(item.id)}
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                      onError={() => setImgErrors(p => ({ ...p, [item.id]: true }))}
+                      loading={index < 6 ? 'eager' : 'lazy'}
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     />
                   ) : (
-                    <div className="w-full h-full bg-gradient-to-br from-primary-400 to-primary-600 flex items-center justify-center">
-                      <span className="text-6xl">🖼️</span>
+                    <div className="w-full h-full bg-neutral-900 flex items-center justify-center">
+                      <svg className="w-8 h-8 text-neutral-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
                     </div>
                   )}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/0 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="absolute bottom-0 left-0 right-0 p-6">
-                      <p className="text-white font-bold text-lg mb-1">{item.title}</p>
-                      <p className="text-white/80 text-sm">{item.category}</p>
-                    </div>
+
+                  {/* Hover overlay */}
+                  <div
+                    className="absolute inset-0 bg-gradient-to-t from-black/75 via-black/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    aria-hidden="true"
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 p-5 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
+                    <p className="text-white font-semibold text-sm leading-snug">{item.title}</p>
+                    <p className="text-[10px] tracking-[0.15em] uppercase mt-0.5" style={{ color: GOLD }}>
+                      {item.category}
+                    </p>
                   </div>
-                </div>
+                </button>
               </motion.div>
             ))}
           </AnimatePresence>
         </motion.div>
-      </div>
 
+        {filtered.length === 0 && (
+          <div className="flex items-center justify-center py-32">
+            <p className="text-neutral-600 text-sm tracking-wide">No images in this category yet.</p>
+          </div>
+        )}
+      </main>
+
+      {/* ── Lightbox ────────────────────────────────────── */}
       <AnimatePresence>
-        {lightboxImage && (
+        {lightbox && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4"
-            onClick={() => setLightboxImage(null)}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 bg-black/97 z-50 flex items-center justify-center p-4"
+            style={{ overscrollBehavior: 'contain' }}
+            onClick={closeLightbox}
+            role="dialog"
+            aria-modal="true"
+            aria-label={`Viewing ${lightbox.title}`}
           >
+            {/* Close */}
             <button
-              onClick={() => setLightboxImage(null)}
-              className="absolute top-6 right-6 p-3 bg-white/10 hover:bg-white/20 rounded-full backdrop-blur-sm transition-colors z-10"
+              onClick={closeLightbox}
+              aria-label="Close gallery"
+              className="absolute top-5 right-5 p-2.5 rounded-full bg-white/8 hover:bg-white/15 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 z-10"
             >
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
+
+            {/* Prev */}
             <button
-              onClick={(e) => { e.stopPropagation(); navigateLightbox('prev'); }}
-              className="absolute left-6 p-3 bg-white/10 hover:bg-white/20 rounded-full backdrop-blur-sm transition-colors z-10"
+              onClick={e => { e.stopPropagation(); navigate('prev'); }}
+              aria-label="Previous image"
+              className="absolute left-4 sm:left-6 p-2.5 rounded-full bg-white/8 hover:bg-white/15 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 z-10"
             >
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
+
+            {/* Next */}
             <button
-              onClick={(e) => { e.stopPropagation(); navigateLightbox('next'); }}
-              className="absolute right-6 p-3 bg-white/10 hover:bg-white/20 rounded-full backdrop-blur-sm transition-colors z-10"
+              onClick={e => { e.stopPropagation(); navigate('next'); }}
+              aria-label="Next image"
+              className="absolute right-4 sm:right-6 p-2.5 rounded-full bg-white/8 hover:bg-white/15 transition-colors duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 z-10"
             >
-              <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
               </svg>
             </button>
+
+            {/* Image */}
             <motion.div
-              initial={{ scale: 0.9 }}
-              animate={{ scale: 1 }}
-              exit={{ scale: 0.9 }}
-              className="relative max-w-7xl max-h-[90vh] w-full h-full"
-              onClick={(e) => e.stopPropagation()}
+              key={lightbox.id}
+              initial={reduced ? false : { opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.25 }}
+              className="relative max-w-5xl max-h-[85vh] w-full h-full flex flex-col items-center justify-center"
+              onClick={e => e.stopPropagation()}
             >
-              <div className="relative w-full h-full flex items-center justify-center">
+              <div className="relative w-full h-full">
                 <Image
-                  src={lightboxImage.image}
-                  alt={lightboxImage.title}
-                  width={1200}
-                  height={800}
-                  className="max-w-full max-h-full object-contain rounded-lg"
+                  src={lightbox.image}
+                  alt={lightbox.title}
+                  fill
+                  className="object-contain"
+                  sizes="(max-width: 1280px) 100vw, 1280px"
+                  priority
                 />
               </div>
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6 rounded-b-lg">
-                <h3 className="text-white font-bold text-2xl mb-2">{lightboxImage.title}</h3>
-                <p className="text-white/80">{lightboxImage.category}</p>
+              <div className="mt-4 text-center">
+                <p className="text-white font-semibold text-base">{lightbox.title}</p>
+                <p className="text-[11px] tracking-[0.2em] uppercase mt-1" style={{ color: GOLD }}>
+                  {lightbox.category}
+                </p>
               </div>
             </motion.div>
           </motion.div>

@@ -157,6 +157,9 @@ class HomeSection(TranslatableMixin):
 
     # Media
     image = models.ImageField(upload_to=home_section_image_path, blank=True, null=True)
+    image_2 = models.ImageField(upload_to=home_section_image_path, blank=True, null=True)
+    image_3 = models.ImageField(upload_to=home_section_image_path, blank=True, null=True)
+    image_4 = models.ImageField(upload_to=home_section_image_path, blank=True, null=True)
     background_image = models.ImageField(upload_to=home_section_image_path, blank=True, null=True)
     video_url = models.URLField(blank=True, null=True, help_text="YouTube or Vimeo URL")
 
@@ -250,7 +253,7 @@ class RestaurantInfo(TranslatableMixin):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
     # Basic info
-    name = models.CharField(max_length=200, default="Bottle Brothers")
+    name = models.CharField(max_length=200, default="Sarajet Restaurant")
     tagline = models.CharField(max_length=300, blank=True)
     description = models.TextField(blank=True)
 
@@ -294,11 +297,11 @@ class RestaurantInfo(TranslatableMixin):
         obj, created = cls.objects.get_or_create(
             pk=uuid.UUID('00000000-0000-0000-0000-000000000001'),
             defaults={
-                'name': 'Bottle Brothers',
+                'name': 'Sarajet Restaurant',
                 'phone': '+355 69 123 4567',
-                'email': 'info@bottlebrothers.al',
-                'address_line1': 'Rruga e Dibres',
-                'city': 'Tirana',
+                'email': 'info@sarajet.al',
+                'address_line1': 'SH75, Kelcyrës',
+                'city': 'Gjirokastër',
                 'country': 'Albania',
             }
         )

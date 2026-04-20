@@ -49,7 +49,7 @@ export function UpcomingEvents({ events, fullHeight = false }: UpcomingEventsPro
               Upcoming Events
             </h2>
             <p className="text-neutral-500 text-sm md:text-base">
-              Experience unforgettable nights at Bottle Brothers
+              Experience unforgettable nights at Sarajet Restaurant
             </p>
           </div>
 

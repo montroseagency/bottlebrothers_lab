@@ -1,6 +1,7 @@
 import React from 'react';
 import { HomeSnapSections } from '@/components/sections';
-import { getFeaturedEvent, getUpcomingEvents, getFeaturedMenuItems, getFeaturedGalleryItems, getActiveMoments, Event, MenuItem, GalleryItem, Moment } from '@/lib/api';
+import { getFeaturedMenuItems, MenuItem } from '@/lib/api';
+import { getPublicHomeSections, HomeSection } from '@/lib/api/homeSections';
 import { locales, type Locale } from '@/lib/locale';
 
 // Generate static params for all locales
@@ -13,13 +14,13 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   const { locale } = await params;
 
   const titles: Record<Locale, string> = {
-    sq: 'Bottle Brothers - Lounge & Restorant Premium në Tiranë',
-    en: 'Bottle Brothers - Premium Lounge & Restaurant in Tirana',
+    sq: 'Sarajet Restaurant - Restorant Premium në Kelcyrës, Gjirokastër',
+    en: 'Sarajet Restaurant - Premium Restaurant in Kelcyrës, Gjirokastër',
   };
 
   const descriptions: Record<Locale, string> = {
-    sq: 'Përjetoni darkë luksoze, kokteje dhe evente në Bottle Brothers. Ku çdo moment bëhet kryevepër.',
-    en: 'Experience luxury dining, cocktails, and events at Bottle Brothers. Where every moment becomes a masterpiece.',
+    sq: 'Përjetoni darkë luksoze dhe evente në Sarajet Restaurant, SH75, Kelcyrës. Ku çdo moment bëhet kryevepër.',
+    en: 'Experience luxury dining and events at Sarajet Restaurant, SH75, Kelcyrës. Where every moment becomes a masterpiece.',
   };
 
   return {
@@ -46,35 +47,34 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 export default async function HomePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
 
-  // Fetch data in parallel on the server
-  let featuredEvent: Event | null = null;
-  let upcomingEvents: Event[] = [];
   let featuredMenuItems: MenuItem[] = [];
-  let galleryItems: GalleryItem[] = [];
-  let moments: Moment[] = [];
+  let homeSections: HomeSection[] = [];
 
   try {
-    [featuredEvent, upcomingEvents, featuredMenuItems, galleryItems, moments] = await Promise.all([
-      getFeaturedEvent(),
-      getUpcomingEvents(3),
+    [featuredMenuItems, homeSections] = await Promise.all([
       getFeaturedMenuItems(6),
-      getFeaturedGalleryItems(8),
-      getActiveMoments(8),
+      getPublicHomeSections().catch(() => []),
     ]);
   } catch (error) {
     console.error('Error fetching home page data:', error);
-    // Use empty defaults - app should still work
   }
+
+  const heroSection = homeSections.find(s => s.section_type === 'hero');
+  const storySection = homeSections.find(s => s.section_type === 'story');
+  const reviewsSection = homeSections.find(s => s.section_type === 'reviews');
 
   return (
     <main className="min-h-screen bg-white">
-      {/* All sections with TikTok-style snap scroll */}
       <HomeSnapSections
-        featuredEvent={featuredEvent}
-        upcomingEvents={upcomingEvents}
         featuredMenuItems={featuredMenuItems}
-        galleryItems={galleryItems}
-        moments={moments}
+        heroBackgroundUrl={heroSection?.background_image_url ?? null}
+        storyImages={[
+          storySection?.image_url ?? null,
+          storySection?.image_2_url ?? null,
+          storySection?.image_3_url ?? null,
+          storySection?.image_4_url ?? null,
+        ]}
+        reviewsBackgroundUrl={reviewsSection?.background_image_url ?? null}
       />
     </main>
   );

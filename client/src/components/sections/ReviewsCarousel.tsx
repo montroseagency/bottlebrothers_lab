@@ -18,9 +18,9 @@ const reviews: Review[] = [
   {
     name: 'Sarah Johnson',
     role: 'Private Dining',
-    city: 'Tirana',
+    city: 'Gjirokastër',
     rating: 5,
-    text: 'An absolutely divine experience. The attention to detail in every dish is remarkable. Bottle Brothers has redefined luxury dining in the city.',
+    text: 'An absolutely divine experience. The attention to detail in every dish is remarkable. Sarajet Restaurant has redefined luxury dining in the city.',
   },
   {
     name: 'Michael Chen',
@@ -32,7 +32,7 @@ const reviews: Review[] = [
   {
     name: 'Emma Rodriguez',
     role: 'Corporate Event',
-    city: 'Tirana',
+    city: 'Gjirokastër',
     rating: 5,
     text: 'Hosted my company event here and it was flawless. The team went above and beyond to make everything perfect. Highly recommended!',
   },
@@ -46,7 +46,7 @@ const reviews: Review[] = [
   {
     name: 'Ana Kelmendi',
     role: 'Birthday Celebration',
-    city: 'Tirana',
+    city: 'Gjirokastër',
     rating: 5,
     text: 'The best place in town for special occasions. The staff made my birthday unforgettable with their personalized service and stunning presentation.',
   },
@@ -61,9 +61,10 @@ const reviews: Review[] = [
 
 interface ReviewsCarouselProps {
   fullHeight?: boolean;
+  backgroundImageUrl?: string | null;
 }
 
-export function ReviewsCarousel({ fullHeight = false }: ReviewsCarouselProps) {
+export function ReviewsCarousel({ fullHeight = false, backgroundImageUrl }: ReviewsCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(0);
   const [isAutoPlaying, setIsAutoPlaying] = useState(true);
@@ -114,10 +115,11 @@ export function ReviewsCarousel({ fullHeight = false }: ReviewsCarouselProps) {
       {/* Background Image */}
       <div className="absolute inset-0">
         <Image
-          src={home2Bg}
+          src={backgroundImageUrl || home2Bg}
           alt="Background"
           fill
           className="object-cover"
+          unoptimized={!!backgroundImageUrl}
           priority
         />
         {/* Dark overlay for readability */}
@@ -141,7 +143,7 @@ export function ReviewsCarousel({ fullHeight = false }: ReviewsCarouselProps) {
             What Our Guests Say
           </h2>
           <p className="text-white/70 text-sm sm:text-base md:text-lg max-w-2xl mx-auto px-4">
-            Discover why discerning guests choose Bottle Brothers for their most memorable moments.
+            Discover why discerning guests choose Sarajet Restaurant for their most memorable moments.
           </p>
         </motion.div>
 

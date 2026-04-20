@@ -1,38 +1,38 @@
 import React from 'react';
 import { HomeSnapSections } from '@/components/sections';
-import { getFeaturedEvent, getUpcomingEvents, getFeaturedMenuItems, getFeaturedGalleryItems, getActiveMoments, Event, MenuItem, GalleryItem, Moment } from '@/lib/api';
+import { getFeaturedMenuItems, MenuItem } from '@/lib/api';
+import { getPublicHomeSections, HomeSection } from '@/lib/api/homeSections';
 
 // This is a Server Component - data fetching happens on the server
 export default async function HomePage() {
-  // Fetch data in parallel on the server
-  let featuredEvent: Event | null = null;
-  let upcomingEvents: Event[] = [];
   let featuredMenuItems: MenuItem[] = [];
-  let galleryItems: GalleryItem[] = [];
-  let moments: Moment[] = [];
+  let homeSections: HomeSection[] = [];
 
   try {
-    [featuredEvent, upcomingEvents, featuredMenuItems, galleryItems, moments] = await Promise.all([
-      getFeaturedEvent(),
-      getUpcomingEvents(3),
+    [featuredMenuItems, homeSections] = await Promise.all([
       getFeaturedMenuItems(6),
-      getFeaturedGalleryItems(8),
-      getActiveMoments(8),
+      getPublicHomeSections().catch(() => []),
     ]);
   } catch (error) {
     console.error('Error fetching home page data:', error);
-    // Use empty defaults - app should still work
   }
+
+  const heroSection = homeSections.find(s => s.section_type === 'hero');
+  const storySection = homeSections.find(s => s.section_type === 'story');
+  const reviewsSection = homeSections.find(s => s.section_type === 'reviews');
 
   return (
     <main className="min-h-screen bg-white">
-      {/* All sections with TikTok-style snap scroll */}
       <HomeSnapSections
-        featuredEvent={featuredEvent}
-        upcomingEvents={upcomingEvents}
         featuredMenuItems={featuredMenuItems}
-        galleryItems={galleryItems}
-        moments={moments}
+        heroBackgroundUrl={heroSection?.background_image_url ?? null}
+        storyImages={[
+          storySection?.image_url ?? null,
+          storySection?.image_2_url ?? null,
+          storySection?.image_3_url ?? null,
+          storySection?.image_4_url ?? null,
+        ]}
+        reviewsBackgroundUrl={reviewsSection?.background_image_url ?? null}
       />
     </main>
   );
@@ -40,11 +40,11 @@ export default async function HomePage() {
 
 // Optional: Add metadata for SEO
 export const metadata = {
-  title: 'Bottle Brothers - Premium Lounge & Restaurant in Tirana',
-  description: 'Experience luxury dining, cocktails, and events at Bottle Brothers. Where every moment becomes a masterpiece.',
+  title: 'Sarajet Restaurant - Premium Restaurant in Kelcyrës, Gjirokastër',
+  description: 'Experience luxury dining and events at Sarajet Restaurant, SH75, Kelcyrës. Where every moment becomes a masterpiece.',
   openGraph: {
-    title: 'Bottle Brothers - Premium Lounge & Restaurant',
-    description: 'Experience luxury dining, cocktails, and events at Bottle Brothers.',
+    title: 'Sarajet Restaurant - Kelcyrës, Gjirokastër',
+    description: 'Experience luxury dining and events at Sarajet Restaurant, Kelcyrës.',
     images: ['/og-image.jpg'],
   },
 };

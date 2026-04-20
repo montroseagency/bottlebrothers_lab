@@ -22,7 +22,7 @@ export function LocationSection({ fullHeight = false }: LocationSectionProps) {
             className="relative h-[300px] lg:h-[400px] rounded-2xl overflow-hidden shadow-xl order-2 lg:order-1"
           >
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2995.949657548457!2d19.818493315454385!3d41.32754797927164!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1350310470fac5db%3A0x40092af10653720!2sTirana%2C%20Albania!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3000!2d20.188375!3d40.311016!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDE4JzM5LjciTiAyMMKwMTEnMTguMiJF!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus"
               width="100%"
               height="100%"
               style={{ border: 0 }}
@@ -30,7 +30,7 @@ export function LocationSection({ fullHeight = false }: LocationSectionProps) {
               loading="lazy"
               referrerPolicy="no-referrer-when-downgrade"
               className="absolute inset-0"
-              title="Bottle Brothers Location"
+              title="Sarajet Restaurant Location"
             />
           </motion.div>
 
@@ -51,11 +51,11 @@ export function LocationSection({ fullHeight = false }: LocationSectionProps) {
             </span>
 
             <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-neutral-900">
-              Find Us in the Heart of Tirana
+              Find Us in Kelcyrës
             </h2>
 
             <p className="text-lg text-neutral-600 leading-relaxed">
-              Located in one of Tirana's most vibrant neighborhoods, Bottle Brothers offers the perfect escape for those seeking exceptional dining and entertainment. Our venue is easily accessible and surrounded by the city's finest attractions.
+              Located along the scenic SH75 road in Kelcyrës, Gjirokastër, Sarajet Restaurant offers the perfect escape for those seeking exceptional dining surrounded by Albania's stunning natural beauty.
             </p>
 
             {/* Address Info */}
@@ -69,7 +69,7 @@ export function LocationSection({ fullHeight = false }: LocationSectionProps) {
                 </div>
                 <div>
                   <p className="font-semibold text-neutral-900">Address</p>
-                  <p className="text-neutral-600">Rruga Pjetër Bogdani, Tirana, Albania</p>
+                  <p className="text-neutral-600">SH75, Kelcyrës, Gjirokastër, Albania</p>
                 </div>
               </div>
 
@@ -101,7 +101,7 @@ export function LocationSection({ fullHeight = false }: LocationSectionProps) {
             {/* CTA Buttons */}
             <div className="flex flex-wrap gap-4 pt-4">
               <a
-                href="https://www.google.com/maps/dir//Tirana,+Albania"
+                href="https://www.google.com/maps/dir//SH75,+Kelcyre,+Gjirokaster,+Albania/@40.311016,20.188375"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-neutral-100 text-neutral-900 rounded-full font-semibold transition-colors shadow-md border border-neutral-200"

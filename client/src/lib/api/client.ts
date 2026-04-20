@@ -77,3 +77,38 @@ export const apiClient = {
   delete: <T>(endpoint: string, options?: RequestInit) =>
     fetchAPI<T>(endpoint, { ...options, method: 'DELETE' }),
 };
+
+// Authenticated admin fetch — reads token from localStorage
+export async function adminFetch<T>(
+  endpoint: string,
+  options: RequestInit = {}
+): Promise<T> {
+  const token = typeof window !== 'undefined' ? localStorage.getItem('adminToken') : null;
+  const isFormData = options.body instanceof FormData;
+
+  const headers: Record<string, string> = {
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+    ...(!isFormData ? { 'Content-Type': 'application/json' } : {}),
+    ...(options.headers as Record<string, string>),
+  };
+
+  const response = await fetch(`${API_BASE_URL}${endpoint}`, { ...options, headers });
+
+  if (!response.ok) {
+    if (response.status === 401 && typeof window !== 'undefined') {
+      localStorage.removeItem('adminToken');
+      localStorage.removeItem('adminUser');
+      localStorage.removeItem('adminRefreshToken');
+      window.location.href = '/admin';
+    }
+    const errorData = await response.json().catch(() => ({}));
+    throw new APIError(
+      errorData.detail || errorData.error || `API Error: ${response.statusText}`,
+      response.status,
+      errorData
+    );
+  }
+
+  if (response.status === 204) return undefined as T;
+  return response.json();
+}

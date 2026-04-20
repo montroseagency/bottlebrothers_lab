@@ -1,5 +1,5 @@
 // client/src/lib/api/homeSections.ts
-import api from './index';
+import { adminFetch, apiClient } from './client';
 
 export interface HomeSection {
   id: string;
@@ -13,6 +13,12 @@ export interface HomeSection {
   secondary_button_url: string;
   image: string | null;
   image_url: string | null;
+  image_2: string | null;
+  image_2_url: string | null;
+  image_3: string | null;
+  image_3_url: string | null;
+  image_4: string | null;
+  image_4_url: string | null;
   background_image: string | null;
   background_image_url: string | null;
   video_url: string | null;
@@ -41,61 +47,60 @@ export interface HomeSectionCreatePayload {
   display_order?: number;
 }
 
-// Get all home sections
+// Get all home sections (admin)
 export async function getHomeSections(): Promise<HomeSection[]> {
-  const response = await api.get('/admin/home-sections/');
-  return response.data.results || response.data;
+  const data = await adminFetch<{ results?: HomeSection[] } | HomeSection[]>('/admin/home-sections/');
+  return (Array.isArray(data) ? data : data.results) ?? [];
+}
+
+// Get public home sections (no auth required)
+export async function getPublicHomeSections(): Promise<HomeSection[]> {
+  const data = await apiClient.get<{ results?: HomeSection[] } | HomeSection[]>('/public/home-sections/');
+  return (Array.isArray(data) ? data : data.results) ?? [];
 }
 
 // Get a single home section
 export async function getHomeSection(id: string): Promise<HomeSection> {
-  const response = await api.get(`/admin/home-sections/${id}/`);
-  return response.data;
+  return adminFetch<HomeSection>(`/admin/home-sections/${id}/`);
 }
 
 // Create a home section
-export async function createHomeSection(
-  data: HomeSectionCreatePayload
-): Promise<HomeSection> {
-  const response = await api.post('/admin/home-sections/', data);
-  return response.data;
+export async function createHomeSection(data: HomeSectionCreatePayload): Promise<HomeSection> {
+  return adminFetch<HomeSection>('/admin/home-sections/', {
+    method: 'POST',
+    body: JSON.stringify(data),
+  });
 }
 
 // Update a home section
-export async function updateHomeSection(
-  id: string,
-  data: Partial<HomeSectionCreatePayload>
-): Promise<HomeSection> {
-  const response = await api.patch(`/admin/home-sections/${id}/`, data);
-  return response.data;
+export async function updateHomeSection(id: string, data: Partial<HomeSectionCreatePayload>): Promise<HomeSection> {
+  return adminFetch<HomeSection>(`/admin/home-sections/${id}/`, {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+  });
 }
 
 // Update with image (FormData)
-export async function updateHomeSectionWithImage(
-  id: string,
-  formData: FormData
-): Promise<HomeSection> {
-  const response = await api.patch(`/admin/home-sections/${id}/`, formData, {
-    headers: { 'Content-Type': 'multipart/form-data' },
+export async function updateHomeSectionWithImage(id: string, formData: FormData): Promise<HomeSection> {
+  return adminFetch<HomeSection>(`/admin/home-sections/${id}/`, {
+    method: 'PATCH',
+    body: formData,
   });
-  return response.data;
 }
 
 // Delete a home section
 export async function deleteHomeSection(id: string): Promise<void> {
-  await api.delete(`/admin/home-sections/${id}/`);
+  await adminFetch<void>(`/admin/home-sections/${id}/`, { method: 'DELETE' });
 }
 
 // Publish a home section
 export async function publishHomeSection(id: string): Promise<{ status: string }> {
-  const response = await api.post(`/admin/home-sections/${id}/publish/`);
-  return response.data;
+  return adminFetch<{ status: string }>(`/admin/home-sections/${id}/publish/`, { method: 'POST' });
 }
 
 // Unpublish a home section
 export async function unpublishHomeSection(id: string): Promise<{ status: string }> {
-  const response = await api.post(`/admin/home-sections/${id}/unpublish/`);
-  return response.data;
+  return adminFetch<{ status: string }>(`/admin/home-sections/${id}/unpublish/`, { method: 'POST' });
 }
 
 // Section type labels

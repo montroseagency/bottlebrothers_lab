@@ -94,7 +94,7 @@ class SMSService:
             reservation: Reservation object
         """
         message = (
-            f"Hi {reservation.first_name}! Your reservation at Bottle Brothers is confirmed for "
+            f"Hi {reservation.first_name}! Your reservation at Sarajet Restaurant is confirmed for "
             f"{reservation.date.strftime('%B %d, %Y')} at {reservation.time.strftime('%I:%M %p')}. "
             f"Party of {reservation.party_size}. "
             f"Reservation ID: {str(reservation.id)[:8]}. "
@@ -117,7 +117,7 @@ class SMSService:
             hours_before: Hours before reservation time
         """
         message = (
-            f"Reminder: Your reservation at Bottle Brothers is in {hours_before} hours! "
+            f"Reminder: Your reservation at Sarajet Restaurant is in {hours_before} hours! "
             f"{reservation.date.strftime('%B %d')} at {reservation.time.strftime('%I:%M %p')}. "
             f"Party of {reservation.party_size}. "
             f"Looking forward to seeing you!"
@@ -138,7 +138,7 @@ class SMSService:
             reservation: Reservation object
         """
         message = (
-            f"Your reservation at Bottle Brothers for {reservation.date.strftime('%B %d, %Y')} "
+            f"Your reservation at Sarajet Restaurant for {reservation.date.strftime('%B %d, %Y')} "
             f"at {reservation.time.strftime('%I:%M %p')} has been cancelled. "
             f"We hope to see you again soon!"
         )
@@ -182,7 +182,7 @@ class SMSService:
 
         # Send OTP via SMS
         message = (
-            f"Your Bottle Brothers verification code is: {otp_code}. "
+            f"Your Sarajet Restaurant verification code is: {otp_code}. "
             f"Valid for {expires_in_minutes} minutes. "
             f"Do not share this code with anyone."
         )

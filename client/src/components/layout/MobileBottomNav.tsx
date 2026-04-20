@@ -41,7 +41,7 @@ const MobileBottomNav = () => {
         </svg>
       ),
       label: 'Directions',
-      action: () => window.open('https://maps.google.com/?q=Bottle+Brothers+Tirana', '_blank'),
+      action: () => window.open('https://maps.google.com/?q=SH75+Kelcyre+Gjirokaster+Albania', '_blank'),
     },
     {
       icon: (

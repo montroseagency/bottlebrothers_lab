@@ -33,7 +33,7 @@ export function GalleryPreview({ items, fullHeight = false }: GalleryPreviewProp
             <span className="text-primary-600">Matter</span>
           </h2>
           <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
-            A glimpse into the experiences that make Bottle Brothers unforgettable
+            A glimpse into the experiences that make Sarajet Restaurant unforgettable
           </p>
         </motion.div>
 

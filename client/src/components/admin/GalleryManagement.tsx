@@ -38,7 +38,7 @@ export const GalleryManagement: React.FC = () => {
       // First, let's test if the API endpoint exists
       console.log('Testing API endpoint...');
       
-      const testResponse = await fetch('http://localhost:8000/api/gallery/', {
+      const testResponse = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}/gallery/`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('adminToken')}`,
@@ -65,7 +65,7 @@ export const GalleryManagement: React.FC = () => {
 
       console.log('Uploading with FormData...');
       
-      const response = await fetch('http://localhost:8000/api/gallery/', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}/gallery/`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${localStorage.getItem('adminToken')}`,

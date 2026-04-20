@@ -17,7 +17,7 @@ const getApiBaseUrl = (): string => {
   }
   
   // Development fallback
-  return 'http://localhost:8000/api';
+  return process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 };
 
 const API_BASE_URL = getApiBaseUrl();

@@ -1,5 +1,5 @@
 // client/src/components/admin/MenuManagement.tsx
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuthenticatedApi } from '../../contexts/AuthContext';
 
 interface MenuCategory {
@@ -91,6 +91,8 @@ const MenuManagement: React.FC = () => {
   const [editingSubcategory, setEditingSubcategory] = useState<MenuCategory | null>(null);
   const [editingItem, setEditingItem] = useState<MenuItem | null>(null);
   const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const imageInputRef = useRef<HTMLInputElement>(null);
 
   // Form states
   const [categoryForm, setCategoryForm] = useState({
@@ -323,6 +325,7 @@ const MenuManagement: React.FC = () => {
       display_order: items.length,
     });
     setImagePreview(null);
+    setImageFile(null);
     setShowItemModal(true);
   };
 
@@ -351,6 +354,8 @@ const MenuManagement: React.FC = () => {
       is_featured: item.is_featured,
       display_order: item.display_order,
     });
+    setImagePreview(item.image_url || null);
+    setImageFile(null);
     setShowItemModal(true);
   };
 
@@ -370,6 +375,7 @@ const MenuManagement: React.FC = () => {
       formData.append('is_available', String(itemForm.is_available));
       formData.append('is_featured', String(itemForm.is_featured));
       formData.append('display_order', String(itemForm.display_order));
+      if (imageFile) formData.append('image', imageFile);
 
       if (editingItem) {
         await apiCall(`/menu/items/${editingItem.id}/`, {
@@ -1023,6 +1029,51 @@ const MenuManagement: React.FC = () => {
                         placeholder="e.g., 10 min"
                       />
                     </div>
+                  </div>
+
+                  {/* Image Upload */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Item Photo
+                    </label>
+                    <div
+                      onClick={() => imageInputRef.current?.click()}
+                      className="relative cursor-pointer rounded-xl border-2 border-dashed border-gray-200 hover:border-amber-400 hover:bg-amber-50/30 transition-all overflow-hidden group"
+                    >
+                      {imagePreview ? (
+                        <div className="relative h-40 w-full">
+                          <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                          <div className="absolute inset-0 bg-black/50 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                            <svg className="w-6 h-6 text-white mb-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                            </svg>
+                            <span className="text-white text-xs font-medium">Click to replace</span>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="flex flex-col items-center justify-center h-40 text-gray-400">
+                          <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mb-2 group-hover:bg-amber-100 transition-colors">
+                            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 4v16m8-8H4" />
+                            </svg>
+                          </div>
+                          <span className="text-sm font-medium text-gray-500">Upload photo</span>
+                          <span className="text-xs text-gray-400 mt-0.5">JPG, PNG, WebP · max 5 MB</span>
+                        </div>
+                      )}
+                    </div>
+                    <input
+                      ref={imageInputRef}
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
+                        if (!file) return;
+                        setImageFile(file);
+                        setImagePreview(URL.createObjectURL(file));
+                      }}
+                    />
                   </div>
 
                   {/* Dietary & Tags */}

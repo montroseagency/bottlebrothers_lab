@@ -46,7 +46,11 @@ const wordAnimation = {
   }
 };
 
-export function HeroSection() {
+interface HeroSectionProps {
+  backgroundImageUrl?: string | null;
+}
+
+export function HeroSection({ backgroundImageUrl }: HeroSectionProps) {
   const subtitleWords = "Where every moment becomes a masterpiece".split(" ");
 
   return (
@@ -55,7 +59,7 @@ export function HeroSection() {
       <div
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
         style={{
-          backgroundImage: `url(${homeImage.src})`,
+          backgroundImage: `url(${backgroundImageUrl || homeImage.src})`,
         }}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/60" />

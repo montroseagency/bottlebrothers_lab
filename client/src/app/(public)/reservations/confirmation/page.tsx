@@ -22,7 +22,7 @@ export default function ConfirmationPage() {
 
       try {
         // Fetch reservation details from the API
-        const response = await fetch(`http://localhost:8000/api/reservations/${reservationId}/`);
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api'}/reservations/${reservationId}/`);
         if (!response.ok) {
           throw new Error('Failed to fetch reservation');
         }
@@ -92,7 +92,7 @@ export default function ConfirmationPage() {
                 Reservation Confirmed!
               </h1>
               <p className="text-neutral-600 text-lg mb-8">
-                Thank you for choosing Bottle Brothers. We're excited to host you!
+                Thank you for choosing Sarajet Restaurant. We're excited to host you!
               </p>
 
               {reservationId && (
@@ -164,7 +164,7 @@ export default function ConfirmationPage() {
                 Reservation Confirmed!
               </h1>
               <p className="text-neutral-600 text-lg">
-                Thank you for choosing Bottle Brothers. We're excited to host you!
+                Thank you for choosing Sarajet Restaurant. We're excited to host you!
               </p>
             </div>
 

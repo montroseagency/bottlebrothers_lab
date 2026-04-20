@@ -41,7 +41,7 @@ export function VisitSection({ fullHeight = false }: VisitSectionProps) {
       <div className="absolute inset-0">
         <Image
           src="/shisha1.png"
-          alt="Visit Bottle Brothers"
+          alt="Visit Sarajet Restaurant"
           fill
           className="object-cover"
           priority
@@ -147,8 +147,8 @@ export function VisitSection({ fullHeight = false }: VisitSectionProps) {
             className="font-serif text-xl md:text-2xl text-white leading-relaxed"
             variants={fadeUpItem}
           >
-            Rruga Dëshmorët<br />
-            Tirana, Albania
+            SH75, Kelcyrës<br />
+            Gjirokastër, Albania
           </motion.p>
           <motion.a
             href="/contact"

@@ -4,6 +4,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
+import Image from 'next/image';
 import {
   IconLocation,
   IconPhone,
@@ -13,9 +14,9 @@ import {
   IconInstagram,
   IconFacebook,
   IconLinkedIn,
-  IconBrand,
   IconArrowRight,
 } from '../ui/Icons';
+import sarajetLogo from '@/assets/sarajet-logo.png';
 
 export const Footer: React.FC = () => {
   const { t } = useTranslation();
@@ -70,17 +71,16 @@ export const Footer: React.FC = () => {
         <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
           {/* Brand & About */}
           <div className="lg:col-span-4 space-y-6">
-            <div className="flex items-center space-x-3">
-              <IconBrand className="w-10 h-10 text-accent-champagne-500" strokeWidth={1.2} />
-              <div>
-                <h3 className="text-lg font-display font-semibold text-luxury-white">
-                  Bottle Brothers
-                </h3>
-                <p className="text-[10px] text-white uppercase tracking-luxury-wide">
-                  Luxury Lounge
-                </p>
-              </div>
-            </div>
+            <Link href="/" className="inline-block">
+              <Image
+                src={sarajetLogo}
+                alt="Sarajet Restaurant"
+                width={180}
+                height={60}
+                className="h-16 w-auto object-contain"
+                priority
+              />
+            </Link>
             <p className="text-sm text-white leading-relaxed">
               {t('footer.description')}
             </p>
@@ -138,8 +138,8 @@ export const Footer: React.FC = () => {
                 </a>
               </ContactInfo>
               <ContactInfo Icon={IconMail} title="Email">
-                <a href="mailto:info@bottlebrothers.com" className="text-white hover:text-accent-champagne-400 transition-colors">
-                  info@bottlebrothers.com
+                <a href="mailto:info@sarajet.com" className="text-white hover:text-accent-champagne-400 transition-colors">
+                  info@sarajet.com
                 </a>
               </ContactInfo>
               <ContactInfo Icon={IconClock} title={t('footer.hours')}>
@@ -193,7 +193,7 @@ export const Footer: React.FC = () => {
         <div className="py-6 border-t border-luxury-gray-800">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0 text-sm">
             <div className="text-white text-center md:text-left">
-              <p>© {currentYear} Bottle Brothers. All rights reserved.</p>
+              <p>© {currentYear} Sarajet Restaurant. All rights reserved.</p>
             </div>
             <div className="flex items-center space-x-6">
               <Link href="#" className="text-white hover:text-accent-champagne-400 transition-colors">

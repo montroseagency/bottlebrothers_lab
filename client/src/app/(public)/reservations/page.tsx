@@ -218,7 +218,7 @@ export default function ReservationsPage() {
             Reserve Your Table
           </h1>
           <p className="text-neutral-600 text-lg max-w-2xl mx-auto">
-            Book your experience at Bottle Brothers in just a few simple steps
+            Book your experience at Sarajet Restaurant in just a few simple steps
           </p>
         </div>
 

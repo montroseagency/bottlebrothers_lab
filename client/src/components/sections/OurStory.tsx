@@ -59,9 +59,14 @@ const paragraphAnimation = {
 
 interface OurStoryProps {
   fullHeight?: boolean;
+  images?: (string | null)[];
 }
 
-export function OurStory({ fullHeight = false }: OurStoryProps) {
+export function OurStory({ fullHeight = false, images }: OurStoryProps) {
+  const img1 = images?.[0] || home2.src;
+  const img2 = images?.[1] || home3.src;
+  const img3 = images?.[2] || home4.src;
+  const img4 = images?.[3] || home5.src;
   return (
     <section data-nav-theme="light" className={`relative overflow-hidden bg-neutral-50 ${fullHeight ? 'min-h-screen flex items-center py-16 sm:py-0' : 'py-16 sm:py-20 lg:py-32'}`}>
       {/* Parallax Background Images */}
@@ -120,7 +125,7 @@ export function OurStory({ fullHeight = false }: OurStoryProps) {
               viewport={{ once: true }}
             >
               <motion.p variants={paragraphAnimation}>
-                Since our founding, <strong>Bottle Brothers</strong> has been more than just a lounge—it's a destination where
+                Since our founding, <strong>Sarajet Restaurant</strong> has been more than just a lounge—it's a destination where
                 luxury meets comfort, and every visit becomes a cherished memory.
               </motion.p>
               <motion.p variants={paragraphAnimation} className="hidden sm:block">
@@ -168,36 +173,40 @@ export function OurStory({ fullHeight = false }: OurStoryProps) {
               <div className="space-y-2 sm:space-y-3 md:space-y-4">
                 <div className="relative h-28 sm:h-40 md:h-52 lg:h-64 rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-luxury">
                   <Image
-                    src={home2}
-                    alt="Bottle Brothers"
+                    src={img1}
+                    alt="Sarajet Restaurant"
                     fill
                     className="object-cover hover:scale-110 transition-transform duration-700"
+                    unoptimized={!!images?.[0]}
                   />
                 </div>
                 <div className="relative h-20 sm:h-32 md:h-40 lg:h-48 rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-luxury">
                   <Image
-                    src={home3}
-                    alt="Bottle Brothers Lounge"
+                    src={img2}
+                    alt="Sarajet Restaurant Lounge"
                     fill
                     className="object-cover hover:scale-110 transition-transform duration-700"
+                    unoptimized={!!images?.[1]}
                   />
                 </div>
               </div>
               <div className="space-y-2 sm:space-y-3 md:space-y-4 pt-3 sm:pt-6 md:pt-8">
                 <div className="relative h-20 sm:h-32 md:h-40 lg:h-48 rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-luxury">
                   <Image
-                    src={home4}
-                    alt="Bottle Brothers Interior"
+                    src={img3}
+                    alt="Sarajet Restaurant Interior"
                     fill
                     className="object-cover hover:scale-110 transition-transform duration-700"
+                    unoptimized={!!images?.[2]}
                   />
                 </div>
                 <div className="relative h-28 sm:h-40 md:h-52 lg:h-64 rounded-lg sm:rounded-xl md:rounded-2xl overflow-hidden shadow-luxury">
                   <Image
-                    src={home5}
-                    alt="Bottle Brothers Experience"
+                    src={img4}
+                    alt="Sarajet Restaurant Experience"
                     fill
                     className="object-cover hover:scale-110 transition-transform duration-700"
+                    unoptimized={!!images?.[3]}
                   />
                 </div>
               </div>

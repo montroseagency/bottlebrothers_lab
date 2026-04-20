@@ -56,7 +56,7 @@ const VALUES = [
 ];
 
 const MILESTONES = [
-  { year: '2018', title: 'Founded', description: 'Opened our doors in Tirana' },
+  { year: '2018', title: 'Founded', description: 'Opened our doors in Kelcyrës' },
   { year: '2019', title: 'Award Winning', description: 'Best New Restaurant Award' },
   { year: '2020', title: 'Expansion', description: 'Doubled our seating capacity' },
   { year: '2022', title: 'VIP Launch', description: 'Introduced exclusive VIP program' },
@@ -70,7 +70,7 @@ export default function AboutPage() {
       <div className="relative h-[60vh] overflow-hidden">
         <Image
           src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=1600"
-          alt="Bottle Brothers Interior"
+          alt="Sarajet Restaurant Interior"
           fill
           className="object-cover"
           priority
@@ -92,7 +92,7 @@ export default function AboutPage() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto"
             >
-              Where luxury meets authenticity in the heart of Tirana
+              Where luxury meets authenticity in the heart of Kelcyrës
             </motion.p>
           </div>
         </div>
@@ -109,22 +109,22 @@ export default function AboutPage() {
             className="bg-white rounded-2xl shadow-luxury p-8 md:p-12 mb-16"
           >
             <h2 className="font-display text-3xl md:text-4xl font-bold text-neutral-900 mb-6">
-              The Bottle Brothers Vision
+              The Sarajet Restaurant Vision
             </h2>
             <div className="space-y-4 text-neutral-700 text-lg leading-relaxed">
               <p>
-                Born from a passion for exceptional experiences, Bottle Brothers opened its doors in 2018
+                Born from a passion for exceptional experiences, Sarajet Restaurant opened its doors in 2018
                 with a simple yet ambitious vision: to create a space where luxury, authenticity, and
                 community converge.
               </p>
               <p>
                 Our founders, two brothers with a shared love for fine dining and vibrant nightlife,
-                envisioned a venue that would redefine Tirana's social scene. They brought together
+                envisioned a venue that would redefine the dining scene in Gjirokastër. They brought together
                 world-class culinary expertise, innovative mixology, and an unwavering commitment to
                 hospitality.
               </p>
               <p>
-                Today, Bottle Brothers stands as a testament to their vision—a premier destination where
+                Today, Sarajet Restaurant stands as a testament to their vision—a premier destination where
                 every detail is crafted to perfection, every guest is treated like family, and every
                 moment is designed to be unforgettable.
               </p>
@@ -278,7 +278,7 @@ export default function AboutPage() {
           className="bg-gradient-to-r from-primary-500 to-primary-600 rounded-2xl shadow-luxury p-12 text-center text-white"
         >
           <h2 className="font-display text-3xl md:text-4xl font-bold mb-4">
-            Experience the Bottle Brothers Difference
+            Experience the Sarajet Restaurant Difference
           </h2>
           <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
             Join us for an unforgettable dining and entertainment experience

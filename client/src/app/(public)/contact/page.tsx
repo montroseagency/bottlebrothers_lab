@@ -123,7 +123,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="font-semibold text-white mb-1">Address</p>
-                    <p className="text-neutral-400">Rruga Pjetër Bogdani<br />Tirana, Albania</p>
+                    <p className="text-neutral-400">SH75, Kelcyrës<br />Gjirokastër, Albania</p>
                   </div>
                 </div>
 
@@ -147,7 +147,7 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="font-semibold text-white mb-1">Email</p>
-                    <p className="text-neutral-400">info@bottlebrothers.al</p>
+                    <p className="text-neutral-400">info@sarajet.al</p>
                   </div>
                 </div>
               </div>
@@ -316,7 +316,7 @@ export default function ContactPage() {
             {/* Map - Left Side */}
             <div className="lg:col-span-1 h-72 lg:h-auto bg-neutral-200">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2995.949657548457!2d19.818493315454385!3d41.32754797927164!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1350310470fac5db%3A0x40092af10653720!2sTirana%2C%20Albania!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3000!2d20.188375!3d40.311016!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDDCsDE4JzM5LjciTiAyMMKwMTEnMTguMiJF!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus"
                 width="100%"
                 height="100%"
                 style={{ border: 0, minHeight: '300px' }}
@@ -332,14 +332,14 @@ export default function ContactPage() {
                 Visit Us Today
               </h3>
               <p className="text-neutral-600 mb-2">
-                Rruga Pjetër Bogdani, Tirana, Albania
+                SH75, Kelcyrës, Gjirokastër, Albania
               </p>
               <p className="text-neutral-600 mb-6">
-                Experience the finest dining and entertainment in Tirana. We're conveniently located in the heart of the city.
+                Experience the finest dining and entertainment in Kelcyrës. We're located along the scenic SH75 road.
               </p>
               <div className="flex flex-wrap gap-4">
                 <a
-                  href="https://www.google.com/maps/dir//Tirana,+Albania"
+                  href="https://www.google.com/maps/dir//SH75,+Kelcyre,+Gjirokaster,+Albania/@40.311016,20.188375"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 px-6 py-3 bg-white hover:bg-neutral-100 text-neutral-900 border border-neutral-200 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300"

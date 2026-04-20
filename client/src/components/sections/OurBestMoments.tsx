@@ -39,18 +39,24 @@ const scaleIn = {
 interface OurBestMomentsProps {
   moments: Moment[];
   fullHeight?: boolean;
+  backgroundImageUrl?: string | null;
 }
 
-export function OurBestMoments({ moments, fullHeight = false }: OurBestMomentsProps) {
+export function OurBestMoments({ moments, fullHeight = false, backgroundImageUrl }: OurBestMomentsProps) {
   if (moments.length === 0) return null;
 
   return (
     <section
       data-nav-theme="dark"
       className={`relative overflow-hidden bg-neutral-900 ${fullHeight ? 'min-h-screen flex flex-col justify-center py-8 sm:py-12' : 'py-12 sm:py-16 lg:py-28'}`}
+      style={backgroundImageUrl ? {
+        backgroundImage: `url(${backgroundImageUrl})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+      } : undefined}
     >
-      {/* Subtle background effects */}
-      <div className="absolute inset-0">
+      {/* Background overlay */}
+      <div className={`absolute inset-0 ${backgroundImageUrl ? 'bg-black/70' : ''}`}>
         <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-neutral-700/30 blur-3xl" />
         <div className="absolute bottom-1/4 right-1/4 w-80 h-80 rounded-full bg-neutral-600/20 blur-3xl" />
       </div>

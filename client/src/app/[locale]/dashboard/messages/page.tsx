@@ -23,9 +23,7 @@ interface Conversation {
   unread_count: number;
 }
 
-const API_BASE_URL = typeof window !== 'undefined'
-  ? (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api')
-  : 'http://localhost:8000/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000/api';
 
 export default function MessagesPage() {
   const { user } = useClientAuth();

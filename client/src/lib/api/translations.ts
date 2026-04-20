@@ -1,5 +1,5 @@
 // client/src/lib/api/translations.ts
-import api from './index';
+import { adminFetch } from './client';
 
 export interface Translation {
   id: string;
@@ -34,51 +34,48 @@ export async function getTranslations(
   objectId: string,
   locale?: 'sq' | 'en'
 ): Promise<Translation[]> {
-  const params = new URLSearchParams({
-    content_type: contentType,
-    object_id: objectId,
-  });
-  if (locale) {
-    params.append('locale', locale);
-  }
-  const response = await api.get(`/admin/translations/?${params}`);
-  return response.data.results || response.data;
+  const params = new URLSearchParams({ content_type: contentType, object_id: objectId });
+  if (locale) params.append('locale', locale);
+  const data = await adminFetch<{ results?: Translation[] } | Translation[]>(`/admin/translations/?${params}`);
+  return (Array.isArray(data) ? data : data.results) ?? [];
 }
 
 // Bulk create/update translations
 export async function saveTranslations(payload: TranslationCreatePayload): Promise<{
   created: Array<{ id: string; field_name: string; was_created: boolean }>;
 }> {
-  const response = await api.post('/admin/translations/bulk_create/', payload);
-  return response.data;
+  return adminFetch('/admin/translations/bulk_create/', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
 }
 
 // Publish translations for an object
 export async function publishTranslations(payload: TranslationPublishPayload): Promise<{
   updated_count: number;
 }> {
-  const response = await api.post('/admin/translations/publish/', payload);
-  return response.data;
+  return adminFetch('/admin/translations/publish/', {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
 }
 
 // Get a single translation
 export async function getTranslation(id: string): Promise<Translation> {
-  const response = await api.get(`/admin/translations/${id}/`);
-  return response.data;
+  return adminFetch<Translation>(`/admin/translations/${id}/`);
 }
 
 // Update a single translation
-export async function updateTranslation(
-  id: string,
-  data: Partial<Translation>
-): Promise<Translation> {
-  const response = await api.patch(`/admin/translations/${id}/`, data);
-  return response.data;
+export async function updateTranslation(id: string, data: Partial<Translation>): Promise<Translation> {
+  return adminFetch<Translation>(`/admin/translations/${id}/`, {
+    method: 'PATCH',
+    body: JSON.stringify(data),
+  });
 }
 
 // Delete a translation
 export async function deleteTranslation(id: string): Promise<void> {
-  await api.delete(`/admin/translations/${id}/`);
+  await adminFetch<void>(`/admin/translations/${id}/`, { method: 'DELETE' });
 }
 
 // Helper to convert translations array to a record
